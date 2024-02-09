@@ -15,12 +15,12 @@
 
 | Student      | Student Full Name |Student SFSU Email | GitHub Username |  Discord Username  |           Role           |
 |    :---:     |   :---:           |       :---:       |     :---:       |        :---:       |          :---:           | 
-|      #1      |                   |                   |                 |                    |       Team-lead          |
-|      #2      |                   |                   |                 |                    |       Frontend-lead      |
-|      #3      |                   |                   |                 |                    |       Backend-lead       |
-|      #4      |                   |                   |                 |                    |       Database-admin     |
-|      #5      |                   |                   |                 |                    |       Github-master      |
-|      #6      |                   |                   |                 |                    |       Docs-editor        |
+|      #1      |   Hoang-Anh Tran  | htran31@sfsu.edu  |     htran31     |     toom8820       |       Team-lead          |
+|      #2      |  Ralph Quiambao   |                   |                 |    dustinmeza      |       Frontend-lead      |
+|      #3      |  Fabian Weiland   |                   |                 |     fabiweil       |       Backend-lead       |
+|      #4      |   Jeawan Jang     |                   |                 |      jaewan        |       Database-admin     |
+|      #5      |    Dustin Meza    |                   |                 |      ralphgi       |       Github-master      |
+|      #6      |   Karma Gyalpo    |                   |                 |      kjkungg       |       Docs-editor        |
 
 
 4. All the team's members ***MUST*** sign the follwing [team's contract](https://forms.gle/dxATAsa9isXKbcBn7). Missing signatures from students will result in these students being dropped from the course. 
