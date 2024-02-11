@@ -20,7 +20,7 @@
 |      #3      |   Karma Gyalpo    |                   |                 |                    |       Backend-lead       |
 |      #4      |   Dustin Meza     | dmeza2@sfsu.edu   |     dustinmeza  |     dustinmeza     |       Database-admin     |
 |      #5      |   Fabian Weiland  | fweiland@sfsu.edu |     faweil      |     fabiweil       |       Github-master      |
-|      #6      |   Jeawan Jang     | jjang3@sfsu.edu   |     jeawanjang  |     Jeawan Jang    |       Docs-editor        |
+|      #6      |   Jeawan Jang     | jjang3@sfsu.edu   |     jeawanjang  |     jaewan3951     |       Docs-editor        |
 
 
 4. All the team's members ***MUST*** sign the follwing [team's contract](https://forms.gle/dxATAsa9isXKbcBn7). Missing signatures from students will result in these students being dropped from the course. 
