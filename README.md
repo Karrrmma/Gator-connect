@@ -18,8 +18,8 @@
 |      #1      |   Hoang-Anh Tran  | htran31@sfsu.edu  |     htran31     |     toom8820       |       Team-lead          |
 |      #2      |  Ralph Quiambao   |                   |                 |    dustinmeza      |       Frontend-lead      |
 |      #3      |  Fabian Weiland   |                   |                 |     fabiweil       |       Backend-lead       |
-|      #4      |   Jeawan Jang     |                   |                 |      jaewan        |       Database-admin     |
-|      #5      |    Dustin Meza    |                   |                 |      ralphgi       |       Github-master      |
+|      #4      |   Dustin Meza     | dmeza2@mail.sfsus.edu  | dustinmeza   |      dustinmeza        |       Database-admin     |
+|      #5      |        |                   |                 |      ralphgi       |       Github-master      |
 |      #6      |   Karma Gyalpo    |                   |                 |      kjkungg       |       Docs-editor        |
 
 
