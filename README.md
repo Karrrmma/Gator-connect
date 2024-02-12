@@ -17,7 +17,7 @@
 |    :---:     |   :---:           |       :---:       |     :---:       |        :---:       |          :---:           |
 |      #1      |   Hoang-Anh Tran  | htran31@sfsu.edu  |     htran31     |     toom8820       |       Team-lead          |
 |      #2      |   Ralph Quiambao  | rquiambao@sfsu.edu|     laerfugi    |     laerfu         |       Frontend-lead      |
-|      #3      |   Karma Gyalpo    |kgyalpo@sfsu.edu                  | Karrrmma                |    kjkungg                |       Backend-lead       |
+|      #3      |   Karma Gyalpo    |  kgyalpo@sfsu.edu |     Karrrmma    |      kjkungg       |       Backend-lead       |
 |      #4      |   Dustin Meza     | dmeza2@sfsu.edu   |     dustinmeza  |     dustinmeza     |       Database-admin     |
 |      #5      |   Fabian Weiland  | fweiland@sfsu.edu |     faweil      |     fabiweil       |       Github-master      |
 |      #6      |   Jeawan Jang     | jjang3@sfsu.edu   |     jeawanjang  |     jaewan3951     |       Docs-editor        |
@@ -29,7 +29,7 @@
 
 |             Name of the Project               |                            URL of the Project                          |
 |                    :---:                      |                                 :---:                                  |
-|   Replace this text with your project's name  |              Replace this text with your application's URL or IP       |                                                        
+|               Campus Connect                  |              Replace this text with your application's URL or IP       |                                                        
 
 
 ## NO code needs to be stored in the root of your repository. You may rename the application folder if you like to your team's application name. But all source code related to your team's application should be stored inside the application folder.
