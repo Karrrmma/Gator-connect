@@ -10,7 +10,7 @@ function Message(){
             <h1>About Page <br/> GATOR CONNECT</h1>
             <ul>
                 <li><a href="/karma-gyalpo">Karma Gyalpo</a></li>
-                <li><a href="/about/jeawan">Jaewan </a></li>
+                <li><a href="/about/jeawan">Jeawan Jang</a></li>
                 <li><a href="/about/dustin">Dustin Meza</a></li>
                 <li><a href="/about/hoanganh">Hoang-Anh Tran</a></li>
                 <li><a href="/karma-gyalpo">Fabian Weiland</a></li>
