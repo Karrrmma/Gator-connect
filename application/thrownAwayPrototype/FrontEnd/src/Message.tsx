@@ -14,7 +14,7 @@ function Message(){
                 <li><a href="/about/dustin">Dustin Meza</a></li>
                 <li><a href="/about/hoanganh">Hoang-Anh Tran</a></li>
                 <li><a href="/about/fabiweiland">Fabian Weiland</a></li>
-                <li><a href="/karma-gyalpo">Ralph Quiambao</a></li>
+                <li><a href="/about/ralph">Ralph Quiambao</a></li>
 
 
             </ul>
