@@ -10,7 +10,7 @@ function Message(){
             <ul>
                 <li><a href="/karma-gyalpo"> Karma Gyalpo</a></li>
                 <li><a href="/karma-gyalpo">Jaewan </a></li>
-                <li><a href="/karma-gyalpo">Dustin</a></li>
+                <li><a href="/about/dustin">Dustin</a></li>
                 <li><a href="/about/hoanganh">Hoang-Anh Tran</a></li>
                 <li><a href="/karma-gyalpo">Fabian</a></li>
                 <li><a href="/karma-gyalpo">Ralph</a></li>
