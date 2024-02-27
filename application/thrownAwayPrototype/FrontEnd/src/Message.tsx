@@ -6,6 +6,7 @@ function Message(){
     const fabian = 'fabian';
     return(
         <div>
+            <h3>Software Engineering class SFSU <br /> Spring 2024 <br />Section 05 <br />Team 03</h3>
             <h1>About Page For Gator Connect</h1>
             <ul>
                 <li><a href="/karma-gyalpo"> Karma Gyalpo</a></li>
