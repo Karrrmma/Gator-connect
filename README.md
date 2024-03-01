@@ -29,7 +29,7 @@
 
 |             Name of the Project               |                            URL of the Project                          |
 |                    :---:                      |                                 :---:                                  |
-|               Campus Connect                  |              Replace this text with your application's URL or IP       |                                                        
+|               Gator Connect                   |                https://testing.dibp09spwik8y.amplifyapp.com/           |                                                        
 
 
 ## NO code needs to be stored in the root of your repository. You may rename the application folder if you like to your team's application name. But all source code related to your team's application should be stored inside the application folder.
