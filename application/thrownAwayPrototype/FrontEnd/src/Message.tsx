@@ -1,20 +1,22 @@
+import { Link } from "react-router-dom";
+
 function Message(){
-    const karma = 'Karma Gyalpo';
+    /*const karma = 'Karma Gyalpo';
     const hoanganh = 'Hoang-Anh Tran';
     const dustin = 'Dustin';
     const jeawan = 'Jeawan';
-    const fabian = 'fabian';
+    const fabian = 'fabian';*/
     return(
         <div>
             <h3>Software Engineering Class SFSU <br/> Spring 2024 <br/>Section 05 <br/>Team 03</h3>
             <h1>About Page <br/> GATOR CONNECT</h1>
             <ul>
-                <li><a href="/karma-gyalpo">Karma Gyalpo</a></li>
-                <li><a href="/about/jeawan">Jeawan Jang</a></li>
-                <li><a href="/about/dustin">Dustin Meza</a></li>
-                <li><a href="/about/hoanganh">Hoang-Anh Tran</a></li>
-                <li><a href="/about/fabiweiland">Fabian Weiland</a></li>
-                <li><a href="/about/ralph">Ralph Quiambao</a></li>
+                <li><Link to="/about/karma">Karma Gyalpo</Link></li>
+                <li><Link to="/about/jeawan">Jeawan Jang</Link></li>
+                <li><Link to="/about/dustin">Dustin Meza</Link></li>
+                <li><Link to="/about/hoanganh">Hoang-Anh Tran</Link></li>
+                <li><Link to="/about/fabiweiland">Fabian Weiland</Link></li>
+                <li><Link to="/about/ralph">Ralph Quiambao</Link></li>
 
 
             </ul>

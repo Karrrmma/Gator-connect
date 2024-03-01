@@ -7,6 +7,7 @@ import Fabian from './about/fabiweiland';
 import Dustin from './about/dustin';
 import Jeawan from './about/jeawan';
 import Ralph from './about/ralph';
+import Karma from './about/karma';
 
 function App() {
     return (
@@ -18,6 +19,8 @@ function App() {
                 <Route path="/about/dustin" element={<Dustin />} />
                 <Route path="/about/jeawan" element={<Jeawan />} />
                 <Route path="/about/ralph" element={<Ralph />} />
+                <Route path="/about/karma" element={<Karma />} />
+
             </Routes>
         </Router>
     );
