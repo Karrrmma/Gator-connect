@@ -9,3 +9,14 @@ using MySQLWorkbench.
 Points will be deducted if teams do not add their credentials here once they have chosen their 
 technology stack or if their step-by-step descriptions are not clear enough. You have been warned! 
 
+
+
+*********************************************************************************************************************************************
+
+03/01/2024
+
+- Connect to the Server via SSH
+  1. Download the GatorConnect.pem in the directory
+  2. Use ssh -i "GatorConnects.pem" ec2-user@ec2-100-26-46-76.compute-1.amazonaws.com as a command in the shell
+  3. Change the permission via chmod 400 "GatorConnects.pem"
+
