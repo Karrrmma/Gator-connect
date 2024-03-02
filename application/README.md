@@ -8,3 +8,13 @@ This does include the structure of your application. Points will be deducted fro
 
 ## Please use the rest of the README.md to store important information for your team's application. 
 *********************************************************************************************************************************************
+
+- Backend
+    1. node js server
+
+- credentials
+    1. SSH key: GatorConnects.pem
+
+- thorwnAwayProtype (Tentative Frontend)
+    1. src
+    2. package-lock.json
