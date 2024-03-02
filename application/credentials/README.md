@@ -11,11 +11,24 @@ technology stack or if their step-by-step descriptions are not clear enough. You
 
 
 
-*********************************************************************************************************************************************
 
-03/01/2024
+## Important Credentials:
 
-- Connect to the Server via SSH
+|             Item               |                            Credentials                              |
+|            :---:               |                               :---:                                 |
+|          Website URL           |             https://testing.dibp09spwik8y.amplifyapp.com/           | 
+|          SSH URL               |             ec2-100-26-46-76.compute-1.amazonaws.com                | 
+|          SSH Username          |             ec2-user                                                | 
+|          SSH Password/Key      |             GatorConnects.pem                                       | 
+|          Database URL          |             gatorconnect.czw66eimcldr.us-east-1.rds.amazonaws.com   | 
+|          Database Username     |             thream                                                  | 
+|          Database Password     |             Jose*ortiz3                                             | 
+
+
+
+
+
+## To connect to the Server via SSH
   1. Download the GatorConnect.pem in the directory
   2. Use ssh -i "GatorConnects.pem" ec2-user@ec2-100-26-46-76.compute-1.amazonaws.com as a command in the shell
   3. Change the permission via chmod 400 "GatorConnects.pem"
