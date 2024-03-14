@@ -10,6 +10,14 @@ router.get('/testpost', (req, res) => {
     res.end(JSON.stringify(str));
 });
 
+router.get('/login', (req, res) => {  
+    const str = [{
+        username: 'test',
+        password: 'password'
+    }]
+    res.end(JSON.stringify(str));
+});
+
 router.post('/newpost', (req, res) => {
     res.end('To be implemented');
 });
