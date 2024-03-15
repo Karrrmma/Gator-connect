@@ -30,6 +30,7 @@ function Post() {
                         </div>
                         <p id="post-content" class="card-text text-left ml-5">{item.content}</p>
                         <div class="d-flex justify-content-end">
+                            
                             <button type="button" class="btn btn-outline-secondary btn-sm mr-2">Comment</button>
                             <button type="button" class="btn btn-outline-success btn-sm mr-2">Like</button>
                             <button type="button" class="btn btn-outline-danger btn-sm">Dislike</button>

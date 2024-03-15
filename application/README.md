@@ -20,7 +20,7 @@ This does include the structure of your application. Points will be deducted fro
     - SSH key: GatorConnects.pem
 
 Before starting, cd into both the frontend and backend and type 'npm install'
-To start the server, go into backend and run 'npm start dev'
+To start the server, go into backend and run 'npm run dev'
 It was created to 
 
 If it fails to work, open split terminals and run these two commands in each:
