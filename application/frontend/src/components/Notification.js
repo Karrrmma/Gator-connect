@@ -1,13 +1,13 @@
 import React from 'react';
 
-function NewPost() {
+function Notification() {
     return (
         <section>
             <div>
-                <h1 class="mt-5">New post page</h1>
+                <h1 class="mt-5">Notification page</h1>
             </div>
         </section>
     );
 }
 
-export default NewPost;
+export default Notification;

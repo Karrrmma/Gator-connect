@@ -1,7 +1,7 @@
 import './App.css';
 // refactor into folders later
 import Nav from './components/Nav';  
-import NewPost from './components/NewPost';
+import Notification from './components/Notification';
 import Post from './components/Post';
 import Explore from './components/Explore';
 import Profile from './components/Profile';
@@ -36,7 +36,7 @@ function App() {
           <Nav />
           <Routes>
             <Route path="/home" element={<Post />}/>
-            <Route path="/new" element={<NewPost />}/>
+            <Route path="/notification" element={<Notification />}/>
             <Route path="/explore" element={<Explore />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/chat" element={<Chat />} />

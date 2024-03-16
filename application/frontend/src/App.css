@@ -51,5 +51,16 @@ h5 {
 
 .nav-item.nav-link:hover {
   color: white !important;
+  /* background-color: black; */
+}
+
+.login-btn {
+  width: 100px;
+  margin: auto;
+}
+
+.login-btn:hover {
+  color: white !important;
+  background-color: black;
 }
 

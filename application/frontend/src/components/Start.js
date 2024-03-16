@@ -7,8 +7,8 @@ function Start() {
         <div>
             <img src={Gator} alt="Gator" />
             <h1 class="mt-5">GATOR CONNECT</h1>
-            <Link to='/login' className="nav-item nav-link">Login</Link>
-            <Link to='/signup' className="nav-item nav-link">Sign Up</Link>
+            <Link to='/login' className="nav-item nav-link login-btn">Login</Link>
+            <Link to='/signup' className="nav-item nav-link login-btn">Sign Up</Link>
         </div>
     );
 }
