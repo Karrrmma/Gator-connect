@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {Link} from 'react-router-dom';
-import validateFields from '../authentication/validateFields';
+import validateFields from '../validateFields';
 // TODO: STILL NEED TO COMPLETELY IMPLEMENT THIS PAGE
 function Register() {
     const [values, setUser] = useState({

@@ -1,8 +1,8 @@
 import Chat from './Chat';
 import Explore from './Explore';
-import Login from './Login';
+import Login from './authentication/Login';
 import Profile from './Profile';
-import Register from './Register';
+import Register from './authentication/Register';
 import Start from './Start';
 
 export {
