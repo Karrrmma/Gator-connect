@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 // import {Link} from 'react-router-dom';
-import TestPFP from '../images/placeholder_pfp.png';
+import TestPFP from '../assets/images/placeholder_pfp.png';
+import SearchBar from './SearchBar';
 // import App from './../App';
 import { FaCommentDots, FaRegThumbsUp, FaRegThumbsDown } from 'react-icons/fa';
 
@@ -14,6 +15,7 @@ function Post() {
     
     // fetches test posts from handler.js
     // dynamically updates the page with the test posts
+    // TODO: make it so that it updates when a button is pressed
     const fetchItems = async () => { 
         const data = await fetch('/testpost');
         const items = await data.json();
@@ -21,26 +23,29 @@ function Post() {
     };
 
     return(
-        <section class="w-50">
-            {items.map(item => (
-                <div class="card">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-start align-items-center mb-2">
-                            <img src={TestPFP} class="rounded-circle" alt="placeholder pfp" style={{width: 40, height: 40}}></img>
-                            <h5 class="card-title ml-2">{item.username}</h5>
-                        </div>
-                        <p id="post-content" class="card-text text-left ml-5">{item.content}</p>
-                        <div class="d-flex justify-content-end">
-                            
-                            <button type="button" class="btn btn-outline-secondary btn-sm mr-2"><FaCommentDots /> Comment</button>
-                            <button type="button" class="btn btn-outline-success btn-sm mr-2"><FaRegThumbsUp /> Like</button>
-                            <button type="button" class="btn btn-outline-danger btn-sm"><FaRegThumbsDown /> Dislike</button>
+        <>
+        <SearchBar />
+            <section class="w-50">
+                {items.map(item => (
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-start align-items-center mb-2">
+                                <img src={TestPFP} class="rounded-circle" alt="placeholder pfp" style={{width: 40, height: 40}}></img>
+                                <h5 class="card-title ml-2">{item.username}</h5>
+                            </div>
+                            <p id="post-content" class="card-text text-left ml-5">{item.content}</p>
+                            <div class="d-flex justify-content-end">
+                                
+                                <button type="button" class="btn btn-outline-secondary btn-sm mr-2"><FaCommentDots /> Comment</button>
+                                <button type="button" class="btn btn-outline-success btn-sm mr-2"><FaRegThumbsUp /> Like</button>
+                                <button type="button" class="btn btn-outline-danger btn-sm"><FaRegThumbsDown /> Dislike</button>
+                            </div>
                         </div>
                     </div>
-                </div>
-            ))
-            }
-        </section>
+                ))
+                }
+            </section>
+        </>
     );
 }
 

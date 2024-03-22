@@ -2,14 +2,9 @@ import './App.css';
 // refactor into folders later
 import Nav from './components/Nav';  
 import Notification from './components/Notification';
-import Post from './components/Post';
-import Explore from './components/Explore';
-import Profile from './components/Profile';
-import Chat from './components/Chat';
-import Login from './components/Login';
-import SignUp from './components/SignUp';
-import useToken from './components/useToken';
-import Start from './components/Start'; 
+import Post from './components/Post'; // placeholder
+import { Explore, Profile, Chat, Login, Register, Start } from './pages';
+import useToken from './hooks/useToken';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 function App() {
@@ -22,7 +17,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Start />} />
             <Route path="/login" element={<Login setToken={setToken} />} />
-            <Route path="/signup" element={<SignUp />} />
+            <Route path="/register" element={<Register />} />
           </Routes>
         </Router>
       </div>

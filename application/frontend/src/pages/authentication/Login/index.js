@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 async function loginUser(password) {
     return fetch('/login', {
@@ -38,7 +39,9 @@ function Login({setToken}) {
                     <input type="password" onChange={e => setPassword(e.target.value)} />
                 </label>
                 <div>
-                    <button type="submit">Create New Account</button>
+                    <Link to='/register'>
+                        <button type="submit">Create New Account</button>
+                    </Link>
                     <button type="submit">Login</button>
                 </div>
             </form>

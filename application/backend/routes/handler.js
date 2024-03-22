@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
+// Need to install CORS if we have our database in a diff link
 
 const mysql = require('mysql');
 
