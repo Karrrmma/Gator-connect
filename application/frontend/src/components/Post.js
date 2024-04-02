@@ -6,28 +6,32 @@ import SearchBar from './SearchBar';
 import { FaCommentDots, FaRegThumbsUp, FaRegThumbsDown } from 'react-icons/fa';
 
 function Post() {
-    // calls fetchItems when component mounts
-    useEffect( ()=> {
-        fetchItems();
-    }, []);
-    
     const [items, setItems] = useState([]);
+    const [searchQuery, setSearchQuery] = useState({});
+    // calls fetchItems when component mounts
+    useEffect(()=> {
+        fetchItems(searchQuery);
+    }, [searchQuery]);
+    
+
     
     // fetches test posts from handler.js
     // dynamically updates the page with the test posts
     // TODO: make it so that it updates when a button is pressed
-    const fetchItems = async () => { 
-        const data = await fetch('/testpost');
+    const fetchItems = async ({ username, major, year, content }) => { 
+        console.log(username, major, year, content); // debug
+        const url = `/testpost?username=${username || ''}&major=${major || ''}&year=${year || ''}&content=${content || ''}`;
+        const data = await fetch(url);
         const items = await data.json();
         setItems(items);
     };
 
     return(
         <>
-        <SearchBar />
+        <SearchBar onSearch={setSearchQuery}/>
             <section class="w-50">
-                {items.map(item => (
-                    <div class="card">
+                {items.map((item, index) => ( // index is a placeholder
+                    <div class="card" key={index}>
                         <div class="card-body">
                             <div class="d-flex justify-content-start align-items-center mb-2">
                                 <img src={TestPFP} class="rounded-circle" alt="placeholder pfp" style={{width: 40, height: 40}}></img>

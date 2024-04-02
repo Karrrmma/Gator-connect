@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import {Link} from 'react-router-dom';
+import {Link, redirect} from 'react-router-dom';
 import validateFields from '../validateFields';
 // TODO: STILL NEED TO COMPLETELY IMPLEMENT THIS PAGE
 function Register() {
@@ -15,15 +15,46 @@ function Register() {
 
     const [role, setRole] = useState('');
 
+    // Spread values object, then update the value of the key that was changed
     const handleChange = (event) => {
         setUser({
-            ...values
+            ...values,
+            [event.target.name]: event.target.value
         });
     }
     
-    const handleSubmit = (e) => {
+    const [errors, setErrors] = useState({});
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(values);
+        // console.log(values);
+        const err = validateFields(values);
+        setErrors(err);
+        // setErrors(validateFields(values));
+        if (Object.keys(err).length === 0) { // if no errors, send data to server
+            const res = await fetch('/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(values),
+            })
+            .then(res => {
+                if (res.ok) {
+                    console.log('User registered successfully');
+                    return redirect('/login');
+                }
+                throw new Error('User registration failed');
+            })
+            .catch(err => console.log(err));
+        }
+    }
+
+    // If user is logged in, redirect to home page
+    const isAuthenticated = !!sessionStorage.getItem('token');
+
+    if (isAuthenticated) {
+        return redirect('/home');
     }
 
     return (
@@ -33,16 +64,20 @@ function Register() {
                     <form action="" onSubmit={handleSubmit}>
                         <h1 className="h3 mb-3 font-weight-normal">Sign Up</h1>
                         <div className="form-group">
-                            <input type="email" className="form-control" placeholder="Email" onChange={handleChange} />
+                            <input name="email" placeholder="Email" className="form-control" onChange={handleChange} />
+                            {errors.email && <span className='text-danger'> {errors.email}</span>}
                         </div>
                         <div className="form-group">
-                            <input type="username" name="username" className="form-control" placeholder="Username" />
+                            <input name="username" className="form-control" placeholder="Username" onChange={handleChange} />
+                            {errors.username && <span className='text-danger'> {errors.username}</span>}
                         </div>
                         <div className="form-group">
-                            <input type="password" className="form-control" placeholder="Password" />
+                            <input type="password" name="password" className="form-control" placeholder="Password" onChange={handleChange}/>
+                            {errors.password && <span className='text-danger'> {errors.password}</span>}
                         </div>
                         <div className="form-group">
-                            <input type="fullname" className="form-control" placeholder="Full Name" />
+                            <input name="fullname" className="form-control" placeholder="Full Name" onChange={handleChange}/>
+                            {errors.fullname && <span className='text-danger'> {errors.fullname}</span>}
                         </div>
                         <div className="form-group">
                             <select className="form-control" value={role} onChange={(e) => setRole(e.target.value)}>
@@ -52,18 +87,22 @@ function Register() {
                             </select>
                         </div>
                         <div className="form-group">
-                            <select className="form-control">
+                            <select className="form-control" name="major" onChange={handleChange}>
+                                <option>Select major</option>
                                 <option>Computer Science</option>
                                 <option>Computer Engineering</option>
                             </select>
+                            {errors.major && <span className='text-danger'> {errors.major}</span>}
                         </div>
                         {role === 'Student' && (
                             <div className="form-group">
-                                <select className="form-control">
+                                <select className="form-control" name="year" onChange={handleChange}>
+                                    <option>Select year</option>
                                     {Array.from({length: 5}, (_, i) => 2020 + i).map(year => (
                                         <option key={year}>{year}</option>
                                     ))}
                                 </select>
+                                {errors.year && <span className='text-danger'> {errors.year}</span>}
                             </div>
                         )}
                         <div className="row">
