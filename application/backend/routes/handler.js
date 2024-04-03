@@ -9,7 +9,7 @@ const connection = mysql.createConnection({
     host: 'gatorconnect.cfwym6mqiofo.us-west-1.rds.amazonaws.com',
     user: 'thream',
     password: 'Jose*ortiz3',
-    database: 'GatorConnects'//name of the databse within the mysql to connect to 
+    database: 'mydb'//name of the databse within the mysql to connect to 
   });
 
 // TODO: make this communiate with database and grab a post
