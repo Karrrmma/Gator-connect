@@ -16,6 +16,7 @@ function Nav() {
                     <Link to='/profile' className="nav-item nav-link"><FaUser /> Profile</Link>
                     <Link to='/chat' className="nav-item nav-link"><FaComment /> Chat</Link>
 
+
                     {/* <Link to='/login' className="nav-item nav-link">Login</Link>
                     <Link to='/signup' className="nav-item nav-link">Sign Up</Link> */}
                 </div>

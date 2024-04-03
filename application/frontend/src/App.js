@@ -9,7 +9,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 function App() {
   const {token, setToken} = useToken();
-
+  
   if (!token) {
     return (
       <div className="App">
@@ -35,6 +35,7 @@ function App() {
             <Route path="/explore" element={<Explore />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/chat" element={<Chat />} />
+            
             {/* <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<SignUp />} /> */}
           </Routes>

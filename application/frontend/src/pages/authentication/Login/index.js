@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import PropTypes from 'prop-types';
-import { Link, redirect } from 'react-router-dom';
+import { Link, redirect, useNavigate } from 'react-router-dom';
 import validateLoginFields from '../validateLoginFields';
 
 async function loginUser(fields) {
@@ -28,7 +28,7 @@ function Login({setToken}) {
             [e.target.name]: e.target.value
         });
     }
-
+    const navigate = useNavigate();
     const [ errors, setErrors ] = useState({});
 
     const handleSubmit = async e => {
@@ -43,9 +43,25 @@ function Login({setToken}) {
 
         try {
             console.log('User:', user);
-            const token = await loginUser(user);
-            setToken(token);
-            redirect('/home');
+            const response = await fetch('/login',{
+                method:'POST',
+                headers:{
+                    'Content-Type': "application/json",
+                },
+                body:JSON.stringify(user),
+            });
+            if(response.ok){
+                console.log('login success');
+                navigate('/home');
+                
+            }
+            else{
+                setErrors({...errors, form:'invalid username or password'});
+            }
+
+            //const token = await loginUser(user);
+            //setToken(token);
+            //redirect('/home');
         } catch (error) {
             console.error('Error logging in, user does not exist?', error);
         }
@@ -55,13 +71,14 @@ function Login({setToken}) {
         //     password: user.password
         // });
         // setToken(token);
-    }
+    };
 
     // If user is logged in, redirect to home page
     const isAuthenticated = !!sessionStorage.getItem('token');
 
     if (isAuthenticated) {
-        return redirect('/home');
+        navigate('/home');
+        return null;
     }
 
     return (
