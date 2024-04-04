@@ -17,7 +17,7 @@ const SearchBar = ({ onSearch }) => {
 
     return (
         <form class="w-50" onSubmit={handleSearchSubmit} id="search-bar" >
-            <p className="search-content">Search user by</p>
+            <p className="search-content">Search users by</p>
             <input type="text" className="form-control" id="search-bar-input" value={username} onChange={e => setUsername(e.target.value)} placeholder="username..." />
             <input type="text" className="form-control" id="search-bar-input" value={major} onChange={e => setMajor(e.target.value)} placeholder="major..." />
             <input type="text" className="form-control" id="search-bar-input" value={year} onChange={e => setYear(e.target.value)} placeholder="school year..." />
