@@ -44,14 +44,15 @@ function Login({ setToken }) {
         try {
             console.log('User:', user);
             const response = await loginUser(user);
-            // console.log(response);
+            console.log(response);
             // console.log(response.ok);
             if(response.ok){
                 console.log('front end - login success');
                 const data = await response.json(); // resolve promise
-                // const data = await loginUser(user);
-                console.log(data.token);
-                setToken(data.token); // access the token property and set
+                console.log(data);
+                setToken(data); // access the token property and set
+
+                // setToken(token);
                 return navigate('/home');
             }
             else{
