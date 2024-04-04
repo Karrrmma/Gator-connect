@@ -10,12 +10,19 @@ This does include the structure of your application. Points will be deducted fro
 *********************************************************************************************************************************************
 
 1. backend
-    - node js server
+    - routes
 
 2. frontend
     - src
-    - package-lock.json
+    - public
 
 3. credentials
     - SSH key: GatorConnects.pem
 
+Before starting, cd into both the frontend and backend and type 'npm install'
+To start the server, go into backend and run 'npm run dev'
+It was created to 
+
+If it fails to work, open split terminals and run these two commands in each:
+    - 'npm run server' in backend folder
+    - 'npm run start' in frontend folder
