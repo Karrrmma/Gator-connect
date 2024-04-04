@@ -176,33 +176,6 @@ router.post('/search', (req, res) => {
 });
 
 
-// example fucntion for searching use in database
-function searchUsers(username) {
-  return new Promise((resolve, reject) => {
-  let query = 'SELECT Account.username FROM Account JOIN Student ON Account.user_id = Student.user_id WHERE 1=1';
-    const params = [];
-
-  if (username) {
-      query += ' AND Account.username LIKE ?';
-      params.push('%' + username + '%');
-  }
- 
-    connection.query(query, params, (err, results) => {
-      if (err) {
-        console.error('Error searching:', err);
-        reject(err);
-      } else {
-        resolve(results);
-      }
-    });
-  });
-}
-
-searchUsers('karma').then(results => {
-  console.log(results);
-}).catch(err => {
-  console.error('Error:', err);
-});
 
 
   
