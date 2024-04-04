@@ -11,8 +11,12 @@ function SignOut() {
     }
 
     return (
-        <button className="nav-item nav-link d-lg-inline-block ml-auto signout-btn" name='signout' onClick={handleClick}>
-            Sign Out
+        <button 
+            className="nav-item nav-link d-lg-inline-block ml-auto signout-btn" 
+            name='signout' 
+            style={{ backgroundColor: 'transparent', color: 'rgb(0, 118, 209)', border: 'none'}} 
+            onClick={handleClick}>
+                LOG OUT
         </button>
     )
 }

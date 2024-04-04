@@ -38,7 +38,7 @@ router.get('/testpost', (req, res) => {
 });
 // log in user query 
 
-router.get('/login', (req, res) => {  
+router.post('/login', (req, res) => {  
     const{username, password} = req.body;
     const query = 'SELECT * FROM Account WHERE username = ? AND password = ?';
     connection.query(query, [username, password], (err, results)=>{
@@ -155,7 +155,7 @@ function addUser(sfsu_email, username, password, fullName, major, year, callback
 
 //                  SEARCH QUERY 
 router.post('/search', (req, res) => {
-  const { username, major } = req.body;
+  const { username, major, year, content } = req.body;
 
   let query = 'SELECT Account.username, Student.major FROM Account JOIN Student ON Account.user_id = Student.user_id WHERE 1=1';
   const params = [];
@@ -168,6 +168,15 @@ router.post('/search', (req, res) => {
       query += ' AND Student.major LIKE ?';
       params.push('%' + major + '%');
   }
+  if (year) {
+    query += ' AND Student.year LIKE ?';
+    params.push('%' + year + '%');
+}
+  if (content) {
+    query += ' AND Student.content LIKE ?';
+    params.push('%' + content + '%');
+  }
+
 
   connection.query(query, params, (err, results) => {
       if (err) {
