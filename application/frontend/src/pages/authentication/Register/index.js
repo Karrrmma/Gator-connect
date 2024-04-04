@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {Link, useNavigate} from 'react-router-dom';
+import {Link, redirect, useNavigate} from 'react-router-dom';
 import validateFields from '../validateFields';
 import '../auth.css';
 
@@ -17,8 +17,6 @@ function Register() {
 
     const [role, setRole] = useState('');
 
-    const navigate = useNavigate();
-
     // Spread values object, then update the value of the key that was changed
     const handleChange = (event) => {
         const {name, value} = event.target;
@@ -33,10 +31,9 @@ function Register() {
     }
     
     const [errors, setErrors] = useState({});
-
     const handleSubmit = async (e) => {
         e.preventDefault();
-        // console.log(values); // debug
+        // console.log(values);
         const err = validateFields(values);
         setErrors(err);
 
@@ -51,7 +48,7 @@ function Register() {
             .then(() => {
                 if (res.ok) { // double check
                     console.log('User registered successfully');
-                    return navigate('/login');
+                    return redirect('/login');
                 }
                 throw new Error('User registration failed');
             })
@@ -66,11 +63,39 @@ function Register() {
         };
     }, []);
 
+/*
+  const handleSubmit = async (e) => {
+    console.log("handle submit working")
+        e.preventDefault();
+        const err = validateFields(values);
+        setErrors(err);
+        if (Object.keys(err).length === 0) {
+            try {
+                const response = await fetch('/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(values),
+                });
+                if (response.ok) {
+                    console.log('User registered successfully');
+                    console.log('navigation work')
+                    navigate('/login');  // Navigate to the login page
+                } else {
+                    throw new Error('User registration failed');
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        }
+    };
+    */
     // If user is logged in, redirect to home page
     const isAuthenticated = !!sessionStorage.getItem('token');
 
     if (isAuthenticated) {
-        return navigate('/home');
+        return redirect('/home');
     }
 
     return (

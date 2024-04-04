@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, redirect, useNavigate } from 'react-router-dom';
 import validateLoginFields from '../validateLoginFields';
 import '../auth.css';
 
@@ -32,7 +32,7 @@ function Login({ setToken }) {
         });
     }
 
-    const [errors, setErrors] = useState({});
+    const [ errors, setErrors ] = useState({});
 
     const handleSubmit = async e => {
         e.preventDefault();
@@ -45,6 +45,38 @@ function Login({ setToken }) {
 
         try {
             console.log('User:', user);
+
+            const response = await fetch('/login',{
+                method:'POST',
+                headers:{
+                    'Content-Type': "application/json",
+                },
+                body:JSON.stringify(user),
+            });
+            if(response.ok){
+                console.log('login success');
+                navigate('/home');
+                
+            }
+            else{
+                setErrors({...errors, form:'invalid username or password'});
+            }
+
+            //const token = await loginUser(user);
+            //setToken(token);
+            //redirect('/home');
+        } catch (error) {
+            console.error('Error logging in, user does not exist?', error);
+        }
+
+        // const token = await loginUser({
+        //     username: user.username,
+        //     password: user.password
+        // });
+        // setToken(token);
+    };
+    /*
+=======         new change
             const token = await loginUser(user);
             setToken(token);
             return navigate('/home');
@@ -52,11 +84,14 @@ function Login({ setToken }) {
             console.error('Error logging in, user does not exist?', error);
         }
     }
+    */
 
     // If user is logged in, redirect to home page
     const isAuthenticated = !!sessionStorage.getItem('token');
 
     if (isAuthenticated) {
+        navigate('/home');
+        return null;
         return navigate('/home');
     }
 
