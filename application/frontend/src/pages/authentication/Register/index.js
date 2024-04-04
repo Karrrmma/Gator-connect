@@ -125,7 +125,7 @@ function Register() {
             <div className="row">
                 <div className="col-md-6 mt-5 mx-auto">
                     <form action="" onSubmit={handleSubmit}>
-                        <h1>Sign Up</h1>
+                    <h1>Sign Up</h1>
                         <div className="form-group">
                             <input name="sfsu_email" placeholder="SFSU Email" className="form-control" onChange={handleChange} />
                             {errors.email && <span className='text-danger'> {errors.email}</span>}
@@ -135,7 +135,7 @@ function Register() {
                             {errors.username && <span className='text-danger'> {errors.username}</span>}
                         </div>
                         <div className="form-group">
-                            <input type="password" name="password" className="form-control" placeholder="Password" onChange={handleChange}/>
+                            <input name="password" className="form-control" placeholder="Password" onChange={handleChange}/>
                             {errors.password && <span className='text-danger'> {errors.password}</span>}
                         </div>
                         <div className="form-group">
@@ -152,8 +152,11 @@ function Register() {
                         <div className="form-group">
                             <select className="form-control" name="major" onChange={handleChange}>
                                 <option>Select major</option>
+                                <option>Accounting</option>
+                                <option>Business</option>
                                 <option>Computer Science</option>
-                                <option>Computer Engineering</option>
+                                <option>Economics</option>
+                                <option>Mathematics</option>
                             </select>
                             {errors.major && <span className='text-danger'> {errors.major}</span>}
                         </div>
@@ -168,8 +171,8 @@ function Register() {
                                 {errors.year && <span className='text-danger'> {errors.year}</span>}
                             </div>
                         )}
-                        <div className="row">
-                            <div className="col ml-3">
+                        <div className="row ml-auto">
+                            <div className="col">
                                 <Link to="/login" className="btn btn-lg btn-primary btn-block">Login</Link>
                             </div>
                             <div className="col">
