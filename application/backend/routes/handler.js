@@ -155,7 +155,7 @@ function addUser(sfsu_email, username, password, fullName, major, year, callback
 
 //                  SEARCH QUERY 
 router.post('/search', (req, res) => {
-  const { username, major, year, content } = req.body;
+  const { username, major, year } = req.body;
 
   let query = 'SELECT Account.username, Student.major FROM Account JOIN Student ON Account.user_id = Student.user_id WHERE 1=1';
   const params = [];
@@ -172,10 +172,10 @@ router.post('/search', (req, res) => {
     query += ' AND Student.year LIKE ?';
     params.push('%' + year + '%');
 }
-  if (content) {
-    query += ' AND Student.content LIKE ?';
-    params.push('%' + content + '%');
-  }
+  // if (content) {
+  //   query += ' AND Student.content LIKE ?';
+  //   params.push('%' + content + '%');
+  // }
 
 
   connection.query(query, params, (err, results) => {

@@ -12,7 +12,6 @@ async function loginUser(fields) {
         },
         body: JSON.stringify( fields ),
     })
-        // .then(data => data.json()) // handle submit needs to know response was ok
 }
 
 function Login({ setToken }) {
@@ -61,12 +60,6 @@ function Login({ setToken }) {
         } catch (error) {
             console.error('Error logging in, user does not exist?', error);
         }
-
-        // const token = await loginUser({
-        //     username: user.username,
-        //     password: user.password
-        // });
-        // setToken(token);
     };
 
     // If user is logged in, redirect to home page
