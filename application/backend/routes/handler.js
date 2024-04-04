@@ -38,7 +38,7 @@ router.get('/testpost', (req, res) => {
 });
 // log in user query 
 
-router.post('/login', (req, res) => {  
+router.gets('/login', (req, res) => {  
     const{username, password} = req.body;
     const query = 'SELECT * FROM Account WHERE username = ? AND password = ?';
     connection.query(query, [username, password], (err, results)=>{
