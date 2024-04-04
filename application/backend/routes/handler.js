@@ -65,6 +65,7 @@ router.post('/newpost', (req, res) => {
 
 router.post('/search')
 
+
 //Function just to add users /// just use to test
 function addUser(sfsu_email, username, password, firstName, lastName, major, year, callback) {
   const userQuery = 'INSERT INTO User (first_name, last_name, sfsu_email) VALUES (?, ?, ?)';
@@ -96,8 +97,8 @@ function addUser(sfsu_email, username, password, firstName, lastName, major, yea
 }
 
 // Usage example:
-/*
-addUser('kargyal@sfsu.edu', 'karddma', '1234', 'Karma', 'Gyalpo', 'Computer Science', '2022', (err, result) => {
+
+addUser('kargyal@sfsu.edu', 'karddma', '1234', 'KaSrma', 'Gyalpo', 'Computer Science', '2022', (err, result) => {
   if (err) {
       console.error('Error adding user:', err);
   } else {
@@ -105,31 +106,9 @@ addUser('kargyal@sfsu.edu', 'karddma', '1234', 'Karma', 'Gyalpo', 'Computer Scie
   }
 });
 
-*/
 
 
-/*
 
-function addUser(sfsu_email, username, password, fullName, callback) {
-    const query = 'INSERT INTO User (full_name, sfsu_email) VALUES (?, ?)';
-    const accountquery= 'INSERT INTO Account(username, password) VALUES(?,?)';
-    connection.query(query, [fullName, sfsu_email], (err, results) => {
-      if (err) {
-        console.error('Error inserting user:', err);
-        return callback(err);
-      }
-      console.log('User inserted successfully with ID:', results.insertId);
-    });
-    connection.query(accountquery, [username, password], (err, results)=>{
-      if (err){
-        console.error('error into the account', err);
-        return callback(err) ;
-      }
-      callback(null,{userID: results.insertId, accountId:accountResults.insertId});
-      
-    });
-  }
-  */
 // Register query for sign up form 
 
   router.post('/register', (req, res) => {
@@ -140,7 +119,7 @@ function addUser(sfsu_email, username, password, fullName, callback) {
     const lastName = fullNameParts[fullNameParts.length - 1];
 
     const studentQuery = 'INSERT INTO Student(user_id, major, year) VALUES(?, ?, ?)';
-    const accountQuery = 'INSERT INTO Account(username, password, user_id) VALUES(?,?)';
+    const accountQuery = 'INSERT INTO Account(username, password, user_id) VALUES(?,?,?)';
     const userQuery = 'INSERT INTO User (first_name, last_name, sfsu_email) VALUES (?, ?, ?)';
     connection.query(userQuery, [firstName, lastName, sfsu_email], (userErr, userResult) => {
       if (userErr) {
@@ -198,23 +177,16 @@ router.post('/search', (req, res) => {
 
 
 // example fucntion for searching use in database
-function searchUsers(username, major) {
+function searchUsers(username) {
   return new Promise((resolve, reject) => {
-    let query = 'SELECT * FROM Account WHERE 1=1';
+  let query = 'SELECT Account.username FROM Account JOIN Student ON Account.user_id = Student.user_id WHERE 1=1';
     const params = [];
 
-    if (username) {
-      query += ' AND username LIKE ?';
+  if (username) {
+      query += ' AND Account.username LIKE ?';
       params.push('%' + username + '%');
-    }
-    let Major_query = 'SELECT * FROM Account WHERE 1=1';
-
-
-    if (major) {
-      oquery += ' AND major LIKE ?';
-      params.push('%' + major + '%');
-    }
-
+  }
+ 
     connection.query(query, params, (err, results) => {
       if (err) {
         console.error('Error searching:', err);
@@ -226,16 +198,12 @@ function searchUsers(username, major) {
   });
 }
 
-
-searchUsers('karma', 'computer science').then(results => {
+searchUsers('karma').then(results => {
   console.log(results);
 }).catch(err => {
   console.error('Error:', err);
 });
 
-
-
-  
 
   
 
