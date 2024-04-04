@@ -21,6 +21,8 @@ export default function validateFields(values) {
     // Does fullname exist
     if (!values.fullname) {
         errors.fullname = 'Full Name required';
+    } else if (values.fullname.trim().split(' ').length < 2) {
+        errors.fullname = 'Please enter first and last name separated by a space';
     }
 
     // Does role exist

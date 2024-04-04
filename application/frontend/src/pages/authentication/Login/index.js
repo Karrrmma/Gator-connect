@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import { Link, redirect, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import validateLoginFields from '../validateLoginFields';
 
 async function loginUser(fields) {
@@ -17,6 +18,8 @@ async function loginUser(fields) {
 function Login({setToken}) {
     // const [username, setUsername] = useState();
     // const [password, setPassword] = useState();
+    const navigate = useNavigate();
+
     const [user, setUser] = useState({
         username: '',
         password: ''
@@ -28,12 +31,10 @@ function Login({setToken}) {
             [e.target.name]: e.target.value
         });
     }
-    const navigate = useNavigate();
     const [ errors, setErrors ] = useState({});
 
     const handleSubmit = async e => {
         e.preventDefault();
-
         const errors = validateLoginFields(user);
         if (Object.keys(errors).length > 0) {
             setErrors(errors);
@@ -43,6 +44,7 @@ function Login({setToken}) {
 
         try {
             console.log('User:', user);
+
             const response = await fetch('/login',{
                 method:'POST',
                 headers:{
@@ -72,6 +74,16 @@ function Login({setToken}) {
         // });
         // setToken(token);
     };
+    /*
+=======         new change
+            const token = await loginUser(user);
+            setToken(token);
+            return navigate('/home');
+        } catch (error) {
+            console.error('Error logging in, user does not exist?', error);
+        }
+    }
+    */
 
     // If user is logged in, redirect to home page
     const isAuthenticated = !!sessionStorage.getItem('token');
@@ -79,6 +91,7 @@ function Login({setToken}) {
     if (isAuthenticated) {
         navigate('/home');
         return null;
+        return navigate('/home');
     }
 
     return (

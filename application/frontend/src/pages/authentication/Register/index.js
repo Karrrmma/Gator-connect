@@ -14,24 +14,27 @@ function Register() {
     })
 
     const [role, setRole] = useState('');
-    const navigate = useNavigate();
-
 
     // Spread values object, then update the value of the key that was changed
     const handleChange = (event) => {
+        const {name, value} = event.target;
         setUser({
             ...values,
-            [event.target.name]: event.target.value
+            [name]: value
         });
+
+        if (name === 'role') {
+            setRole(value);
+        }
     }
     
     const [errors, setErrors] = useState({});
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(values);
+        // console.log(values);
         const err = validateFields(values);
         setErrors(err);
-        // setErrors(validateFields(values));
+
         if (Object.keys(err).length === 0) { // if no errors, send data to server
             const res = await fetch('/register', {
                 method: 'POST',
@@ -40,10 +43,10 @@ function Register() {
                 },
                 body: JSON.stringify(values),
             })
-            .then(res => {
-                if (res.ok) {
+            .then(() => {
+                if (res.ok) { // double check
                     console.log('User registered successfully');
-                    navigate('/login');
+                    return redirect('/login');
                 }
                 throw new Error('User registration failed');
             })
@@ -83,8 +86,7 @@ function Register() {
     const isAuthenticated = !!sessionStorage.getItem('token');
 
     if (isAuthenticated) {
-        //return redirect('/home');
-        navigate('/home');
+        return redirect('/home');
     }
 
     return (
@@ -110,10 +112,10 @@ function Register() {
                             {errors.fullname && <span className='text-danger'> {errors.fullname}</span>}
                         </div>
                         <div className="form-group">
-                            <select className="form-control" value={role} onChange={(e) => setRole(e.target.value)}>
+                            <select className="form-control" name="role" value={role} onChange={handleChange}>
                                 <option value="">Select role</option>
-                                <option>Professor</option>
-                                <option>Student</option>
+                                <option value="Professor">Professor</option>
+                                <option value="Student">Student</option>
                             </select>
                         </div>
                         <div className="form-group">

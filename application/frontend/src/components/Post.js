@@ -2,7 +2,6 @@ import React, {useEffect, useState} from 'react';
 // import {Link} from 'react-router-dom';
 import TestPFP from '../assets/images/placeholder_pfp.png';
 import SearchBar from './SearchBar';
-// import App from './../App';
 import { FaCommentDots, FaRegThumbsUp, FaRegThumbsDown } from 'react-icons/fa';
 
 function Post() {
