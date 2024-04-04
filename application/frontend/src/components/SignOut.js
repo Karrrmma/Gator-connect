@@ -11,7 +11,7 @@ function SignOut() {
     }
 
     return (
-        <button name='signout' onClick={handleClick}>
+        <button className="nav-item nav-link d-lg-inline-block ml-auto signout-btn" name='signout' onClick={handleClick}>
             Sign Out
         </button>
     )

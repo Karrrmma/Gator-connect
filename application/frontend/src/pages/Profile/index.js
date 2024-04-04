@@ -7,7 +7,7 @@ function Profile() {
         <section>
             <div>
                 <h1 class="mt-5">Profile Page</h1>
-                <p>Sorry! This page will be implemented in a further milestone.</p>
+                <p class="mt-5">Sorry! This page will be implemented in a further milestone.</p>
                 <Link to="/home">Return to Home</Link>
             </div>
         </section>

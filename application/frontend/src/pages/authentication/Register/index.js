@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
-import {Link, useNavigate} from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import {Link, redirect, useNavigate} from 'react-router-dom';
 import validateFields from '../validateFields';
+import '../auth.css';
+
 // TODO: STILL NEED TO COMPLETELY IMPLEMENT THIS PAGE
 function Register() {
     const [values, setUser] = useState({
@@ -54,6 +56,13 @@ function Register() {
         }
     }
 
+    useEffect(() => {
+        document.body.classList.add('register-body'); 
+        return () => {
+            document.body.classList.remove('register-body'); 
+        };
+    }, []);
+
 /*
   const handleSubmit = async (e) => {
     console.log("handle submit working")
@@ -94,7 +103,7 @@ function Register() {
             <div className="row">
                 <div className="col-md-6 mt-5 mx-auto">
                     <form action="" onSubmit={handleSubmit}>
-                        <h1 className="h3 mb-3 font-weight-normal">Sign Up</h1>
+                        <h1>Sign Up</h1>
                         <div className="form-group">
                             <input name="email" placeholder="Email" className="form-control" onChange={handleChange} />
                             {errors.email && <span className='text-danger'> {errors.email}</span>}
