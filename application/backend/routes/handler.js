@@ -67,12 +67,12 @@ router.post('/search')
 
 
 //Function just to add users /// just use to test
-function addUser(sfsu_email, username, password, firstName, lastName, major, year, callback) {
-  const userQuery = 'INSERT INTO User (first_name, last_name, sfsu_email) VALUES (?, ?, ?)';
+function addUser(sfsu_email, username, password, fullName, major, year, callback) {
+  const userQuery = 'INSERT INTO User (full_name, sfsu_email) VALUES (?, ?)';
   const accountQuery = 'INSERT INTO Account(username, password, user_id) VALUES(?, ?, ?)';
   const studentQuery = 'INSERT INTO Student(user_id, major, year) VALUES(?, ?, ?)';
 
-  connection.query(userQuery, [firstName, lastName, sfsu_email], (userErr, userResult) => {
+  connection.query(userQuery, [fullName, sfsu_email], (userErr, userResult) => {
       if (userErr) {
           console.error('Error inserting user:', userErr);
           return callback(userErr);
@@ -98,7 +98,7 @@ function addUser(sfsu_email, username, password, firstName, lastName, major, yea
 
 // Usage example:
 
-addUser('kargyal@sfsu.edu', 'karddma', '1234', 'KaSrma', 'Gyalpo', 'Computer Science', '2022', (err, result) => {
+addUser('kargdsdsdyal@sfsu.edu', 'karddsdsdsma', '1234', 'KaSrma Gyalpo', 'Computer Science', '2022', (err, result) => {
   if (err) {
       console.error('Error adding user:', err);
   } else {
@@ -114,14 +114,12 @@ addUser('kargyal@sfsu.edu', 'karddma', '1234', 'KaSrma', 'Gyalpo', 'Computer Sci
   router.post('/register', (req, res) => {
     const { fullName, sfsu_email, username, password, major, year } = req.body;
   
-    const fullNameParts = fullName.split(' ');
-    const firstName = fullNameParts[0];
-    const lastName = fullNameParts[fullNameParts.length - 1];
+   
 
     const studentQuery = 'INSERT INTO Student(user_id, major, year) VALUES(?, ?, ?)';
     const accountQuery = 'INSERT INTO Account(username, password, user_id) VALUES(?,?,?)';
-    const userQuery = 'INSERT INTO User (first_name, last_name, sfsu_email) VALUES (?, ?, ?)';
-    connection.query(userQuery, [firstName, lastName, sfsu_email], (userErr, userResult) => {
+    const userQuery = 'INSERT INTO User (full_name, sfsu_email) VALUES (?, ?)';
+    connection.query(userQuery, [fullName, sfsu_email], (userErr, userResult) => {
       if (userErr) {
         console.error('Error inserting user:', userErr);
         return res.status(500).json({ error: 'Failed to insert user' });
