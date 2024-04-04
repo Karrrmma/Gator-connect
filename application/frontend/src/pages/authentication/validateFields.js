@@ -1,9 +1,9 @@
 export default function validateFields(values) {
     let errors = {};
     // Does email exist
-    if (!values.email) {
+    if (!values.sfsu_email) {
         errors.email = 'Email required';
-    } else if (!values.email.endsWith('@sfsu.edu')) {
+    } else if (!values.sfsu_email.endsWith('@sfsu.edu')) {
         errors.email = 'Email must end with @sfsu.edu';
     }
 
