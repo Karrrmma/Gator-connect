@@ -2,20 +2,6 @@ import React from 'react';
 import { useForm } from '../../hooks/useForm';
 
 function NewPost() {
-    // const [post, setPost] = useState({
-    //     title: '',
-    //     content: '',
-    //     username: ''
-    // });
-
-    // const handleChange = (event) => {
-    //     const {name, value} = event.target;
-    //     setPost({
-    //         ...post,
-    //         [name]: value
-    //     });
-    // }
-
     const [post, handleChange] = useForm({
         title: '',
         content: '',
@@ -25,7 +11,7 @@ function NewPost() {
     const handleSubmit = async (event) => {
         event.preventDefault();
         // debug
-        console.log(post); 
+        console.log("New Post:", post); 
 
         // UNCOMMENT THIS WHEN YOU WANNA MAKE A POST REQUEST
         // const response = await fetch('/newpost', {
@@ -35,7 +21,7 @@ function NewPost() {
         //     },
         //     body: JSON.stringify(post),
         // });
-        
+
         // debug
         // const data = await response.json();
         // console.log(data);

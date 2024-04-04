@@ -5,15 +5,10 @@ import Notification from './components/Notification';
 import Post from './components/Post'; // placeholder
 import { Explore, Profile, Chat, Login, Register, Start } from './pages';
 import useToken from './hooks/useToken';
-import { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 function App() {
   const {token, setToken} = useToken();
-
-  useEffect(() => { // attempt to force a re-render (this doesnt work)
-    console.log('Token:', token);
-  }, [token]);
   
   if (!token) {
     return (

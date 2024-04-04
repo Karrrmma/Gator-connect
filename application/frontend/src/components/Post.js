@@ -44,7 +44,9 @@ function Post() {
         const url = `/testpost?username=${username || ''}&major=${major || ''}&year=${year || ''}&content=${content || ''}`;
         const data = await fetch(url);
         const newItems = await data.json();
-        setItems(prevItems => [...prevItems, ...newItems.slice(0, 3)]);
+        console.log(data);
+        // setItems(prevItems => [...prevItems, ...newItems.slice(0, 3)]);
+        setItems(newItems.slice(0,3))
     };
 
     return (
