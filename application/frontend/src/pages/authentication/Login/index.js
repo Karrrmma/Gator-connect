@@ -1,7 +1,8 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link, redirect } from 'react-router-dom';
 import validateLoginFields from '../validateLoginFields';
+import '../auth.css';
 
 async function loginUser(fields) {
     return fetch('/login', {
@@ -9,12 +10,12 @@ async function loginUser(fields) {
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({fields}),
+        body: JSON.stringify({ fields }),
     })
-    .then(data => data.json())
+        .then(data => data.json())
 }
 
-function Login({setToken}) {
+function Login({ setToken }) {
     // const [username, setUsername] = useState();
     // const [password, setPassword] = useState();
     const [user, setUser] = useState({
@@ -29,7 +30,7 @@ function Login({setToken}) {
         });
     }
 
-    const [ errors, setErrors ] = useState({});
+    const [errors, setErrors] = useState({});
 
     const handleSubmit = async e => {
         e.preventDefault();
@@ -66,8 +67,8 @@ function Login({setToken}) {
 
     return (
         <div className="login-wrapper">
-            <h1>Login</h1>
             <form onSubmit={handleSubmit}>
+                <h1>Login</h1>
                 <label>
                     <p>Username</p>
                     <input name="username" type="text" onChange={handleChange} />

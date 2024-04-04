@@ -30,7 +30,7 @@ const SearchBar = ({ onSearch }) => {
     }
 
     return (
-        <form onSubmit={handleSearchSubmit} id="search-bar">
+        <form class="w-50" onSubmit={handleSearchSubmit} id="search-bar">
             <input type="text" className="form-control" id="search-bar-input" value={username} onChange={e => setUsername(e.target.value)} placeholder="Search by username..." />
             <input type="text" className="form-control" id="search-bar-input" value={major} onChange={e => setMajor(e.target.value)} placeholder="Search by major..." />
             <input type="text" className="form-control" id="search-bar-input" value={year} onChange={e => setYear(e.target.value)} placeholder="Search by year..." />

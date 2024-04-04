@@ -15,8 +15,8 @@ const connection = mysql.createConnection({
 // TODO: make this communiate with database and grab a post
 router.get('/testpost', (req, res) => {
     const str = [{
-        username: 'Test User',
-        content: 'This is a test post!'
+        username: 'Ali Gator',
+        content: 'Hello! This is a test content!'
     }]
     res.end(JSON.stringify(str));
 });

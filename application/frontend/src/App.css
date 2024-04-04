@@ -14,7 +14,7 @@
 }
 
 .App-header {
-  background-color: #282c34;
+  background-color: rgb(25, 25, 25);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -45,10 +45,6 @@ h5 {
   color: black;
 }
 
-#post-content {
-  color: black;
-}
-
 .nav-item.nav-link:hover {
   color: white !important;
   /* background-color: black; */
@@ -63,4 +59,3 @@ h5 {
   color: white !important;
   background-color: black;
 }
-
