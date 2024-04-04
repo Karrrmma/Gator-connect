@@ -10,14 +10,12 @@ async function loginUser(fields) {
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ fields }),
+        body: JSON.stringify( fields ),
     })
-        .then(data => data.json())
+        // .then(data => data.json()) // handle submit needs to know response was ok
 }
 
 function Login({ setToken }) {
-    // const [username, setUsername] = useState();
-    // const [password, setPassword] = useState();
     const navigate = useNavigate();
 
     const [user, setUser] = useState({
@@ -45,18 +43,15 @@ function Login({ setToken }) {
 
         try {
             console.log('User:', user);
-
-            const response = await fetch('/login',{
-                method:'POST',
-                headers:{
-                    'Content-Type': "application/json",
-                },
-                body:JSON.stringify(user),
-            });
+            const response = await loginUser(user);
+            // console.log(response);
+            // console.log(response.ok);
             if(response.ok){
-                console.log('login success');
-                const token = await loginUser(user);
-                setToken(token);
+                console.log('front end - login success');
+                const data = await response.json(); // resolve promise
+                // const data = await loginUser(user);
+                console.log(data.token);
+                setToken(data.token); // access the token property and set
                 return navigate('/home');
             }
             else{
@@ -74,11 +69,11 @@ function Login({ setToken }) {
     };
 
     // If user is logged in, redirect to home page
-    const isAuthenticated = !!sessionStorage.getItem('token');
+    // const isAuthenticated = !!sessionStorage.getItem('token');
 
-    if (isAuthenticated) {
-        return navigate('/home');
-    }
+    // if (isAuthenticated) {
+    //     return navigate('/home');
+    // }
 
     return (
         <div className="login-wrapper">

@@ -6,7 +6,7 @@ import '../auth.css';
 // TODO: STILL NEED TO COMPLETELY IMPLEMENT THIS PAGE
 function Register() {
     const [values, setUser] = useState({
-        email: '',
+        sfsu_email: '',
         username: '',
         password: '',
         fullname: '',
@@ -39,22 +39,42 @@ function Register() {
         const err = validateFields(values);
         setErrors(err);
 
-        if (Object.keys(err).length === 0) { // if no errors, send data to server
-            const res = await fetch('/register', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(values),
-            })
-            .then(res => {
-                if (res.ok) { // double check
-                    console.log('User registered successfully');
-                    return navigate('/login');
+        // if (Object.keys(err).length === 0) { // if no errors, send data to server
+        //     const res = await fetch('/register', {
+        //         method: 'POST',
+        //         headers: {
+        //             'Content-Type': 'application/json',
+        //         },
+        //         body: JSON.stringify(values),
+        //     })
+        //     .then(() => {
+        //         if (res.ok) { // double check
+        //             console.log('User registered successfully');
+        //             return navigate('/login');
+        //         }
+        //         throw new Error('User registration failed');
+        //     })
+        //     .catch(err => console.log(err));
+        // }
+        if (Object.keys(err).length === 0) {
+            try {
+                const res = await fetch('/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(values),
+                });
+        
+                if (!res.ok) { // double check
+                    throw new Error('User registration failed');
                 }
-                throw new Error('User registration failed');
-            })
-            .catch(err => console.log(err));
+        
+                console.log('User registered successfully');
+                navigate('/login');
+            } catch (error) {
+                console.log(error);
+            }
         }
     }
 
@@ -94,11 +114,11 @@ function Register() {
     };
     */
     // If user is logged in, redirect to home page
-    const isAuthenticated = !!sessionStorage.getItem('token');
+    // const isAuthenticated = !!sessionStorage.getItem('token');
 
-    if (isAuthenticated) {
-        return navigate('/home');
-    }
+    // if (isAuthenticated) {
+    //     return navigate('/home');
+    // }
 
     return (
         <div className="container">
@@ -107,7 +127,7 @@ function Register() {
                     <form action="" onSubmit={handleSubmit}>
                         <h1>Sign Up</h1>
                         <div className="form-group">
-                            <input name="email" placeholder="Email" className="form-control" onChange={handleChange} />
+                            <input name="sfsu_email" placeholder="SFSU Email" className="form-control" onChange={handleChange} />
                             {errors.email && <span className='text-danger'> {errors.email}</span>}
                         </div>
                         <div className="form-group">
