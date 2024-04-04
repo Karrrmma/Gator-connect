@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {Link, redirect, useNavigate} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import validateFields from '../validateFields';
 import '../auth.css';
 
@@ -14,6 +14,8 @@ function Register() {
         major: '',
         year: ''
     })
+
+    const navigate = useNavigate();
 
     const [role, setRole] = useState('');
 
@@ -33,7 +35,7 @@ function Register() {
     const [errors, setErrors] = useState({});
     const handleSubmit = async (e) => {
         e.preventDefault();
-        // console.log(values);
+        console.log(values);
         const err = validateFields(values);
         setErrors(err);
 
@@ -45,10 +47,10 @@ function Register() {
                 },
                 body: JSON.stringify(values),
             })
-            .then(() => {
+            .then(res => {
                 if (res.ok) { // double check
                     console.log('User registered successfully');
-                    return redirect('/login');
+                    return navigate('/login');
                 }
                 throw new Error('User registration failed');
             })
@@ -95,7 +97,7 @@ function Register() {
     const isAuthenticated = !!sessionStorage.getItem('token');
 
     if (isAuthenticated) {
-        return redirect('/home');
+        return navigate('/home');
     }
 
     return (

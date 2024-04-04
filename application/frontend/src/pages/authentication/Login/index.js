@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Link, redirect, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import validateLoginFields from '../validateLoginFields';
 import '../auth.css';
 
@@ -55,16 +55,13 @@ function Login({ setToken }) {
             });
             if(response.ok){
                 console.log('login success');
-                navigate('/home');
-                
+                const token = await loginUser(user);
+                setToken(token);
+                return navigate('/home');
             }
             else{
                 setErrors({...errors, form:'invalid username or password'});
             }
-
-            //const token = await loginUser(user);
-            //setToken(token);
-            //redirect('/home');
         } catch (error) {
             console.error('Error logging in, user does not exist?', error);
         }
@@ -75,23 +72,11 @@ function Login({ setToken }) {
         // });
         // setToken(token);
     };
-    /*
-=======         new change
-            const token = await loginUser(user);
-            setToken(token);
-            return navigate('/home');
-        } catch (error) {
-            console.error('Error logging in, user does not exist?', error);
-        }
-    }
-    */
 
     // If user is logged in, redirect to home page
     const isAuthenticated = !!sessionStorage.getItem('token');
 
     if (isAuthenticated) {
-        navigate('/home');
-        return null;
         return navigate('/home');
     }
 
