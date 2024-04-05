@@ -85,7 +85,7 @@ function Login({ setToken }) {
                 </label>
                 <div>
                     <Link to='/register'>
-                        <button type="submit">Create New Account</button>
+                        <button type="submit" style={{ marginRight: '10px' }}>Create New Account</button>
                     </Link>
                     <button type="submit">Login</button>
                 </div>
