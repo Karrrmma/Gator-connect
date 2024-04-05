@@ -8,6 +8,7 @@ This does include the structure of your application. Points will be deducted fro
 
 ## Please use the rest of the README.md to store important information for your team's application. 
 *********************************************************************************************************************************************
+<<<<<<< HEAD
 
 1. backend
     - node js server
@@ -18,6 +19,8 @@ This does include the structure of your application. Points will be deducted fro
 
 3. credentials
     - SSH key: GatorConnects.pem
+=======
+>>>>>>> b5ebdb6dabe970cb542802a0cbd1c6922fe37cdd
 
 1. backend
     - routes
