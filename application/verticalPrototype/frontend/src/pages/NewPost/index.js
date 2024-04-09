@@ -13,29 +13,35 @@ function NewPost() {
         // debug
         console.log("New Post:", post); 
 
-        // UNCOMMENT THIS WHEN YOU WANNA MAKE A POST REQUEST
-        // const response = await fetch('/newpost', {
-        //     method: 'POST',
-        //     headers: {
-        //         'Content-Type': 'application/json',
-        //     },
-        //     body: JSON.stringify(post),
-        // });
+        // COMMENT THIS TO TEST
+        // TODO: clean up fetch requests and store them in one location
+        // change how login works, or change token to username and grab username from storage
+        const response = await fetch('/newpost', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(post),
+        });
 
-        // debug
-        // const data = await response.json();
-        // console.log(data);
+        const data = await response.json();
+        console.log(data);
     };
 
-
     return (
-        <div class=" justify-content-start align-items-center mb-2">
-            <h1>New Post</h1>
+        <div className="container mt-5">
+            <h1 className="mb-4">New Post</h1>
             <form onSubmit={handleSubmit} onChange={handleChange}>
-                <input type="text" name="username" placeholder="Username" className="mr-3" />
-                <input type="text" name="title" placeholder="Title" className="mr-3" />
-                <input type="text" name="content" placeholder="Content" className="mr-3" />
-                <button type="submit">Submit</button>
+                <div className="form-group">
+                    <input type="text" name="username" placeholder="Username" className="form-control" />
+                </div>
+                <div className="form-group">
+                    <input type="text" name="title" placeholder="Title" className="form-control" />
+                </div>
+                <div className="form-group">
+                    <input type="text" name="content" placeholder="Content" className="form-control" />
+                </div>
+                <button type="submit" className="btn btn-primary">Submit</button>
             </form>
         </div>
     );

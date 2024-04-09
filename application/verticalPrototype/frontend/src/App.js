@@ -3,7 +3,7 @@ import './App.css';
 import Nav from './components/Nav';  
 import Notification from './components/Notification';
 import Post from './components/Post'; // placeholder
-import { Explore, Profile, Chat, Login, Register, Start } from './pages';
+import { Explore, Profile, Chat, Login, Register, Start, NewPost } from './pages';
 import useToken from './hooks/useToken';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
@@ -35,9 +35,7 @@ function App() {
             <Route path="/explore" element={<Explore />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/chat" element={<Chat />} />
-            
-            {/* <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<SignUp />} /> */}
+            <Route path="/newpost" element={<NewPost />} />
           </Routes>
         </header>
       </div>
