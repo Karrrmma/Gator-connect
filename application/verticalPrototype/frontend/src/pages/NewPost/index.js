@@ -3,9 +3,8 @@ import { useForm } from '../../hooks/useForm';
 
 function NewPost() {
     const [post, handleChange] = useForm({
-        title: '',
-        content: '',
-        username: ''
+        post_content: '',
+        user_id: ''
     });
 
     const handleSubmit = async (event) => {
@@ -33,13 +32,10 @@ function NewPost() {
             <h1 className="mb-4">New Post</h1>
             <form onSubmit={handleSubmit} onChange={handleChange}>
                 <div className="form-group">
-                    <input type="text" name="username" placeholder="Username" className="form-control" />
+                    <input type="text" name="user_id" placeholder="User ID" className="form-control" />
                 </div>
                 <div className="form-group">
-                    <input type="text" name="title" placeholder="Title" className="form-control" />
-                </div>
-                <div className="form-group">
-                    <input type="text" name="content" placeholder="Content" className="form-control" />
+                    <input type="text" name="post_content" placeholder="Content" className="form-control" />
                 </div>
                 <button type="submit" className="btn btn-primary">Submit</button>
             </form>

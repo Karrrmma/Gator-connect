@@ -37,41 +37,73 @@ router.get('/testpost', (req, res) => {
     res.end(JSON.stringify(str));
 });
 // log in user query 
-// FE LEAD:
-// I commented this out to force it to use dummy token from index.js, seems like database is down?
-// [0] Error connecting to database: Error: connect ETIMEDOUT
-// router.post('/login', (req, res) => {  
-//     const{username, password} = req.body;
-//     const query = 'SELECT * FROM Account WHERE username = ? AND password = ?';
-//     connection.query(query, [username, password], (err, results)=>{
-//       // console.log(username, password)
-//       // console.log(results);
-//       // console.log(err);
-//       if(err){
-//         console.error('Erro getting the username and password', err);
-//         return res.status(500).json({ error: 'Internal Server Error' });;
-//       }
-//       if(results.length === 0){
-//         return res.status(401).json({error:'invalid username or password'});
-//       }
+router.post('/login', (req, res) => {  
+    const{username, password} = req.body;
+    const query = 'SELECT * FROM Account WHERE username = ? AND password = ?';
+    connection.query(query, [username, password], (err, results)=>{
+      // console.log(username, password)
+      // console.log(results);
+      // console.log(err);
+      if(err){
+        console.error('Erro getting the username and password', err);
+        return res.status(500).json({ error: 'Internal Server Error' });;
+      }
+      if(results.length === 0){
+        return res.status(401).json({error:'invalid username or password'});
+      }
         
       
-//       else{
-//         // send user a token
-//         res.status(200).json({
-//           message:'login success',
-//           token: 'test'
-//         });
-//         // res.redirect('/home')
+      else{
+        // send user a token
+        res.status(200).json({
+          message:'login success',
+          token: 'test'
+        });
+        // res.redirect('/home')
 
-//       }
-//     });
-//     });
+      }
+    });
+    });
 
+
+// router.post('/newpost', (req, res) => {
+//     res.end('To be implemented');
+// });
 
 router.post('/newpost', (req, res) => {
-    res.end('To be implemented');
+  // Destructuring the required fields from the request body
+  const { post_content, user_id } = req.body;
+
+  // query the data
+  const query = `
+      INSERT INTO Post (post_content, post_time, num_likes, num_comments, user_id)
+      VALUES (?, NOW(), 0, 0, ?)
+  `;
+  //get data from frontend
+  const queryParams = [post_content, user_id];
+
+  // execute the query by subbing the data into ?
+  connection.query(query, queryParams, (error, results) => {
+      if (error) {
+          console.error('Error inserting new post:', error);
+          return res.status(500).json({ error: 'Internal Server Error' });
+      }
+
+      // Success
+      return res.status(201).json({
+          message: 'New post created successfully',
+          post: {
+              post_id: results.insertId,
+              post_content,
+              post_time: new Date(),  
+              num_likes: 0,
+              num_comments: 0,
+              user_id
+          }
+      });
+  });
 });
+
 
 // router.post('/search')
 
