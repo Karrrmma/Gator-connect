@@ -67,9 +67,53 @@ router.post('/login', (req, res) => {
     });
 
 
-router.post('/newpost', (req, res) => {
+/*   router.post('/newpost', (req, res) => {
     res.end('To be implemented');
 });
+
+*/
+
+
+router.post('/newpost', (req, res) => {
+  // Destructuring the required fields from the request body
+  const { post_content, post_time, num_likes, num_comments, user_id } = req.body;
+  
+  // query the data
+  const query = `
+      INSERT INTO Posts (post_content, post_time, num_likes, num_comments, user_id)
+      VALUES (?, NOW(), 0, 0, ?)
+  `;
+  //get data from frontend
+  const queryParams = [post_content, user_id];
+
+  // execute the query by subbing the data into ?
+  connection.query(query, queryParams, (error, results) => {
+      if (error) {
+          console.error('Error inserting new post:', error);
+          return res.status(500).json({ error: 'Internal Server Error' });
+      }
+      
+      // Success
+      return res.status(201).json({
+          message: 'New post created successfully',
+          post: {
+              post_id: results.insertId,
+              post_content,
+              post_time: new Date(),  
+              num_likes: 0,
+              num_comments: 0,
+              user_id
+          }
+      });
+  });
+
+
+  
+});
+
+
+
+
 
 // router.post('/search')
 
