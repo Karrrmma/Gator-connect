@@ -1,5 +1,8 @@
 const express = require('express');
 const router = express.Router();
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+
 // const pool = require('../config/db.js');
 
 // Need to install CORS if we have our database in a diff link
@@ -36,11 +39,12 @@ router.get('/testpost', (req, res) => {
     }]
     res.end(JSON.stringify(str));
 });
+
 // log in user query 
 router.post('/login', (req, res) => {  
     const{username, password} = req.body;
-    const query = 'SELECT * FROM Account WHERE username = ? AND password = ?';
-    connection.query(query, [username, password], (err, results)=>{
+    const query = 'SELECT * FROM Account WHERE username = ?';
+    connection.query(query, [username], async (err, results)=>{
       // console.log(username, password)
       // console.log(results);
       // console.log(err);
@@ -51,21 +55,31 @@ router.post('/login', (req, res) => {
       if(results.length === 0){
         return res.status(401).json({error:'invalid username or password'});
       }
-        
+      const user = results[0];
+      console.log('hashed password from database', user.password);
+      console.log('client password', password);
       
-      else{
+
+      const hashCheck =  bcrypt.compare(password, user.password);
+      console.log('client password', hashCheck);
+      if(!hashCheck){
+        return res.status(401).json({error: 'invalid password'});
+      }
+    
+      const token = jwt.sign({username: user.username}, 
+        'token_key', {expiresIn:'1h'});
+        
         // send user a token
-        res.status(200).json({
-          message:'login success',
-          token: 'test'
-        });
+      res.status(200).json({
+        message:'login success',
+        token: token
+      });
         // res.redirect('/home')
 
-      }
+      
     });
     });
-
-
+   
 // router.post('/newpost', (req, res) => {
 //     res.end('To be implemented');
 // });
@@ -155,7 +169,9 @@ function addUser(sfsu_email, username, password, fullName, major, year, callback
 
   router.post('/register', (req, res) => {
     const { fullname, sfsu_email, username, password, major, year } = req.body;
-  
+    const salt = bcrypt.genSaltSync(10);
+    const hash = bcrypt.hashSync(password, salt)
+
     const studentQuery = 'INSERT INTO Student(user_id, major, year) VALUES(?, ?, ?)';
     const accountQuery = 'INSERT INTO Account(username, password, user_id) VALUES(?,?,?)';
     const userQuery = 'INSERT INTO User (full_name, sfsu_email) VALUES (?, ?)';
@@ -164,7 +180,7 @@ function addUser(sfsu_email, username, password, fullName, major, year, callback
         console.error('Error inserting user:', userErr);
         return res.status(500).json({ error: 'Failed to insert user' });
       }
-        connection.query(accountQuery, [username, password, userResult.insertId], (accountErr, accountResult) => {
+        connection.query(accountQuery, [username, hash, userResult.insertId], (accountErr, accountResult) => {
           if (accountErr) {
             console.error('Error inserting account:', accountErr);
             return res.status(500).json({ error: 'Failed to insert account' });
