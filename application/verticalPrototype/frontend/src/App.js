@@ -1,15 +1,21 @@
 import './App.css';
-// refactor into folders later
 import Nav from './components/Nav';  
 import Notification from './components/Notification';
-import Post from './components/Post'; // placeholder
+import Post from './components/Post';
 import { Explore, Profile, Chat, Login, Register, Start } from './pages';
+// -------------------------------------------------------------------------
+// Route for directing foodvendor, transportation and event
+// If there is another way to optimize the route, please edit it !!
+import FoodVendor from './pages/Explore/FoodVendor/FoodVendor';
+import Transportation from './pages/Explore/Transportation/Transportation';
+import Event from './pages/Explore/Event/Event';
+// --------------------------------------------------------------------------
 import useToken from './hooks/useToken';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 function App() {
-  const {token, setToken} = useToken();
-  
+  const { token, setToken } = useToken();
+
   if (!token) {
     return (
       <div className="App">
@@ -30,14 +36,14 @@ function App() {
         <header className="App-header">
           <Nav />
           <Routes>
-            <Route path="/home" element={<Post />}/>
-            <Route path="/notification" element={<Notification />}/>
-            <Route path="/explore" element={<Explore />} />
+            <Route path="/home" element={<Post />} />
+            <Route path="/notification" element={<Notification />} />
+            <Route path="/explore" element={<Explore />} /> 
+              <Route path="/explore/foodvendor" element={<FoodVendor />} /> 
+              <Route path="/explore/transportation" element={<Transportation />} /> 
+              <Route path="/explore/event" element={<Event />} /> 
             <Route path="/profile" element={<Profile />} />
             <Route path="/chat" element={<Chat />} />
-            
-            {/* <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<SignUp />} /> */}
           </Routes>
         </header>
       </div>
@@ -46,3 +52,7 @@ function App() {
 }
 
 export default App;
+
+
+
+
