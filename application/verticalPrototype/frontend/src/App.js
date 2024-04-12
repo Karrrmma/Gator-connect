@@ -9,6 +9,10 @@ import { Explore, Profile, Chat, Login, Register, Start } from './pages';
 import FoodVendor from './pages/Explore/FoodVendor/FoodVendor';
 import Transportation from './pages/Explore/Transportation/Transportation';
 import Event from './pages/Explore/Event/Event';
+import VendorDetail from './pages/Explore/FoodVendor/VendorDetail'; // This will be the component for vendor details
+
+
+
 // --------------------------------------------------------------------------
 import useToken from './hooks/useToken';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
@@ -39,7 +43,8 @@ function App() {
             <Route path="/home" element={<Post />} />
             <Route path="/notification" element={<Notification />} />
             <Route path="/explore" element={<Explore />} /> 
-              <Route path="/explore/foodvendor" element={<FoodVendor />} /> 
+              <Route path="/explore/foodVendor" element={<FoodVendor />} /> 
+                <Route path="/explore/foodVendor/:name" element={<VendorDetail />} />  
               <Route path="/explore/transportation" element={<Transportation />} /> 
               <Route path="/explore/event" element={<Event />} /> 
             <Route path="/profile" element={<Profile />} />
