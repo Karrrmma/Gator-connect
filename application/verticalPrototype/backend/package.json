@@ -6,7 +6,8 @@
   "scripts": {
     "server": "nodemon index.js",
     "client": "npm run start --prefix ../frontend",
-    "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\""
+    "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\"",
+    "prod": "concurrently --kill-others-on-fail \"node index.js\" \"npm run client\""
   },
   "keywords": [],
   "author": "",

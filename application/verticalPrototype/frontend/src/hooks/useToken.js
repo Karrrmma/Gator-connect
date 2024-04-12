@@ -11,7 +11,7 @@ export default function useToken() {
 
     // localStorage if you want to persist the token after the user closes the tab
     const saveToken = userToken => {
-        sessionStorage.setItem('token', JSON.stringify(userToken)); 
+        sessionStorage.setItem('token', JSON.stringify(userToken.token)); 
         setToken(userToken.token);
     };
 
