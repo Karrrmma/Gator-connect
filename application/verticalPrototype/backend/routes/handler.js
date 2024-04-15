@@ -27,8 +27,21 @@ const connection = mysql.createConnection({
   
   
   
+router.get('/chat', (req ,res) => {
+/*   console.log("das ist ein Test")
+ */
+  const test = 'SELECT * FROM Account';
+  connection.query(test, async (err, results)=>{
+    if (err) {
+      console.error('Error fetching data from database:', err);
+      res.status(500).json({ error: 'Internal Server Error' });
+      return;
+    }
+    res.send(JSON.stringify(results))
+  });
+})
 
-
+  
 
 
 // TODO: make this communiate with database and grab a post

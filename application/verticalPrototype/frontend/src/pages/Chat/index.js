@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-
 import Gru from '../../assets/images/gru.jpg';
 import Vector from '../../assets/images/vector.jpg';
 import Placeholder from '../../assets/images/placeholder_pfp.png';
@@ -9,6 +8,17 @@ import Placeholder from '../../assets/images/placeholder_pfp.png';
 
 
 const Chat = () => {
+/*   fetch('/chat', {
+    method: 'GET',
+    headers: {
+        'Content-Type': 'application/json',
+    }, */
+    fetch('/chat')
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(data)
+    })
+
 
 
     return (
