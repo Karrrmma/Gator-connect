@@ -49,6 +49,7 @@ function UserCard({ username, major }) {
 function Post() {
     const [items, setItems] = useState([]);
     const [searchQuery, setSearchQuery] = useState({});
+    const [noUsersFound, setNoUsersFound] = useState(false);
 
     // calls fetchItems when component mounts
     useEffect(() => {
@@ -75,11 +76,16 @@ function Post() {
             options = {};
             // console.log("fetching test post INSTEAD");
         }
-    
+        
         const response = await fetch(url, options);
         const newItems = await response.json();
-        // console.log(newItems);
-    
+        
+        if (!newItems.results || newItems.results.length === 0) {
+            setNoUsersFound(true);
+        } else {
+            setNoUsersFound(false);
+        }
+        
         if (url === '/search') {
             setItems(newItems.results);
         } else {
@@ -91,14 +97,17 @@ function Post() {
         <>            
             <SearchBar onSearch={setSearchQuery} />
             {Object.values(searchQuery).some(value => value) ? (
-                <section class="w-50">
-                    {items.map((item, index) => {
-                        if (item) {
-                            return <UserCard key={index} username={item.username} major={item.major} />;
-                        }
-                        return null;
-                    })}
-                </section>
+                <>
+                    {noUsersFound ? <p>No users found.</p> : null}
+                    <section class="w-50">
+                        {items.map((item, index) => {
+                            if (item) {
+                                return <UserCard key={index} username={item.username} major={item.major} />;
+                            }
+                            return null;
+                        })}
+                    </section>
+                </>
             ) : (
                 <section class="w-50">
                     {items.map((item, index) => <PostCard key={index} item={item} avatar={Logo} />)}

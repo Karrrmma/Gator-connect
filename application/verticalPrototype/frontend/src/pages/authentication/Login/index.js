@@ -71,21 +71,21 @@ function Login({ setToken }) {
 
     return (
         <div className="login-wrapper">
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} onChange={handleChange}>
                 <h1>Login</h1>
                 <label>
                     <p>Username</p>
-                    <input name="username" type="text" onChange={handleChange} />
+                    <input name="username" type="text" />
                     {errors.username && <span className='text-danger'> {errors.username}</span>}
                 </label>
                 <label>
                     <p>Password</p>
-                    <input name="password" type="password" onChange={handleChange} />
+                    <input name="password" type="password" />
                     {errors.password && <span className='text-danger'> {errors.password}</span>}
                 </label>
                 <div>
                     <Link to='/register'>
-                        <button type="submit" style={{ marginRight: '10px' }}>Create New Account</button>
+                        <button type="button" style={{ marginRight: '10px' }}>Create New Account</button>
                     </Link>
                     <button type="submit">Login</button>
                 </div>

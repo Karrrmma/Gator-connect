@@ -251,9 +251,25 @@ router.post('/search', (req, res) => {
   });
 });
 
+// Get user info by ID
 
+router.get('/api/user/:user_id', (req, res) => {
+  const { user_id } = req.params;
 
+  const query = 'SELECT major, year FROM Student WHERE user_id = ?';
 
-  
+  connection.query(query, [user_id], (error, results) => {
+      if (error) {
+          console.error('Error fetching student:', error);
+          return res.status(500).json({ error: 'Failed to fetch student' });
+      }
+
+      if (results.length === 0) {
+          return res.status(404).json({ error: 'Student not found' });
+      }
+
+      res.status(200).json(results[0]);
+  });
+});  
 
 module.exports = router;

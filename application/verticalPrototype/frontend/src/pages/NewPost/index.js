@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from '../../hooks/useForm';
 import { getCurrentUserId } from '../../utils/decodeData';
 
 function NewPost() {
+    const [confirmation, setConfirmation] = useState('');
+
     const userId = getCurrentUserId();
     const [post, handleChange] = useForm({
         post_content: '',
@@ -26,6 +28,12 @@ function NewPost() {
 
         const data = await response.json();
         console.log(data);
+
+        if (response.ok) {
+            setConfirmation('New post has been successfully created!');
+        } else {
+            setConfirmation('Failed to create new post.');
+        }
     };
 
     return (
@@ -37,6 +45,7 @@ function NewPost() {
                 </div>
                 <button type="submit" className="btn btn-primary">Submit</button>
             </form>
+            {confirmation && <p>{confirmation}</p>}
         </div>
     );
 }

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 import validateFields from '../validateFields';
 import '../auth.css';
+import { MAJORS } from '../../../constants/majors';
 
 // TODO: STILL NEED TO COMPLETELY IMPLEMENT THIS PAGE
 function Register() {
@@ -19,9 +20,11 @@ function Register() {
 
     const [role, setRole] = useState('');
 
+    const [tosAccepted, setTosAccepted] = useState(false);
+
     // Spread values object, then update the value of the key that was changed
     const handleChange = (event) => {
-        const {name, value} = event.target;
+        const {name, value, type} = event.target;
         setUser({
             ...values,
             [name]: value
@@ -29,6 +32,10 @@ function Register() {
 
         if (name === 'role') {
             setRole(value);
+        }
+
+        if (type === 'checkbox') {
+            setTosAccepted(!tosAccepted);
         }
     }
     
@@ -38,6 +45,10 @@ function Register() {
         console.log(values);
         const err = validateFields(values);
         setErrors(err);
+
+        if(!tosAccepted) {
+            setErrors({...err, tos: 'You must accept the Terms of Service'});
+        }
 
         // if (Object.keys(err).length === 0) { // if no errors, send data to server
         //     const res = await fetch('/register', {
@@ -152,11 +163,7 @@ function Register() {
                         <div className="form-group">
                             <select className="form-control" name="major" onChange={handleChange}>
                                 <option>Select major</option>
-                                <option>Accounting</option>
-                                <option>Business</option>
-                                <option>Computer Science</option>
-                                <option>Economics</option>
-                                <option>Mathematics</option>
+                                {MAJORS.map(major => <option key={major} value={major}>{major}</option>)}
                             </select>
                             {errors.major && <span className='text-danger'> {errors.major}</span>}
                         </div>
@@ -171,9 +178,14 @@ function Register() {
                                 {errors.year && <span className='text-danger'> {errors.year}</span>}
                             </div>
                         )}
+                        <div className="form-group form-check">
+                            <input type="checkbox" id="tosCheck" onChange={handleChange} />
+                            <label className="form-check-label" htmlFor="tosCheck">I agree to the Terms of Service</label>
+                            {errors.tos && <span className='text-danger'> {errors.tos}</span>}
+                        </div>
                         <div className="row ml-auto">
                             <div className="col">
-                                <Link to="/login" className="btn btn-lg btn-primary btn-block">Login</Link>
+                                <Link to="/login" type="button" className="btn btn-lg btn-primary btn-block">Login</Link>
                             </div>
                             <div className="col">
                                 <button type="submit" className="btn btn-lg btn-primary btn-block">Register</button>
