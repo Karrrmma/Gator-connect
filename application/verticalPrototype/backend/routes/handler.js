@@ -232,9 +232,54 @@ router.post('/search', (req, res) => {
   });
 });
 
+// *******************************************************************************************************************
+// VENDOR DETAIL 
+// Insert the data in the Food Vendor from Backend (VendorDetail.js)
+router.post('/vendordetail', (req, res) => 
+{
+  const { menu_rating, menu_review, resource_id, vendor_name, menu_name } = req.body;
+  const query = 
+  `
+    INSERT INTO \`Food Vendor\` (menu_rating, menu_review, resource_id, vendor_name, menu_name)
+    VALUES (?, ?, ?, ?, ?)
+  `;
 
+  connection.query(query, [menu_rating, menu_review, resource_id, vendor_name, menu_name], (error, results) => 
+  {
+      if (error) 
+      {
+          console.error('Error inserting menu item:', error);
+          res.status(500).json({ error: 'Internal Server Error' });
+      } else 
+      {
+          res.status(201).json({ message: 'Menu item added successfully', id: results.insertId });
+      }
+  });
+});
 
+router.get('/vendordetail/:vendor_name', (req, res) => {
+  const { vendor_name } = req.params;
 
-  
+  const query = `
+    SELECT menu_name, menu_rating, menu_review
+    FROM \`Food Vendor\`
+    WHERE vendor_name = ?
+  `;
+
+  connection.query(query, [vendor_name], (error, results) => {
+      if (error) {
+          console.error('Error fetching menu items:', error);
+          res.status(500).json({ error: 'Internal Server Error' });
+      } else {
+          if (results.length > 0) {
+              res.status(200).json(results);
+          } else {
+              res.status(404).json({ message: 'No menu items found for this vendor.' });
+          }
+      }
+  });
+});
+
+// *******************************************************************************************************************
 
 module.exports = router;
