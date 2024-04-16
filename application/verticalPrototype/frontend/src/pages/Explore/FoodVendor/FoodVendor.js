@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './FoodVendor.css';
 import { useNavigate } from 'react-router-dom';
 
@@ -23,28 +23,56 @@ import vendorImage18 from './vendor18.jpg';
 import vendorImage19 from './vendor19.jpg';
 
 function FoodVendor() {
-  const [items] = useState([
-    { imageUrl: vendorImage1, name: "Cafe 101", rating: "4.5" },
-    { imageUrl: vendorImage2, name: "Cafe Rosso", rating: "4.5" },
-    { imageUrl: vendorImage3, name: "City Cafe", rating: "4.5" },
-    { imageUrl: vendorImage4, name: "Clean Bites", rating: "4.5" },
-    { imageUrl: vendorImage5, name: "Farm Fresh Underground", rating: "4.5" },
-    { imageUrl: vendorImage6, name: "Gold Coast Grill & Catering", rating: "4.5" },
-    { imageUrl: vendorImage7, name: "Good to Go", rating: "4.5" },
-    { imageUrl: vendorImage8, name: "HSS 121 Cafe", rating: "4.5" },
-    { imageUrl: vendorImage9, name: "Village Market & Pizza", rating: "4.5" },
-    { imageUrl: vendorImage10, name: "Natural Sensations", rating: "4.5" },
-    { imageUrl: vendorImage11, name: "Nizario's Pizza", rating: "4.5" },
-    { imageUrl: vendorImage12, name: "Peet's Coffee & Tea", rating: "4.5" },
-    { imageUrl: vendorImage13, name: "Quickly", rating: "4.5" },
-    { imageUrl: vendorImage14, name: "Halal Shop", rating: "4.5" },
-    { imageUrl: vendorImage15, name: "Station Cafe", rating: "4.5" },
-    { imageUrl: vendorImage16, name: "Subway", rating: "4.5" },
-    { imageUrl: vendorImage17, name: "Taqueria Girasol", rating: "4.5" },
-    { imageUrl: vendorImage18, name: "Taza Smoothies & Wraps", rating: "4.5" },
-    { imageUrl: vendorImage19, name: "The Pub at SFSU", rating: "4.5" }
-  ]);
   const navigate = useNavigate();
+  const initialVendorsRef = useRef([
+    { name: "Cafe 101", imageUrl: vendorImage1 },
+    { name: "Cafe Rosso", imageUrl: vendorImage2 },
+    { name: "City Cafe", imageUrl: vendorImage3 },
+    { name: "Clean Bites", imageUrl: vendorImage4 },
+    { name: "Farm Fresh Underground", imageUrl: vendorImage5 },
+    { name: "Gold Coast Grill & Catering", imageUrl: vendorImage6 },
+    { name: "Good to Go", imageUrl: vendorImage7 },
+    { name: "HSS 121 Cafe", imageUrl: vendorImage8 },
+    { name: "Village Market & Pizza", imageUrl: vendorImage9 },
+    { name: "Natural Sensations", imageUrl: vendorImage10 },
+    { name: "Nizario's Pizza", imageUrl: vendorImage11 },
+    { name: "Peet's Coffee & Tea", imageUrl: vendorImage12 },
+    { name: "Quickly", imageUrl: vendorImage13 },
+    { name: "Halal Shop", imageUrl: vendorImage14 },
+    { name: "Station Cafe", imageUrl: vendorImage15 },
+    { name: "Subway", imageUrl: vendorImage16 },
+    { name: "Taqueria Girasol", imageUrl: vendorImage17 },
+    { name: "Taza Smoothies & Wraps", imageUrl: vendorImage18 },
+    { name: "The Pub at SFSU", imageUrl: vendorImage19 }
+  ].map(vendor => ({ ...vendor, average_rating: 0 })));  // default average rate as 0.0
+
+  const [vendors, setVendors] = useState(initialVendorsRef.current);
+
+  useEffect(() => {
+    async function fetchVendors() {
+      try {
+        const response = await fetch('/vendor-average-ratings');
+        const data = await response.json();
+        if (response.ok) {
+          const fetchedRatings = data.reduce((acc, item) => {
+            acc[item.vendor_name] = item.average_rating;
+            return acc;
+          }, {});
+          const updatedVendors = initialVendorsRef.current.map(vendor => ({
+            ...vendor,
+            average_rating: fetchedRatings[vendor.name] || 0
+          }));
+          setVendors(updatedVendors);
+        } else {
+          throw new Error(data.message);
+        }
+      } catch (error) {
+        console.error('Fetch Error:', error);
+      }
+    }
+
+    fetchVendors();
+  }, []); 
 
   const handleImageClick = (name) => {
     const formattedName = encodeURIComponent(name.replace(/\s+/g, '-'));
@@ -55,12 +83,12 @@ function FoodVendor() {
     <div>
       <h1>Food Vendors</h1>
       <div className="grid-container">
-        {items.map((item, index) => (
-          <div className="grid-item" key={index} onClick={() => handleImageClick(item.name)}>
-            <img src={item.imageUrl} alt={`Vendor ${item.name}`} style={{ width: '250px', height: '250px' }} />
+        {vendors.map((vendor, index) => (
+          <div className="grid-item" key={index} onClick={() => handleImageClick(vendor.name)}>
+            <img src={vendor.imageUrl} alt={`Vendor ${vendor.name}`} style={{ width: '250px', height: '250px' }} />
             <div className="vendor-info">
-              <h3>{item.name}</h3>
-              <p>Rating: {item.rating}</p>
+              <h3>{vendor.name}</h3>
+              <p>Rating: {vendor.average_rating.toFixed(1)}</p>
             </div>
           </div>
         ))}
@@ -70,3 +98,4 @@ function FoodVendor() {
 }
 
 export default FoodVendor;
+

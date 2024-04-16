@@ -281,5 +281,23 @@ router.get('/vendordetail/:vendor_name', (req, res) => {
 });
 
 // *******************************************************************************************************************
+// FoodVendor Average Rating
+router.get('/vendor-average-ratings', (req, res) => {
+  const query = `
+    SELECT vendor_name, AVG(menu_rating) as average_rating
+    FROM \`Food Vendor\`
+    GROUP BY vendor_name
+  `;
+
+  connection.query(query, (error, results) => {
+      if (error) {
+          console.error('Error fetching average ratings:', error);
+          res.status(500).json({ error: 'Internal Server Error' });
+      } else {
+          res.status(200).json(results);
+      }
+  });
+});
+
 
 module.exports = router;
