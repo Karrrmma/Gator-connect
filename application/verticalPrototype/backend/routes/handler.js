@@ -39,32 +39,33 @@ router.get('/testpost', (req, res) => {
 // log in user query 
 
 router.post('/login', (req, res) => {  
-    const{username, password} = req.body;
-    const query = 'SELECT * FROM Account WHERE username = ? AND password = ?';
-    connection.query(query, [username, password], (err, results)=>{
-      // console.log(username, password)
-      // console.log(results);
-      // console.log(err);
-      if(err){
-        console.error('Erro getting the username and password', err);
-        return res.status(500).json({ error: 'Internal Server Error' });;
-      }
-      if(results.length === 0){
-        return res.status(401).json({error:'invalid username or password'});
-      }
-        
+  const{username, password} = req.body;
+  const query = 'SELECT * FROM Account WHERE username = ? AND password = ?';
+  connection.query(query, [username, password], (err, results)=>{
+    // console.log(username, password)
+    // console.log(results);
+    // console.log(err);
+    if(err){
+      console.error('Erro getting the username and password', err);
+      return res.status(500).json({ error: 'Internal Server Error' });;
+    }
+    if(results.length === 0){
+      return res.status(401).json({error:'invalid username or password'});
+    }
       
-      else{
-        // send user a token
-        res.status(200).json({
-          message:'login success',
-          token: 'test'
-        });
-        // res.redirect('/home')
+    
+    else{
+      // send user a token
+      res.status(200).json({
+        message:'login success',
+        token: 'test'
+      });
+      // res.redirect('/home')
 
-      }
-    });
-    });
+    }
+  });
+  });
+
 
 
 /*   router.post('/newpost', (req, res) => {
@@ -235,23 +236,18 @@ router.post('/search', (req, res) => {
 // *******************************************************************************************************************
 // VENDOR DETAIL 
 // Insert the data in the Food Vendor from Backend (VendorDetail.js)
-router.post('/vendordetail', (req, res) => 
-{
-  const { menu_rating, menu_review, resource_id, vendor_name, menu_name } = req.body;
-  const query = 
-  `
-    INSERT INTO \`Food Vendor\` (menu_rating, menu_review, resource_id, vendor_name, menu_name)
-    VALUES (?, ?, ?, ?, ?)
-  `;
+router.post('/vendordetail', (req, res) => {
+  const { menu_rating, menu_review, vendor_name, menu_name, user_id } = req.body;
+  const query = `
+      INSERT INTO Food_Vendor (menu_rating, menu_review, vendor_name, menu_name, user_id)
+      VALUES (?, ?, ?, ?, ?)
+  `;  // Make sure the query reflects the correct number of placeholders
 
-  connection.query(query, [menu_rating, menu_review, resource_id, vendor_name, menu_name], (error, results) => 
-  {
-      if (error) 
-      {
+  connection.query(query, [menu_rating, menu_review, vendor_name, menu_name, user_id], (error, results) => {
+      if (error) {
           console.error('Error inserting menu item:', error);
           res.status(500).json({ error: 'Internal Server Error' });
-      } else 
-      {
+      } else {
           res.status(201).json({ message: 'Menu item added successfully', id: results.insertId });
       }
   });
@@ -262,7 +258,7 @@ router.get('/vendordetail/:vendor_name', (req, res) => {
 
   const query = `
     SELECT menu_name, menu_rating, menu_review
-    FROM \`Food Vendor\`
+    FROM Food_Vendor
     WHERE vendor_name = ?
   `;
 
@@ -285,7 +281,7 @@ router.get('/vendordetail/:vendor_name', (req, res) => {
 router.get('/vendor-average-ratings', (req, res) => {
   const query = `
     SELECT vendor_name, AVG(menu_rating) as average_rating
-    FROM \`Food Vendor\`
+    FROM Food_Vendor
     GROUP BY vendor_name
   `;
 

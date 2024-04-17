@@ -36,7 +36,7 @@ function VendorDetail() {
             menu_name: menuName,
             menu_rating: menuRating,
             menu_review: menuReview,
-            resource_id: 'Food Vendor'
+            user_id: 1 // *********** hardcoded ** cannot use token so far **
         };
 
         try {

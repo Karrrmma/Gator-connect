@@ -81,14 +81,13 @@ function FoodVendor() {
 
   return (
     <div>
-      <h1>Food Vendors</h1>
       <div className="grid-container">
         {vendors.map((vendor, index) => (
           <div className="grid-item" key={index} onClick={() => handleImageClick(vendor.name)}>
-            <img src={vendor.imageUrl} alt={`Vendor ${vendor.name}`} style={{ width: '250px', height: '250px' }} />
+            <img src={vendor.imageUrl} alt={`Vendor ${vendor.name}`} style={{ width: '220px', height: '137px' }} />
             <div className="vendor-info">
               <h3>{vendor.name}</h3>
-              <p>Rating: {vendor.average_rating.toFixed(1)}</p>
+              <p>{vendor.average_rating.toFixed(1)} ratings</p>
             </div>
           </div>
         ))}
