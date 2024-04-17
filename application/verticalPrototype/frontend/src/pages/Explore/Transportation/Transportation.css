@@ -4,7 +4,16 @@
   margin: 0 auto;
   padding: 20px;
   margin-left: 300px;
-  
+  }
+
+  .route-container h1{
+    margin-right: 320px;
+    margin-bottom: 0px;
+  }
+
+  .route-container h4{
+    margin-bottom: 50px;
+    margin-right: 320px;
   }
 
   .filter-bar{ 
