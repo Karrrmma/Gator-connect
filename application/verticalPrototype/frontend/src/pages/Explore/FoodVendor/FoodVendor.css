@@ -1,11 +1,56 @@
-.grid-container {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);  /* Three columns as specified */
-  gap: 25px; 
-  padding: 10px; 
-  box-sizing: border-box;
-  margin-left: 570px;  /* Adjust this value as needed to move the grid to the right */
+.content-wrapper {
+  display: flex;
+  margin: 25px;
+
 }
+
+.food-vendors-page {
+  border-style: solid;
+  border-width: 1px;
+  border-color: #007BFF;
+  width: 500px;
+  height: 500px;
+
+}
+
+.button-and-name {
+  display: flex;
+}
+
+.go-back-button {
+  margin-left: 20px;
+  border-radius: 18px;
+  height: 40px; 
+  font-size: 16px; 
+  padding: 5px 10px; 
+  border: none;
+  background-color: gray; 
+  color: white; 
+  cursor: pointer; 
+  outline: none; 
+  transition: background-color 0.3s ease;
+  margin-top: 10px;
+}
+
+.go-back-button:hover {
+  background-color: #AD45FF; 
+}
+.search-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.grid-container {
+  border-style: solid;
+  border-width: 1px;
+  border-color: #007BFF;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 25px;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
 
 .grid-item {
   background-color: black;
@@ -16,10 +61,10 @@
   border-radius: 30px;
   cursor: pointer; 
   transition: transform 0.3s ease, box-shadow 0.3s ease; 
-  margin-top: 46px;
   width: 250px;
   height: 310px;
   padding-left: 14px;
+  margin-bottom: 47px;
 }
 
 .grid-item:hover {

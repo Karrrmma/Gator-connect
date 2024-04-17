@@ -161,8 +161,32 @@ function FoodVendor() {
     navigate(`/explore/foodvendor/${formattedName}`);
   };
 
+  const handleBack = () => {
+    navigate('/explore');
+  };
+
   return (
-    <div>
+    <div className="content-wrapper">
+
+      <div className="food-vendors-page">
+        <div className="button-and-name">
+          <h1>FOOD VENDORS</h1>
+          <button onClick={handleBack} className="go-back-button">Go Back</button>
+
+        </div>  
+          <p className="description">Here are the all the eating stuff in SFSU</p>
+          <div className="search-container">
+            <input type="text" placeholder="SEARCH FOODS..." className="search-bar" />
+            <input type="text" placeholder="SEARCH FOODS..." className="search-bar" />
+            <input type="text" placeholder="SEARCH FOODS..." className="search-bar" />
+            <input type="text" placeholder="SEARCH FOODS..." className="search-bar" />
+            <input type="text" placeholder="SEARCH FOODS..." className="search-bar" />
+          </div>
+      
+
+
+      </div>
+
       <div className="grid-container">
         {vendors.map((vendor, index) => (
           <div className="grid-item" key={index} onClick={() => handleImageClick(vendor.name)}>
@@ -186,9 +210,13 @@ function FoodVendor() {
               </p>
             </div>
           </div>
-        ))}
+          ))}
+
+        </div>
       </div>
-    </div>
+   
+
+
   );
 }
 
