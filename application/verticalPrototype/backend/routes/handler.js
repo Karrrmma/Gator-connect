@@ -280,7 +280,7 @@ router.get('/vendordetail/:vendor_name', (req, res) => {
 // FoodVendor Average Rating
 router.get('/vendor-average-ratings', (req, res) => {
   const query = `
-    SELECT vendor_name, AVG(menu_rating) as average_rating
+    SELECT vendor_name, AVG(menu_rating) as average_rating, COUNT(menu_rating) as num_reviews
     FROM Food_Vendor
     GROUP BY vendor_name
   `;
