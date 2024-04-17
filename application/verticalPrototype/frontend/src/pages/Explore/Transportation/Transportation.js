@@ -14,6 +14,12 @@ import route_M from './route_M.jpg';
 function Transportation() {
   const [showRouteMap, setShowRouteMap] = useState(false);
   const [selectedRoute, setSelectedRoute] = useState(null);
+  const [filters, setFilters] = useState({
+    type: '',
+    accessibility: false,
+    midnight: false,
+    direction: '',
+  });
   const navigate = useNavigate();
 
   const routes = [
@@ -21,105 +27,195 @@ function Transportation() {
       name: "Route 28", 
       type: "Muni",
       image: route_28,
-      accessibility: "Wheelchair accessible",
-      hours: "Monday-Friday Service: 05:00am - 12:50am",
-      pickUpLocation: "Off of 19th st, near Station Cafe",
-      additionalInfo: "Route 28 serves downtown and the surrounding areas."
+      accessibility: true,
+      hours: "Monday-Friday, 5am - 12:50am",
+      pickUpLocation: "Main Campus Entrance, 19th St",
+      additionalInfo: "Route 28 serves downtown and the surrounding areas.",
+      midnight: false,
+      direction: "Golden Gate Park"
     },
     { 
       name: "Route 28R", 
       type: "Muni",
       image: route_28R,
-      accessibility: "Wheelchair accessible",
+      accessibility: true,
       hours: "Monday - Friday, 5am - 12:50am",
-      pickUpLocation: "East campus bus stop",
-      additionalInfo: "Route 28R is an express route with limited stops."
+      pickUpLocation: "Main Campus Entrance, 19th St",
+      additionalInfo: "Route 28R is an express route with limited stops.",
+      midnight: false,
+      direction: "Golden Gate Park"
     },
     { 
       name: "Route 29", 
       type: "Muni",
       image: route_29,
-      accessibility: "Wheelchair accessible",
+      accessibility: true,
       hours: "Monday - Friday, 5am - 12:50am",
-      pickUpLocation: "East campus bus stop",
-      additionalInfo: "Route 29 runs through Sunset District."
+      pickUpLocation: "Main Campus Entrance, 19th St",
+      additionalInfo: "Route 29 runs through Sunset District.",
+      midnight: false,
+      direction: "Sunset"
     },
     { 
       name: "Route 57", 
       type: "Muni",
       image: route_57,
-      accessibility: "Wheelchair accessible",
+      accessibility: true,
       hours: "Monday - Friday, 5am - 12:50am",
-      pickUpLocation: "South campus bus stop",
-      additionalInfo: "Route 57 will run through parkmerced and take you to bart."
+      pickUpLocation: "South Campus, near Mashouf",
+      additionalInfo: "Route 57 will run through parkmerced and take you to bart.",
+      midnight: false,
+      direction: "Lake Merced"
     },
     { 
       name: "Route 91 OWL", 
       type: "Muni",
       image: route_91,
-      accessibility: "Wheelchair accessible",
+      accessibility: true,
       hours: "Monday - Friday, 12am - 6am",
-      pickUpLocation: "South campus bus stop",
-      additionalInfo: "Route 91 will run through the entirety of SF."
+      pickUpLocation: "South campus bus stop, near Mashouf",
+      additionalInfo: "Route 91 will run through the entirety of SF.",
+      midnight: true,
+      direction: "Downtown"
     },
     { 
       name: "Route M", 
       type: "Muni Metro",
       image: route_M,
-      accessibility: "Wheelchair accessible",
+      accessibility: true,
       hours: "Monday - Friday, 5am - 12:50am",
-      pickUpLocation: "Main Campus entrance",
-      additionalInfo: "Route M will run through Market st toward downtown."
+      pickUpLocation: "Main Campus Entrance, 19th St",
+      additionalInfo: "Route M will run through Market st toward downtown.",
+      midnight: false,
+      direction: "Downtown"
     },
     { 
       name: "Bay Area Rapid Transit - Day", 
       type: "Bart Lines",
       image: bart_map,
-      accessibility: "Wheelchair accessible",
+      accessibility: true,
       hours: "Monday - Sunday, 5am - 9pm",
       pickUpLocation: "Daly City Bart Station",
-      additionalInfo: "Bart will take you through the bay area, accesible via SFSU shuttle."
+      additionalInfo: "Bart will take you through the bay area, accesible via SFSU shuttle.",
+      midnight: false,
+      direction: "Leave SF"
     },
     { 
       name: "Bay Area Rapid Transit - Night", 
       type: "Bart Lines",
       image: bart_night,
-      accessibility: "Wheelchair accessible",
+      accessibility: true,
       hours: "Monday - Sunday, 9pm - 12am",
       pickUpLocation: "Daly City Bart Station",
-      additionalInfo: "Bart will take you through the bay area, accesible via SFSU shuttle."
+      additionalInfo: "Bart will take you through the bay area, accesible via SFSU shuttle.",
+      midnight: true,
+      direction: "Leave SF"
     },
     { 
       name: "SFSU Shuttle",
       type: "Shuttle",
       image: bart_map,
-      accessibility: "Wheelchair accessible",
+      accessibility: false,
       hours: "Monday - Friday, 7am - 6:30pm",
-      pickUpLocation: "Campus Main Entrance",
-      additionalInfo: "Shuttle will take you to Daly City Bart station."
+      pickUpLocation: "Main Campus Entrance, 19th St",
+      additionalInfo: "Shuttle will take you to Daly City Bart station.",
+      midnight: false,
+      direction: "Bart Station"
     },
   ];
+
+  const filteredRoutes = routes.filter(route => {
+    if (filters.type && route.type !== filters.type) return false;
+    if (filters.accessibility && !route.accessibility) return false;
+    if (filters.midnight && !route.midnight) return false;
+    if (filters.direction && route.direction !== filters.direction) return false;
+    return true;
+  });
 
   const handleClick = (route) => {
     setSelectedRoute(route);
     setShowRouteMap(true);
   }
 
+  const handleFilterChange = (filterName, value) => {
+    setFilters(prevFilters => ({
+      ...prevFilters,
+      [filterName]: value
+    }));
+  }
+
   return (
+
     <div className="route-container">
-      <h1>Transportation</h1>
+    <h1>Transportation</h1> 
+
+      <div className="filter-bar">
+          <h3>Filter</h3>      
+          <p>Refine your travel plans.</p>
+          <div className="search-container">
+
+          <div>
+        <select value={filters.type} onChange={(e) => handleFilterChange('type', e.target.value)}>
+          <option value="">Select Type</option>
+          <option value="Shuttle">Shuttle</option>
+          <option value="Muni">Muni</option>
+          <option value="Muni Metro">Muni Metro</option>
+          <option value="Bart Lines">Bart Lines</option>
+        </select>
+      </div>
+
+      <div>
+            <label>
+              <input 
+                type="checkbox" 
+                checked={filters.accessibility} 
+                onChange={(e) => handleFilterChange('accessibility', e.target.checked)} 
+              />
+              Wheelchair accessible:
+            </label>
+          </div>
+        
+            <div>
+        <label>
+          <input 
+            type="checkbox" 
+            checked={filters.midnight} 
+            onChange={(e) => handleFilterChange('midnight', e.target.checked)} 
+          />
+          Runs after midnight:
+        </label>
+      </div>
       
+      <div>
+        <select value={filters.direction} onChange={(e) => handleFilterChange('direction', e.target.value)}>
+          <option value="">Select Direction</option>
+          <option value="Bart Station">Bart Station</option>
+          <option value="Downtown">Downtown</option>
+          <option value="Leave SF">Leave SF</option>
+          <option value="Lake Merced">Lake Merced</option>
+          <option value="Sunset">Sunset</option>
+          <option value="Golden Gate Park">Golden Gate Park</option>
+          
+          
+        </select>
+      </div>
+          </div>
+      </div>
       
       <div className="route-grid">
-        {routes.map((route, index) => (
+        {filteredRoutes.length === 0 ? (
+          <p>Sorry, there are no available routes with those set preferences.</p>
+        ) : 
+          filteredRoutes.map((route, index) => (
           <div key={index} className="route-panel">
-            <h2>{route.name}</h2>
-            <h3>{route.type}</h3>
-            <p>Accessibility: {route.accessibility}</p>
+            <p>________________________________</p>
+            <p style ={{ color: '#AD45FF', fontSize: '20px', fontWeight: 'bold', margin:'5' }}>{route.name}</p>
+            <p style = {{ color: 'gray', fontSize: '14px', margin: '0', fontWeight: 'bold'}}>{route.type}</p>
+            <p>________________________________</p>
             <p>Hours: {route.hours}</p>
             <p>Pick-Up Location: {route.pickUpLocation}</p>
             <p>{route.additionalInfo}</p>
-            <button onClick={() => handleClick(route)}>View Route Map</button>
+            <button onClick={() => handleClick(route)}>View Route Map</button> 
           </div>
         ))}
       </div>
