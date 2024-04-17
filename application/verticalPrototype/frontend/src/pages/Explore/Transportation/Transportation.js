@@ -32,7 +32,7 @@ function Transportation() {
       pickUpLocation: "Main Campus Entrance, 19th St",
       additionalInfo: "Route 28 serves downtown and the surrounding areas.",
       midnight: false,
-      direction: "Golden Gate Park"
+      direction: ["Golden Gate Park", "Bart Station", "Golden Gate Bridge", "Marina", "Park Presidio", "Sunset"]
     },
     { 
       name: "Route 28R", 
@@ -43,7 +43,7 @@ function Transportation() {
       pickUpLocation: "Main Campus Entrance, 19th St",
       additionalInfo: "Route 28R is an express route with limited stops.",
       midnight: false,
-      direction: "Golden Gate Park"
+      direction: ["Golden Gate Park", "Bart Station", "Park Presidio", "Sunset"]
     },
     { 
       name: "Route 29", 
@@ -54,7 +54,7 @@ function Transportation() {
       pickUpLocation: "Main Campus Entrance, 19th St",
       additionalInfo: "Route 29 runs through Sunset District.",
       midnight: false,
-      direction: "Sunset"
+      direction: ["Golden Gate Park", "Sunset", "Park Presidio", "Bart Station", "Bayshore"]
     },
     { 
       name: "Route 57", 
@@ -65,7 +65,7 @@ function Transportation() {
       pickUpLocation: "South Campus, near Mashouf",
       additionalInfo: "Route 57 will run through parkmerced and take you to bart.",
       midnight: false,
-      direction: "Lake Merced"
+      direction: ["Lake Merced", "Fort Funston", "Bart Station", "West Portal"]
     },
     { 
       name: "Route 91 OWL", 
@@ -76,7 +76,7 @@ function Transportation() {
       pickUpLocation: "South campus bus stop, near Mashouf",
       additionalInfo: "Route 91 will run through the entirety of SF.",
       midnight: true,
-      direction: "Downtown"
+      direction: ["Golden Gate Park", "Bart Station", "Golden Gate Bridge", "Marina", "Park Presidio", "Downtown", "Bayshore", "West Portal"]
     },
     { 
       name: "Route M", 
@@ -87,7 +87,7 @@ function Transportation() {
       pickUpLocation: "Main Campus Entrance, 19th St",
       additionalInfo: "Route M will run through Market st toward downtown.",
       midnight: false,
-      direction: "Downtown"
+      direction: ["West Portal", "Bart Station", "Downtown"]
     },
     { 
       name: "Bay Area Rapid Transit - Day", 
@@ -108,7 +108,7 @@ function Transportation() {
       hours: "Monday - Sunday, 9pm - 12am",
       pickUpLocation: "Daly City Bart Station",
       additionalInfo: "Bart will take you through the bay area, accesible via SFSU shuttle.",
-      midnight: true,
+      midnight: false,
       direction: "Leave SF"
     },
     { 
@@ -128,7 +128,17 @@ function Transportation() {
     if (filters.type && route.type !== filters.type) return false;
     if (filters.accessibility && !route.accessibility) return false;
     if (filters.midnight && !route.midnight) return false;
-    if (filters.direction && route.direction !== filters.direction) return false;
+    // Filter by direction
+  if (filters.direction) {
+    // Check if route direction is an array
+    if (Array.isArray(route.direction)) {
+      // If it's an array, check if any of the stops match the selected direction
+      if (!route.direction.includes(filters.direction)) return false;
+    } else {
+      // If it's a string, directly compare with the selected direction
+      if (route.direction !== filters.direction) return false;
+    }
+  }
     return true;
   });
 
@@ -150,55 +160,61 @@ function Transportation() {
     <h1>Transportation</h1> 
 
       <div className="filter-bar">
-          <h3>Filter</h3>      
+          <p>________________</p>      
           <p>Refine your travel plans.</p>
+          
           <div className="search-container">
 
           <div>
         <select value={filters.type} onChange={(e) => handleFilterChange('type', e.target.value)}>
-          <option value="">Select Type</option>
+          <option value="">Select Transit Type</option>
           <option value="Shuttle">Shuttle</option>
           <option value="Muni">Muni</option>
           <option value="Muni Metro">Muni Metro</option>
           <option value="Bart Lines">Bart Lines</option>
         </select>
       </div>
-
-      <div>
-            <label>
-              <input 
-                type="checkbox" 
-                checked={filters.accessibility} 
-                onChange={(e) => handleFilterChange('accessibility', e.target.checked)} 
-              />
-              Wheelchair accessible:
-            </label>
-          </div>
-        
-            <div>
-        <label>
-          <input 
-            type="checkbox" 
-            checked={filters.midnight} 
-            onChange={(e) => handleFilterChange('midnight', e.target.checked)} 
-          />
-          Runs after midnight:
-        </label>
-      </div>
-      
       <div>
         <select value={filters.direction} onChange={(e) => handleFilterChange('direction', e.target.value)}>
-          <option value="">Select Direction</option>
+          <option value="">Select Destination</option>
           <option value="Bart Station">Bart Station</option>
           <option value="Downtown">Downtown</option>
           <option value="Leave SF">Leave SF</option>
           <option value="Lake Merced">Lake Merced</option>
           <option value="Sunset">Sunset</option>
           <option value="Golden Gate Park">Golden Gate Park</option>
-          
+          <option value="Marina">Marina</option>
+          <option value="Bayshore">Bayshore</option>
+          <option value="West Portal">West Portal</option>
+          <option value="Golden Gate Bridge">Golden Gate Bridge</option>
+          <option value="Park Presidio">Park Presidio</option>
+          <option value="Fort Funston">Fort Funston</option>
           
         </select>
       </div>
+
+      <div>
+            <label name ="accessible">
+              <input 
+                type="checkbox" 
+                checked={filters.accessibility} 
+                onChange={(e) => handleFilterChange('accessibility', e.target.checked)} 
+              />
+              Wheelchair accessible
+            </label>
+          </div>
+        
+            <div>
+        <label name = "midnight">
+          <input 
+            type="checkbox" 
+            checked={filters.midnight} 
+            onChange={(e) => handleFilterChange('midnight', e.target.checked)} 
+          />
+          Runs after midnight
+        </label>
+      </div>
+      <p>________________</p>   
           </div>
       </div>
       
