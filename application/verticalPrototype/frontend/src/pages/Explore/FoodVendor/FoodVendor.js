@@ -169,18 +169,54 @@ function FoodVendor() {
     <div className="content-wrapper">
 
       <div className="food-vendors-page">
+
         <div className="button-and-name">
           <h1>FOOD VENDORS</h1>
           <button onClick={handleBack} className="go-back-button">Go Back</button>
-
         </div>  
-          <p className="description">Here are the all the eating stuff in SFSU</p>
-          <div className="search-container">
-            <input type="text" placeholder="SEARCH FOODS..." className="search-bar" />
-            <input type="text" placeholder="SEARCH FOODS..." className="search-bar" />
-            <input type="text" placeholder="SEARCH FOODS..." className="search-bar" />
-            <input type="text" placeholder="SEARCH FOODS..." className="search-bar" />
-            <input type="text" placeholder="SEARCH FOODS..." className="search-bar" />
+          <p style={{ color: '#D3D3D3', fontSize: '14px', margin: '0', textAlign: 'left'}}>
+          Explore the diverse dining options available at San Francisco State University. Discover a world of flavors right here at SFSU with our selection of food vendors. From quick bites to fine dining, see what SFSU has to offer in terms of food and beverages. Browse through our comprehensive list of vendors.
+          </p>
+
+          <div className="food-search-container">
+            <input type="text" placeholder="SEARCH FOODS..." className="search-bar" 
+             style= {{ marginTop: '30px', width: '300px', height: '30px', borderRadius: '50px'}} />
+
+            <p style = {{marginTop: '20px', fontSize: '16px', fontWeight: 'bold'}}> DATE & TIME</p>
+            <select style= {{ marginTop: '10px', width: '300px', height: '30px', borderRadius: '50px'}}>
+              <option value="">OPEN HOURS</option>
+              <option value="">1</option>
+              <option value="">2</option>
+              <option value="">3</option>
+              <option value="">4</option>
+            </select>
+            <select style= {{ marginTop: '10px', width: '300px', height: '30px', borderRadius: '50px'}}>
+              <option value="">OPEN DATES</option>
+              <option value="">1</option>
+              <option value="">2</option>
+              <option value="">3</option>
+              <option value="">4</option>
+            </select>
+
+
+            <p style = {{marginTop: '20px', fontSize: '16px', fontWeight: 'bold'}}>SORT BY RATINGS</p>
+            <select style= {{ marginTop: '10px', width: '300px', height: '30px', borderRadius: '50px'}}>
+              <option value="">LEVEL RATINGS</option>
+              <option value="">1</option>
+              <option value="">2</option>
+              <option value="">3</option>
+              <option value="">4</option>
+            </select>
+            <select style= {{ marginTop: '10px', width: '300px', height: '30px', borderRadius: '50px'}}>
+              <option value="">ASCENDING / DESCENDING</option>
+              <option value="">1</option>
+              <option value="">2</option>
+              <option value="">3</option>
+              <option value="">4</option>
+            </select>
+
+            <button className="search-button">SEARCH</button>
+           
           </div>
       
 

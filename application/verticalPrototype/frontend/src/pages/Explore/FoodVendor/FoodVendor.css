@@ -1,16 +1,12 @@
 .content-wrapper {
   display: flex;
-  margin: 25px;
-
+  margin-top: 30px;
 }
 
 .food-vendors-page {
-  border-style: solid;
-  border-width: 1px;
-  border-color: #007BFF;
-  width: 500px;
-  height: 500px;
-
+  height: 200px;
+  width: 400px;
+  margin-right: 100px;
 }
 
 .button-and-name {
@@ -35,15 +31,31 @@
 .go-back-button:hover {
   background-color: #AD45FF; 
 }
-.search-container {
+
+.search-button {
+  border-radius: 50px;
+  width: 135px;
+  height: 40px;
+  margin-top: 50px;
+  background-color: #AD45FF;
+  font-weight: bold;
+  color: white;
+}
+
+
+
+.food-search-container {
   display: flex;
   flex-direction: column;
+  width: 400px;
+  height: 530px;
+  margin-top: 50px;
+  background-color: black;
+  border-radius: 28px;
+  align-items: center; 
 }
 
 .grid-container {
-  border-style: solid;
-  border-width: 1px;
-  border-color: #007BFF;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 25px;
