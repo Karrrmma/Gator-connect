@@ -135,53 +135,54 @@ function Register() {
         <div className="container">
             <div className="row">
                 <div className="col-md-6 mt-5 mx-auto">
-                    <form action="" onSubmit={handleSubmit}>
-                    <h1>Sign Up</h1>
+                    <form onSubmit={handleSubmit}>
+                    <h1 className="mb-5">Sign Up</h1>
+                    <div className="form-group">
+                        <input name="sfsu_email" placeholder="SFSU Email" className="form-control" onChange={handleChange} />
+                        <span className='text-danger'> {errors.email || '\u00A0'}</span>
+                    </div>
+                    <div className="form-group">
+                        <input name="username" className="form-control" placeholder="Username" onChange={handleChange} />
+                        <span className='text-danger'> {errors.username || '\u00A0'}</span>
+                    </div>
+                    <div className="form-group">
+                        <input name="password" className="form-control" placeholder="Password" onChange={handleChange} />
+                        <span className='text-danger'> {errors.password || '\u00A0'}</span>
+                    </div>
+                    <div className="form-group">
+                        <input name="fullname" className="form-control" placeholder="Full Name" onChange={handleChange} />
+                        <span className='text-danger'> {errors.fullname || '\u00A0'}</span>
+                    </div>
                         <div className="form-group">
-                            <input name="sfsu_email" placeholder="SFSU Email" className="form-control" onChange={handleChange} />
-                            {errors.email && <span className='text-danger'> {errors.email}</span>}
-                        </div>
-                        <div className="form-group">
-                            <input name="username" className="form-control" placeholder="Username" onChange={handleChange} />
-                            {errors.username && <span className='text-danger'> {errors.username}</span>}
-                        </div>
-                        <div className="form-group">
-                            <input name="password" className="form-control" placeholder="Password" onChange={handleChange}/>
-                            {errors.password && <span className='text-danger'> {errors.password}</span>}
-                        </div>
-                        <div className="form-group">
-                            <input name="fullname" className="form-control" placeholder="Full Name" onChange={handleChange}/>
-                            {errors.fullname && <span className='text-danger'> {errors.fullname}</span>}
-                        </div>
-                        <div className="form-group">
-                            <select className="form-control" name="role" value={role} onChange={handleChange}>
-                                <option value="">Select role</option>
+                            <select className="form-control" name="role" value={role} onChange={handleChange} >
+                                <option value="Select role">Select role</option>
                                 <option value="Professor">Professor</option>
                                 <option value="Student">Student</option>
                             </select>
+                            <span className='text-danger'> {errors.role || '\u00A0'}</span>
                         </div>
                         <div className="form-group">
-                            <select className="form-control" name="major" onChange={handleChange}>
+                            <select className="form-control" name="major" onChange={handleChange} >
                                 <option>Select major</option>
                                 {MAJORS.map(major => <option key={major} value={major}>{major}</option>)}
                             </select>
-                            {errors.major && <span className='text-danger'> {errors.major}</span>}
+                            <span className='text-danger'> {errors.major || '\u00A0'}</span>
                         </div>
                         {role === 'Student' && (
                             <div className="form-group">
-                                <select className="form-control" name="year" onChange={handleChange}>
+                                <select className="form-control" name="year" onChange={handleChange} >
                                     <option>Select year</option>
                                     {Array.from({length: 5}, (_, i) => 2020 + i).map(year => (
                                         <option key={year}>{year}</option>
                                     ))}
                                 </select>
-                                {errors.year && <span className='text-danger'> {errors.year}</span>}
+                                <span className='text-danger'> {errors.year || '\u00A0'}</span>
                             </div>
                         )}
                         <div className="form-group form-check">
                             <input type="checkbox" id="tosCheck" onChange={handleChange} />
                             <label className="form-check-label" htmlFor="tosCheck">I agree to the Terms of Service</label>
-                            {errors.tos && <span className='text-danger'> {errors.tos}</span>}
+                            <span className='text-danger'> {errors.tos || '\u00A0'}</span>
                         </div>
                         <div className="row ml-auto">
                             <div className="col">
