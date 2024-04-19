@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './FoodVendor.css';
 import { useNavigate } from 'react-router-dom';
+import { FaStar, FaCommentDots } from "react-icons/fa";
 
 import vendorImage1 from './vendor1.jpg';
 import vendorImage2 from './vendor2.jpg';
@@ -21,8 +22,8 @@ import vendorImage16 from './vendor16.jpg';
 import vendorImage17 from './vendor17.jpg';
 import vendorImage18 from './vendor18.jpg';
 import vendorImage19 from './vendor19.jpg';
-import star from './star.png';
-import comment from './comment.png';
+// import star from './star.png';
+// import comment from './comment.png';
 
 function FoodVendor() {
   const navigate = useNavigate();
@@ -154,7 +155,7 @@ function FoodVendor() {
     }
 
     fetchVendors();
-  }, []); 
+  }, []);
 
   const handleImageClick = (name) => {
     const formattedName = encodeURIComponent(name.replace(/\s+/g, '-'));
@@ -173,52 +174,52 @@ function FoodVendor() {
         <div className="button-and-name">
           <h1>FOOD VENDORS</h1>
           <button onClick={handleBack} className="go-back-button">Go Back</button>
-        </div>  
-          <p style={{ color: '#D3D3D3', fontSize: '14px', margin: '0', textAlign: 'left'}}>
+        </div>
+        <p style={{ color: '#D3D3D3', fontSize: '14px', margin: '0', textAlign: 'left' }}>
           Explore the diverse dining options available at San Francisco State University. Discover a world of flavors right here at SFSU with our selection of food vendors. From quick bites to fine dining, see what SFSU has to offer in terms of food and beverages. Browse through our comprehensive list of vendors.
-          </p>
+        </p>
 
-          <div className="food-search-container">
-            <input type="text" placeholder="SEARCH FOODS..." className="search-bar" 
-             style= {{ marginTop: '30px', width: '300px', height: '30px', borderRadius: '50px'}} />
+        <div className="food-search-container">
+          <input type="text" placeholder="SEARCH FOODS..." className="search-bar"
+            style={{ marginTop: '30px', width: '300px', height: '30px', borderRadius: '50px' }} />
 
-            <p style = {{marginTop: '20px', fontSize: '16px', fontWeight: 'bold'}}> DATE & TIME</p>
-            <select style= {{ marginTop: '10px', width: '300px', height: '30px', borderRadius: '50px'}}>
-              <option value="">OPEN HOURS</option>
-              <option value="">1</option>
-              <option value="">2</option>
-              <option value="">3</option>
-              <option value="">4</option>
-            </select>
-            <select style= {{ marginTop: '10px', width: '300px', height: '30px', borderRadius: '50px'}}>
-              <option value="">OPEN DATES</option>
-              <option value="">1</option>
-              <option value="">2</option>
-              <option value="">3</option>
-              <option value="">4</option>
-            </select>
+          <p style={{ marginTop: '20px', fontSize: '16px', fontWeight: 'bold' }}> DATE & TIME</p>
+          <select style={{ marginTop: '10px', width: '300px', height: '30px', borderRadius: '50px' }}>
+            <option value="">OPEN HOURS</option>
+            <option value="">1</option>
+            <option value="">2</option>
+            <option value="">3</option>
+            <option value="">4</option>
+          </select>
+          <select style={{ marginTop: '10px', width: '300px', height: '30px', borderRadius: '50px' }}>
+            <option value="">OPEN DATES</option>
+            <option value="">1</option>
+            <option value="">2</option>
+            <option value="">3</option>
+            <option value="">4</option>
+          </select>
 
 
-            <p style = {{marginTop: '20px', fontSize: '16px', fontWeight: 'bold'}}>SORT BY RATINGS</p>
-            <select style= {{ marginTop: '10px', width: '300px', height: '30px', borderRadius: '50px'}}>
-              <option value="">LEVEL RATINGS</option>
-              <option value="">1</option>
-              <option value="">2</option>
-              <option value="">3</option>
-              <option value="">4</option>
-            </select>
-            <select style= {{ marginTop: '10px', width: '300px', height: '30px', borderRadius: '50px'}}>
-              <option value="">ASCENDING / DESCENDING</option>
-              <option value="">1</option>
-              <option value="">2</option>
-              <option value="">3</option>
-              <option value="">4</option>
-            </select>
+          <p style={{ marginTop: '20px', fontSize: '16px', fontWeight: 'bold' }}>SORT BY RATINGS</p>
+          <select style={{ marginTop: '10px', width: '300px', height: '30px', borderRadius: '50px' }}>
+            <option value="">LEVEL RATINGS</option>
+            <option value="">1</option>
+            <option value="">2</option>
+            <option value="">3</option>
+            <option value="">4</option>
+          </select>
+          <select style={{ marginTop: '10px', width: '300px', height: '30px', borderRadius: '50px' }}>
+            <option value="">ASCENDING / DESCENDING</option>
+            <option value="">1</option>
+            <option value="">2</option>
+            <option value="">3</option>
+            <option value="">4</option>
+          </select>
 
-            <button className="search-button">SEARCH</button>
-           
-          </div>
-      
+          <button className="search-button">SEARCH</button>
+
+        </div>
+
 
 
       </div>
@@ -228,29 +229,27 @@ function FoodVendor() {
           <div className="grid-item" key={index} onClick={() => handleImageClick(vendor.name)}>
             <img src={vendor.imageUrl} alt={`Vendor ${vendor.name}`} style={{ width: '220px', height: '137px' }} />
             <div className="vendor-info">
-              <p style={{ color: '#AD45FF', fontSize: '20px', marginTop: '12px', fontWeight: 'bold'}}>
-              {vendor.name}
+              <p style={{ color: '#AD45FF', fontSize: '20px', marginTop: '12px', fontWeight: 'bold' }}>
+                {vendor.name}
               </p>
-              <p style={{ color: 'gray', fontSize: '14px', margin: '0'}}>
+              <p style={{ color: 'gray', fontSize: '14px', margin: '0' }}>
                 {vendor.short_description}
               </p>
-              <p style={{color: 'white', fontSize: '14px', margin: '0', lineHeight: '10px', display: 'inline-flex', alignItems: 'center' }}>
-                <img src={star} alt="star icon" style={{ width: '20px', height: '20px', marginRight: '5px', marginBottom: '10px', verticalAlign: 'middle' }} />
-                {vendor.average_rating.toFixed(1)} ratings
-                <img src={comment} alt="comment icon" style={{ width: '10px', height: '10px', marginLeft: '10px', marginRight: '5px', verticalAlign: 'middle' }} />
-                {vendor.num_reviews} reviews
+              <p style={{ color: 'white', fontSize: '14px', margin: '0', lineHeight: '10px', display: 'inline-flex', alignItems: 'center' }}>
+                <FaStar style={{ color: 'yellow'}} />{vendor.average_rating.toFixed(1)} ratings
+                <FaCommentDots style={{ marginLeft: '5px' }}/> {vendor.num_reviews} reviews
               </p>
 
-              <p style={{ color: 'gray', fontSize: '14px', marginTop: '7px'}}>
+              <p style={{ color: 'gray', fontSize: '14px', marginTop: '7px' }}>
                 {vendor.detailed_description}
               </p>
             </div>
           </div>
-          ))}
+        ))}
 
-        </div>
       </div>
-   
+    </div>
+
 
 
   );
