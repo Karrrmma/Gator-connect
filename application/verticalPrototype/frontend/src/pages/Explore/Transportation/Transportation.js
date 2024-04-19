@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import './Transportation.css';
-/*import { useNavigate } from 'react-router-dom';*/
 
 import bart_map from './bart_map.jpg';
 import bart_night from './bart_night.jpg';
@@ -20,7 +19,6 @@ function Transportation() {
     midnight: false,
     direction: '',
   });
- /* const navigate = useNavigate();*/
 
   const routes = [
     { 
