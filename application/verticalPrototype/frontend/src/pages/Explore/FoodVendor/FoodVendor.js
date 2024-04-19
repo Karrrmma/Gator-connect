@@ -235,7 +235,7 @@ function FoodVendor() {
                 {vendor.short_description}
               </p>
               <p style={{color: 'white', fontSize: '14px', margin: '0', lineHeight: '10px', display: 'inline-flex', alignItems: 'center' }}>
-                <img src={star} alt="star icon" style={{ width: '10px', height: '10px', marginRight: '5px', verticalAlign: 'middle' }} />
+                <img src={star} alt="star icon" style={{ width: '20px', height: '20px', marginRight: '5px', marginBottom: '10px', verticalAlign: 'middle' }} />
                 {vendor.average_rating.toFixed(1)} ratings
                 <img src={comment} alt="comment icon" style={{ width: '10px', height: '10px', marginLeft: '10px', marginRight: '5px', verticalAlign: 'middle' }} />
                 {vendor.num_reviews} reviews

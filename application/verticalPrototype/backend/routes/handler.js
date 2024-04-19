@@ -253,6 +253,7 @@ router.post('/vendordetail', (req, res) => {
   });
 });
 
+
 router.get('/vendordetail/:vendor_name', (req, res) => {
   const { vendor_name } = req.params;
 
