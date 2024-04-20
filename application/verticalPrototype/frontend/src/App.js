@@ -13,9 +13,13 @@ import VendorDetail from './pages/Explore/FoodVendor/VendorDetail'; // This will
 
 
 
+
 // --------------------------------------------------------------------------
 import useToken from './hooks/useToken';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+
+
+
 
 function App() {
   const { token, setToken } = useToken();
