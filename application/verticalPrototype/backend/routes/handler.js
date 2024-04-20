@@ -237,13 +237,13 @@ router.post('/search', (req, res) => {
 // VENDOR DETAIL 
 // Insert the data in the Food Vendor from Backend (VendorDetail.js)
 router.post('/vendordetail', (req, res) => {
-  const { menu_rating, menu_review, vendor_name, menu_name, user_id } = req.body;
+  const { menu_rating, menu_review, vendor_name, menu_name } = req.body;
   const query = `
-      INSERT INTO Food_Vendor (menu_rating, menu_review, vendor_name, menu_name, user_id)
-      VALUES (?, ?, ?, ?, ?)
+      INSERT INTO Food_Vendor (menu_rating, menu_review, vendor_name, menu_name)
+      VALUES (?, ?, ?, ?)
   `;  // Make sure the query reflects the correct number of placeholders
 
-  connection.query(query, [menu_rating, menu_review, vendor_name, menu_name, user_id], (error, results) => {
+  connection.query(query, [menu_rating, menu_review, vendor_name, menu_name], (error, results) => {
       if (error) {
           console.error('Error inserting menu item:', error);
           res.status(500).json({ error: 'Internal Server Error' });
