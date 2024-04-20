@@ -1,9 +1,12 @@
+/* Conventional template of EXPLORE */
+/* Wrapper for usage of foodvendor, transportation, event*/
 .content-wrapper {
   display: flex;
   margin-top: 30px;
 }
 
-.food-vendors-page {
+/* GENERAL Search wrapper*/
+.search-wrapper {
   height: 200px;
   width: 400px;
   margin-right: 100px;
@@ -42,9 +45,7 @@
   color: white;
 }
 
-
-
-.food-search-container {
+.search-container {
   display: flex;
   flex-direction: column;
   width: 400px;
@@ -55,7 +56,8 @@
   align-items: center; 
 }
 
-.grid-container {
+/* GENERAL Grid wrapper*/
+.grid-wrapper {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 25px;
@@ -74,9 +76,10 @@
   cursor: pointer; 
   transition: transform 0.3s ease, box-shadow 0.3s ease; 
   width: 250px;
-  height: 310px;
+  height: 320px;
   padding-left: 14px;
   margin-bottom: 47px;
+  margin-right: 10px;
 }
 
 .grid-item:hover {
@@ -96,15 +99,9 @@
 }
 
 
-.vendor-info p {
-  font-size: 13px;
-  color: white;
-}
-
-
-
 /* ------------------------------------------------------------------ */
-/* Vendor Detail styles */
+/* Vendor Detail */
+
 .vendor-detail-container {
     width: 100%;
     margin: 0 auto;
