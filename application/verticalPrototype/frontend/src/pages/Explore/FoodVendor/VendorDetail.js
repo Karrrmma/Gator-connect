@@ -4,13 +4,245 @@ import "../ExploreTemplate.css";
 import { FaStar, FaCommentDots } from "react-icons/fa";
 import { useLocation } from "react-router-dom";
 
+const vendorsInfo = {
+  "Cafe 101": {
+    location: "Cesar Chavez Student, Plaza Level",
+    schedule: {
+      Monday: "07:30 am - 04:00 pm",
+      Tuesday: "07:30 am - 04:00 pm",
+      Wednesday: "07:30 am - 04:00 pm",
+      Thursday: "07:30 am - 04:00 pm",
+      Friday: "07:30 am - 02:30 pm",
+      Saturday: "CLOSED",
+      Sunday: "CLOSED",
+    },
+  },
+  "Cafe Rosso": {
+    location: "Centennial Walkway (behind Burk Hall)",
+    schedule: {
+      Monday: "07:00 am - 05:00 pm",
+      Tuesday: "07:00 am - 05:00 pm",
+      Wednesday: "07:00 am - 05:00 pm",
+      Thursday: "07:00 am - 05:00 pm",
+      Friday: "07:00 am - 03:00 pm",
+      Saturday: "CLOSED",
+      Sunday: "CLOSED",
+    },
+  },
+  "City Cafe": {
+    location: "Cesar Student Center, West Plaza",
+    schedule: {
+      Monday: "10:00 am - 04:30 pm",
+      Tuesday: "10:00 am - 04:30 pm",
+      Wednesday: "10:00 am - 04:30 pm",
+      Thursday: "10:00 am - 04:30 pm",
+      Friday: "10:00 am - 03:00 pm",
+      Saturday: "CLOSED",
+      Sunday: "CLOSED",
+    },
+  },
+  "Clean Bites": {
+    location: "Mashouf Wellness Center",
+    schedule: {
+      Monday: "11:00 am - 06:00 pm",
+      Tuesday: "11:00 am - 06:00 pm",
+      Wednesday: "11:00 am - 06:00 pm",
+      Thursday: "11:00 am - 06:00 pm",
+      Friday: "11:00 am - 04:00 pm",
+      Saturday: "CLOSED",
+      Sunday: "CLOSED",
+    },
+  },
+  "Farm Fresh Underground": {
+    location: "Cesar Chavez Student Center, Lower Conference Level",
+    schedule: {
+      Monday: "10:00 am - 03:00 pm",
+      Tuesday: "10:00 am - 03:00 pm",
+      Wednesday: "10:00 am - 03:00 pm",
+      Thursday: "10:00 am - 03:00 pm",
+      Friday: "CLOSED",
+      Saturday: "CLOSED",
+      Sunday: "CLOSED",
+    },
+  },
+  "Gold Coast Grill & Catering": {
+    location: "Cesar Chavez Student Center, Plaza Level",
+    schedule: {
+      Monday: "08:00 am - 04:00 pm",
+      Tuesday: "08:00 am - 04:00 pm",
+      Wednesday: "08:00 am - 04:00 pm",
+      Thursday: "08:00 am - 04:00 pm",
+      Friday: "08:00 am - 02:00 pm",
+      Saturday: "CLOSED",
+      Sunday: "CLOSED",
+    },
+  },
+  "Good to Go": {
+    location: "Village at Centennial Square",
+    schedule: {
+      Monday: "ClOSED",
+      Tuesday: "ClOSED",
+      Wednesday: "ClOSED",
+      Thursday: "ClOSED",
+      Friday: "ClOSED",
+      Saturday: "CLOSED",
+      Sunday: "CLOSED",
+    },
+  },
+  "Halal Shop": {
+    location: "Cesar Chavez Student Center, West Plaza",
+    schedule: {
+      Monday: "09:00 am - 06:00 pm",
+      Tuesday: "09:00 am - 06:00 pm",
+      Wednesday: "09:00 am - 06:00 pm",
+      Thursday: "09:00 am - 06:00 pm",
+      Friday: "09:00 am - 06:00 pm",
+      Saturday: "CLOSED",
+      Sunday: "CLOSED",
+    },
+  },
+  "HSS 121 Cafe": {
+    location: "1st floor of Health & Social Sciences Building, HSS 121",
+    schedule: {
+      Monday: "08:00 am - 03:00 pm",
+      Tuesday: "08:00 am - 03:00 pm",
+      Wednesday: "08:00 am - 03:00 pm",
+      Thursday: "08:00 am - 03:00 pm",
+      Friday: "ClOSED",
+      Saturday: "CLOSED",
+      Sunday: "CLOSED",
+    },
+  },
+  "Natural Sensations": {
+    location: "Cesar Chavez Student Center, Plaza Level",
+    schedule: {
+      Monday: "08:00 am - 04:00 pm",
+      Tuesday: "08:00 am - 04:00 pm",
+      Wednesday: "08:00 am - 04:00 pm",
+      Thursday: "08:00 am - 04:00 pm",
+      Friday: "08:00 am - 02:30 pm",
+      Saturday: "CLOSED",
+      Sunday: "CLOSED",
+    },
+  },
+  "Nizario's Pizza": {
+    location: "Cesar Chavez Studnet Center, Recreation & Dining Level",
+    schedule: {
+      Monday: "10:00 am - 06:00 pm",
+      Tuesday: "10:00 am - 06:00 pm",
+      Wednesday: "10:00 am - 06:00 pm",
+      Thursday: "10:00 am - 06:00 pm",
+      Friday: "10:00 am - 06:00 pm",
+      Saturday: "CLOSED",
+      Sunday: "CLOSED",
+    },
+  },
+  "Peet's Coffee & Tea": {
+    location: "First Floor of the J. Paul Leonard Library",
+    schedule: {
+      Monday: "07:00 am - 08:00 pm",
+      Tuesday: "07:00 am - 08:00 pm",
+      Wednesday: "07:00 am - 08:00 pm",
+      Thursday: "07:00 am - 08:00 pm",
+      Friday: "07:00 am - 04:00 pm",
+      Saturday: "CLOSED",
+      Sunday: "CLOSED",
+    },
+  },
+  "Quickly": {
+    location: "Cesar Chavez Student Center, West Plaza",
+    schedule: {
+      Monday: "10:00 am - 05:30 pm",
+      Tuesday: "10:00 am - 05:30 pm",
+      Wednesday: "10:00 am - 05:30 pm",
+      Thursday: "10:00 am - 05:30 pm",
+      Friday: "10:00 am - 05:00 pm",
+      Saturday: "CLOSED",
+      Sunday: "CLOSED",
+    },
+  },
+  "Station Cafe": {
+    location: "19th Avenue (in front of HSS Building)",
+    schedule: {
+      Monday: "07:00 am - 05:00 pm",
+      Tuesday: "07:00 am - 05:00 pm",
+      Wednesday: "07:00 am - 05:00 pm",
+      Thursday: "07:00 am - 05:00 pm",
+      Friday: "07:00 am - 03:00 pm",
+      Saturday: "CLOSED",
+      Sunday: "CLOSED",
+    },
+  },
+  "Subway": {
+    location: "Village at Centennial Square",
+    schedule: {
+      Monday: "07:00 am - 11:00 pm",
+      Tuesday: "07:00 am - 11:00 pm",
+      Wednesday: "07:00 am - 11:00 pm",
+      Thursday: "07:00 am - 11:00 pm",
+      Friday: "09:00 am - 09:00 pm",
+      Saturday: "CLOSED",
+      Sunday: "CLOSED",
+    },
+  },
+  "Taqueria Girasol": {
+    location: "Cesar Chavez Student Center, Plaza Level",
+    schedule: {
+      Monday: "08:00 am - 04:00 pm",
+      Tuesday: "08:00 am - 04:00 pm",
+      Wednesday: "08:00 am - 04:00 pm",
+      Thursday: "08:00 am - 04:00 pm",
+      Friday: "08:00 am - 02:00 pm",
+      Saturday: "CLOSED",
+      Sunday: "CLOSED",
+    },
+  },
+  "Taza Smoothies & Wraps": {
+    location: "Village at Centennial Square",
+    schedule: {
+      Monday: "09:00 am - 04:00 pm",
+      Tuesday: "09:00 am - 04:00 pm",
+      Wednesday: "09:00 am - 04:00 pm",
+      Thursday: "09:00 am - 04:00 pm",
+      Friday: "09:00 am - 03:00 pm",
+      Saturday: "CLOSED",
+      Sunday: "CLOSED",
+    },
+  },
+  "The Pub at SFSU": {
+    location: "Cesar Chavez Student Center, Lower Conference Level",
+    schedule: {
+      Monday: "12:00 am - 05:00 pm",
+      Tuesday: "12:00 am - 07:00 pm",
+      Wednesday: "12:00 am - 07:00 pm",
+      Thursday: "12:00 am - 07:00 pm",
+      Friday: "CLOSED",
+      Saturday: "CLOSED",
+      Sunday: "CLOSED",
+    },
+  },
+  "Village Market & Pizza": {
+    location: "Village at Centennial Square",
+    schedule: {
+      Monday: "10:00 am - 11:00 pm",
+      Tuesday: "10:00 am - 11:00 pm",
+      Wednesday: "10:00 am - 11:00 pm",
+      Thursday: "10:00 am - 11:00 pm",
+      Friday: "10:00 am - 11:00 pm",
+      Saturday: "10:00 am - 11:00 pm",
+      Sunday: "11:00 am - 11:00 pm",
+    },
+  },
+};
+
 function VendorDetail() {
   const location = useLocation();
-  const vendor = location.state?.vendor;
+  const vendorFromState = location.state?.vendor;
 
   let { name } = useParams();
   name = decodeURIComponent(name.replace(/-/g, " "));
   const navigate = useNavigate();
+  const vendor = { ...vendorsInfo[name], ...vendorFromState }; // Merging details from static data and dynamic state
 
   const [menuItems, setMenuItems] = useState([]);
   const [menuName, setMenuName] = useState("");
@@ -146,22 +378,10 @@ function VendorDetail() {
             SCHEDULE
           </p>
           <p style={{ color: "#D3D3D3", fontSize: "14px", textAlign: "left" }}>
-            {/* Schedule details in manual setting. Need to handle dynamically ...*/}
-            Monday: 09:00 am ~ 05:00 pm
-            <br />
-            Tuesday: 09:00 am ~ 05:00 pm
-            <br />
-            Wednesday: 09:00 am ~ 05:00 pm
-            <br />
-            Thursday: 09:00 am ~ 05:00 pm
-            <br />
-            Friday: 09:00 am ~ 05:00 pm
-            <br />
-            Saturday: CLOSED
-            <br />
-            Sunday: CLOSED
+            {Object.entries(vendor.schedule).map(([day, hours]) => (
+              <p key={day}>{`${day}: ${hours}`}</p>
+            ))}
           </p>
-
           <p
             style={{
               marginTop: "20px",
@@ -184,9 +404,7 @@ function VendorDetail() {
               paddingRight: "70px",
             }}
           >
-            {/* Schedule details in manual setting Need to handle dynamically ...*/}
-            It is not hard to set the schedule for each vendor, but I do not
-            know how to get that so far.
+            {vendor.location}
           </p>
 
           <p
@@ -302,10 +520,16 @@ function VendorDetail() {
                   lineHeight: "20px",
                   display: "flex",
                   width: "100%",
-                  paddingRight: '15px'
+                  paddingRight: "15px",
                 }}
               >
-                <FaCommentDots style={{ marginRight: "10px", flexShrink: 0, marginTop: "4px" }} />
+                <FaCommentDots
+                  style={{
+                    marginRight: "10px",
+                    flexShrink: 0,
+                    marginTop: "4px",
+                  }}
+                />
                 <span>{item.menu_review}</span>
               </p>
             </div>
