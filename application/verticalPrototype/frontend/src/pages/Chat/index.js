@@ -13,40 +13,39 @@ const Chat = () => {
     headers: {
         'Content-Type': 'application/json',
     }, */
-    fetch('/chat')
+
+/*   oder so:  fetch('/chat')
     .then((response) => response.json())
     .then((data) => {
       console.log(data)
-    })
+    }) */
 
 
 
     return (
-      <div className="container-fluid">
-        <div className="row justify-content-center" >
-           <div className="col-md-6">
-            <div className="card h-75 border-0">
-              <Head/>
-              <div className="card-body" style={{ overflowY: 'auto', height: '650px'}}>
-                <div class="d-flex justify-content-start align-items-center mb-2">
+      <div className="container-fluid" >
+        <div className="row justify-content-center "  >
+           <div className="">
+           <Head/>
+            <div className="card h-75 border-0 rounded-pill" style={{ width: '500px'}}>
+              
+              <div className="card-body" style={{ backgroundColor: 'black', overflowY: 'auto', height: '550px'}}>
+                <div class="d-flex justify-content-start align-items-center" style={{ width: '100%', border: '1px solid black', padding: '10px', textAlign: 'right' }}>
                     <img src={Gru} class="rounded-circle" alt="placeholder pfp" style={{ width: 50, height: 50 }}></img>
-                    <Link to='/chatWindow/Fabian Weiland' className='btn btn-link text-dark text-decoration-none' style={{fontSize: '40px'}}>Fabian Weiland</Link>
+                    <Link to='/chatWindow/Fabian Weiland' className='btn btn-link text-decoration-none' style={{color: 'white', fontSize: '25px'}}>Fabian Weiland</Link>
                 </div>
-                <div class="d-flex justify-content-start align-items-center mb-2">
+                <div class="d-flex justify-content-start align-items-center" style={{ width: '100%', border: '1px solid black', padding: '10px', textAlign: 'right' }}>
                     <img src={Vector} class="rounded-circle" alt="placeholder pfp" style={{ width: 50, height: 50 }}></img>
-                    <Link to='/chatWindow/Jose Ortiz' className='btn btn-link text-dark text-decoration-none' style={{fontSize: '40px'}}>Jose Ortiz</Link>
+                    <Link to='/chatWindow/Jose Ortiz' className='btn btn-link text-decoration-none' style={{color: 'white', fontSize: '25px'}}>Jose Ortiz</Link>
                 </div>
-                <div class="d-flex justify-content-start align-items-center mb-2">
+                <div class="d-flex justify-content-start align-items-center" style={{ width: '100%', border: '1px solid black', padding: '10px', textAlign: 'right' }}>
                     <img src={Placeholder} class="rounded-circle" alt="placeholder pfp" style={{ width: 50, height: 50 }}></img>
-                    <Link to='/chatWindow/Marco Lorenz' className='btn btn-link text-dark text-decoration-none' style={{fontSize: '40px'}}>Marco Lorenz</Link>
+                    <Link to='/chatWindow/Marco Lorenz' className='btn btn-link text-decoration-none' style={{color: 'white', fontSize: '25px'}}>Marco Lorenz</Link>
                 </div>
-                {/* {Array.from({ length: 10 }).map((_, index) => (
-                  <p key={index} style={{ color: 'black', fontSize: '20px'}}>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                ))} */}
               </div>
                <Bottom/>
-               <div className='card border-0'>
-                <p>doesn't matter</p>
+               <div className='card border-0' style={{background: 'black', fontSize: '15px' }}>
+                <p>Want to chat to everyone? <br></br> Go to PUBLIC CHAT to connect more!</p>
                </div>
             </div>
            </div>
@@ -57,30 +56,24 @@ const Chat = () => {
 
   function Head(){
     return(
-    <div className="card" style={{backgroundColor: '#a28b39'}}>
-      <div className="card-body d-flex justify-content-between align-items-center">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css"></link>
-        <p class="bi bi-arrow-left-circle" style={{color: '#a28b39', fontSize: '30px'}}></p>
-        <h5 style={{color: 'white', fontSize: '50px'}} className="card-title mb-0">Private Chat</h5>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css"></link>
-        <Link to='/home' className="bi bi-x-circle" style={{color: 'white', fontSize: '30px'}}></Link>
+      <div>
+        <h5 style={{color: 'white', fontSize: '35px'}} className=" ">PRIVATE CHAT</h5>
+        <p style={{color: 'grey', fontSize: '20px'}}> Ready to catch up with your friends?<br></br> Dive into the chat here!</p>
       </div>
-    </div>
     );
   }
 
-
   function Bottom(){
     return(
-    <div className="card border-0">
-      <div className="card-body d-flex justify-content-between align-items-center">
-        <div>sdfsd</div>
-        <div className='card rounded-pill' style={{backgroundColor: '#a28b39'}}>
-            <Link to='/pubChat' className="btn btn-link text-dark text-decoration-none" style={{fontSize: '30px'}}>
+    <div className="card border-0" style={{ background: 'black'}}>
+      <div className="card-body d-flex" style={{ background: 'black', justifyContent: 'center'}}>
+        
+        <div className='card rounded-pill' style={{backgroundColor: '#AD45FF'}}>
+            <Link to='/pubChat' className="btn btn-link text-decoration-none" style={{color: 'white', fontSize: '20px'}}>
             Public Chat
             </Link>
         </div>
-        <div>sdfsd</div>
+        
       </div>
     </div>
     );
