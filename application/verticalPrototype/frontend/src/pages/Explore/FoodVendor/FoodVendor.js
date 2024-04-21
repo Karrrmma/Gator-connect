@@ -203,22 +203,27 @@ function FoodVendor() {
     fetchVendors();
   }, []);
 
+  // Filter by minimum rating
   const handleRatingFilterChange = (event) => {
     setRatingFilter(event.target.value);
   };
 
+  // Filter by minimum comment
   const handleCommentFilterChange = (event) => {
     setCommentFilter(event.target.value);
   };
 
+  // Filter by vendor name
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
   };
 
+  // Filter by sort rating
   const handleSortDirectionRatingsChange = (event) => {
     setSortDirectionRatings(event.target.value);
   };
 
+  // Filter by sort comment
   const handleSortDirectionCommentsChange = (event) => {
     setSortDirectionComments(event.target.value);
   };
@@ -257,7 +262,8 @@ function FoodVendor() {
         (vendor) => vendor.num_reviews >= parseInt(commentFilter, 10)
       );
     }
-
+    // Need to fix to handle dynamic filtering properly
+    // **************************************************
     if (priorityRatings && priorityComments) {
       if (sortDirectionRatings && sortDirectionComments) {
         filteredVendors.sort((a, b) => {
@@ -280,16 +286,29 @@ function FoodVendor() {
           ? a.average_rating - b.average_rating
           : b.average_rating - a.average_rating;
       });
-    } else if (sortDirectionComments && priorityComments) {
+    } else if (sortDirectionComments && priorityComments) { 
       filteredVendors.sort((a, b) => {
         return sortDirectionComments === "asc"
           ? a.num_reviews - b.num_reviews
           : b.num_reviews - a.num_reviews;
       });
+    } else if (sortDirectionComments) { // Only for sort by comment
+      filteredVendors.sort((a, b) => {
+        return sortDirectionComments === "asc"
+          ? a.num_reviews - b.num_reviews
+          : b.num_reviews - a.num_reviews;
+      });
+    } else if (sortDirectionRatings) { // Only for sort by rating
+      filteredVendors.sort((a, b) => {
+        return sortDirectionRatings === "asc"
+          ? a.average_rating - b.average_rating
+          : b.average_rating - a.average_rating;
+      });
     }
 
     setVendors(filteredVendors);
   };
+// **************************************************
 
   const handleKeyPress = (event) => {
     if (event.key === "Enter") {
@@ -531,3 +550,6 @@ function FoodVendor() {
 }
 
 export default FoodVendor;
+
+
+
