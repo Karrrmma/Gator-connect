@@ -10,8 +10,9 @@ import FoodVendor from './pages/Explore/FoodVendor/FoodVendor';
 import Transportation from './pages/Explore/Transportation/Transportation';
 import Event from './pages/Explore/Event/Event';
 import VendorDetail from './pages/Explore/FoodVendor/VendorDetail'; // This will be the component for vendor details
-
-
+import ChatWindow from './pages/Chat/chatWindow';
+import PubChat from './pages/Chat/pubChat';
+import Channel from './pages/Chat/channel';
 
 
 // --------------------------------------------------------------------------
@@ -22,7 +23,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 
 function App() {
-  const { token, setToken } = useToken();
+  const { token, setToken} = useToken();
 
   if (!token) {
     return (
@@ -53,6 +54,11 @@ function App() {
               <Route path="/explore/event" element={<Event />} /> 
             <Route path="/profile" element={<Profile />} />
             <Route path="/chat" element={<Chat />} />
+
+            <Route path="/chatWindow/:name" element={<ChatWindow />} />
+            <Route path="/pubChat" element={<PubChat />} />
+            <Route path="/channel/:channel_names" element={<Channel />} />
+            <Route path="/newpost" element={<NewPost />} />
           </Routes>
         </header>
       </div>

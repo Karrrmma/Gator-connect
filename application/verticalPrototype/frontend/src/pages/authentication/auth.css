@@ -18,3 +18,8 @@
     justify-content: center;
     align-items: center;
 }
+
+.text-danger {
+    display: block;
+    height: 20px;
+}

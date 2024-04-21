@@ -10,7 +10,7 @@ function Nav() {
                 {/* <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navMainMenu" aria-controls="navMainMenu" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button> */}
-                <Link to='/' className="nav-item nav-link d-inline-block mr-auto" style={{ fontSize: '1.5rem' }}>GATOR CONNECT</Link>
+                <Link to='/home' className="nav-item nav-link d-inline-block mr-auto" style={{ fontSize: '1.5rem' }}>GATOR CONNECT</Link>
                 <div id="navMainMenu" class="navbar-expand mr-auto">
                     <div class="navbar-nav d-flex">
                         <Link to='/explore' className="nav-item nav-link"><FaCompass /><span className="d-lg-inline-block d-none"> Explore</span></Link>

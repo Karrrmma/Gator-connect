@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link, useNavigate } from 'react-router-dom';
 import validateLoginFields from '../validateLoginFields';
+// import { useForm } from '../../../hooks/useForm';
 import '../auth.css';
 
 async function loginUser(fields) {
@@ -62,30 +63,23 @@ function Login({ setToken }) {
         }
     };
 
-    // If user is logged in, redirect to home page
-    // const isAuthenticated = !!sessionStorage.getItem('token');
-
-    // if (isAuthenticated) {
-    //     return navigate('/home');
-    // }
-
     return (
         <div className="login-wrapper">
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} onChange={handleChange}>
                 <h1>Login</h1>
                 <label>
                     <p>Username</p>
-                    <input name="username" type="text" onChange={handleChange} />
-                    {errors.username && <span className='text-danger'> {errors.username}</span>}
+                    <input name="username" type="text" />
+                    <span className='text-danger'> {errors.username || '\u00A0'}</span>
                 </label>
                 <label>
                     <p>Password</p>
-                    <input name="password" type="password" onChange={handleChange} />
-                    {errors.password && <span className='text-danger'> {errors.password}</span>}
+                    <input name="password" type="password" />
+                    <span className='text-danger'> {errors.password || '\u00A0'}</span>
                 </label>
                 <div>
                     <Link to='/register'>
-                        <button type="submit" style={{ marginRight: '10px' }}>Create New Account</button>
+                        <button type="button" style={{ marginRight: '10px' }}>Create New Account</button>
                     </Link>
                     <button type="submit">Login</button>
                 </div>
