@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link, useNavigate } from 'react-router-dom';
 import validateLoginFields from '../validateLoginFields';
+// import { useForm } from '../../../hooks/useForm';
 import '../auth.css';
+import gatorLogo from '../../../assets/images/gator_logo.PNG';
 
 async function loginUser(fields) {
     return fetch('/login', {
@@ -62,36 +64,64 @@ function Login({ setToken }) {
         }
     };
 
-    // If user is logged in, redirect to home page
-    // const isAuthenticated = !!sessionStorage.getItem('token');
-
-    // if (isAuthenticated) {
-    //     return navigate('/home');
-    // }
-
     return (
-        <div className="login-wrapper">
-            <form onSubmit={handleSubmit} onChange={handleChange}>
-                <h1>Login</h1>
-                <label>
-                    <p>Username</p>
-                    <input name="username" type="text" />
-                    {errors.username && <span className='text-danger'> {errors.username}</span>}
-                </label>
-                <label>
-                    <p>Password</p>
-                    <input name="password" type="password" />
-                    {errors.password && <span className='text-danger'> {errors.password}</span>}
-                </label>
-                <div>
-                    <Link to='/register'>
-                        <button type="button" style={{ marginRight: '10px' }}>Create New Account</button>
+        <div className='background'>
+            <div className='form-container'>
+                <Link to='/'>
+                    <h1 className='login-title'>GATOR CONNECT</h1>
+                </Link>
+                <div className='form-wrapper'>
+                    <Link to='/'>
+                        <div className='back-text'><u>back</u></div>
                     </Link>
-                    <button type="submit">Login</button>
+                    <form onSubmit={handleSubmit} onChange={handleChange}>
+                        <img src={gatorLogo} alt='Gator Logo' className='gator-logo' />
+                        <h1 className='mb-3'>SIGN IN</h1>
+                        <input name='username' type='text' placeholder='Username' className='input-field' />
+                        <span className='text-danger'> {errors.username || '\u00A0'}</span>
+                        <input name='password' type='password' placeholder='Password' className='input-field' />
+                        <span className='text-danger'> {errors.password || '\u00A0'}</span>
+                        <div>
+                            <button type='submit'><b>LOGIN</b></button>
+                        </div>
+                        <div className='register-link'>
+                            <p className='mb-3 mt-5'>Not registered yet? Let's create one 😎</p>
+                            <Link to='/register'>
+                                <u>Create an account</u>
+                            </Link>
+                        </div>
+                    </form>
                 </div>
-            </form>
+            </div>
         </div>
     );
+
+    // return (
+    //     <div class="wrapper">
+    //         <div class="title-text">
+    //             <h1>Login</h1>
+    //         </div>
+    //     <div class="form-container">
+    //        <div class="form-inner">
+    //           <form class="login" onSubmit={handleSubmit} onChange={handleChange}>
+    //              <div class="field">
+    //                 <input type="text" placeholder="Username" />
+    //                 <span className='text-danger'> {errors.username || '\u00A0'}</span>
+    //              </div>
+    //              <div class="field">
+    //                 <input type="password" placeholder="Password" />
+    //                 <span className='text-danger'> {errors.password || '\u00A0'}</span>
+    //              </div>
+    //              <div class="field btn">
+    //                 <div class="btn-border"></div>
+    //                 <input type="submit" value="Login" />
+    //              </div>
+    //           </form>
+    //        </div>
+    //     </div>
+    //  </div>
+    // );
+
 }
 
 Login.propTypes = {

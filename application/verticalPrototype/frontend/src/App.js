@@ -15,7 +15,6 @@ import Channel from './pages/Chat/channel';
 
 function App() {
   const {token, setToken} = useToken();
-  // const {setToken} = useToken();
   
   if (!token) {
     return (

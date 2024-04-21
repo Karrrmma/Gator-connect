@@ -4,8 +4,8 @@ import {useParams} from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
-/* import { text } from 'stream/consumers';
- */
+import Gru from '../../assets/images/gru.jpg';
+
 import { useState } from "react";
 
 
@@ -13,56 +13,39 @@ import { useState } from "react";
 
 const Channel = () => {
 
-  const [inputText, setInputText] = useState('');
-  const [postedText, setPostedText] = useState('');
-    
-  const handleChange = (event) => {
-    setInputText(event.target.value);
-  };
+  const [messages, setMessages] = useState([]);
+  const [inputMessage, setInputMessage] = useState('');
 
-  const sendButtonClicked = () => {
-    console.log(inputText);
-    setPostedText(inputText);
-    /* fg*/ 
-    setInputText('');
+  const sendMessage = () => {
+    if(inputMessage.trim() !== ' '){
+      setMessages([...messages, {text: inputMessage, sender: 'user'}]);
+      setInputMessage('');
+    }
   };
+    
+
 
     return (
-      <div className="container-fluid">
-        <div className="row justify-content-center" >
-           <div className="col-md-6">
-            <div className="card h-100 border-0">
-                <Head/>
-                <div className="card-body" style={{ overflowY: 'auto', height: '535px'}}>
-                  {postedText &&(
-                    <p style={{ color: 'grey', fontSize: '30px'}}>{postedText}</p>
+      <div className="container-fluid" >
+        <div className="row justify-content-center "  >
+           <div className="">
+           <h5 style={{color: 'white', fontSize: '35px'}} className=" ">PRIVATE CHAT</h5>
+           <Head/>
+            <div className="card h-75 border-0 " style={{ background:'black', width: '500px'}}>
+                
+                <div className="card-body" style={{ overflowY: 'auto', height: '500px'}}>
+                  {messages.map((message, index) =>
+                    <p key={index} style={{ backgroundColor: '#252525', padding:'10px', color:'white',
+                    maxWidth:'50%', marginLeft: 'auto', fontSize:'20px', border:'#252525', marginBottom:'5px', 
+                    textAlign: message.sender === 'user' ? 'right' : 'left'}}>
+                      {message.text}
+                    </p>
                   )}
-                    {/* <p style={{ color: 'grey', fontSize: '30px'}}>Lorem Ipsum</p> */}
                 </div>
-
-
                 {/*---BOTTOM---*/}
-                <div className="card border-0">
-                  <div className="card-body d-flex justify-content-between align-items-center">
-                    <div>sdfsd</div>
-                    <input type="text" value={inputText} onChange={handleChange}  class="form-control" style={{backgroundColor: '#dad9d2', height: '50px'}} placeholder="Type here ..." aria-label="Recipient's username" aria-describedby="basic-addon2"></input>
-                    <Button variant="primary" style={{background: '#dad9d2', color:'white', height: '50px', width: '50px'}} onClick={sendButtonClicked}>
-                      <FontAwesomeIcon icon={faPaperPlane} /> 
-                    </Button>
-                    {/* <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="grey" class="bi bi-send" viewBox="0 0 16 16">
-                      <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576zm6.787-8.201L1.591 6.602l4.339 2.76z"/>
-                    </svg> */}            
-                    <div>sdfsd</div>
-                  </div>
-                </div>
-
-
-
-                <div className='card border-0'>
-                    <p>doesn't matter</p>
-                </div>
+                <Bottom inputMessage={inputMessage} setInputMessage={setInputMessage} sendMessage={sendMessage}/>
             </div>
-           </div>
+            </div>
         </div>
       </div>
     );
@@ -74,19 +57,43 @@ const Channel = () => {
     const {channel_names} = useParams()
 
     return(
-    <div className="card" style={{backgroundColor: '#a28b39'}}>
-      <div className="card-body d-flex justify-content-between align-items-center">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css"></link>
-        <Link to='/pubChat' class="bi bi-arrow-left-circle" style={{ color: 'white', fontSize: '30px'}}></Link>
-        <h5 style={{color: 'white', fontSize: '50px'}} className="card-title mb-0">Public Chat</h5>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css"></link>
-        <Link to='/home' className="bi bi-x-circle" style={{color: 'white', fontSize: '30px'}}></Link>
-      </div>
-      <div className='card-body d-flex justify-content-between align-items-center'>
-        <p style={{ color: 'white', fontSize: '30px'}}>{channel_names}</p>
+     <div style={{background: 'black'}}>      
+      <div class="d-flex justify-content-start align-items-center" style={{ width: '100%', border: '1px solid black', padding: '10px', textAlign: 'right' }}>
+        <img src={Gru} class="rounded-circle" alt="placeholder pfp" style={{ width: 50, height: 50, display: 'inline-block', marginLeft:'20px', marginRight: '10px' }}></img>
+        <p style={{ color: 'white', fontSize: '20px'}}>{channel_names}</p>
+        <Link to='/pubChat' className='text-decoration-none' style={{color: '#252525', fontSize: '30px', display: 'inline-block', marginLeft:'230px', marginRight: '10px' }}>X</Link>
       </div>
     </div>
     );
+  }
+
+
+  function Bottom({inputMessage, setInputMessage, sendMessage}){
+
+    const handleChange = (event) => {
+      setInputMessage(event.target.value);
+    };
+  
+    const handleKeyPress = (e) => {
+      if (e.key === 'Enter'){
+        sendMessage();
+      }
+    };
+
+
+  return(
+    <div className="card border-0" style={{background: 'black', justifyContent: 'center'}}>
+        <div className="card-body d-flex align-items-center" style={{background: 'black', justifyContent: 'center'}}>
+          <input type="text" className="form-control" placeholder="Type here ..." aria-label="Recipient's username" 
+            aria-describedby="basic-addon2" value={inputMessage} onChange={handleChange} onKeyPress={handleKeyPress}
+            style={{color:'white', backgroundColor: '#252525', height: '50px', border:'#252525'}}></input>
+          <Button variant="primary" style={{background: '#252525', color:'white', height: '50px', width: '50px', border:'#252525'}} onClick={sendMessage}>
+            <FontAwesomeIcon icon={faPaperPlane} /> 
+          </Button>           
+        </div>
+    </div>
+  )
+  
   }
   
   export default Channel;
