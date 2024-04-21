@@ -10,7 +10,7 @@ const ChatWindow = () => {
       <div className="container-fluid">
         <div className="row justify-content-center" >
            <div className="col-md-6">
-            <div className="card h-100 border-0">
+            <div className="card h-75 border-0">
                 <Head/>
                 <div className="card-body" style={{ overflowY: 'auto', height: '535px'}}>
                     <p style={{ color: 'grey', fontSize: '30px'}}>Lorem Ipsum</p>

@@ -14,7 +14,7 @@ const PubChat = () => {
       <div className="container-fluid">
         <div className="row justify-content-center" >
            <div className="col-md-6">
-            <div className="card h-100 border-0">
+            <div className="card h-75 border-0">
               <Head/>
               <div className="card-body" style={{ overflowY: 'auto', height: '650px'}}>
                 <div class="d-flex justify-content-start align-items-center mb-2">
