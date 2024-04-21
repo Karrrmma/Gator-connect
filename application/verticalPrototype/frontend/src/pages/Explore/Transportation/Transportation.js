@@ -178,6 +178,7 @@ function Transportation() {
         >
         Lines that will meet you on campus!
         </p>
+        
 
         <div className="search-container-transport">
           <h4 style = {{marginTop: '30px', marginBottom: '30px'}}>Refine your travel plans:</h4>
