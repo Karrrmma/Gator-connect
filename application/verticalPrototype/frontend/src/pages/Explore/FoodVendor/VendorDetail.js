@@ -313,7 +313,7 @@ function VendorDetail() {
     <div className="content-wrapper">
       <div className="search-wrapper">
         <div className="button-and-name">
-          <h1>FOOD VENDORS</h1>
+          <h1 style = {{color: 'white'}}>FOOD VENDORS</h1>
           <button onClick={handleBack} className="go-back-button">
             Go Back
           </button>
@@ -437,7 +437,7 @@ function VendorDetail() {
                 type="text"
                 value={menuName}
                 onChange={(e) => setMenuName(e.target.value)}
-                placeholder="MENU NAME"
+                placeholder="FOOD NAME"
                 required
               />
             </div>

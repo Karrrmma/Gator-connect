@@ -79,15 +79,8 @@ function Explore() {
 
   return (
     <section style={containerStyle}>
-      <h1 style={{ marginBottom: "0.5em" }}>EXPLORE</h1>
-      <p> Let's explore lots of useful functionalities ! </p>
-      <input
-        type="text"
-        placeholder="SEARCH..."
-        value={searchQuery}
-        onChange={handleSearchChange}
-        style={inputStyle}
-      />
+      <h1 style={{ marginBottom: "0.5em", color: 'white'}}>EXPLORE</h1>
+
       {routes.map((route, index) => (
         <Link key={route.text} to={`/explore/${route.path}`} style={itemStyle}>
           <div style={{ display: "flex", alignItems: "center" }}>

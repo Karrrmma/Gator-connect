@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import '../ExploreTemplate.css';
+import "../ExploreTemplate.css";
 import { useNavigate } from "react-router-dom";
 import { FaStar, FaCommentDots } from "react-icons/fa";
 
@@ -25,6 +25,7 @@ import vendorImage19 from "./vendorimg/vendor19.jpg";
 
 function FoodVendor() {
   const navigate = useNavigate();
+  const [searchTerm, setSearchTerm] = useState("");
   const initialVendorsRef = useRef(
     [
       {
@@ -161,6 +162,14 @@ function FoodVendor() {
   );
 
   const [vendors, setVendors] = useState(initialVendorsRef.current);
+  // Search filter
+  const [fullVendors, setFullVendors] = useState([]);
+  const [ratingFilter, setRatingFilter] = useState("");
+  const [commentFilter, setCommentFilter] = useState("");
+  const [sortDirectionRatings, setSortDirectionRatings] = useState("");
+  const [sortDirectionComments, setSortDirectionComments] = useState("");
+  const [priorityRatings, setPriorityRatings] = useState(false);
+  const [priorityComments, setPriorityComments] = useState(false);
 
   useEffect(() => {
     async function fetchVendors() {
@@ -175,12 +184,14 @@ function FoodVendor() {
             };
             return acc;
           }, {});
+
           const updatedVendors = initialVendorsRef.current.map((vendor) => ({
             ...vendor,
             average_rating: fetchedRatings[vendor.name]?.average_rating || 0,
             num_reviews: fetchedRatings[vendor.name]?.num_reviews || 0,
           }));
           setVendors(updatedVendors);
+          setFullVendors(updatedVendors);
         } else {
           throw new Error(data.message);
         }
@@ -191,6 +202,111 @@ function FoodVendor() {
 
     fetchVendors();
   }, []);
+
+  const handleRatingFilterChange = (event) => {
+    setRatingFilter(event.target.value);
+  };
+
+  const handleCommentFilterChange = (event) => {
+    setCommentFilter(event.target.value);
+  };
+
+  const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+  const handleSortDirectionRatingsChange = (event) => {
+    setSortDirectionRatings(event.target.value);
+  };
+
+  const handleSortDirectionCommentsChange = (event) => {
+    setSortDirectionComments(event.target.value);
+  };
+
+  const handlePriorityRatingsChange = () => {
+    if (!priorityRatings) {
+      setPriorityRatings(true);
+      setPriorityComments(false);
+    } else {
+      setPriorityRatings(false);
+    }
+  };
+
+  const handlePriorityCommentsChange = () => {
+    if (!priorityComments) {
+      setPriorityComments(true);
+      setPriorityRatings(false); 
+    } else {
+      setPriorityComments(false); 
+    }
+  };
+
+  const handleSearchSubmit = () => {
+    let filteredVendors = fullVendors.filter((vendor) =>
+      vendor.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
+    if (ratingFilter) {
+      filteredVendors = filteredVendors.filter(
+        (vendor) => vendor.average_rating >= parseFloat(ratingFilter)
+      );
+    }
+
+    if (commentFilter) {
+      filteredVendors = filteredVendors.filter(
+        (vendor) => vendor.num_reviews >= parseInt(commentFilter, 10)
+      );
+    }
+
+    if (priorityRatings && priorityComments) {
+      if (sortDirectionRatings && sortDirectionComments) {
+        filteredVendors.sort((a, b) => {
+          const ratingSort =
+            sortDirectionRatings === "asc"
+              ? a.average_rating - b.average_rating
+              : b.average_rating - a.average_rating;
+          const commentSort =
+            sortDirectionComments === "asc"
+              ? a.num_reviews - b.num_reviews
+              : b.num_reviews - a.num_reviews;
+          return priorityRatings
+            ? ratingSort || commentSort
+            : commentSort || ratingSort;
+        });
+      }
+    } else if (sortDirectionRatings && priorityRatings) {
+      filteredVendors.sort((a, b) => {
+        return sortDirectionRatings === "asc"
+          ? a.average_rating - b.average_rating
+          : b.average_rating - a.average_rating;
+      });
+    } else if (sortDirectionComments && priorityComments) {
+      filteredVendors.sort((a, b) => {
+        return sortDirectionComments === "asc"
+          ? a.num_reviews - b.num_reviews
+          : b.num_reviews - a.num_reviews;
+      });
+    }
+
+    setVendors(filteredVendors);
+  };
+
+  const handleKeyPress = (event) => {
+    if (event.key === "Enter") {
+      handleSearchSubmit();
+    }
+  };
+
+  const handleResetFilters = () => {
+    setSearchTerm("");
+    setRatingFilter("");
+    setCommentFilter("");
+    setSortDirectionRatings("");
+    setSortDirectionComments("");
+    setPriorityRatings(false);
+    setPriorityComments(false);
+    setVendors(fullVendors);
+  };
 
   const handleImageClick = (name) => {
     const formattedName = encodeURIComponent(name.replace(/\s+/g, "-"));
@@ -210,7 +326,7 @@ function FoodVendor() {
     <div className="content-wrapper">
       <div className="search-wrapper">
         <div className="button-and-name">
-          <h1>FOOD VENDORS</h1>
+          <h1 style={{ color: "white" }}>FOOD VENDORS</h1>
           <button onClick={handleBack} className="go-back-button">
             Go Back
           </button>
@@ -233,7 +349,7 @@ function FoodVendor() {
         <div className="search-container">
           <input
             type="text"
-            placeholder="SEARCH FOODS..."
+            placeholder="SEARCH FOOD VENDOR..."
             className="search-bar"
             style={{
               marginTop: "30px",
@@ -241,14 +357,19 @@ function FoodVendor() {
               height: "30px",
               borderRadius: "50px",
             }}
+            value={searchTerm}
+            onChange={handleSearchChange}
+            onKeyPress={handleKeyPress}
           />
           <p
             style={{ marginTop: "20px", fontSize: "16px", fontWeight: "bold" }}
           >
             {" "}
-            DATE & TIME
+            COMMENTS
           </p>
           <select
+            value={commentFilter}
+            onChange={handleCommentFilterChange}
             style={{
               marginTop: "10px",
               width: "300px",
@@ -256,13 +377,14 @@ function FoodVendor() {
               borderRadius: "50px",
             }}
           >
-            <option value="">OPEN HOURS</option>
-            <option value="">1</option>
-            <option value="">2</option>
-            <option value="">3</option>
-            <option value="">4</option>
+            <option value="">Select Minimum Comments</option>
+            {Array.from({ length: 9 }, (_, i) => i + 1).map((num) => (
+              <option key={num} value={num}>{` ${num}`}</option>
+            ))}
           </select>
           <select
+            value={sortDirectionComments}
+            onChange={handleSortDirectionCommentsChange}
             style={{
               marginTop: "10px",
               width: "300px",
@@ -270,19 +392,19 @@ function FoodVendor() {
               borderRadius: "50px",
             }}
           >
-            <option value="">OPEN DATES</option>
-            <option value="">1</option>
-            <option value="">2</option>
-            <option value="">3</option>
-            <option value="">4</option>
+            <option value="">Sort Comments</option>
+            <option value="asc">Ascending</option>
+            <option value="desc">Descending</option>
           </select>
 
           <p
             style={{ marginTop: "20px", fontSize: "16px", fontWeight: "bold" }}
           >
-            SORT BY RATINGS
+            RATINGS
           </p>
           <select
+            value={ratingFilter}
+            onChange={handleRatingFilterChange}
             style={{
               marginTop: "10px",
               width: "300px",
@@ -290,13 +412,18 @@ function FoodVendor() {
               borderRadius: "50px",
             }}
           >
-            <option value="">LEVEL RATINGS</option>
-            <option value="">1</option>
-            <option value="">2</option>
-            <option value="">3</option>
-            <option value="">4</option>
+            <option value="">Select Minimum Ratings</option>
+            {Array.from({ length: 9 }, (_, i) => (i + 1) * 0.5).map(
+              (rating) => (
+                <option key={rating} value={rating}>{` ${rating.toFixed(
+                  1
+                )}`}</option>
+              )
+            )}
           </select>
           <select
+            value={sortDirectionRatings}
+            onChange={handleSortDirectionRatingsChange}
             style={{
               marginTop: "10px",
               width: "300px",
@@ -304,14 +431,49 @@ function FoodVendor() {
               borderRadius: "50px",
             }}
           >
-            <option value="">ASCENDING / DESCENDING</option>
-            <option value="">1</option>
-            <option value="">2</option>
-            <option value="">3</option>
-            <option value="">4</option>
+            <option value="">Sort Ratings</option>
+            <option value="asc">Ascending</option>
+            <option value="desc">Descending</option>
           </select>
 
-          <button className="search-button">SEARCH</button>
+          <div>
+            <button className="search-button" onClick={handleSearchSubmit}>
+              SEARCH
+            </button>
+            <button
+              onClick={handleResetFilters}
+              className="reset-filters-button"
+              style={{ marginLeft: "80px", marginTop: "40px" }}
+            >
+              Reset Filters
+            </button>
+          </div>
+
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-around",
+              marginTop: "10px",
+            }}
+          >
+            <div style={{ marginRight: "15px" }}>
+              <input
+                type="checkbox"
+                checked={priorityRatings}
+                onChange={handlePriorityRatingsChange}
+              />
+              <label> Rating Priority </label>
+            </div>
+
+            <div style={{ marginLeft: "15px" }}>
+              <input
+                type="checkbox"
+                checked={priorityComments}
+                onChange={handlePriorityCommentsChange}
+              />
+              <label> Comment Priority</label>
+            </div>
+          </div>
         </div>
       </div>
 
