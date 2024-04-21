@@ -1,34 +1,63 @@
 import React, { useEffect, useState } from 'react';
-import { FaCommentDots, FaRegThumbsUp, FaRegThumbsDown } from 'react-icons/fa';
+import { FaCommentDots,FaHeart, FaRegThumbsUp, FaRegThumbsDown } from 'react-icons/fa';
 import TestPFP from '../assets/images/placeholder_pfp.png';
 import Logo from '../assets/images/gator.png';
 import Gru from '../assets/images/gru.jpg';
 import Vector from '../assets/images/vector.jpg';
 import SearchBar from './SearchBar';
+import './Post.css';
+
 // import {Link} from 'react-router-dom';
 // import App from './../App';
-
 function PostCard({ item, avatar }) {
+    const [isLiked, setIsLiked] = useState(false);
+    const [likesCount, setLikesCount] = useState(item.likes || 0);
+    const handleLike = () => {
+        if (!isLiked) {
+          setLikesCount(likesCount + 1);
+        } else {
+          setLikesCount(likesCount - 1); 
+        }
+        setIsLiked(!isLiked); 
+      };
     return (
-        <div class="card" style={{ marginBottom: '30px' }}>
-            <div class="card-body">
-                <div class="d-flex justify-content-start align-items-center mb-2">
-                    <img src={avatar} class="rounded-circle" alt="placeholder pfp" style={{ width: 40, height: 40 }}></img>
-                    <h5 class="card-title ml-2">{item.username}</h5>
-                </div>
-
-                <p class="card-text text-left" style={{ color: 'black', fontSize: '20px'}}>{item.content}</p>
-                {item.imageUrl && <img src={item.imageUrl} class=" mb-3 mt-2" alt="placeholder"></img>}
-
-                <div class="d-flex justify-content-center">
-                    <button type="button" class="btn btn-outline-success btn-sm mr-2 w-50"><FaRegThumbsUp /><span className="d-lg-inline-block d-none"> Like</span></button>
-                    <button type="button" class="btn btn-outline-danger btn-sm mr-2 w-50"><FaRegThumbsDown /><span className="d-lg-inline-block d-none">  Dislike</span></button>
-                    <button type="button" class="btn btn-outline-secondary btn-sm mr-2 w-50"><FaCommentDots /><span className="d-lg-inline-block d-none">  Comment</span></button>
-                </div>
+      <div className="card post-card">
+        <div className="card-body">
+          <div className="d-flex justify-content-between align-items-start">
+            <div className="user-info">
+              <img src={avatar} className="rounded-circle" alt="User profile" />
+              <h5 className="card-title">{item.username}</h5>
             </div>
+            <div className="actions d-flex align-items-center">
+              
+
+              <button type="button" className="btn btn-outline-secondary btn-sm"><FaCommentDots /></button>
+              <span className="comments-count">{item.comments || 0}</span> 
+
+              <button type="button" className={`btn btn-outline-success btn-sm mr-2 ${isLiked ? 'red-heart' : ''}`}
+              onClick={handleLike} 
+              ><FaHeart /></button>              
+            <span className="likes-count">{likesCount}</span>
+
+            </div>
+          </div>
+          
+          
+          <p className="card-text">{item.content}</p>
+          {item.imageUrl && <img src={item.imageUrl} className="card-image mt-2 mb-3" alt="Post" />}
+
+          
+
+  
+          
+            <div className="comment-input-section">
+            <input type="text" className="form-control comment-input" placeholder="Leave a comment..." />
+          </div>
         </div>
+      </div>
     );
-}
+  }
+  
 
 function UserCard({ username, major }) {
     return (
