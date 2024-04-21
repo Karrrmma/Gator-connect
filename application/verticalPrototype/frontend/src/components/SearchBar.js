@@ -17,18 +17,30 @@ const SearchBar = ({ onSearch }) => {
     }
 
     return (
-        <form class="w-50" onSubmit={handleSearchSubmit} id="search-bar" >
-            <p className="search-content">Search users by</p>
-            <input type="text" className="form-control" id="search-bar-input" value={username} onChange={e => setUsername(e.target.value)} placeholder="username..." />
-            <select value={major} onChange={e => setMajor(e.target.value)}>
-                <option>Any major</option>
-                {MAJORS.map(major => <option value={major}>{major}</option>)}
-            </select>
-            <input type="text" className="form-control" id="search-bar-input" value={year} onChange={e => setYear(e.target.value)} placeholder="school year..." />
-            {/* <input type="text" className="form-control" id="search-bar-input" value={content} onChange={e => setContent(e.target.value)} placeholder="content..." /> */}
-            {/* <input type="text" class="form-control" id="search-bar-input" value={searchTerm} onChange={handleSearchChange} placeholder="Search for posts..." /> */}
-            <button type="submit" id="search-bar-button"><FaSearch /></button>
-        </form>
+        <div>
+            <div className="search-header">Search to explore, connect, and make more friends!</div>
+
+            <form onSubmit={handleSearchSubmit} id="search-bar" >
+                
+                <p className="search-content">Search BY</p>
+                
+                <input type="text" className="form-control"  value={username} onChange={e => setUsername(e.target.value)} placeholder="username..." />
+                <select className="form-control" value={major} onChange={e => setMajor(e.target.value)}>
+                    <option >Any major</option>
+                    {MAJORS.map(major => <option value={major}>{major}</option>)}
+                </select>
+                <input type="text" className="form-control" value={year} onChange={e => setYear(e.target.value)} placeholder="school year..." />
+                {/* <input type="text" className="form-control" id="search-bar-input" value={content} onChange={e => setContent(e.target.value)} placeholder="content..." /> */}
+                {/* <input type="text" class="form-control" id="search-bar-input" value={searchTerm} onChange={handleSearchChange} placeholder="Search for posts..." /> */}
+                <button type="submit" id="search-bar-button"><FaSearch /></button>
+            </form>
+        
+                <p className='welcome'>WELCOME TO GATOR CONNECT</p>
+
+                <p className='welcome'>- Social Media Platform for SFSU students -</p>
+                <p className='guide'> SCROLL DOWN TO EXPLORE MORE POSTS FROM EVERYONE</p>
+        </div>
+        
     );
 }
 
