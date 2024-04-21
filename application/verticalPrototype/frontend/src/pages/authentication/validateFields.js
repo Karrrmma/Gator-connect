@@ -16,7 +16,10 @@ export default function validateFields(values) {
     if (!values.password) {
         errors.password = 'Password required';
     }
+
     // password validation
+    // password is X long? password contains X?
+
 
     // Does fullname exist
     if (!values.fullname) {

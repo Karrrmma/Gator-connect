@@ -50,16 +50,6 @@ h5 {
   /* background-color: black; */
 }
 
-.login-btn {
-  width: 100px;
-  margin: auto;
-}
-
-.login-btn:hover {
-  color: white !important;
-  background-color: black;
-}
-
 .small {
   font-size: 0.8rem;
 }
