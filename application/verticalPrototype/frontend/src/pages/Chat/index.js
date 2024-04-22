@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Gru from '../../assets/images/gru.jpg';
-import Vector from '../../assets/images/vector.jpg';
+import Dog from '../../assets/images/art10.jpg';
+import Cat from '../../assets/images/art5.jpg';
 import Placeholder from '../../assets/images/placeholder_pfp.png';
 
 
@@ -31,11 +31,11 @@ const Chat = () => {
               
               <div className="card-body" style={{ backgroundColor: 'black', overflowY: 'auto', height: '550px'}}>
                 <div class="d-flex justify-content-start align-items-center" style={{ width: '100%', border: '1px solid black', padding: '10px', textAlign: 'right' }}>
-                    <img src={Gru} class="rounded-circle" alt="placeholder pfp" style={{ width: 50, height: 50 }}></img>
+                    <img src={Cat} class="rounded-circle" alt="placeholder pfp" style={{ width: 50, height: 50 }}></img>
                     <Link to='/chatWindow/Fabian Weiland' className='btn btn-link text-decoration-none' style={{color: 'white', fontSize: '25px'}}>Fabian Weiland</Link>
                 </div>
                 <div class="d-flex justify-content-start align-items-center" style={{ width: '100%', border: '1px solid black', padding: '10px', textAlign: 'right' }}>
-                    <img src={Vector} class="rounded-circle" alt="placeholder pfp" style={{ width: 50, height: 50 }}></img>
+                    <img src={Cat} class="rounded-circle" alt="placeholder pfp" style={{ width: 50, height: 50 }}></img>
                     <Link to='/chatWindow/Jose Ortiz' className='btn btn-link text-decoration-none' style={{color: 'white', fontSize: '25px'}}>Jose Ortiz</Link>
                 </div>
                 <div class="d-flex justify-content-start align-items-center" style={{ width: '100%', border: '1px solid black', padding: '10px', textAlign: 'right' }}>

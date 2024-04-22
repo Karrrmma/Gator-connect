@@ -37,13 +37,18 @@
     background-color: black;
     color: #ffffff;
     border-radius: 20px;
-    height: 70px;
+    height: 60px;
     border: none;
     cursor: pointer;
     width: 100%;
     padding: 0px 30px;
-    font-size: 23px;
+    font-size: 20px;
     font-weight: bold;
+}
+
+.login-button:hover {
+    background-color: #AD45FF;
+    color: white;
 }
 
 .login-button-wrapper {
@@ -81,7 +86,7 @@
     background-color: #1A1A1A;
     color: #ffffff;
     justify-content: space-between;
-    /* height: 100%; */
+    height: 100%;
     flex-direction: column;
 }
 
@@ -91,7 +96,7 @@
     width: 100%;
     gap: 2%;
     padding: 0 5%;
-    margin-top: 50px;
+    padding-top: 20px;
 }
 
 .button-group button {
@@ -101,12 +106,23 @@
     border: none;
     cursor: pointer;
     width: 100%;
-    padding: 0px 30px;
+    /* padding: 0px 30px; */
     font-size: 23px;
 }
 
+.button-group button:hover {
+    background-color: #AD45FF;
+    color: white;
+}
+
+/* .active {
+    background-color: #AD45FF;
+    color: white;
+} */
+
 .footer {
     margin-top: auto;
+    margin-bottom: 60px;
 }
 
 .footer p {

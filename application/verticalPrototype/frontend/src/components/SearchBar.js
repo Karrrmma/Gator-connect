@@ -17,30 +17,34 @@ const SearchBar = ({ onSearch }) => {
     }
 
     return (
-        <div>
-            <div className="search-header">Search to explore, connect, and make more friends!</div>
+        <div className='search-body'>
+            <div className="search-header">Search any SFSU users to connect and make more friends!</div>
 
-            <form onSubmit={handleSearchSubmit} id="search-bar" >
-                
-                <p className="search-content">Search BY</p>
-                
-                <input type="text" className="form-control"  value={username} onChange={e => setUsername(e.target.value)} placeholder="username..." />
+            <form className='search-home-container' onSubmit={handleSearchSubmit} id="search-bar" >
+
+                {/* <p className="search-content">Search BY</p> */}
+
+                <input type="text" className="form-control" value={username} onChange={e => setUsername(e.target.value)} placeholder="Search by username..." />
                 <select className="form-control" value={major} onChange={e => setMajor(e.target.value)}>
-                    <option >Any major</option>
+                    <option >Select major</option>
                     {MAJORS.map(major => <option value={major}>{major}</option>)}
                 </select>
-                <input type="text" className="form-control" value={year} onChange={e => setYear(e.target.value)} placeholder="school year..." />
+                <input type="text" className="form-control" value={year} onChange={e => setYear(e.target.value)} placeholder="Select school year..." />
                 {/* <input type="text" className="form-control" id="search-bar-input" value={content} onChange={e => setContent(e.target.value)} placeholder="content..." /> */}
                 {/* <input type="text" class="form-control" id="search-bar-input" value={searchTerm} onChange={handleSearchChange} placeholder="Search for posts..." /> */}
                 <button type="submit" id="search-bar-button"><FaSearch /></button>
             </form>
-        
-                <p className='welcome'>WELCOME TO GATOR CONNECT</p>
 
-                <p className='welcome'>- Social Media Platform for SFSU students -</p>
-                <p className='guide'> SCROLL DOWN TO EXPLORE MORE POSTS FROM EVERYONE</p>
+            {/* <p className='welcome'>WELCOME TO GATOR CONNECT</p> */}
+            <div className="welcome-container">
+                <div className="welcome-circle"></div>
+                <p className="welcome-text">WELCOME TO GATOR CONNECT</p>
+                <p className='welcome'>Best social media platform <br/> for SFSU students!</p>
+            </div>
+
+            <p className='guide'> SCROLL DOWN TO EXPLORE MORE POSTS FROM EVERYONE</p>
         </div>
-        
+
     );
 }
 
