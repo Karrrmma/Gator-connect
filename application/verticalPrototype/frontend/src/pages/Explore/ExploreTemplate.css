@@ -134,3 +134,72 @@ html, body {
 .fixed-element {
   will-change: transform;
 }
+
+
+/* Transportation page */
+.route-button{
+        margin-right: 10px;
+        margin-bottom: 10px;
+        border-radius: 10px;
+        height: 40px; 
+        font-size: 16px; 
+        padding: 5px 10px; 
+        border:#ccc;
+        background-color: gray; 
+        color: white; 
+        cursor: pointer; 
+        outline:#ccc; 
+        margin-top: 30px;
+        align-self:center;
+}
+
+.route-button:hover{
+  background-color: #AD45FF; 
+}
+
+.route-map {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  border: 1px solid #ccc;
+  z-index: 1000;   
+  width: 80%; 
+  max-width: 800px; 
+  max-height: 80%; 
+  overflow: auto; 
+  box-sizing: border-box; 
+  position:fixed; 
+}
+
+.route-map button {
+  position:fixed; 
+  top: 10px; 
+  right: 10px; 
+  height: 40px; 
+  border-radius: 10px;
+  font-size: 16px; 
+  padding: 5px 10px; 
+  border:#ccc;
+  background-color: gray; 
+  color: white; 
+  cursor: pointer; 
+  outline:#ccc; 
+}
+
+.route-map button:hover{
+  background-color: #AD45FF; 
+}
+
+.search-container-transport {
+  display: flex;
+  flex-direction: column;
+  width: 400px;
+  height: 330px;
+  margin-top: 50px;
+  background-color: black;
+  border-radius: 28px;
+  align-items: center;
+}

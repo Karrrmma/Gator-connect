@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import './Transportation.css';
+import '../ExploreTemplate.css';
+import { useNavigate } from "react-router-dom";
 
 import bart_map from './bart_map.jpg';
 import bart_night from './bart_night.jpg';
@@ -11,6 +12,7 @@ import route_91 from './route_91.jpg';
 import route_M from './route_M.jpg';
 
 function Transportation() {
+  const navigate = useNavigate();
   const [showRouteMap, setShowRouteMap] = useState(false);
   const [selectedRoute, setSelectedRoute] = useState(null);
   const [filters, setFilters] = useState({
@@ -50,7 +52,7 @@ function Transportation() {
       accessibility: true,
       hours: "Monday - Friday, 5am - 12:50am",
       pickUpLocation: "Main Campus Entrance, 19th St",
-      additionalInfo: "Route 29 runs through Sunset District.",
+      additionalInfo: "Route 29 runs through Sunset District and eventually leads to Golden Gate Park.",
       midnight: false,
       direction: ["Golden Gate Park", "Sunset", "Park Presidio", "Bart Station", "Bayshore"]
     },
@@ -152,30 +154,55 @@ function Transportation() {
     }));
   }
 
+  const handleBack = () => {
+    navigate("/explore");
+  };
+
   return (
 
-    <div className="route-container">
-    <h1>Transportation</h1> 
-    <h4>Lines that will meet you on campus!</h4>
+    <div className="content-wrapper">
+      <div className="search-wrapper">         
+          <div className="button-and-name">
+          <h1>TRANSPORTATION</h1>
+          <button onClick={handleBack} className="go-back-button">
+            Go Back
+          </button>
+        </div>
+        <p
+          style={{
+            color: "#D3D3D3",
+            fontSize: "14px",
+            margin: "0",
+            textAlign: "left",
+          }}
+        >
+        Lines that will meet you on campus!
+        </p>
+        
 
-      <div className="filter-bar">
-      
-          <p>________________</p>      
-          <p>Refine your travel plans.</p>
-          
-          <div className="search-container">
-
-          <div>
-        <select value={filters.type} onChange={(e) => handleFilterChange('type', e.target.value)}>
+        <div className="search-container-transport">
+          <h4 style = {{marginTop: '30px', marginBottom: '30px'}}>Refine your travel plans:</h4>
+        <select style={{
+              marginTop: "10px",
+              marginBottom: '10px',
+              width: "300px",
+              height: "30px",
+              borderRadius: "50px",
+            }}value={filters.type} onChange={(e) => handleFilterChange('type', e.target.value)}>
           <option value="">Select Transit Type</option>
           <option value="Shuttle">Shuttle</option>
           <option value="Muni">Muni</option>
           <option value="Muni Metro">Muni Metro</option>
           <option value="Bart Lines">Bart Lines</option>
         </select>
-      </div>
+      
       <div>
-        <select value={filters.direction} onChange={(e) => handleFilterChange('direction', e.target.value)}>
+        <select style={{
+              marginTop: "10px",
+              width: "300px",
+              height: "30px",
+              borderRadius: "50px",
+            }}value={filters.direction} onChange={(e) => handleFilterChange('direction', e.target.value)}>
           <option value="">Select Destination</option>
           <option value="Bart Station">Bart Station</option>
           <option value="Downtown">Downtown</option>
@@ -194,7 +221,7 @@ function Transportation() {
       </div>
 
       <div>
-            <label name ="accessible">
+            <label style = {{marginTop: '40px'}}name ="accessible">
               <input 
                 type="checkbox" 
                 checked={filters.accessibility} 
@@ -213,25 +240,27 @@ function Transportation() {
           />
           Runs after midnight
         </label>
+        </div>
       </div>
-      <p>________________</p>   
+       
           </div>
-      </div>
       
-      <div className="route-grid">
+      
+      
+      <div className="grid-wrapper">
         {filteredRoutes.length === 0 ? (
           <p>Sorry, there are no available routes with those set preferences.</p>
         ) : 
           filteredRoutes.map((route, index) => (
-          <div key={index} className="route-panel">
-            <p>________________________________</p>
-            <p style ={{ color: '#AD45FF', fontSize: '20px', fontWeight: 'bold', margin:'5' }}>{route.name}</p>
-            <p style = {{ color: 'gray', fontSize: '14px', margin: '0', fontWeight: 'bold'}}>{route.type}</p>
-            <p>________________________________</p>
-            <p>Hours: {route.hours}</p>
-            <p>Pick-Up Location: {route.pickUpLocation}</p>
-            <p>{route.additionalInfo}</p>
-            <button onClick={() => handleClick(route)}>View Route Map</button> 
+          <div key={index} className="grid-item">
+          
+            <p style ={{ color: '#AD45FF', fontSize: '20px', fontWeight: 'bold', margin:'5', marginTop: '20px', textAlign:'center' }}>{route.name}</p>
+            <p style = {{ color: 'gray', fontSize: '14px', margin: '0', fontWeight: 'bold', marginBottom: '10px', textAlign: 'center'}}>{route.type}</p> 
+            <p style = {{color: 'white', fontSize: '12px', marginTop: '20px'}}>{route.additionalInfo}</p>
+            <p style = {{color: 'gray', fontSize: '12px'}}>Hours: {route.hours}</p>
+            <p style = {{color: 'gray', fontSize: '12px'}}>Pick-Up Location: {route.pickUpLocation}</p>
+            
+            <button className = "route-button" onClick={() => handleClick(route)}>View Route Map</button> 
           </div>
         ))}
       </div>
@@ -241,8 +270,9 @@ function Transportation() {
           <button onClick={() => setShowRouteMap(false)}>Close Map</button>
         </div>
       )}
-    </div>
+     </div>
   );
+  
 }
 
 export default Transportation;
