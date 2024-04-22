@@ -494,7 +494,7 @@ function VendorDetail() {
   let { name } = useParams();
   name = decodeURIComponent(name.replace(/-/g, " "));
   const navigate = useNavigate();
-  const vendor = { ...vendorsInfo[name], ...vendorFromState }; // Merging details from static data and dynamic state
+  const vendor = { ...vendorsInfo[name], ...vendorFromState }; 
 
   const [menuItems, setMenuItems] = useState([]);
   const [menuName, setMenuName] = useState("");
