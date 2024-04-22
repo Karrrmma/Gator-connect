@@ -1,70 +1,63 @@
 import React, { useEffect, useState } from 'react';
-import { FaCommentDots,FaHeart, FaRegThumbsUp, FaRegThumbsDown } from 'react-icons/fa';
+import { FaCommentDots, FaHeart, FaRegThumbsUp, FaRegThumbsDown } from 'react-icons/fa';
 import TestPFP from '../assets/images/placeholder_pfp.png';
 import Logo from '../assets/images/gator.png';
-import Gru from '../assets/images/gru.jpg';
-import Vector from '../assets/images/vector.jpg';
+import Cat from '../assets/images/art5.jpg';
+import Dog from '../assets/images/art10.jpg';
 import SearchBar from './SearchBar';
 import './Post.css';
 
 // import {Link} from 'react-router-dom';
 // import App from './../App';
-function PostCard({ item, avatar }) {
+function PostCard({ item, icon }) {
     const [isLiked, setIsLiked] = useState(false);
     const [likesCount, setLikesCount] = useState(item.likes || 0);
     const handleLike = () => {
         if (!isLiked) {
-          setLikesCount(likesCount + 1);
+            setLikesCount(likesCount + 1);
         } else {
-          setLikesCount(likesCount - 1); 
+            setLikesCount(likesCount - 1);
         }
-        setIsLiked(!isLiked); 
-      };
+        setIsLiked(!isLiked);
+    };
     return (
-      <div className="card post-card">
-        <div className="card-body">
-          <div className="d-flex justify-content-between align-items-start">
-            <div className="user-info">
-              <img src={avatar} className="rounded-circle" alt="User profile" />
-              <h5 className="card-title">{item.username}</h5>
+        <div className="card post-card">
+            <div className="card-body">
+                <div className="d-flex justify-content-between align-items-start">
+                    <div className="user-info">
+                        {/* <img src={avatar} className="rounded-circle" alt="User profile" /> */}
+                        <div className="avatar">{icon}</div>
+                        <h5 className="card-title">{item.username}</h5>
+                    </div>
+                    <div className="actions d-flex align-items-center" style={{ fontSize: '1.2rem' }}>
+                        {/* <button type="button" className="btn btn-outline-secondary btn-sm"><FaCommentDots /></button>
+                        <span className="comments-count">{item.comments || 0}</span> */}
+                        <span className="comments-count"><FaCommentDots /> {item.comments || 0}</span>
+                        <span className={`outline-success ${isLiked ? 'red-heart' : ''}`}><FaHeart /> {likesCount}</span>
+                    </div>
+                </div>
+
+                <p className="card-text">{item.content}</p>
+                {item.imageUrl && <img src={item.imageUrl} className="card-image mt-2 mb-3" alt="Post" style={{ maxWidth: '80%' }} />}
+
+                <div className="comment-input-section">
+                    <input type="text" className="form-control comment-input" placeholder="Leave a comment..." />
+                    <button type="button" onClick={handleLike}><FaHeart /> {isLiked ? 'Unlike' : 'Like'}</button>
+                </div>
             </div>
-            <div className="actions d-flex align-items-center">
-              
-
-              <button type="button" className="btn btn-outline-secondary btn-sm"><FaCommentDots /></button>
-              <span className="comments-count">{item.comments || 0}</span> 
-
-              <button type="button" className={`btn btn-outline-success btn-sm mr-2 ${isLiked ? 'red-heart' : ''}`}
-              onClick={handleLike} 
-              ><FaHeart /></button>              
-            <span className="likes-count">{likesCount}</span>
-
-            </div>
-          </div>
-          
-          
-          <p className="card-text">{item.content}</p>
-          {item.imageUrl && <img src={item.imageUrl} className="card-image mt-2 mb-3" alt="Post" />}
-
-          
-
-  
-          
-            <div className="comment-input-section">
-            <input type="text" className="form-control comment-input" placeholder="Leave a comment..." />
-          </div>
         </div>
-      </div>
     );
-  }
-  
+}
 
-function UserCard({ username, major }) {
+
+function UserCard({ username, major, icon }) {
     return (
         <div class="card" style={{ marginBottom: '30px' }}>
             <div class="card-body">
                 <div class="d-flex justify-content-start align-items-center mb-2">
-                    <img src={TestPFP} class="rounded-circle" alt="placeholder pfp" style={{ width: 40, height: 40 }}></img>
+                    {/* <img src={TestPFP} class="rounded-circle" alt="placeholder pfp" style={{ width: 40, height: 40 }}></img> */}
+                    {/* <div className="avatar">🐊</div> */}
+                    {/* <div className="avatar">{icon}</div> */}
                     <div class="text-left">
                         <h5 class="card-title ml-2 mb-0">{username}</h5>
                         <div class="text-muted small ml-2 mt-0 major">{major}</div>
@@ -99,31 +92,31 @@ function Post() {
             },
             body: JSON.stringify({ username, major, year }),
         };
-    
+
         if (!username && !major && !year) {
             url = '/testpost';
             options = {};
             // console.log("fetching test post INSTEAD");
         }
-        
+
         const response = await fetch(url, options);
         const newItems = await response.json();
-        
+
         if (!newItems.results || newItems.results.length === 0) {
             setNoUsersFound(true);
         } else {
             setNoUsersFound(false);
         }
-        
+
         if (url === '/search') {
             setItems(newItems.results);
         } else {
-            setItems(newItems.slice(0,3));
+            setItems(newItems.slice(0, 3));
         }
     };
 
     return (
-        <>            
+        <>
             <SearchBar onSearch={setSearchQuery} />
             {Object.values(searchQuery).some(value => value) ? (
                 <>
@@ -131,7 +124,7 @@ function Post() {
                     <section class="w-50">
                         {items.map((item, index) => {
                             if (item) {
-                                return <UserCard key={index} username={item.username} major={item.major} />;
+                                return <UserCard key={index} username={item.username} major={item.major} icon={item.icon} />;
                             }
                             return null;
                         })}
@@ -139,10 +132,11 @@ function Post() {
                 </>
             ) : (
                 <section class="w-50">
-                    {items.map((item, index) => <PostCard key={index} item={item} avatar={Logo} />)}
-                    <PostCard item={{ username: 'Felonious Gru', content: 'Hey! Do you know Despicable Me 4 in theaters this July 3rd 2024!', imageUrl: Gru }} avatar={Gru}/>
-                    <PostCard item={{ username: 'Jose Ortiz', content: 'I love Gator Connect app :) '}} avatar={TestPFP}/>
-                    <PostCard item={{ username: 'Vector Perkins', content: 'Really?!', imageUrl: Vector }} avatar={Vector}/>
+                    {items.map((item, index) => <PostCard key={index} item={item} icon={'🐊'} />)}
+                    <PostCard item={{ username: 'Felonious Gru', content: 'Hope you have a beautiful day!', imageUrl: Cat }} icon="🎃" />
+                    <PostCard item={{ username: 'Jose Ortiz', content: 'I love Gator Connect app 😎 ' }} icon="🎄" />
+                    <PostCard item={{ username: 'Marco Lorenz', content: 'Weee! Does anyone love dogs here?', imageUrl: Dog }} icon="🐶" />
+                    <PostCard item={{ username: 'Fabian Weiland', content: ">> Hello World! \n My code is working and I have no idea why : ) " }} icon="🐳" />
                 </section>
             )}
         </>

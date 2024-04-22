@@ -4,7 +4,7 @@ import {useParams} from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
-import Gru from '../../assets/images/gru.jpg';
+import Cat from '../../assets/images/art10.jpg';
 
 import { useState } from "react";
 
@@ -59,7 +59,7 @@ const Channel = () => {
     return(
      <div style={{background: 'black'}}>      
       <div class="d-flex justify-content-start align-items-center" style={{ width: '100%', border: '1px solid black', padding: '10px', textAlign: 'right' }}>
-        <img src={Gru} class="rounded-circle" alt="placeholder pfp" style={{ width: 50, height: 50, display: 'inline-block', marginLeft:'20px', marginRight: '10px' }}></img>
+        <img src={Cat} class="rounded-circle" alt="placeholder pfp" style={{ width: 50, height: 50, display: 'inline-block', marginLeft:'20px', marginRight: '10px' }}></img>
         <p style={{ color: 'white', fontSize: '20px'}}>{channel_names}</p>
         <Link to='/pubChat' className='text-decoration-none' style={{color: '#252525', fontSize: '30px', display: 'inline-block', marginLeft:'230px', marginRight: '10px' }}>X</Link>
       </div>
