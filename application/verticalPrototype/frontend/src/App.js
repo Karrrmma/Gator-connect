@@ -58,7 +58,6 @@ function App() {
             <Route path="/chatWindow/:name" element={<ChatWindow />} />
             <Route path="/pubChat" element={<PubChat />} />
             <Route path="/channel/:channel_names" element={<Channel />} />
-            <Route path="/newpost" element={<NewPost />} />
           </Routes>
         </header>
       </div>

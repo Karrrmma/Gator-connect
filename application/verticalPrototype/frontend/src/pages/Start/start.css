@@ -1,0 +1,137 @@
+.start-page {
+    display: flex;
+    flex-direction: column;
+    /* align-items: flex-start; */
+    justify-content: center;
+    height: 100vh;
+}
+
+.logo {
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+}
+
+.logo-title-wrapper {
+    display: flex;
+    align-items: center;
+}
+
+.logo-wrapper {
+    background-color: #fff;
+    border-radius: 50%;
+    padding: 5px;
+    display: inline-flex;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    padding: 30px;
+    justify-content: space-between;
+    position: relative;
+}
+
+.login-button {
+    background-color: black;
+    color: #ffffff;
+    border-radius: 20px;
+    height: 70px;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    padding: 0px 30px;
+    font-size: 23px;
+    font-weight: bold;
+}
+
+.login-button-wrapper {
+    z-index: 1;
+    position: relative;
+}
+
+.logo-title-wrapper {
+    z-index: 1;
+    position: relative;
+}
+
+.register-button {
+    background-color: #AD45FF;
+    color: #ffffff;
+    border-radius: 20px;
+    height: 60px;
+    border: none;
+    cursor: pointer;
+    width: auto;
+    padding: 0px 30px;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.header-section {
+    flex: 4;
+    background-color: #D9D9D9;
+    position: relative;
+}
+
+.content-section {
+    flex: 3;
+    display: flex;
+    background-color: #1A1A1A;
+    color: #ffffff;
+    justify-content: space-between;
+    /* height: 100%; */
+    flex-direction: column;
+}
+
+.button-group {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    gap: 2%;
+    padding: 0 5%;
+    margin-top: 50px;
+}
+
+.button-group button {
+    background-color: #D9D9D9;
+    color: black;
+    height: 60px;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    padding: 0px 30px;
+    font-size: 23px;
+}
+
+.footer {
+    margin-top: auto;
+}
+
+.footer p {
+    font-size: 20px;
+    padding-top: 50%;
+}
+
+.preview-wrapper, .preview-next {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transition: transform 1s ease-in-out;
+}
+
+.preview-next {
+    left: 100%;
+}
+
+.preview {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    animation: slide 1s ease-in-out;
+}
