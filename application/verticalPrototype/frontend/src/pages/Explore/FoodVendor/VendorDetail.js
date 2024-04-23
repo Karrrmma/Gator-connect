@@ -893,9 +893,9 @@ function VendorDetail() {
 
         <div className="grid-wrapper">
           {filteredItems.length > 0 &&
-            filteredItems.some(
-              (item) => item.menu_rating > 0 || item.menu_review > 0
-            ) ? (
+          filteredItems.some(
+            (item) => item.menu_rating >= 0 || item.menu_review >= 0
+          ) ? (
             filteredItems.map((item, index) => (
               <div
                 key={index}
@@ -908,10 +908,9 @@ function VendorDetail() {
                   overflow: "hidden",
                   borderRadius: "30px",
                   width: "250px",
-                  height: "190px",
+                  height: "auto",
                   paddingLeft: "14px",
-                  marginBottom: "47px",
-                  marginRight: "10px",
+                  paddingBottom: "14px",
                 }}
               >
                 <h3>{item.menu_name}</h3>

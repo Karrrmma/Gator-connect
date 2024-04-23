@@ -2,9 +2,9 @@
     max-height: 200px;
     max-width: 800px;
     padding: 20px; 
-    margin-top: 70px;
+    /* margin-top: 70px; */
     border-radius: 10px; 
-    box-shadow: 0 0 10px rgba(92, 70, 70, 0.1); 
+    /* box-shadow: 0 0 10px rgba(92, 70, 70, 0.1);  */
     color: #fff; 
 }
 
@@ -19,14 +19,21 @@
     background-color: #0a0a0a; 
     border-radius: 20px; 
     box-shadow: 0 0 10px rgba(35, 30, 30, 0.2);
+    width: 60vh; 
 }
 
 .notification-content {
     flex: 1; 
     display: flex;
-    flex-direction: column; 
+    flex-direction: row;
+    align-items: center; 
+    text-align: left;
     margin-right: 20px;
 
+}
+
+.notification-info {
+    margin-left: 10px;
 }
 
 .notification-sender {
@@ -34,13 +41,11 @@
     margin-bottom: 5px;  
     font-size: .8em;
     margin-right:20px;
-    
-
-
 }
 
 .notification-text {
     font-size: .5em;
+    font-weight: lighter;
 }
 
 .notification-actions {
@@ -57,41 +62,51 @@
     font-weight: bold; 
     color: #fff; 
     background-color: #5C5C5C; 
+    transition: border 0.1s;
 }
 
 .notification-actions button.accept {
-    background-color: rgb(46, 237, 46);
+    background-color: #AD45FF;
 }
 
 .notification-actions button.decline {
-    background-color: rgb(208, 9, 9);
+    background-color: #2C2C2E;
 }
+
 
 .notification-actions button:last-child {
     margin-right: 0;
 }
 
-.title{
-    margin-top: 40px;
-    margin-top:100px;
-    font-size: xx-large;
-
-
+.accepted {
+    font-size: 1.2rem;
+    color: #AD45FF;
 }
-.Intro{
-    margin-top:20px;
-    font-size: smaller;
-    font-weight: 100;
+
+.title{
+    /* margin-top: 40px; */
+    font-size: xx-large;
     color: #fff;
 }
-.notification-section .back-home{
-    padding: 20px 30px;
-    background-color:#656565;
-    font: inherit;
-    color: #FFFFFF;
-    display: inline-block; 
-    margin-top:90px;
-    border-radius: 30px;
-    font-size: smaller;
 
+.intro{
+    margin-top: 10px;
+    font-size: 1.1rem;
+    color: gray;
+}
+.notification-section .back-home{
+    padding: 12px 20px;
+    border-radius: 50px;
+    background-color: gray;
+    color: white;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: bold;
+    /* width: 120px; */
+    cursor: pointer;
+    border: none;
+}
+
+.notification-section .back-home:hover{
+    background-color: #AD45FF;
 }

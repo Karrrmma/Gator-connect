@@ -91,7 +91,7 @@ function Explore() {
 
   return (
     <section style={containerStyle}>
-      <h1 style={{ fontSize: '2.0rem', marginBottom: "0.5em", color: 'white' }}>EXPLORE</h1>
+      <h1 style={{ fontSize: '2.0rem', marginBottom: "0.5rem", color: 'white' }}>EXPLORE</h1>
       <p style={{ fontSize: "1.1rem", color: 'gray' }}>Let's discover all the resources and opportunities available to SFSU students</p>
 
       {routes.map((route, index) => (

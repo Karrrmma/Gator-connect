@@ -219,12 +219,6 @@ body {
 }
 
 .back-btn {
-  color: gray;
-  font-size: 14px;
-  margin-top: 7px;
-}
-
-.back-btn {
   padding: 10px;
   border-radius: 50px;
   background-color: gray;
@@ -234,6 +228,9 @@ body {
   font-weight: bold;
   width: 120px;
   margin-top: 20px;
+  cursor: pointer;
+  outline: none;
+  border: none;
 }
 
 .back-btn:hover {
