@@ -2,25 +2,26 @@ import React, { useState } from 'react';
 import '../ExploreTemplate.css';
 import { useNavigate } from "react-router-dom";
 
-import bart_map from './bart_map.jpg';
-import bart_night from './bart_night.jpg';
-import route_28 from './route_28.jpg';
-import route_28R from './route_28R.jpg';
-import route_29 from './route_29.jpg';
-import route_57 from './route_57.jpg';
-import route_91 from './route_91.jpg';
-import route_M from './route_M.jpg';
+import bart_map from './routes/bart_map.jpg';
+import bart_night from './routes/bart_night.jpg';
+import route_28 from './routes/route_28.jpg';
+import route_28R from './routes/route_28R.jpg';
+import route_29 from './routes/route_29.jpg';
+import route_57 from './routes/route_57.jpg';
+import route_91 from './routes/route_91.jpg';
+import route_M from './routes/route_M.jpg';
 
 function Transportation() {
   const navigate = useNavigate();
   const [showRouteMap, setShowRouteMap] = useState(false);
   const [selectedRoute, setSelectedRoute] = useState(null);
-  const [filters, setFilters] = useState({
+  const initialFilters = {
     type: '',
     accessibility: false,
     midnight: false,
-    direction: '',
-  });
+    direction: ''
+  };
+  const [filters, setFilters] = useState(initialFilters);
 
   const routes = [
     { 
@@ -154,6 +155,10 @@ function Transportation() {
     }));
   }
 
+  const handleResetFilters = () => {
+    setFilters(initialFilters);
+  };
+
   const handleBack = () => {
     navigate("/explore");
   };
@@ -163,7 +168,7 @@ function Transportation() {
     <div className="content-wrapper">
       <div className="search-wrapper">         
           <div className="button-and-name">
-          <h1 style={{color: "white"}}>TRANSPORT</h1>
+          <h2 style={{color: "white"}}>TRANSPORTATION</h2>
           <button onClick={handleBack} className="go-back-button">
             Go Back
           </button>
@@ -180,13 +185,13 @@ function Transportation() {
         </p>
         
 
-        <div className="search-container-transport">
+        <div className="search-container-te">
           <h4 style = {{marginTop: '30px', marginBottom: '30px'}}>Refine your travel plans:</h4>
         <select style={{
               marginTop: "10px",
               marginBottom: '10px',
               width: "300px",
-              height: "30px",
+              height: "40px",
               borderRadius: "50px",
             }}value={filters.type} onChange={(e) => handleFilterChange('type', e.target.value)}>
           <option value="">Select Transit Type</option>
@@ -200,7 +205,7 @@ function Transportation() {
         <select style={{
               marginTop: "10px",
               width: "300px",
-              height: "30px",
+              height: "40px",
               borderRadius: "50px",
             }}value={filters.direction} onChange={(e) => handleFilterChange('direction', e.target.value)}>
           <option value="">Select Destination</option>
@@ -220,7 +225,7 @@ function Transportation() {
         </select>
       </div>
 
-      <div>
+      <div className='checkbox'>
             <label style = {{marginTop: '40px'}}name ="accessible">
               <input 
                 type="checkbox" 
@@ -229,9 +234,9 @@ function Transportation() {
               />
               Wheelchair accessible
             </label>
-          </div>
+      </div>
         
-            <div>
+            <div className ='checkbox'>
         <label name = "midnight">
           <input 
             type="checkbox" 
@@ -240,7 +245,15 @@ function Transportation() {
           />
           Runs after midnight
         </label>
+        <div>
+        <button onClick={handleResetFilters} className="search-button">
+          Reset Filters
+        </button>
         </div>
+
+      
+        </div>
+ 
       </div>
        
           </div>

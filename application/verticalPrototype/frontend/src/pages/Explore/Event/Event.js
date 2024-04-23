@@ -4,12 +4,13 @@ import { useNavigate } from "react-router-dom";
 
 function Event() {
   const navigate = useNavigate();
-  const [filters, setFilters] = useState({
+  const initialFilters = {
     type: '',
-    creator: '',
-    passed: false
-  });
+    creator: ''
+  };
   const [searchQuery, setSearchQuery] = useState('');
+
+  const [filters, setFilters] = useState(initialFilters);
 
   const events = [
     {
@@ -19,8 +20,7 @@ function Event() {
       hosts: "Student Names",
       location: "Ceasar Chavez Building",
       time:"Saturday April 20th, 5:30pm PDT",
-      creator: "faculty",
-      passed: true
+      creator: "faculty"
     },
     {
       name: "Movie Night Under the Stars",
@@ -29,8 +29,7 @@ function Event() {
       hosts: "Campus Activities Board",
       location: "Campus Lawn",
       time: "Friday, May 3rd, 7:00pm PDT",
-      creator: "student",
-      passed: false
+      creator: "student"
     },
     {
       name: "Cultural Fest 2024",
@@ -39,8 +38,7 @@ function Event() {
       hosts: "Multicultural Student Union",
       location: "Malcolm X Plaza",
       time: "Saturday, April 27th, 12:00pm PDT",
-      creator: "student",
-      passed: false
+      creator: "student"
     },
     {
       name: "Tech Expo: Future Innovations",
@@ -49,8 +47,7 @@ function Event() {
       hosts: "Computer Science Society",
       location: "Engineering Building",
       time: "Thursday, May 9th, 10:00am PDT",
-      creator: "faculty",
-      passed: false
+      creator: "faculty"
     },
     {
       name: "Wellness Workshop: Stress Management",
@@ -59,8 +56,7 @@ function Event() {
       hosts: "Student Health Services",
       location: "Wellness Center",
       time: "Wednesday, May 15th, 3:00pm PDT",
-      creator: "faculty",
-      passed: false
+      creator: "faculty"
     },
     {
       name: "Sports Tournament: Intramural Soccer",
@@ -69,8 +65,7 @@ function Event() {
       hosts: "Intramural Sports Association",
       location: "Campus Soccer Field",
       time: "Saturday, May 18th, 9:00am PDT",
-      creator: "faculty",
-      passed: false
+      creator: "faculty"
     },
     {
       name: "Career Fair 2024",
@@ -79,8 +74,7 @@ function Event() {
       hosts: "Career Services Center",
       location: "Student Union Ballroom",
       time: "Tuesday, May 21st, 11:00am PDT",
-      creator: "faculty",
-      passed: false
+      creator: "faculty"
     },
     {
       name: "Art Exhibition: Student Showcase",
@@ -89,8 +83,7 @@ function Event() {
       hosts: "Art Department",
       location: "University Art Gallery",
       time: "Friday, May 24th, 5:00pm PDT",
-      creator: "student",
-      passed: false
+      creator: "student"
     },
     {
       name: "Music Concert: Battle of the Bands",
@@ -99,8 +92,7 @@ function Event() {
       hosts: "Music Department",
       location: "Campus Amphitheater",
       time: "Saturday, May 25th, 6:00pm PDT",
-      creator: "student",
-      passed: false
+      creator: "student"
     }
   ];
   const filteredEvents = events.filter(event => {
@@ -123,6 +115,10 @@ function Event() {
     setSearchQuery(e.target.value);
   };
 
+  const handleResetFilters = () => {
+    setFilters(initialFilters);
+  };
+
   const handleBack = () => {
     navigate("/explore");
   };
@@ -131,7 +127,7 @@ function Event() {
 <div className = "content-wrapper">
   <div className = "search-wrapper">
   <div className="button-and-name">
-          <h1 style={{color: "white"}}>CAMPUS EVENTS</h1>
+          <h2 style={{color: "white"}}>CAMPUS EVENTS</h2>
           <button onClick={handleBack} className="go-back-button">
             Go Back
           </button>
@@ -147,7 +143,7 @@ function Event() {
         Great Events offered by SFSU, put together by faculty or students. 
         </p>
 
-        <div className="search-container-events">
+        <div className="search-container-te">
           <input
             type="text"
             placeholder="Search events by name..."
@@ -155,7 +151,7 @@ function Event() {
             style={{
               marginTop: "30px",
               width: "300px",
-              height: "30px",
+              height: "40px",
               borderRadius: "50px",
             }}
             value={searchQuery}
@@ -171,8 +167,9 @@ function Event() {
               marginTop: "10px",
               marginBottom: '10px',
               width: "300px",
-              height: "30px",
+              height: "40px",
               borderRadius: "50px",
+              className: "select-options",
             }}value={filters.type} onChange={(e) => handleFilterChange('type', e.target.value)}>
           <option value="">Select Event Type</option>
           <option value="Art">Art</option>
@@ -188,14 +185,17 @@ function Event() {
             style={{
               marginTop: "10px",
               width: "300px",
-              height: "30px",
+              height: "40px",
               borderRadius: "50px",
+              className: "select-options",
             }}value={filters.creator} onChange={(e) => handleFilterChange('creator', e.target.value)}>
             <option value="">Created by</option>
             <option value="faculty">Faculty</option>
             <option value="student">Student</option>
           </select>
-          <button className="search-button">SEARCH</button>
+          <button onClick={handleResetFilters} className="search-button">
+          Reset Filters
+        </button>
           </div>
   </div>
     <div className="grid-wrapper">
