@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { FaSearch } from "react-icons/fa";
 import './SearchBar.css';
 import { MAJORS } from '../constants/majors';
+import { YEARS } from '../constants/years';
 
 const SearchBar = ({ onSearch }) => {
     // const [searchTerm, setSearchTerm] = useState('');
@@ -29,7 +30,11 @@ const SearchBar = ({ onSearch }) => {
                     <option >Select major</option>
                     {MAJORS.map(major => <option value={major}>{major}</option>)}
                 </select>
-                <input type="text" className="form-control" value={year} onChange={e => setYear(e.target.value)} placeholder="Select school year..." />
+                <select className='form-control'value={year} onChange={e => setYear(e.target.value)}>
+                    <option value="">Select school year</option>
+                    {YEARS.map((year, index)=> <option key={index} value={year}>{year}</option>)}
+                </select>
+                 {/*<input type="text" className="form-control" value={year} onChange={e => setYear(e.target.value)} placeholder="Select school year..." />*/}
                 {/* <input type="text" className="form-control" id="search-bar-input" value={content} onChange={e => setContent(e.target.value)} placeholder="content..." /> */}
                 {/* <input type="text" class="form-control" id="search-bar-input" value={searchTerm} onChange={handleSearchChange} placeholder="Search for posts..." /> */}
                 <button type="submit" id="search-bar-button"><FaSearch /></button>

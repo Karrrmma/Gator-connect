@@ -5,8 +5,8 @@ import './Notification.css';
 
 function NotificationItem({ notification, onAccept, onDecline }) {
     // Replace with actual action handlers
-    const handleAccept = () => console.log('Accepted');
-    const handleDecline = () => console.log('Declined');
+    //const handleAccept = () => console.log('Accepted');
+    //const handleDecline = () => console.log('Declined');
     
     return (
         <div className="notification-item">
@@ -21,11 +21,14 @@ function NotificationItem({ notification, onAccept, onDecline }) {
                 {notification.accepted && <span className="accepted">Following</span>}
                 {!notification.accepted && (
                     <button className="decline" onClick={() => onDecline(notification.id)}>Decline</button>
-        )}
+                    
+                    )}
             </div>
         </div>
+
     );
 }
+//{!notification.accepted && <span className="accepted">decline </span>} 
 
 function Notification() {
     const [notifications, setNotifications] = useState([
@@ -49,22 +52,26 @@ function Notification() {
     };
 
     const handleDecline = (id) => {
-        console.log('Declined', id);
+        setNotifications(currentNotifications =>
+            currentNotifications.filter(notification => notification.id !== id)
+        );
+    
         
     };
 
     return (
         <section className="notification-section">
-            <h1 className="mt-5">Notifications</h1>
-            <p classNmae ="mt-"> intro text to explain what this page for</p>
+            <h className="title">NOTIFICATION</h>
+            <p className ="Intro"> Check who send you friend request below</p>
             <div className="notification-list">
                 {notifications.map(notification => (
                     <NotificationItem key={notification.id} notification={notification} 
                     onAccept={handleAccept}
                     onDecline={handleDecline}/>
                 ))}
+
             </div>
-            <Link to="/home">Return to Home</Link>
+            <Link to="/home" className='back-home'>BACK HOME</Link>
         </section>
     );
 }
