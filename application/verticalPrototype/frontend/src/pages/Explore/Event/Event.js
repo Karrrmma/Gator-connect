@@ -5,8 +5,11 @@ import { useNavigate } from "react-router-dom";
 function Event() {
   const navigate = useNavigate();
   const [filters, setFilters] = useState({
-    type: ''
+    type: '',
+    creator: '',
+    passed: false
   });
+  const [searchQuery, setSearchQuery] = useState('');
 
   const events = [
     {
@@ -15,7 +18,9 @@ function Event() {
       description: "Wanna learn how to do your makeup in a gender-affirming way? Come join the Queer Alliance for a -MAKEUP NIGHT !",
       hosts: "Student Names",
       location: "Ceasar Chavez Building",
-      time:"Saturday April 20th, 5:30pm PDT"
+      time:"Saturday April 20th, 5:30pm PDT",
+      creator: "faculty",
+      passed: true
     },
     {
       name: "Movie Night Under the Stars",
@@ -23,7 +28,9 @@ function Event() {
       description: "Join us for a cozy movie night under the stars! Bring your blankets and snacks as we screen a classic film.",
       hosts: "Campus Activities Board",
       location: "Campus Lawn",
-      time: "Friday, May 3rd, 7:00pm PDT"
+      time: "Friday, May 3rd, 7:00pm PDT",
+      creator: "student",
+      passed: false
     },
     {
       name: "Cultural Fest 2024",
@@ -31,7 +38,9 @@ function Event() {
       description: "Experience the rich diversity of our campus community at Cultural Fest 2024! Enjoy performances, food, and activities from around the world.",
       hosts: "Multicultural Student Union",
       location: "Malcolm X Plaza",
-      time: "Saturday, April 27th, 12:00pm PDT"
+      time: "Saturday, April 27th, 12:00pm PDT",
+      creator: "student",
+      passed: false
     },
     {
       name: "Tech Expo: Future Innovations",
@@ -39,7 +48,9 @@ function Event() {
       description: "Explore the latest advancements in technology at our Tech Expo! Network with industry professionals.",
       hosts: "Computer Science Society",
       location: "Engineering Building",
-      time: "Thursday, May 9th, 10:00am PDT"
+      time: "Thursday, May 9th, 10:00am PDT",
+      creator: "faculty",
+      passed: false
     },
     {
       name: "Wellness Workshop: Stress Management",
@@ -47,7 +58,9 @@ function Event() {
       description: "Learn practical strategies for managing stress and maintaining well-being at our Wellness Workshop! Open to all students.",
       hosts: "Student Health Services",
       location: "Wellness Center",
-      time: "Wednesday, May 15th, 3:00pm PDT"
+      time: "Wednesday, May 15th, 3:00pm PDT",
+      creator: "faculty",
+      passed: false
     },
     {
       name: "Sports Tournament: Intramural Soccer",
@@ -55,7 +68,9 @@ function Event() {
       description: "Compete with fellow students in our Intramural Soccer Tournament! Show off your skills and win prizes.",
       hosts: "Intramural Sports Association",
       location: "Campus Soccer Field",
-      time: "Saturday, May 18th, 9:00am PDT"
+      time: "Saturday, May 18th, 9:00am PDT",
+      creator: "faculty",
+      passed: false
     },
     {
       name: "Career Fair 2024",
@@ -63,7 +78,9 @@ function Event() {
       description: "Connect with employers and explore career opportunities at our annual Career Fair! Bring your resume and dress to impress.",
       hosts: "Career Services Center",
       location: "Student Union Ballroom",
-      time: "Tuesday, May 21st, 11:00am PDT"
+      time: "Tuesday, May 21st, 11:00am PDT",
+      creator: "faculty",
+      passed: false
     },
     {
       name: "Art Exhibition: Student Showcase",
@@ -71,7 +88,9 @@ function Event() {
       description: "Discover the talent of our student artists at the Student Showcase Art Exhibition! View a variety of artworks.",
       hosts: "Art Department",
       location: "University Art Gallery",
-      time: "Friday, May 24th, 5:00pm PDT"
+      time: "Friday, May 24th, 5:00pm PDT",
+      creator: "student",
+      passed: false
     },
     {
       name: "Music Concert: Battle of the Bands",
@@ -79,11 +98,16 @@ function Event() {
       description: "Experience the ultimate battle of the bands as student musicians compete for the title! Enjoy a night of live music.",
       hosts: "Music Department",
       location: "Campus Amphitheater",
-      time: "Saturday, May 25th, 6:00pm PDT"
+      time: "Saturday, May 25th, 6:00pm PDT",
+      creator: "student",
+      passed: false
     }
   ];
   const filteredEvents = events.filter(event => {
     if (filters.type && event.type !== filters.type) return false;
+    if (filters.creator && event.creator !== filters.creator) return false;
+    // Check if the event name contains the search query
+    if (searchQuery && !event.name.toLowerCase().includes(searchQuery.toLowerCase())) return false;
     return true;
   }
   );
@@ -95,6 +119,10 @@ function Event() {
     }));
   }
 
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
+  };
+
   const handleBack = () => {
     navigate("/explore");
   };
@@ -103,7 +131,7 @@ function Event() {
 <div className = "content-wrapper">
   <div className = "search-wrapper">
   <div className="button-and-name">
-          <h1>EVENTS</h1>
+          <h1 style={{color: "white"}}>CAMPUS EVENTS</h1>
           <button onClick={handleBack} className="go-back-button">
             Go Back
           </button>
@@ -119,10 +147,10 @@ function Event() {
         Great Events offered by SFSU, put together by faculty or students. 
         </p>
 
-        <div className="search-container">
+        <div className="search-container-events">
           <input
             type="text"
-            placeholder="SEARCH FOODS..."
+            placeholder="Search events by name..."
             className="search-bar"
             style={{
               marginTop: "30px",
@@ -130,12 +158,14 @@ function Event() {
               height: "30px",
               borderRadius: "50px",
             }}
+            value={searchQuery}
+            onChange={handleSearchChange}
           />
         <p
             style={{ marginTop: "20px", fontSize: "16px", fontWeight: "bold" }}
           >
             {" "}
-            TYPE 
+            TYPE & CREATOR
           </p>
           <select style={{
               marginTop: "10px",
@@ -160,49 +190,11 @@ function Event() {
               width: "300px",
               height: "30px",
               borderRadius: "50px",
-            }}
-          >
-            <option value="">OPEN DATES</option>
-            <option value="">1</option>
-            <option value="">2</option>
-            <option value="">3</option>
-            <option value="">4</option>
+            }}value={filters.creator} onChange={(e) => handleFilterChange('creator', e.target.value)}>
+            <option value="">Created by</option>
+            <option value="faculty">Faculty</option>
+            <option value="student">Student</option>
           </select>
-
-          <p
-            style={{ marginTop: "20px", fontSize: "16px", fontWeight: "bold" }}
-          >
-            SORT BY RATINGS
-          </p>
-          <select
-            style={{
-              marginTop: "10px",
-              width: "300px",
-              height: "30px",
-              borderRadius: "50px",
-            }}
-          >
-            <option value="">LEVEL RATINGS</option>
-            <option value="">1</option>
-            <option value="">2</option>
-            <option value="">3</option>
-            <option value="">4</option>
-          </select>
-          <select
-            style={{
-              marginTop: "10px",
-              width: "300px",
-              height: "30px",
-              borderRadius: "50px",
-            }}
-          >
-            <option value="">ASCENDING / DESCENDING</option>
-            <option value="">1</option>
-            <option value="">2</option>
-            <option value="">3</option>
-            <option value="">4</option>
-          </select>
-
           <button className="search-button">SEARCH</button>
           </div>
   </div>

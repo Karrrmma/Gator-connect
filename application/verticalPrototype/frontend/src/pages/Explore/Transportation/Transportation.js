@@ -163,7 +163,7 @@ function Transportation() {
     <div className="content-wrapper">
       <div className="search-wrapper">         
           <div className="button-and-name">
-          <h1>TRANSPORTATION</h1>
+          <h1 style={{color: "white"}}>TRANSPORT</h1>
           <button onClick={handleBack} className="go-back-button">
             Go Back
           </button>
@@ -260,7 +260,7 @@ function Transportation() {
             <p style = {{color: 'gray', fontSize: '12px'}}>Hours: {route.hours}</p>
             <p style = {{color: 'gray', fontSize: '12px'}}>Pick-Up Location: {route.pickUpLocation}</p>
             
-            <button className = "route-button" onClick={() => handleClick(route)}>View Route Map</button> 
+            <button className = "route-button" onClick={() => handleClick(route)}>View Map</button> 
           </div>
         ))}
       </div>

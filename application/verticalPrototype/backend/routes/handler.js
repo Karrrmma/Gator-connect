@@ -58,9 +58,9 @@ router.post('/login', (req, res) => {
     const{username, password} = req.body;
     const query = 'SELECT * FROM Account WHERE username = ?';
     connection.query(query, [username], async (err, results)=>{
-      // console.log(username, password)
-      // console.log(results);
-      // console.log(err);
+      //console.log(username, password)
+      //console.log(results);
+      //console.log(err);
       if(err){
         console.error('Erro getting the username and password', err);
         return res.status(500).json({ error: 'Internal Server Error' });;
