@@ -7,7 +7,7 @@ import THUMBNAIL1 from '../../assets/images/thumbnail1.png';
 import THUMBNAIL2 from '../../assets/images/thumbnail2.png';
 import THUMBNAIL3 from '../../assets/images/thumbnail3.png';
 import THUMBNAIL4 from '../../assets/images/thumbnail4.png';
-import THUMBNAIL5 from '../../assets/images/thumbnail5.png';
+import THUMBNAIL5 from '../../assets/images/thumbnail5.jpg';
 import './start.css';
 
 function Start() {
@@ -55,7 +55,7 @@ function Start() {
                         <div className='logo-wrapper'>
                             <img src={LOGO} alt="Gator" className="logo" />
                         </div>
-                        <h1 className='ml-2'>GATOR CONNECT</h1>
+                        <h1 className='ml-2' style={{ color: 'white' }}>GATOR CONNECT</h1>
                     </div>
                     <div className="login-button-wrapper">
                         <Link to='/login'>
