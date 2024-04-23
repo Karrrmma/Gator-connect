@@ -38,7 +38,8 @@ function NewPost() {
 
     return (
         <div className="container mt-5">
-            <h1 className="mb-4">New Post</h1>
+            <h1 className="mb-4">ADD NEW POST</h1>
+            
             <form onSubmit={handleSubmit} onChange={handleChange}>
                 <div className="form-group">
                     <input type="text" name="post_content" placeholder="Content" className="form-control" />

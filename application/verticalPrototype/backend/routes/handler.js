@@ -310,26 +310,26 @@ router.get('/api/user/:user_id', (req, res) => {
 
 
 
-// Get user info by ID
+// Get user info by ID, OBSOLETE
 
-router.get('/api/user/:user_id', (req, res) => {
-  const { user_id } = req.params;
+// router.get('/api/user/:user_id', (req, res) => {
+//   const { user_id } = req.params;
 
-  const query = 'SELECT major, year FROM Student WHERE user_id = ?';
+//   const query = 'SELECT major, year FROM Student WHERE user_id = ?';
 
-  connection.query(query, [user_id], (error, results) => {
-      if (error) {
-          console.error('Error fetching student:', error);
-          return res.status(500).json({ error: 'Failed to fetch student' });
-      }
+//   connection.query(query, [user_id], (error, results) => {
+//       if (error) {
+//           console.error('Error fetching student:', error);
+//           return res.status(500).json({ error: 'Failed to fetch student' });
+//       }
 
-      if (results.length === 0) {
-          return res.status(404).json({ error: 'Student not found' });
-      }
+//       if (results.length === 0) {
+//           return res.status(404).json({ error: 'Student not found' });
+//       }
 
-      res.status(200).json(results[0]);
-  });
-});  
+//       res.status(200).json(results[0]);
+//   });
+// });  
 
 
 // *******************************************************************************************************************

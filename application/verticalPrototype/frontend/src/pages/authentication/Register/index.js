@@ -52,23 +52,6 @@ function Register() {
             setErrors({...err, tos: 'You must accept the Terms of Service'});
         }
 
-        // if (Object.keys(err).length === 0) { // if no errors, send data to server
-        //     const res = await fetch('/register', {
-        //         method: 'POST',
-        //         headers: {
-        //             'Content-Type': 'application/json',
-        //         },
-        //         body: JSON.stringify(values),
-        //     })
-        //     .then(() => {
-        //         if (res.ok) { // double check
-        //             console.log('User registered successfully');
-        //             return navigate('/login');
-        //         }
-        //         throw new Error('User registration failed');
-        //     })
-        //     .catch(err => console.log(err));
-        // }
         if (Object.keys(err).length === 0) {
             try {
                 const res = await fetch('/register', {
@@ -112,6 +95,7 @@ function Register() {
                                 <span className='text-danger'> {errors.username || '\u00A0'}</span>
                                 <input name="password" type="password" className="input-field" placeholder="Password" />
                                 <span className='text-danger'> {errors.password || '\u00A0'}</span>
+                                <span className='text-muted text-left'>*Password must contain at least 8 characters and a number</span>
                             </div>
                             <div className='form-column'>
                                 <input name="fullname" type="text" className="input-field" placeholder="Full Name" />
@@ -128,17 +112,25 @@ function Register() {
                                         {MAJORS.map(major => <option key={major} value={major}>{major}</option>)}
                                     </select>
                                     {role === 'Student' && (
-                                        <select className="input-field half ml-1" name="year" onChange={handleChange} >
-                                            <option>Select year</option>
+                                        <select className="input-field choose half ml-1" name="year" onChange={handleChange} >
+                                            <option>Select school year</option>
                                             {YEARS.map(year => <option key={year} value={year}>{year}</option>)}
                                         </select>
                                     )}
                                     <span className='text-danger'> {errors.major || '\u00A0'}</span>
                                     <span className='text-danger'> {errors.year || '\u00A0'}</span>
                                 </div>
+                                <div className='form-row' style={{ gap: '4px', alignItems: 'left', justifyContent: 'unset'}}>
+                                    <input type='checkbox' id='tos-check' className='mb-1' onChange={handleChange} style={{ width: '15px', height: '15px' }} />
+                                    <label htmlFor='tos-check' className='form-check-label tos-check ml-2'>I accept and agree to the </label>
+                                    <Link to='/tos' className='tos-check'>Terms and Service</Link>
+                                </div>
+                                <div className='form-column'>
+                                        <span className='text-danger justify-content-center'> {errors.tos || '\u00A0'}</span>
+                                </div>
                             </div>
                         </div>
-                        <div>
+                        <div className='mt-4'>
                             <button type='submit'><b>REGISTER</b></button>
                         </div>
                         <div className='login-link'>

@@ -16,9 +16,9 @@ const PubChat = () => {
         <div className="row justify-content-center" >
            <div className="">
            <Head/>
-            <div className="card h-75 border-0 rounded-pill" style={{ width: '500px'}}>
+            <div className="card h-75 border-0" style={{backgroundColor: 'black', width: '500px'}}>
 
-              <div className="card-body" style={{ backgroundColor: 'black', overflowY: 'auto', height: '550px'}}>
+              <div className="card-body" style={{ backgroundColor: 'black', overflowY: 'auto', height: '450px'}}>
                 <div class="d-flex justify-content-start align-items-center" style={{ width: '100%', border: '1px solid black', padding: '10px', textAlign: 'right' }}>
                   <SlSpeech style={{fontSize: '48px', color: '#c15757'}}></SlSpeech>
                   <Link to='/channel/General' className='btn btn-link text-decoration-none' style={{color: 'white', fontSize: '25px'}}>General</Link>
@@ -40,10 +40,8 @@ const PubChat = () => {
                   <Link to='/channel/Study Help' className='btn btn-link text-decoration-none' style={{color: 'white', fontSize: '25px'}}>Study Help</Link>
                 </div>
               </div>
-               <Bottom/>
-               <div className='card border-0' style={{background: 'black', fontSize: '15px' }}>
-                <p>Want to chat with your friends? <br></br> Go to Private Chat!</p>
-               </div>
+              <Bottom/>
+              <p style={{background: 'black', fontSize: '15px' }}>Want to chat with your friends? <br></br> Go to Private Chat!</p>
             </div>
            </div>
         </div>
@@ -64,16 +62,10 @@ const PubChat = () => {
 
   function Bottom(){
     return(
-    <div className="card border-0" style={{ background: 'black'}}>
-      <div className="card-body d-flex" style={{ background: 'black', justifyContent: 'center'}}>
-        
-        <div className='card rounded-pill' style={{backgroundColor: '#AD45FF'}}>
-            <Link to='/chat' className="btn btn-link text-decoration-none" style={{color: 'white', fontSize: '20px'}}>
-            Private Chat
-            </Link>
-        </div>
-        
-      </div>
+    <div className="card-body d-flex" style={{ background: 'black', justifyContent: 'center'}}>
+      <Link to='/chat' className="btn rounded-pill btn-link text-decoration-none" style={{backgroundColor: '#AD45FF', color: 'white', fontSize: '20px'}}>
+      Private Chat
+      </Link>
     </div>
     );
   }
