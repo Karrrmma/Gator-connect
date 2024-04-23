@@ -1,8 +1,10 @@
 /* Conventional template of EXPLORE */
 /* Wrapper for usage of foodvendor, transportation, event*/
 
-html, body {
-  background-color: rgb(25,25,25); /* Or any other color */
+html,
+body {
+  background-color: rgb(25, 25, 25);
+  /* Or any other color */
 }
 
 /* The fundamental wrapper*/
@@ -14,20 +16,33 @@ html, body {
 
 /* GENERAL Search wrapper*/
 .search-wrapper {
+  position: sticky;
+  top: 80px;
   height: 200px;
   width: 400px;
-  margin-right: 100px;
+  margin-right: 50px;
 }
 
 .button-and-name {
   display: flex;
 }
 
-.go-back-button {
-  margin-left: 20px;
-  border-radius: 18px;
+.button-and-name input {
+  width: 280px;
+  margin-top: 20px;
+  background-color: #2C2C2E;
+  border-radius: 20px;
+  border: none;
   height: 40px;
-  font-size: 16px;
+  padding: 10px;
+  color: gray;
+}
+
+.go-back-button {
+  margin-left: auto;
+  border-radius: 50px;
+  height: 40px;
+  font-size: 14px;
   padding: 5px 10px;
   border: none;
   background-color: gray;
@@ -44,12 +59,39 @@ html, body {
 
 .search-button {
   border-radius: 50px;
+  border: none;
   width: 135px;
   height: 40px;
-  margin-top: 50px;
+  margin: 20px;
   background-color: #ad45ff;
   font-weight: bold;
   color: white;
+}
+
+.reset-filters-button {
+  border-radius: 50px;
+  border: none;
+  width: 150px;
+  height: 40px;
+  margin: 20px;
+  background-color: gray;
+  font-weight: bold;
+  color: white;
+}
+
+.search-container input{
+  margin-top: 30px;
+}
+
+.search-container input, .select-options {
+  background-color: #1c1c1c;
+  border-radius: 20px;
+  border: none;
+  width: 80%;
+  height: 40px;
+  padding: 10px;
+  line-height: 30px;
+  color: gray;
 }
 
 /* GENERAL Search container*/
@@ -58,10 +100,15 @@ html, body {
   flex-direction: column;
   width: 400px;
   height: 530px;
-  margin-top: 50px;
+  margin-top: 30px;
   background-color: black;
   border-radius: 28px;
   align-items: center;
+}
+
+.search-container p {
+  align-self: flex-start; 
+  margin-left: 50px;
 }
 
 /* EXTENDED Search container*/
@@ -69,12 +116,28 @@ html, body {
   display: flex;
   flex-direction: column;
   width: 400px;
-  height: 730px;
-  margin-top: 50px;
+  margin-top: 30px;
+  padding-bottom: 20px;
   background-color: black;
   border-radius: 28px;
   align-items: center;
 }
+
+.checkbox {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  margin-top: 10px;
+  color: gray;
+}
+
+.checkbox input[type="checkbox"] {
+  width: auto;
+  margin: 0 10px 5px 30px;
+}
+
+
 
 /* GENERAL Grid wrapper*/
 .grid-wrapper {
@@ -83,6 +146,7 @@ html, body {
   gap: 25px;
   padding: 10px;
   box-sizing: border-box;
+  /* margin-top: 200px; */
 }
 
 /* empty grid when no reviews and comments*/
@@ -109,10 +173,11 @@ html, body {
   cursor: pointer;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   width: 250px;
-  height: 320px;
+  /* height: 350px; */
+  padding-bottom: 10px;
   padding-left: 14px;
-  margin-bottom: 47px;
-  margin-right: 10px;
+  /* margin-bottom: 47px;
+  margin-right: 10px; */
 }
 
 .grid-item:hover {
@@ -135,26 +200,121 @@ html, body {
   will-change: transform;
 }
 
-
-/* Transportation page */
-.route-button{
-        margin-right: 10px;
-        margin-bottom: 10px;
-        border-radius: 10px;
-        height: 40px; 
-        font-size: 16px; 
-        padding: 5px 10px; 
-        border:#ccc;
-        background-color: gray; 
-        color: white; 
-        cursor: pointer; 
-        outline:#ccc; 
-        margin-top: 30px;
-        align-self:center;
+.checkitout-btn {
+  padding: 8px;
+  border-radius: 50px;
+  background-color: white;
+  color: black;
+  text-decoration: none;
+  font-size: 15px;
+  width: 40%;
+  font-weight: bold;
+  margin-left: auto;
 }
 
-.route-button:hover{
-  background-color: #AD45FF; 
+.checkitout-btn:hover {
+  background-color: #AD45FF;
+  color: white;
+  text-decoration: none;
+}
+
+.back-btn {
+  color: gray;
+  font-size: 14px;
+  margin-top: 7px;
+}
+
+.back-btn {
+  padding: 10px;
+  border-radius: 50px;
+  background-color: gray;
+  color: white;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: bold;
+  width: 120px;
+  margin-top: 20px;
+}
+
+.back-btn:hover {
+  background-color: #AD45FF;
+  color: white;
+  text-decoration: none;
+}
+
+
+.rate-container {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+.form-box {
+  text-align: left;
+  margin-left: 20px;
+}
+
+.form-box input {
+  width: 150px;
+  margin-right: 20px;
+
+  background-color: #2C2C2E;
+  border-radius: 20px;
+  border: none;
+  height: 40px;
+  padding: 10px;
+  color: gray;
+}
+
+.form-box textarea {
+  width: 300px;
+  /* margin-left: 20px; */
+  background-color: #2C2C2E;
+  border-radius: 20px;
+  border: none;
+  height: 40px;
+  padding: 10px;
+  color: gray;
+}
+
+.submit-button {
+  /* margin-left: auto; */
+  margin-left: 20px;
+  border-radius: 50px;
+  width: 100px;
+  height: 40px;
+  font-size: 14px;
+  padding: 5px 10px;
+  border: none;
+  background-color: gray;
+  color: white;
+  cursor: pointer;
+  outline: none;
+  transition: background-color 0.3s ease;
+}
+
+.submit-button:hover {
+  background-color: #ad45ff;
+}
+
+/* Transportation page */
+.route-button {
+  margin-right: 10px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  height: 40px;
+  font-size: 16px;
+  padding: 5px 10px;
+  border: #ccc;
+  background-color: gray;
+  color: white;
+  cursor: pointer;
+  outline: #ccc;
+  margin-top: 30px;
+  align-self: center;
+}
+
+.route-button:hover {
+  background-color: #AD45FF;
 }
 
 .route-map {
@@ -165,32 +325,32 @@ html, body {
   background-color: white;
   padding: 20px;
   border: 1px solid #ccc;
-  z-index: 1000;   
-  width: 80%; 
-  max-width: 800px; 
-  max-height: 80%; 
-  overflow: auto; 
-  box-sizing: border-box; 
-  position:fixed; 
+  z-index: 1000;
+  width: 80%;
+  max-width: 800px;
+  max-height: 80%;
+  overflow: auto;
+  box-sizing: border-box;
+  position: fixed;
 }
 
 .route-map button {
-  position:fixed; 
-  top: 10px; 
-  right: 10px; 
-  height: 40px; 
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  height: 40px;
   border-radius: 10px;
-  font-size: 16px; 
-  padding: 5px 10px; 
-  border:#ccc;
-  background-color: gray; 
-  color: white; 
-  cursor: pointer; 
-  outline:#ccc; 
+  font-size: 16px;
+  padding: 5px 10px;
+  border: #ccc;
+  background-color: gray;
+  color: white;
+  cursor: pointer;
+  outline: #ccc;
 }
 
-.route-map button:hover{
-  background-color: #AD45FF; 
+.route-map button:hover {
+  background-color: #AD45FF;
 }
 
 .search-container-transport {

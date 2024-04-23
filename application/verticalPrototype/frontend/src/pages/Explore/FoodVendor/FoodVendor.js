@@ -31,130 +31,130 @@ function FoodVendor() {
       {
         name: "Cafe 101",
         imageUrl: vendorImage1,
-        short_description: "Classic coffee and snacks.",
+        short_description: "Classic coffee and snacks",
         detailed_description:
           "Cafe 101 offers a variety of coffee blends, artisan teas, and small bites.",
       },
       {
         name: "Cafe Rosso",
         imageUrl: vendorImage2,
-        short_description: "Italian café classics.",
+        short_description: "Italian café classics",
         detailed_description:
           "Cafe Rosso serves traditional Italian coffees, homemade pastries, and paninis.",
       },
       {
         name: "City Cafe",
         imageUrl: vendorImage3,
-        short_description: "Urban eatery hub.",
+        short_description: "Urban eatery hub",
         detailed_description:
           "City Cafe offers a bustling urban atmosphere with a menu.",
       },
       {
         name: "Clean Bites",
         imageUrl: vendorImage4,
-        short_description: "Healthy meals to-go.",
+        short_description: "Healthy meals to-go",
         detailed_description:
           "Clean Bites focuses on nutritious, whole-food meals.",
       },
       {
         name: "Farm Fresh Underground",
         imageUrl: vendorImage5,
-        short_description: "Farm-to-table experience.",
+        short_description: "Farm-to-table experience",
         detailed_description:
           "Discover the taste of freshness at Farm Fresh Underground.",
       },
       {
         name: "Gold Coast Grill & Catering",
         imageUrl: vendorImage6,
-        short_description: "Grill and barbecue.",
+        short_description: "Grill and barbecue",
         detailed_description:
           "Gold Coast Grill offers an exquisite barbecue and grill menu.",
       },
       {
         name: "Good to Go",
         imageUrl: vendorImage7,
-        short_description: "Quick, tasty bites.",
+        short_description: "Quick, tasty bites",
         detailed_description:
           "Good to Go is your best bet for fast, delicious meals.",
       },
       {
         name: "HSS 121 Cafe",
         imageUrl: vendorImage8,
-        short_description: "Casual campus café.",
+        short_description: "Casual campus café",
         detailed_description:
           "HSS 121 Cafe is a favorite spot for students and faculty.",
       },
       {
         name: "Village Market & Pizza",
         imageUrl: vendorImage9,
-        short_description: "Gourmet pizzas and more.",
+        short_description: "Gourmet pizzas and more",
         detailed_description: "Fresh ingredients at Village Market & Pizza.",
       },
       {
         name: "Natural Sensations",
         imageUrl: vendorImage10,
-        short_description: "Organic and natural.",
+        short_description: "Organic and natural",
         detailed_description:
           "Natural Sensations offers a menu full of organic options.",
       },
       {
         name: "Nizario's Pizza",
         imageUrl: vendorImage11,
-        short_description: "Classic pizzeria.",
+        short_description: "Classic pizzeria",
         detailed_description: "Nizario's Pizza serves classic pizza favorites.",
       },
       {
         name: "Peet's Coffee & Tea",
         imageUrl: vendorImage12,
-        short_description: "Rich coffees and teas.",
+        short_description: "Rich coffees and teas",
         detailed_description:
           "Peet's Coffee & Tea provides a superior coffee experience.",
       },
       {
         name: "Quickly",
         imageUrl: vendorImage13,
-        short_description: "Snappy Asian fusion.",
+        short_description: "Snappy Asian fusion",
         detailed_description:
           "Quickly is the go-to spot for Asian fusion treats.",
       },
       {
         name: "Halal Shop",
         imageUrl: vendorImage14,
-        short_description: "Authentic Halal cuisine.",
+        short_description: "Authentic Halal cuisine",
         detailed_description:
           "The Halal Shop offers a variety of authentic Halal dishes.",
       },
       {
         name: "Station Cafe",
         imageUrl: vendorImage15,
-        short_description: "Coffee and pastries.",
+        short_description: "Coffee and pastries",
         detailed_description:
           "Station Cafe is your neighborhood stop for freshly brewed coffee.",
       },
       {
         name: "Subway",
         imageUrl: vendorImage16,
-        short_description: "Fresh sandwiches made-to-order.",
+        short_description: "Fresh sandwiches made-to-order",
         detailed_description: "Subway offers a variety of subs and salads.",
       },
       {
         name: "Taqueria Girasol",
         imageUrl: vendorImage17,
-        short_description: "Sunny Mexican flavors.",
+        short_description: "Sunny Mexican flavors",
         detailed_description:
           "Taqueria Girasol brings you vibrant Mexican cuisine.",
       },
       {
         name: "Taza Smoothies & Wraps",
         imageUrl: vendorImage18,
-        short_description: "Smoothies and wraps.",
+        short_description: "Smoothies and wraps",
         detailed_description:
           "Taza Smoothies & Wraps serves up health-conscious smoothies and wraps.",
       },
       {
         name: "The Pub at SFSU",
         imageUrl: vendorImage19,
-        short_description: "Campus pub and grill.",
+        short_description: "Campus pub and grill",
         detailed_description:
           "The Pub at SFSU offers a friendly campus atmosphere.",
       },
@@ -240,9 +240,9 @@ function FoodVendor() {
   const handlePriorityCommentsChange = () => {
     if (!priorityComments) {
       setPriorityComments(true);
-      setPriorityRatings(false); 
+      setPriorityRatings(false);
     } else {
-      setPriorityComments(false); 
+      setPriorityComments(false);
     }
   };
 
@@ -286,7 +286,7 @@ function FoodVendor() {
           ? a.average_rating - b.average_rating
           : b.average_rating - a.average_rating;
       });
-    } else if (sortDirectionComments && priorityComments) { 
+    } else if (sortDirectionComments && priorityComments) {
       filteredVendors.sort((a, b) => {
         return sortDirectionComments === "asc"
           ? a.num_reviews - b.num_reviews
@@ -308,7 +308,7 @@ function FoodVendor() {
 
     setVendors(filteredVendors);
   };
-// **************************************************
+  // **************************************************
 
   const handleKeyPress = (event) => {
     if (event.key === "Enter") {
@@ -345,93 +345,51 @@ function FoodVendor() {
     <div className="content-wrapper">
       <div className="search-wrapper">
         <div className="button-and-name">
-          <h1 style={{ color: "white" }}>FOOD VENDORS</h1>
+          <h2 style={{ color: "white" }}>FOOD VENDORS</h2>
           <button onClick={handleBack} className="go-back-button">
-            Go Back
+            GO BACK
           </button>
         </div>
         <p
           style={{
-            color: "#D3D3D3",
+            color: "gray",
             fontSize: "14px",
-            margin: "0",
+            marginTop: "10px",
             textAlign: "left",
           }}
         >
-          Explore the diverse dining options available at San Francisco State
-          University. Discover a world of flavors right here at SFSU with our
-          selection of food vendors. From quick bites to fine dining, see what
-          SFSU has to offer in terms of food and beverages. Browse through our
-          comprehensive list of vendors.
+          Discover the diverse dining options available at SFSU.
+          From quick bites to fine dining, see what our campus
+          has to offer in terms of food and beverages. Browse through
+          our comprehensive list of food vendors to explore more!
         </p>
 
         <div className="search-container">
           <input
             type="text"
-            placeholder="SEARCH FOOD VENDOR..."
+            placeholder="🔎 SEARCH FOOD VENDOR..."
             className="search-bar"
-            style={{
-              marginTop: "30px",
-              width: "300px",
-              height: "30px",
-              borderRadius: "50px",
-            }}
+            // style={{
+            //   marginTop: "30px",
+            //   width: "300px",
+            //   height: "30px",
+            //   borderRadius: "50px",
+            //   backgroundColor: "gray",
+            //   color: "red",
+            // }}
             value={searchTerm}
             onChange={handleSearchChange}
             onKeyPress={handleKeyPress}
           />
-          <p
-            style={{ marginTop: "20px", fontSize: "16px", fontWeight: "bold" }}
-          >
-            {" "}
-            COMMENTS
-          </p>
-          <select
-            value={commentFilter}
-            onChange={handleCommentFilterChange}
-            style={{
-              marginTop: "10px",
-              width: "300px",
-              height: "30px",
-              borderRadius: "50px",
-            }}
-          >
-            <option value="">Select Minimum Comments</option>
-            {Array.from({ length: 9 }, (_, i) => i + 1).map((num) => (
-              <option key={num} value={num}>{` ${num}`}</option>
-            ))}
-          </select>
-          <select
-            value={sortDirectionComments}
-            onChange={handleSortDirectionCommentsChange}
-            style={{
-              marginTop: "10px",
-              width: "300px",
-              height: "30px",
-              borderRadius: "50px",
-            }}
-          >
-            <option value="">Sort Comments</option>
-            <option value="asc">Ascending</option>
-            <option value="desc">Descending</option>
-          </select>
 
-          <p
-            style={{ marginTop: "20px", fontSize: "16px", fontWeight: "bold" }}
-          >
-            RATINGS
-          </p>
+
+          <p style={{ marginTop: "20px", fontSize: "16px", fontWeight: "bold" }}>RATINGS</p>
           <select
             value={ratingFilter}
             onChange={handleRatingFilterChange}
-            style={{
-              marginTop: "10px",
-              width: "300px",
-              height: "30px",
-              borderRadius: "50px",
-            }}
+            className="select-options"
           >
-            <option value="">Select Minimum Ratings</option>
+            <option value="">Select minimum ratings</option>
             {Array.from({ length: 9 }, (_, i) => (i + 1) * 0.5).map(
               (rating) => (
                 <option key={rating} value={rating}>{` ${rating.toFixed(
@@ -443,55 +401,55 @@ function FoodVendor() {
           <select
             value={sortDirectionRatings}
             onChange={handleSortDirectionRatingsChange}
-            style={{
-              marginTop: "10px",
-              width: "300px",
-              height: "30px",
-              borderRadius: "50px",
-            }}
+            className="select-options"
           >
-            <option value="">Sort Ratings</option>
+            <option value="">Sort level of ratings</option>
             <option value="asc">Ascending</option>
             <option value="desc">Descending</option>
           </select>
 
-          <div>
-            <button className="search-button" onClick={handleSearchSubmit}>
-              SEARCH
-            </button>
-            <button
-              onClick={handleResetFilters}
-              className="reset-filters-button"
-              style={{ marginLeft: "80px", marginTop: "40px" }}
-            >
-              Reset Filters
-            </button>
+          <p style={{ marginTop: "20px", fontSize: "16px", fontWeight: "bold" }}> {" "}COMMENTS</p>
+          <select
+            value={commentFilter}
+            onChange={handleCommentFilterChange}
+            className="select-options"
+          >
+            <option value="">Select min number of comments</option>
+            {Array.from({ length: 9 }, (_, i) => i + 1).map((num) => (
+              <option key={num} value={num}>{` ${num}`}</option>
+            ))}
+          </select>
+          <select
+            value={sortDirectionComments}
+            onChange={handleSortDirectionCommentsChange}
+            className="select-options"
+          >
+            <option value="">Sort number of comments</option>
+            <option value="asc">Ascending</option>
+            <option value="desc">Descending</option>
+          </select>
+
+          <div className="checkbox">
+            <input
+              type="checkbox"
+              checked={priorityRatings}
+              onChange={handlePriorityRatingsChange}
+            />
+            <label> Rating Priority </label>
           </div>
 
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-around",
-              marginTop: "10px",
-            }}
-          >
-            <div style={{ marginRight: "15px" }}>
-              <input
-                type="checkbox"
-                checked={priorityRatings}
-                onChange={handlePriorityRatingsChange}
-              />
-              <label> Rating Priority </label>
-            </div>
+          <div className="checkbox">
+            <input
+              type="checkbox"
+              checked={priorityComments}
+              onChange={handlePriorityCommentsChange}
+            />
+            <label> Comment Priority</label>
+          </div>
 
-            <div style={{ marginLeft: "15px" }}>
-              <input
-                type="checkbox"
-                checked={priorityComments}
-                onChange={handlePriorityCommentsChange}
-              />
-              <label> Comment Priority</label>
-            </div>
+          <div>
+            <button className="reset-filters-button" onClick={handleResetFilters}>RESET FILTER</button>
+            <button className="search-button" onClick={handleSearchSubmit}>SEARCH</button>
           </div>
         </div>
       </div>
@@ -514,6 +472,7 @@ function FoodVendor() {
                   color: "#AD45FF",
                   fontSize: "20px",
                   marginTop: "12px",
+                  marginRight: "12px",
                   fontWeight: "bold",
                 }}
               >
@@ -532,9 +491,9 @@ function FoodVendor() {
                   alignItems: "center",
                 }}
               >
-                <FaStar style={{ color: "yellow" }} />
+                <FaStar style={{ color: "yellow", marginRight: "2px" }} />
                 {vendor.average_rating.toFixed(1)} ratings
-                <FaCommentDots style={{ marginLeft: "5px" }} />{" "}
+                <FaCommentDots style={{ marginLeft: "7px", marginRight: "2px" }} />{" "}
                 {vendor.num_reviews} reviews
               </p>
 

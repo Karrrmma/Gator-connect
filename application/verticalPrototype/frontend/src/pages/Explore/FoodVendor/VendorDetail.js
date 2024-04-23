@@ -494,7 +494,7 @@ function VendorDetail() {
   let { name } = useParams();
   name = decodeURIComponent(name.replace(/-/g, " "));
   const navigate = useNavigate();
-  const vendor = { ...vendorsInfo[name], ...vendorFromState }; 
+  const vendor = { ...vendorsInfo[name], ...vendorFromState };
 
   const [menuItems, setMenuItems] = useState([]);
   const [menuName, setMenuName] = useState("");
@@ -574,20 +574,23 @@ function VendorDetail() {
     <div className="content-wrapper">
       <div className="search-wrapper">
         <div className="button-and-name">
-          <h1 style={{ color: "white" }}>FOOD VENDORS</h1>
+          <h2 style={{ color: "white" }}>FOOD VENDORS</h2>
           <button onClick={handleBack} className="go-back-button">
-            Go Back
+            GO BACK
           </button>
         </div>
         <p
           style={{
-            color: "#D3D3D3",
+            color: "gray",
             fontSize: "14px",
-            margin: "0",
+            marginTop: "10px",
             textAlign: "left",
           }}
         >
-          This explanation will be varied depending on the type of vendor_name.
+          Discover the diverse dining options available at SFSU.
+          From quick bites to fine dining, see what our campus
+          has to offer in terms of food and beverages. Browse through
+          our comprehensive list of food vendors to explore more!
         </p>
 
         <div className="extended-search-container">
@@ -602,9 +605,10 @@ function VendorDetail() {
               alignItems: "center",
             }}
           >
-            <FaStar style={{ color: "yellow" }} />
+
+            <FaStar style={{ color: "yellow", marginRight: "2px" }} />
             {vendor.average_rating.toFixed(1)} ratings
-            <FaCommentDots style={{ marginLeft: "5px" }} /> {vendor.num_reviews}{" "}
+            <FaCommentDots style={{ marginLeft: "7px", marginRight: "2px" }} /> {vendor.num_reviews}{" "}
             reviews
           </p>
 
@@ -615,13 +619,14 @@ function VendorDetail() {
               className="search-bar"
               value={searchText}
               onChange={handleSearchChange}
-              style={{
-                marginTop: "20px",
-                marginLeft: "30px",
-                width: "240px",
-                height: "30px",
-                borderRadius: "50px",
-              }}
+              // style={{
+              //   marginTop: "20px",
+              //   // marginLeft: "30px",
+              //   width: "250px",
+              //   height: "30px",
+              //   borderRadius: "50px",
+              //   backgroundColor: "gray",
+              // }}
             />
           </div>
 
@@ -637,11 +642,16 @@ function VendorDetail() {
             {" "}
             SCHEDULE
           </p>
+
           <p style={{ color: "#D3D3D3", fontSize: "14px", textAlign: "left" }}>
             {Object.entries(vendor.schedule).map(([day, hours]) => (
-              <p key={day}>{`${day}: ${hours}`}</p>
+              <p key={day} style={{ display: "flex", justifyContent: "space-between" }}>
+                <span style={{ marginRight: "50px" }}>{day}</span>
+                <span>{hours}</span>
+              </p>
             ))}
           </p>
+
           <p
             style={{
               marginTop: "20px",
@@ -667,7 +677,7 @@ function VendorDetail() {
             {vendor.location}
           </p>
 
-          <p
+          {/* <p
             style={{
               marginTop: "20px",
               fontSize: "20px",
@@ -731,20 +741,32 @@ function VendorDetail() {
             <button type="submit" className="go-back-button">
               Submit
             </button>
-          </form>
+          </form> */}
         </div>
       </div>
 
       <div
         className="menu-item-wrapper"
-        style={{ display: "flex", flexDirection: "column" }}
+
       >
+        <h2 style={{ marginLeft: "20px", textAlign: "left" }}>Menu</h2>
+        <p
+          style={{
+            color: "gray",
+            marginLeft: "20px",
+            fontSize: "16px",
+            marginBottom: "15px",
+            textAlign: "left",
+          }}
+        >
+          Scroll down to explore more food options in the menu!
+        </p>
         <div
           className="menu-wrapper"
           style={{
             width: "800px",
             height: "300px",
-            marginLeft: "15px",
+            // marginLeft: "15px",
             marginBottom: "70px",
             display: "grid",
             gridTemplate: "repeat(3, 1fr)",
@@ -753,12 +775,13 @@ function VendorDetail() {
             padding: "20px",
           }}
         >
-          <h2 style={{ color: "#AD45FF", margin: "0 0 20px 0" }}>Menu</h2>
+
           {vendor.menu && vendor.menu.length > 0 ? (
             <div
               style={{
                 gap: "15px",
                 alignItems: "center",
+                borderRadius: "50px",
               }}
             >
               {vendor.menu.map((item, index) => (
@@ -769,16 +792,15 @@ function VendorDetail() {
                     justifyContent: "space-between",
                     alignItems: "center",
                     padding: "10px",
-                    background: "#2C2C2E",
-                    borderRadius: "5px",
-                    color: "white",
+                    backgroundColor: "#2C2C2E",
+                    color: "gray",
                     fontSize: "18px",
                     whiteSpace: "nowrap",
                     overflow: "hidden",
                     textOverflow: "ellipsis",
                   }}
                 >
-                  <strong>{item.name}</strong> {item.price}
+                  <p>{item.name}</p> {item.price}
                 </div>
               ))}
             </div>
@@ -786,11 +808,94 @@ function VendorDetail() {
             <p style={{ color: "white" }}>No menu available.</p>
           )}
         </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <h2 style={{ marginLeft: "20px", textAlign: "left" }}>Leave a feedback</h2>
+        <p
+          style={{
+            color: "gray",
+            marginLeft: "20px",
+            fontSize: "16px",
+            marginBottom: "15px",
+            textAlign: "left",
+          }}
+        >
+          Share your experience about a specific food from the menu above to help others
+        </p>
+
+
+
+
+        {/* <div className="rate-container"> */}
+        <form className="form-box" onSubmit={handleSubmit}>
+          <input
+            type="text"
+            value={menuName}
+            onChange={(e) => setMenuName(e.target.value)}
+            placeholder="FOOD NAME"
+            required
+          />
+          <input
+            type="number"
+            value={menuRating}
+            onChange={(e) => setMenuRating(e.target.value)}
+            placeholder="LEVEL RATINGS"
+            step="0.5"
+            min="0"
+            max="5"
+            required
+          />
+          <textarea
+            value={menuReview}
+            onChange={(e) => {
+              if (e.target.value.length <= 100) {
+                setMenuReview(e.target.value);
+              }
+
+              handleReviewChange(e);
+            }}
+            placeholder="WRITE YOUR FEEDBACK HERE..."
+          />
+
+          <button type="submit" className="submit-button">
+            Submit
+          </button>
+        </form>
+        {/* </div> */}
+
+
+
+
+
+        <h2 style={{ marginTop: "50px", marginLeft: "20px", textAlign: "left" }}>Read reviews</h2>
+        <p
+          style={{
+            color: "gray",
+            marginLeft: "20px",
+            fontSize: "16px",
+            marginBottom: "15px",
+            textAlign: "left",
+          }}
+        >
+          Check some reviews from other users to make informed choices!
+        </p>
+
         <div className="grid-wrapper">
           {filteredItems.length > 0 &&
-          filteredItems.some(
-            (item) => item.menu_rating > 0 || item.menu_review > 0
-          ) ? (
+            filteredItems.some(
+              (item) => item.menu_rating > 0 || item.menu_review > 0
+            ) ? (
             filteredItems.map((item, index) => (
               <div
                 key={index}
