@@ -13,7 +13,8 @@ const sampleStudent = { // fill with major, year, role, major, bio, post_count, 
     fullname: 'Sample Student1',
     bio: 'I am a SAMPLE STUDENT, this means the query has failed!',
     post_count: 10,
-    friend_count: 13
+    friend_count: 13,
+    user_id: 100
 };
 
 const sampleProfessor = {
@@ -24,11 +25,13 @@ const sampleProfessor = {
     fullname: 'Sample Professor1',
     bio: 'I am a SAMPLE PROFESSOR',
     post_count: 2,
-    friend_count: 1
+    friend_count: 1,
+    user_id: 101
 }
 
 function Profile() {
-    const user_id = getCurrentUserId();
+    const user_id = sampleStudent.user_id;
+    // const user_id = getCurrentUserId();
     const [user, setUser] = useState({ major: '', year: '', role: '', username: '', fullname: '', bio: '', post_count: 0, friend_count: 0});
 
 
@@ -69,7 +72,9 @@ function Profile() {
                     <b>{user.post_count} POSTS | {user.friend_count} FRIENDS</b>
                 </p>
                 <button className='newpost'>
-                    <Link to="/newpost">ADD NEW POST</Link>
+                <Link to={user_id !== getCurrentUserId() ? "/addfriend" : "/newpost"}>
+                {user_id !== getCurrentUserId() ? "ADD FRIEND" : "ADD NEW POST"}
+                </Link>
                 </button>
 
             </div>

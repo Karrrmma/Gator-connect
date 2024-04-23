@@ -95,6 +95,7 @@ function Register() {
                                 <span className='text-danger'> {errors.username || '\u00A0'}</span>
                                 <input name="password" type="password" className="input-field" placeholder="Password" />
                                 <span className='text-danger'> {errors.password || '\u00A0'}</span>
+                                <span className='text-muted text-left'>*Password must contain at least 8 characters and a number</span>
                             </div>
                             <div className='form-column'>
                                 <input name="fullname" type="text" className="input-field" placeholder="Full Name" />
@@ -112,7 +113,7 @@ function Register() {
                                     </select>
                                     {role === 'Student' && (
                                         <select className="input-field choose half ml-1" name="year" onChange={handleChange} >
-                                            <option>Select year</option>
+                                            <option>Select school year</option>
                                             {YEARS.map(year => <option key={year} value={year}>{year}</option>)}
                                         </select>
                                     )}
