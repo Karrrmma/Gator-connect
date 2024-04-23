@@ -257,17 +257,20 @@ router.post('/search', (req, res) => {
 router.get('/api/user/:user_id', (req, res) => {
   const { user_id } = req.params;
   //gets imformation of below from USER, POST, Friend , STUDENT table as combines in to a table based on the user_id
-  const query= `SELECT User.user_id, User.full_name AS fullName, User.sfsu_email AS sfsu_email,
-  Student.major, COUNT(Post.post_id) AS post_count, COUNT(Friend.friend_id) AS friend_count
-  FROM
-      User
-      LEFT JOIN Student ON User.user_id = Student.user_id
-      LEFT JOIN Post ON User.user_id = Post.user_id
-      LEFT JOIN Friend ON User.user_id = Friend.user_id
-    WHERE
-    User.user_id = ?
-  GROUP BY
-    User.user_id`;
+  const query= `SELECT 
+                  User.user_id,
+                  User.full_name AS fullName,
+                  User.sfsu_email AS sfsu_email,
+                  Student.major, 
+                  COUNT(Post.post_id) AS post_count
+                FROM
+                    User
+                LEFT JOIN Student ON User.user_id = Student.user_id
+                LEFT JOIN Post ON User.user_id = Post.user_id
+                WHERE
+                    User.user_id = ?
+                GROUP BY
+                    User.user_id`;
 
     connection.query(query, [user_id], (error, results) => {
       if (error) {
