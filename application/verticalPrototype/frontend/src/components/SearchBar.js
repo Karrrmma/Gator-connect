@@ -11,9 +11,13 @@ const SearchBar = ({ onSearch }) => {
     const [major, setMajor] = useState('');
     const [year, setYear] = useState('');
     // const [content, setContent] = useState('');
+    const [submitted, setSubmitted] = useState(false);
 
     const handleSearchSubmit = async (event) => {
         event.preventDefault();
+        if (username || major || year) {
+            setSubmitted(true);
+        }
         onSearch({ username, major, year });
     }
 
@@ -34,9 +38,6 @@ const SearchBar = ({ onSearch }) => {
                     <option value="">Select school year</option>
                     {YEARS.map((year, index)=> <option key={index} value={year}>{year}</option>)}
                 </select>
-                 {/*<input type="text" className="form-control" value={year} onChange={e => setYear(e.target.value)} placeholder="Select school year..." />*/}
-                {/* <input type="text" className="form-control" id="search-bar-input" value={content} onChange={e => setContent(e.target.value)} placeholder="content..." /> */}
-                {/* <input type="text" class="form-control" id="search-bar-input" value={searchTerm} onChange={handleSearchChange} placeholder="Search for posts..." /> */}
                 <button type="submit" id="search-bar-button"><FaSearch /></button>
             </form>
 
@@ -46,8 +47,9 @@ const SearchBar = ({ onSearch }) => {
                 <p className="welcome-text">WELCOME TO GATOR CONNECT</p>
                 <p className='welcome'>Best social media platform <br/> for SFSU students!</p>
             </div>
-
-            <p className='guide'> SCROLL DOWN TO EXPLORE MORE POSTS FROM EVERYONE</p>
+            <p className='guide'>
+                {submitted ? '\u00A0' : 'SCROLL DOWN TO EXPLORE MORE POSTS FROM EVERYONE'}
+            </p>
         </div>
 
     );

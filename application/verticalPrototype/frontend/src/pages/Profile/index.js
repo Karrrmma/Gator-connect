@@ -1,41 +1,77 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import TestPFP from '../../assets/images/placeholder_pfp.png';
-import { getCurrentUsername } from '../../utils/decodeData';
-import { getCurrMajorAndYear } from '../../utils/queryUser';
-import { isUserLogged } from '../../utils/isUserLogged';
+import { getCurrentUsername, getCurrentUserId } from '../../utils/decodeData';
+import { queryData } from '../../utils/queryUser';
+import './Profile.css';
+
+const sampleStudent = { // fill with major, year, role, major, bio, post_count, friend_count
+    major: 'Computer Science',
+    year: '2022',
+    role: 'Student',
+    username: 'StudentSample',
+    fullname: 'Sample Student1',
+    bio: 'I am a SAMPLE STUDENT, this means the query has failed!',
+    post_count: 10,
+    friend_count: 13
+};
+
+const sampleProfessor = {
+    major: 'Computer Science',
+    year: '2022',
+    role: 'Professor',
+    username: 'ProfessorSample',
+    fullname: 'Sample Professor1',
+    bio: 'I am a SAMPLE PROFESSOR',
+    post_count: 2,
+    friend_count: 1
+}
 
 function Profile() {
-    const username = getCurrentUsername();
-    const [student, setStudent] = useState({ major: '', year: '' });
+    const user_id = getCurrentUserId();
+    const [user, setUser] = useState({ major: '', year: '', role: '', username: '', fullname: '', bio: '', post_count: 0, friend_count: 0});
+
 
     useEffect(() => {
-        const fetchStudentData = async () => {
+        const fetchUserData = async () => {
             try {
-                const data = await getCurrMajorAndYear();
-                setStudent(data);
+                // previous implementation
+                // const data = await getCurrMajorAndYear();
+                // setStudent(data);
+
+                const data = await queryData(user_id);
+                if (data) {
+                    setUser(data);
+                } else {
+                    console.error('No data found for user, setting sampleStudent!:', user_id);
+                    setUser(sampleStudent);
+                }
+
+                // setUser(data);
             } catch (error) {
-                console.error('Failed to fetch student:', error);
+                console.error('Failed to fetch user:', error);
             }
         };
 
-        fetchStudentData();
-    }, []);
-
-    if (!isUserLogged()) {
-        return <p>You are not logged in, create an account to view your profile.</p>;
-    }
+        fetchUserData();
+    }, [user_id]);
 
     return (
         <section>
-            <div className="mt-5 text-center">
-                <img src={TestPFP} alt="Profile" style={{width: '150px', height: '150px', borderRadius: '50%'}}/>
-                <h1 class='text-muted font-weight-light mb-1'>STUDENT</h1>
-                <h2>{username}</h2>
-                <p className='mb-4'>Major: {student.major}</p>
-                <p className='mb-4'>School Year: {student.year}</p>
-                <p className='mb-4'>(0 Posts | 0 Friends)</p>
-                <Link to="/newpost" className="btn btn-primary">New Post</Link>
+            <div>
+                <img src={TestPFP} alt="Profile" style={{width: '150px', height: '150px', borderRadius: '50%', marginTop: '20px'}}/>
+                <p className='role mt-3'>{user.role.toUpperCase()}</p>
+                <p className='fullname mb-4'><b>{user.fullname.toUpperCase()}</b></p>
+                <p className='username mb-3'>username: {user.username}</p>
+                <p className='major mb-4'>{user.role === 'Professor' ? 'Department' : 'Major'}: {user.major}</p>
+                <p className='bio mb-4'>{user.bio}</p>
+                <p className='text-white mb-4 post'>
+                    <b>{user.post_count} POSTS | {user.friend_count} FRIENDS</b>
+                </p>
+                <button className='newpost'>
+                    <Link to="/newpost">ADD NEW POST</Link>
+                </button>
+
             </div>
         </section>
     );

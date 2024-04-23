@@ -92,7 +92,7 @@ function Post() {
             },
             body: JSON.stringify({ username, major, year }),
         };
-
+        // if no search query, fetch the test post instead
         if (!username && !major && !year) {
             url = '/testpost';
             options = {};
