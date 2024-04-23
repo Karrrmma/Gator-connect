@@ -789,7 +789,7 @@ function VendorDetail() {
         <div className="grid-wrapper">
           {filteredItems.length > 0 &&
           filteredItems.some(
-            (item) => item.menu_rating > 0 || item.menu_review > 0
+            (item) => item.menu_rating >= 0 || item.menu_review >= 0
           ) ? (
             filteredItems.map((item, index) => (
               <div
