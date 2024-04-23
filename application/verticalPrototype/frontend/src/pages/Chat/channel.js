@@ -29,11 +29,11 @@ const Channel = () => {
       <div className="container-fluid" >
         <div className="row justify-content-center "  >
            <div className="">
-           <h5 style={{color: 'white', fontSize: '35px'}} className=" ">PRIVATE CHAT</h5>
+           <h5 style={{color: 'white', fontSize: '35px'}} className=" ">PUBLIC CHAT</h5>
            <Head/>
             <div className="card h-75 border-0 " style={{ background:'black', width: '500px'}}>
                 
-                <div className="card-body" style={{ overflowY: 'auto', height: '378px'}}>
+                <div className="card-body" style={{ backgroundColor: 'black', overflowY: 'auto', height: '378px'}}>
                   {messages.map((message, index) =>
                     <p className='rounded-pill' key={index} style={{ backgroundColor: '#252525', padding:'10px', color:'white',
                     maxWidth:'50%', marginLeft: 'auto', fontSize:'20px', border:'#252525', marginBottom:'5px', 
@@ -84,9 +84,11 @@ const Channel = () => {
   return(
     <div className="card border-0" style={{background: 'black', justifyContent: 'center'}}>
         <div className="card-body d-flex align-items-center" style={{background: 'black', justifyContent: 'center'}}>
-          <input type="text" className="form-control" placeholder="Type here ..." aria-label="Recipient's username" 
+          <input type="text rounded-pill" className="form-control" placeholder="Type here ..." aria-label="Recipient's username" 
             aria-describedby="basic-addon2" value={inputMessage} onChange={handleChange} onKeyPress={handleKeyPress}
-            style={{color:'white', backgroundColor: '#252525', width:'400px', height: '50px', border:'#252525'}}></input>
+            style={{color:'white', backgroundColor: '#252525', width:'400px', height: '50px', border:'#252525', marginRight: '10px'}}>
+
+            </input>
           <Button variant="primary" style={{background: '#252525', color:'white', height: '50px', width: '50px', border:'#252525'}} onClick={sendMessage}>
             <FontAwesomeIcon icon={faPaperPlane} /> 
           </Button>           
