@@ -262,15 +262,23 @@ router.get('/api/user/:user_id', (req, res) => {
                   User.full_name AS fullName,
                   User.sfsu_email AS sfsu_email,
                   Student.major, 
-                  COUNT(Post.post_id) AS post_count
+                  COUNT(Post.post_id) AS post_count,
+                  COUNT(DISTINCT CASE WHEN Friend_Request.status = 'accepted' THEN Friend_Request.friend_request_id END) AS friend_accepted_count,
+                  COUNT(DISTINCT CASE WHEN Friend_Request.status = 'declined' THEN Friend_Request.friend_request_id END) AS friend_declined_count
                 FROM
                     User
                 LEFT JOIN Student ON User.user_id = Student.user_id
                 LEFT JOIN Post ON User.user_id = Post.user_id
+                LEFT JOIN Friend_Request ON (User.user_id = Friend_Request.requester_id OR User.user_id = Friend_Request.receiver_id)
+
                 WHERE
                     User.user_id = ?
                 GROUP BY
                     User.user_id`;
+
+
+    
+
 
     connection.query(query, [user_id], (error, results) => {
       if (error) {
