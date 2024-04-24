@@ -292,13 +292,15 @@ function FoodVendor() {
           ? a.num_reviews - b.num_reviews
           : b.num_reviews - a.num_reviews;
       });
-    } else if (sortDirectionComments) { // Only for sort by comment
+    } else if (sortDirectionComments) {
+      // Only for sort by comment
       filteredVendors.sort((a, b) => {
         return sortDirectionComments === "asc"
           ? a.num_reviews - b.num_reviews
           : b.num_reviews - a.num_reviews;
       });
-    } else if (sortDirectionRatings) { // Only for sort by rating
+    } else if (sortDirectionRatings) {
+      // Only for sort by rating
       filteredVendors.sort((a, b) => {
         return sortDirectionRatings === "asc"
           ? a.average_rating - b.average_rating
@@ -358,10 +360,10 @@ function FoodVendor() {
             textAlign: "left",
           }}
         >
-          Discover the diverse dining options available at SFSU.
-          From quick bites to fine dining, see what our campus
-          has to offer in terms of food and beverages. Browse through
-          our comprehensive list of food vendors to explore more!
+          Discover the diverse dining options available at SFSU. From quick
+          bites to fine dining, see what our campus has to offer in terms of
+          food and beverages. Browse through our comprehensive list of food
+          vendors to explore more!
         </p>
 
         <div className="search-container">
@@ -382,8 +384,11 @@ function FoodVendor() {
             onKeyPress={handleKeyPress}
           />
 
-
-          <p style={{ marginTop: "20px", fontSize: "16px", fontWeight: "bold" }}>RATINGS</p>
+          <p
+            style={{ marginTop: "20px", fontSize: "16px", fontWeight: "bold" }}
+          >
+            RATINGS
+          </p>
           <select
             value={ratingFilter}
             onChange={handleRatingFilterChange}
@@ -408,7 +413,12 @@ function FoodVendor() {
             <option value="desc">Descending</option>
           </select>
 
-          <p style={{ marginTop: "20px", fontSize: "16px", fontWeight: "bold" }}> {" "}COMMENTS</p>
+          <p
+            style={{ marginTop: "20px", fontSize: "16px", fontWeight: "bold" }}
+          >
+            {" "}
+            COMMENTS
+          </p>
           <select
             value={commentFilter}
             onChange={handleCommentFilterChange}
@@ -448,67 +458,83 @@ function FoodVendor() {
           </div>
 
           <div>
-            <button className="reset-filters-button" onClick={handleResetFilters}>RESET FILTER</button>
-            <button className="search-button" onClick={handleSearchSubmit}>SEARCH</button>
+            <button
+              className="reset-filters-button"
+              onClick={handleResetFilters}
+            >
+              RESET FILTER
+            </button>
+            <button className="search-button" onClick={handleSearchSubmit}>
+              SEARCH
+            </button>
           </div>
         </div>
       </div>
 
       <div className="grid-wrapper">
-        {vendors.map((vendor, index) => (
+        {vendors.length > 0 ? (
+          vendors.map((vendor, index) => (
+            <div
+              className="grid-item"
+              key={index}
+              onClick={() => handleImageClick(vendor.name)}
+            >
+              <img
+                src={vendor.imageUrl}
+                alt={`Vendor ${vendor.name}`}
+                style={{ width: "220px", height: "137px" }}
+              />
+              <div>
+                <p
+                  style={{
+                    color: "#AD45FF",
+                    fontSize: "20px",
+                    marginTop: "12px",
+                    marginRight: "12px",
+                    fontWeight: "bold",
+                  }}
+                >
+                  {vendor.name}
+                </p>
+                <p style={{ color: "gray", fontSize: "14px", margin: "0" }}>
+                  {vendor.short_description}
+                </p>
+                <p
+                  style={{
+                    color: "white",
+                    fontSize: "14px",
+                    margin: "0",
+                    lineHeight: "10px",
+                    display: "inline-flex",
+                    alignItems: "center",
+                  }}
+                >
+                  <FaStar style={{ color: "yellow", marginRight: "2px" }} />
+                  {vendor.average_rating.toFixed(1)} ratings
+                  <FaCommentDots
+                    style={{ marginLeft: "7px", marginRight: "2px" }}
+                  />{" "}
+                  {vendor.num_reviews} reviews
+                </p>
+                <p
+                  style={{ color: "gray", fontSize: "14px", marginTop: "7px" }}
+                >
+                  {vendor.detailed_description}
+                </p>
+              </div>
+            </div>
+          ))
+        ) : (
           <div
             className="grid-item"
-            key={index}
-            onClick={() => handleImageClick(vendor.name)}
+            style = {{ justifyContent: 'center', alignItems: 'center'}}
           >
-            <img
-              src={vendor.imageUrl}
-              alt={`Vendor ${vendor.name}`}
-              style={{ width: "220px", height: "137px" }}
-            />
-            <div>
-              <p
-                style={{
-                  color: "#AD45FF",
-                  fontSize: "20px",
-                  marginTop: "12px",
-                  marginRight: "12px",
-                  fontWeight: "bold",
-                }}
-              >
-                {vendor.name}
-              </p>
-              <p style={{ color: "gray", fontSize: "14px", margin: "0" }}>
-                {vendor.short_description}
-              </p>
-              <p
-                style={{
-                  color: "white",
-                  fontSize: "14px",
-                  margin: "0",
-                  lineHeight: "10px",
-                  display: "inline-flex",
-                  alignItems: "center",
-                }}
-              >
-                <FaStar style={{ color: "yellow", marginRight: "2px" }} />
-                {vendor.average_rating.toFixed(1)} ratings
-                <FaCommentDots style={{ marginLeft: "7px", marginRight: "2px" }} />{" "}
-                {vendor.num_reviews} reviews
-              </p>
-
-              <p style={{ color: "gray", fontSize: "14px", marginTop: "7px" }}>
-                {vendor.detailed_description}
-              </p>
-            </div>
+            <div>No vendors found.</div>
           </div>
-        ))}
+        )}
       </div>
     </div>
   );
 }
 
 export default FoodVendor;
-
-
-
