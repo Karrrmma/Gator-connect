@@ -205,13 +205,16 @@ function Transportation() {
         </div>
         <p
           style={{
-            color: "#D3D3D3",
+            color: "gray",
             fontSize: "14px",
             margin: "0",
             textAlign: "left",
           }}
         >
-          Lines that will meet you on campus!
+          Embark on a journey through the bustling streets of San Francisco with our 
+          comprehensive transportation guide. Whether it's a scenic
+          ride through the city or a swift commute to your next adventure, our transportation 
+          page equips you with the knowledge to traverse San Francisco seamlessly. 
         </p>
 
         <div className="search-container-te">

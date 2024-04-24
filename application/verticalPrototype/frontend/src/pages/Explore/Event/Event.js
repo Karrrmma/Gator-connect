@@ -155,13 +155,16 @@ function Event() {
         </div>
         <p
           style={{
-            color: "#D3D3D3",
+            color: "gray",
             fontSize: "14px",
             margin: "0",
             textAlign: "left",
           }}
         >
-          Great Events offered by SFSU, put together by faculty or students.
+          Experience the many events hosted by SFSU faculty and student body!
+          From enriching cultural showcases to exhilarating sports tournaments, there's 
+          something for everyone. Immerse yourself in the dynamic campus community and 
+          discover the wide array of opportunities to engage, learn, and connect. 
         </p>
 
         <div className="search-container-te">
