@@ -262,30 +262,23 @@ function Transportation() {
           </select>
 
           <div className="checkbox">
-            <label style={{ marginTop: "40px" }} name="accessible">
-              <input
-                type="checkbox"
-                checked={filters.accessibility}
-                onChange={(e) =>
-                  handleFilterChange("accessibility", e.target.checked)
-                }
-              />
-              Wheelchair accessible
-            </label>
+            <input
+              type="checkbox"
+              checked={filters.accessibility}
+              onChange={(e) =>
+                handleFilterChange("accessibility", e.target.checked)
+              }
+            />
+            <label name="accessible">Wheelchair accessible </label>
           </div>
 
           <div className="checkbox">
-            <label name="midnight">
-              <input
-                type="checkbox"
-                checked={filters.midnight}
-                onChange={(e) =>
-                  handleFilterChange("midnight", e.target.checked)
-                }
-              />
-              Runs after midnight
-            </label>
-            
+            <input
+              type="checkbox"
+              checked={filters.midnight}
+              onChange={(e) => handleFilterChange("midnight", e.target.checked)}
+            />
+            <label name="midnight">Runs after midnight</label>
           </div>
           <div>
             <button onClick={handleResetFilters} className="search-button">
@@ -297,9 +290,12 @@ function Transportation() {
 
       <div className="grid-wrapper">
         {filteredRoutes.length === 0 ? (
-          <p>
-            Sorry, there are no available routes with those set preferences.
-          </p>
+          <div
+            className="grid-item"
+            style={{ textAlign: "center", justifyContent: "center" }}
+          >
+            <p>No available routes.</p>
+          </div>
         ) : (
           filteredRoutes.map((route, index) => (
             <div key={index} className="grid-item">
