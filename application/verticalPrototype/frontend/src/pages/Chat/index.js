@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Gru from '../../assets/images/gru.jpg';
 import Dog from '../../assets/images/art10.jpg';
 import Cat from '../../assets/images/art5.jpg';
 import Placeholder from '../../assets/images/placeholder_pfp.png';
@@ -26,7 +25,7 @@ const Chat = () => {
     return (
       <div className="container-fluid" >
         <div className="row justify-content-center "  >
-           <div className="">
+           <div className="" style={{ marginTop: '20px' }}>
            <Head/>
             <div className="card h-75 border-0" style={{backgroundColor: 'black', width: '500px'}}>
               
@@ -56,7 +55,7 @@ const Chat = () => {
   function Head(){
     return(
       <div>
-        <h5 style={{color: 'white', fontSize: '35px'}} className=" ">PRIVATE CHAT</h5>
+        <h5 style={{fontWeight: 'bold', color: 'white', fontSize: '35px'}} className=" ">PRIVATE CHAT</h5>
         <p style={{color: 'grey', fontSize: '20px'}}> Ready to catch up with your friends?<br></br> Dive into the chat here!</p>
       </div>
     );

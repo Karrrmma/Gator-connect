@@ -14,7 +14,7 @@ const PubChat = () => {
     return (
       <div className="container-fluid">
         <div className="row justify-content-center" >
-           <div className="">
+           <div className="" style={{ marginTop: '20px' }}>
            <Head/>
             <div className="card h-75 border-0" style={{backgroundColor: 'black', width: '500px'}}>
 
@@ -53,7 +53,7 @@ const PubChat = () => {
   function Head(){
     return(
       <div>
-        <h5 style={{color: 'white', fontSize: '35px'}} className=" ">PUBLIC CHAT</h5>
+        <h5 style={{fontWeight: 'bold', color: 'white', fontSize: '35px'}} className=" ">PUBLIC CHAT</h5>
         <p style={{color: 'grey', fontSize: '20px'}}> Choose a channel and start chatting with others about <br></br> whatever topics you're interested in! </p>
       </div>
     );

@@ -1,8 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
-import Gru from '../../assets/images/gru.jpg';
-import Button from 'react-bootstrap/Button';
+import Dog from '../../assets/images/art10.jpg';
+import Cat from '../../assets/images/art5.jpg';
+import Placeholder from '../../assets/images/placeholder_pfp.png';import Button from 'react-bootstrap/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 
@@ -25,8 +26,8 @@ const ChatWindow = () => {
   return (
     <div className="container-fluid" >
       <div className="row justify-content-center "  >
-        <div className="">
-          <h5 style={{ color: 'white', fontSize: '35px' }} className=" ">PRIVATE CHAT</h5>
+        <div className="" style={{ marginTop: '20px' }}>
+          <h5 style={{fontWeight: 'bold', color: 'white', fontSize: '35px' }} className=" ">PRIVATE CHAT</h5>
           <Head />
           <div className="card h-75 border-0 " style={{ background: 'black', width: '500px' }}>
 
@@ -53,17 +54,30 @@ const ChatWindow = () => {
 function Head() {
   const { name } = useParams()
 
+  const selectElement = (name) => {
+    switch (name) {
+      case 'Fabian Weiland':
+        return <img src={Cat} class="rounded-circle" alt="placeholder pfp" style={{ width: 50, height: 50, display: 'inline-block', marginLeft: '10px', marginRight: '10px' }}></img>;
+      case 'Jose Ortiz':
+        return <img src={Dog} class="rounded-circle" alt="placeholder pfp" style={{ width: 50, height: 50, display: 'inline-block', marginLeft: '10px', marginRight: '10px' }}></img>;
+      case 'Marco Lorenz':
+        return <img src={Placeholder} class="rounded-circle" alt="placeholder pfp" style={{ width: 50, height: 50, display: 'inline-block', marginLeft: '10px', marginRight: '10px' }}></img>;
+      default:
+        return <p>user is not found{name}.</p>;
+    }
+  };
+
   return (
     <div style={{ background: 'black' }}>
-      <div class="d-flex justify-content-start align-items-center" style={{ width: '100%', border: '1px solid black', padding: '10px', textAlign: 'right' }}>
-        <img src={Gru} class="rounded-circle" alt="placeholder pfp" style={{ width: 50, height: 50, display: 'inline-block', marginLeft: '20px', marginRight: '10px' }}></img>
+      <div class="d-flex align-items-center" style={{ width: '100%', border: '1px solid black', padding: '10px', textAlign: 'right'}}>
+        {selectElement(name)}
         <p style={{ color: 'white', fontSize: '20px' }}>{name}</p>
-        <Link to='/chat' className='text-decoration-none' style={{ color: '#252525', fontSize: '30px', display: 'inline-block', marginLeft: '230px', marginRight: '10px' }}>X</Link>
+        <Link to='/chat' className='text-decoration-none' style={{fontWeight: 'bold', color: '#252525', fontSize: '30px', display: 'inline-block', marginLeft:'auto'}}>X</Link>
       </div>
     </div>
   );
 }
-
+/* , marginLeft: '230px', marginRight: '10px'  */
 
 function Bottom({ inputMessage, setInputMessage, sendMessage }) {
 
