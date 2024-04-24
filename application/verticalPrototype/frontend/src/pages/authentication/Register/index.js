@@ -106,7 +106,7 @@ function Register() {
                                     <option value="Student">Student</option>
                                 </select>
                                 <span className='text-danger'> {errors.role || '\u00A0'}</span>
-                                <div className='form-column'>
+                                <div className='form-columns'>
                                 <select className={`input-field choose ${role === 'Student' ? 'half' : ''} mr-2`} name="major" onChange={handleChange} >
                                         <option>Select major</option>
                                         {MAJORS.map(major => <option key={major} value={major}>{major}</option>)}

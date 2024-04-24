@@ -16,6 +16,7 @@
 
 .form-column {
     flex: 1;
+    
     /* margin-bottom: 20px; */
 }
 
@@ -35,6 +36,7 @@
 
 .input-field.half {
     width: 48%;
+    
 }
 
 .login-title {
@@ -189,3 +191,11 @@ u {
     font-size: 15px;
     font-weight: 500;
 }
+
+
+.form-columns {
+    display: flex; 
+    flex-direction: row; 
+    font-size: smaller;
+}
+
