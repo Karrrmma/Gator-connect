@@ -328,7 +328,7 @@ body {
   max-height: 80%;
   overflow: auto;
   box-sizing: border-box;
-  position: fixed;
+ 
 }
 
 .route-map button {
@@ -396,4 +396,46 @@ body {
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
   z-index: 9999;
   color:#AD45FF
+}
+
+/* RSVPForm.css */
+.popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px;
+  padding: 20px;
+  background-color: black;
+  border-radius: 28px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  z-index: 9999;
+  color: gray;
+  
+}
+
+.popup input,
+.popup select {
+  background-color: #1c1c1c;
+  border-radius: 20px;
+  border: none;
+  width: 80%;
+  height: 40px;
+  padding: 10px;
+  line-height: 30px;
+  color: gray;
+}
+
+.popup button {
+  background-color: gray;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 10px 20px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+.popup button:hover {
+  background-color: #AD45FF;
 }

@@ -1,9 +1,13 @@
 import React, { useState } from "react";
 import "../ExploreTemplate.css";
+import RSVPForm from './RSVPForm';
 import { useNavigate } from "react-router-dom";
 
 function Event() {
   const navigate = useNavigate();
+
+  const [showForm, setShowForm] = useState(false);
+
   const initialFilters = {
     type: "",
     creator: "",
@@ -11,8 +15,6 @@ function Event() {
   const [searchQuery, setSearchQuery] = useState("");
 
   const [filters, setFilters] = useState(initialFilters);
-
-  const [flashMessage, setFlashMessage] = useState('');
 
   const events = [
     {
@@ -137,11 +139,17 @@ function Event() {
     navigate("/explore");
   };
 
-  const handleRSVP = () => {
-    setFlashMessage('RSVP feature will be implemented in later milestone.');
-    setTimeout(() => {
-      setFlashMessage('');
-    }, 3000); // Clear message after 3 seconds
+  const handleRSVPClick = () => {
+    setShowForm(true);
+  };
+
+  const handleSubmitRSVP = (formData) => {
+    // Handle form submission
+    console.log('RSVP form submitted:', formData);
+  };
+
+  const handleCloseForm = () => {
+    setShowForm(false);
   };
 
   return (
@@ -278,17 +286,12 @@ function Event() {
               >
                 Time: {event.time}
               </p>
-              <button onClick={handleRSVP} className="route-button">RSVP</button>
+              <button onClick={handleRSVPClick} className="route-button">Register</button>
             </div>
           ))
         )}
       </div>
-      {/* Flash message */}
-      {flashMessage && (
-        <div className="flash-message">
-          {flashMessage}
-        </div>
-      )}
+      {showForm && <RSVPForm onSubmit={handleSubmitRSVP} onClose={handleCloseForm} />}
     </div>
   );
 }
