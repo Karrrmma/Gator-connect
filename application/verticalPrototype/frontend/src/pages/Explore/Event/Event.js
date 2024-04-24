@@ -12,6 +12,8 @@ function Event() {
 
   const [filters, setFilters] = useState(initialFilters);
 
+  const [flashMessage, setFlashMessage] = useState('');
+
   const events = [
     {
       name: "Queer Alliance Makeup Night",
@@ -133,6 +135,13 @@ function Event() {
 
   const handleBack = () => {
     navigate("/explore");
+  };
+
+  const handleRSVP = () => {
+    setFlashMessage('RSVP feature will be implemented in later milestone.');
+    setTimeout(() => {
+      setFlashMessage('');
+    }, 3000); // Clear message after 3 seconds
   };
 
   return (
@@ -266,11 +275,17 @@ function Event() {
               >
                 Time: {event.time}
               </p>
-              <button className="route-button">RSVP</button>
+              <button onClick={handleRSVP} className="route-button">RSVP</button>
             </div>
           ))
         )}
       </div>
+      {/* Flash message */}
+      {flashMessage && (
+        <div className="flash-message">
+          {flashMessage}
+        </div>
+      )}
     </div>
   );
 }
