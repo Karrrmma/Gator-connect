@@ -17,7 +17,7 @@ body {
 /* GENERAL Search wrapper*/
 .search-wrapper {
   position: sticky;
-  top: 80px;
+  top: 105px;
   height: 200px;
   width: 400px;
   margin-right: 50px;
@@ -62,10 +62,16 @@ body {
   border: none;
   width: 135px;
   height: 40px;
-  margin: 20px;
+  /* margin: 20px; */
   background-color: #ad45ff;
   font-weight: bold;
   color: white;
+}
+
+.button-container {
+  display: flex;
+  gap: 20px;
+  margin-top: 15px;
 }
 
 .reset-filters-button {
@@ -354,7 +360,7 @@ body {
   display: flex;
   flex-direction: column;
   width: 400px;
-  height: 330px;
+  height: 380px;
   margin-top: 50px;
   background-color: black;
   border-radius: 28px;
@@ -448,4 +454,7 @@ body {
 .popup button:hover {
   background-color: #AD45FF;
   color: white;
+}
+.exit-button{
+  margin-right: 20px;
 }

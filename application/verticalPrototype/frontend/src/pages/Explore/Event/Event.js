@@ -248,12 +248,16 @@ function Event() {
             <option value="faculty">Faculty</option>
             <option value="student">Student</option>
           </select>
+
+          <div className="button-container">
+          <button onClick={handleCreateEventClick} className="search-button">
+            Create An Event
+          </button>
           <button onClick={handleResetFilters} className="search-button">
             Reset Filters
           </button>
-          <button onClick={handleCreateEventClick} className="search-button">
-            Create Event
-          </button>
+          </div>
+
         </div>
         {showCreateEventForm && <CreateEventForm onSubmit={handleSubmitCreateEvent} onClose={handleCloseCreateEventForm} />}
       </div>
