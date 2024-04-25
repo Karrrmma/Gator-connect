@@ -16,32 +16,31 @@ const PubChat = () => {
         <div className="row justify-content-center" >
            <div className="" style={{ marginTop: '20px' }}>
            <Head/>
-            <div className="card h-75 border-0" style={{backgroundColor: 'black', width: '500px'}}>
+            <div className="chat-container h-75 border-0" style={{backgroundColor: 'black', width: '500px', borderTopLeftRadius: '20px', borderTopRightRadius: '20px'}}>
 
-              <div className="card-body" style={{ backgroundColor: 'black', overflowY: 'auto', height: '450px'}}>
+              <div className="card-body" style={{ overflowY: 'auto', height: '450px'}}>
                 <div class="d-flex justify-content-start align-items-center" style={{ width: '100%', border: '1px solid black', padding: '10px', textAlign: 'right' }}>
-                  <SlSpeech style={{fontSize: '48px', color: '#c15757'}}></SlSpeech>
+                  <SlSpeech style={{fontSize: '40px', color: '#c15757'}}></SlSpeech>
                   <Link to='/channel/General' className='btn btn-link text-decoration-none' style={{color: 'white', fontSize: '25px'}}>General</Link>
                 </div>
                 <div class="d-flex justify-content-start align-items-center" style={{ width: '100%', border: '1px solid black', padding: '10px', textAlign: 'right' }}>
-                  <FaUserFriends style={{fontSize: '50px', color: '#c15757'}}></FaUserFriends>
+                  <FaUserFriends style={{fontSize: '40px', color: '#c15757'}}></FaUserFriends>
                   <Link to='/channel/Find Roomates' className='btn btn-link text-decoration-none' style={{color: 'white', fontSize: '25px'}}>Find Roomates</Link>
                 </div>
                 <div class="d-flex justify-content-start align-items-center" style={{ width: '100%', border: '1px solid black', padding: '10px', textAlign: 'right' }}>
-                  <FaFootballBall style={{fontSize: '46px', color: '#c15757'}}></FaFootballBall>
+                  <FaFootballBall style={{fontSize: '40px', color: '#c15757'}}></FaFootballBall>
                   <Link to='/channel/Campus Clubs' className='btn btn-link text-decoration-none' style={{color: 'white', fontSize: '25px'}}>Campus Clubs</Link>
                 </div>
                 <div class="d-flex justify-content-start align-items-center" style={{ width: '100%', border: '1px solid black', padding: '10px', textAlign: 'right' }}>
-                  <GiCampingTent style={{fontSize: '50px', color: '#c15757'}}></GiCampingTent>
+                  <GiCampingTent style={{fontSize: '40px', color: '#c15757'}}></GiCampingTent>
                   <Link to='/channel/Campus Events' className='btn btn-link text-decoration-none' style={{color: 'white', fontSize: '25px'}}>Campus Events</Link>
                 </div>
                 <div class="d-flex justify-content-start align-items-center" style={{ width: '100%', border: '1px solid black', padding: '10px', textAlign: 'right' }}>
-                  <ImBooks style={{fontSize: '50px', color: '#c15757'}}></ImBooks>
+                  <ImBooks style={{fontSize: '40px', color: '#c15757'}}></ImBooks>
                   <Link to='/channel/Study Help' className='btn btn-link text-decoration-none' style={{color: 'white', fontSize: '25px'}}>Study Help</Link>
                 </div>
               </div>
               <Bottom/>
-              <p style={{background: 'black', fontSize: '15px' }}>Want to chat with your friends? <br></br> Go to Private Chat!</p>
             </div>
            </div>
         </div>
@@ -53,8 +52,8 @@ const PubChat = () => {
   function Head(){
     return(
       <div>
-        <h5 style={{fontWeight: 'bold', color: 'white', fontSize: '35px'}} className=" ">PUBLIC CHAT</h5>
-        <p style={{color: 'grey', fontSize: '20px'}}> Choose a channel and start chatting with others about <br></br> whatever topics you're interested in! </p>
+        <h1 style={{fontWeight: 'bold', color: 'white', fontSize: '2.0rem'}} className=" ">PUBLIC CHAT</h1>
+        <p style={{color: 'grey', fontSize: '1.1rem', marginBottom: "1.5rem"}}> Choose a channel and start chatting with others about <br></br> whatever topics you're interested in!</p>
       </div>
     );
   }
@@ -62,10 +61,11 @@ const PubChat = () => {
 
   function Bottom(){
     return(
-    <div className="card-body d-flex" style={{ background: 'black', justifyContent: 'center'}}>
-      <Link to='/chat' className="btn rounded-pill btn-link text-decoration-none" style={{backgroundColor: '#AD45FF', color: 'white', fontSize: '20px'}}>
+    <div className="card-body d-flex flex-column align-items-center" style={{ background: 'black', justifyContent: 'center', borderBottomLeftRadius: '20px', borderBottomRightRadius: '20px'}}>
+      <Link to='/chat' className="btn rounded-pill btn-link text-decoration-none" style={{backgroundColor: '#AD45FF', color: 'white', fontSize: '20px', fontSize: '20px', padding: '10px', width: '150px', marginBottom:'10px'}}>      
       Private Chat
       </Link>
+      <p style={{background: 'black', fontSize: '15px', marginBottom: '10px' }}>Want to chat with your friends? <br></br> Go to Private Chat!</p>
     </div>
     );
   }

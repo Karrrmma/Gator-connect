@@ -51,8 +51,8 @@ function CreateEventForm({ onSubmit, onClose }) {
             <option value="Professor">Professor</option>
             <option value="Student">Student</option>
           </select>
-          <button type="submit">Create Event</button>
           <button className="exit-button" onClick={handleExit}>CANCEL</button>
+          <button type="submit">Create Event</button>
         </form>
       </div>
     </div>

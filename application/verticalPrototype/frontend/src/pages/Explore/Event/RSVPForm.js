@@ -27,8 +27,8 @@ function RSVPForm({ onSubmit, onClose }) {
           <label>SFSU Email:</label>
           <input type="email" placeholder="@sfsu.edu" value={email} onChange={(e) => setEmail(e.target.value)} />
           
-          <button type="submit">SUBMIT</button>
           <button className="exit-button" onClick={handleExit}>CANCEL</button>
+          <button type="submit">SUBMIT</button>
         </form>
       </div>
     </div>
