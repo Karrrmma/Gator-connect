@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import TestPFP from '../../assets/images/placeholder_pfp.png';
-import { getCurrentUsername, getCurrentUserId } from '../../utils/decodeData';
+import { getCurrentUserId } from '../../utils/decodeData';
 import { queryData } from '../../utils/queryUser';
 import './Profile.css';
+import { useLocation } from 'react-router-dom';
+import PostCard from '../../components/PostCard';
 
 const sampleStudent = { // fill with major, year, role, major, bio, post_count, friend_count
     major: 'Computer Science',
@@ -12,73 +14,84 @@ const sampleStudent = { // fill with major, year, role, major, bio, post_count, 
     username: 'StudentSample',
     fullname: 'Sample Student1',
     bio: 'I am a SAMPLE STUDENT, this means the query has failed!',
-    post_count: 10,
+    post_count: 2,
     friend_count: 13,
     user_id: 100
 };
 
-const sampleProfessor = {
-    major: 'Computer Science',
-    year: '2022',
-    role: 'Professor',
-    username: 'ProfessorSample',
-    fullname: 'Sample Professor1',
-    bio: 'I am a SAMPLE PROFESSOR',
-    post_count: 2,
-    friend_count: 1,
-    user_id: 101
-}
+// const sampleProfessor = {
+//     major: 'Computer Science',
+//     year: '2022',
+//     role: 'Professor',
+//     username: 'ProfessorSample',
+//     fullname: 'Sample Professor1',
+//     bio: 'I am a SAMPLE PROFESSOR',
+//     post_count: 2,
+//     friend_count: 1,
+//     user_id: 101
+// }
 
 function Profile() {
-    const user_id = sampleStudent.user_id;
-    // const user_id = getCurrentUserId();
-    const [user, setUser] = useState({ major: '', year: '', role: '', username: '', fullname: '', bio: '', post_count: 0, friend_count: 0});
+    const location = useLocation(); 
 
+    const [user, setUser] = useState({ major: '', role: '', username: '', fullname: '', bio: '', post_count: 0, friend_count: 0, user_id: 0});
 
     useEffect(() => {
         const fetchUserData = async () => {
             try {
-                // previous implementation
-                // const data = await getCurrMajorAndYear();
-                // setStudent(data);
-
-                const data = await queryData(user_id);
+                // take user_id from URL, else use current ID
+                const params = new URLSearchParams(location.search);
+                const id = params.get('id') || getCurrentUserId();
+    
+                const data = await queryData(id);
                 if (data) {
-                    setUser(data);
+                    setUser({
+                        user_id: data.user_id,
+                        fullname: data.fullName,
+                        username: data.username,
+                        sfsu_email: data.sfsu_email,
+                        major: data.major,
+                        post_count: data.post_count,
+                        friend_count: data.friend_accepted_count,
+                        posts: data.posts
+                    });
                 } else {
-                    console.error('No data found for user, setting sampleStudent!:', user_id);
+                    // no data found: use sample data
                     setUser(sampleStudent);
                 }
-
-                // setUser(data);
             } catch (error) {
                 console.error('Failed to fetch user:', error);
             }
         };
 
         fetchUserData();
-    }, [user_id]);
+    }, [location.search]);
 
     return (
-        <section>
+        <>
             <div>
                 <img src={TestPFP} alt="Profile" style={{width: '150px', height: '150px', borderRadius: '50%', marginTop: '20px'}}/>
-                <p className='role mt-3'>{user.role.toUpperCase()}</p>
-                <p className='fullname mb-4'><b>{user.fullname.toUpperCase()}</b></p>
+                {/* <p className='role mt-3'>{user.role}</p> */}
+                <p className='role mt-3'>STUDENT</p>
+                <p className='fullname mb-4'><b>{user.fullname}</b></p>
                 <p className='username mb-3'>username: {user.username}</p>
                 <p className='major mb-4'>{user.role === 'Professor' ? 'Department' : 'Major'}: {user.major}</p>
                 <p className='bio mb-4'>{user.bio}</p>
                 <p className='text-white mb-4 post'>
-                    <b>{user.post_count} POSTS | {user.friend_count} FRIENDS</b>
+                    {/* <b>{user.post_count} POSTS | {user.friend_count} FRIENDS</b> */}
+                    <b>2 POSTS | {user.friend_count} FRIENDS</b>
                 </p>
                 <button className='newpost'>
-                <Link to={user_id !== getCurrentUserId() ? "/addfriend" : "/newpost"}>
-                {user_id !== getCurrentUserId() ? "ADD FRIEND" : "ADD NEW POST"}
+                <Link to={user.user_id !== getCurrentUserId() ? "/addfriend" : "/newpost"}>
+                {user.user_id !== getCurrentUserId() ? "ADD FRIEND" : "ADD NEW POST"}
                 </Link>
                 </button>
-
             </div>
-        </section>
+            <div className='mt-5'>
+                <PostCard item={{ username: user.username, content: 'This is the first sample post!' }} icon="🚗" />
+                <PostCard item={{ username: user.username, content: "This is the second sample post!" }} icon="🚗" />
+            </div>
+        </>
     );
 }
 

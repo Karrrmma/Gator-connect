@@ -5,6 +5,7 @@ import Profile from './Profile';
 import Register from './authentication/Register';
 import Start from './Start';
 import NewPost from './NewPost';
+import TOS from './TOS';
 
 export {
     Chat,
@@ -13,5 +14,6 @@ export {
     Profile,
     Register,
     Start,
-    NewPost
+    NewPost,
+    TOS
 }

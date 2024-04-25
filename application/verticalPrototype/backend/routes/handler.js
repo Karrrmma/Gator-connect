@@ -29,8 +29,26 @@ connection.connect((err) => {
 // ***************************** Register ************************************
 // ***************************** Register ************************************
 
+// Server-side validation
+function validateRegister(req, res, next) {
+  const { fullname, sfsu_email, username, password, major, year } = req.body;
+  if (!fullname || !sfsu_email || !username || !password || !major || !year) {
+      return res.status(400).json({ error: 'Missing fields' });
+  }
+
+  if (!/^[\w-]+(\.[\w-]+)*@sfsu.edu$/.test(sfsu_email)) {
+    return res.status(400).json({ error: 'Invalid email address' });
+  }
+
+  if (password.length < 8 || !/\d/.test(password)) {
+    return res.status(400).json({ error: 'Password must be at least 8 characters long and contain a number' });
+  }
+
+  next();
+}
+
 // Register query for sign up form
-router.post("/register", (req, res) => {
+router.post("/register", validateRegister, (req, res) => {
   const { fullname, sfsu_email, username, password, major, year } = req.body;
   const salt = bcrypt.genSaltSync(10);
   const hash = bcrypt.hashSync(password, salt);
@@ -304,6 +322,7 @@ router.get("/api/user/:user_id", (req, res) => {
                   User.full_name AS fullName,
                   User.sfsu_email AS sfsu_email,
                   Student.major, 
+                  Account.username,
                   COUNT(Post.post_id) AS post_count,
                   COUNT(DISTINCT CASE WHEN Friend_Request.status = 'accepted' THEN Friend_Request.friend_request_id END) AS friend_accepted_count,
                   COUNT(DISTINCT CASE WHEN Friend_Request.status = 'declined' THEN Friend_Request.friend_request_id END) AS friend_declined_count
@@ -312,6 +331,7 @@ router.get("/api/user/:user_id", (req, res) => {
                 LEFT JOIN Student ON User.user_id = Student.user_id
                 LEFT JOIN Post ON User.user_id = Post.user_id
                 LEFT JOIN Friend_Request ON (User.user_id = Friend_Request.requester_id OR User.user_id = Friend_Request.receiver_id)
+                LEFT JOIN Account ON User.user_id = Account.user_id
 
                 WHERE
                     User.user_id = ?

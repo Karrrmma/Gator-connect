@@ -28,12 +28,13 @@ export const queryData = async (userId) => {
         console.error('Failed to fetch user info!');
         return;
     }
-    console.log(response);
+
     try {
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
         const student = await response.json();
+        console.log(student);
         // expected return stucture:
         // major, year, role, username, fullname, post_count, friend_count,
         return student;

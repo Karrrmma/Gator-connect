@@ -106,13 +106,13 @@ function Register() {
                                     <option value="Student">Student</option>
                                 </select>
                                 <span className='text-danger'> {errors.role || '\u00A0'}</span>
-                                <div className='form-columns'>
-                                <select className={`input-field choose ${role === 'Student' ? 'half' : ''} mr-2`} name="major" onChange={handleChange} >
+                                <div className='form-column'>
+                                <select className={`input-field choose ${role === 'Student' ? 'half' : ''}`} name="major" onChange={handleChange} >
                                         <option>Select major</option>
                                         {MAJORS.map(major => <option key={major} value={major}>{major}</option>)}
                                     </select>
                                     {role === 'Student' && (
-                                        <select className="input-field choose half ml-1" name="year" onChange={handleChange} >
+                                        <select className="input-field choose half" name="year" onChange={handleChange} >
                                             <option>Select school year</option>
                                             {YEARS.map(year => <option key={year} value={year}>{year}</option>)}
                                         </select>
