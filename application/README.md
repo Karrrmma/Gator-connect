@@ -11,7 +11,7 @@ This does include the structure of your application. Points will be deducted fro
 
 ## Backend Directory Structure
 - `routes`: This directory contains `handler.js` that has all of the backend routes that we used in this project.
-- `index.js`: 
+- `index.js`: This is the main entry point of the server, it listens to a certain port and imports some needed frameworks.
 
 ## Frontend Directory Structure
 - `public`: Holds static files that are directly served by the web server.
@@ -20,8 +20,8 @@ This does include the structure of your application. Points will be deducted fro
     * `components`: Used to store reused UI pieces in the application.
     * `constants`: Contains the constant values used throughout the application.
     * `hooks`: Contains custom React hooks that are reused.
-    * `pages`: Contains different folders with pages that user can navigate to. Each folder represents a different page.
-    * `utils`: Contains useful utility functions that are used throughout the application, 
+    * `pages`: Contains different folders with pages that user can navigate to. Each folder represents a different page or a group of pages.
+    * `utils`: Contains useful utility functions that are used throughout the application.
 
 ## Credentials Folder
 - SSH key: `california.pem`
@@ -29,8 +29,9 @@ This does include the structure of your application. Points will be deducted fro
 # Instructions to Start Server for Development:
 
 `cd` into both the frontend and backend and type `npm install`
+
 To start the server, go into backend and run `npm run dev`
 
 If it fails to work, open split terminals and run these to commands in each:
-    - `npm run server` in backend folder
-    - `npm run start` in frontend folder
+- `npm run server` in backend folder
+- `npm run start` in frontend folder
