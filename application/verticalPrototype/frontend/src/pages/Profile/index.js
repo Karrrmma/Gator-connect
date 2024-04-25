@@ -102,20 +102,16 @@ function Profile() {
                 <p className='bio mb-4'>This is a placeholder bio!</p>
                 <p className='text-white mb-4 post'>
                     {/* <b>{user.post_count} POSTS | {user.friend_count} FRIENDS</b> */}
-                    <b>2 POSTS | {user.friend_count} FRIENDS</b>
+                    <b>2 POSTS | 3 FRIENDS</b>
                 </p>
                 <div>
                     {user.user_id === getCurrentUserId() && (
-                        <button className='friend-list mr-2'>
-                            <Link to="/friendlist">
-                                FRIEND LIST
-                            </Link>
+                        <button className='friend-list mr-2' onClick={handleFriendsListClick}>
+                            FRIEND LIST
                         </button>
                     )}
-                    <button className='newpost ml-2'>
-                        <Link to={user.user_id !== getCurrentUserId() ? "/addfriend" : "/newpost"}>
-                            {user.user_id !== getCurrentUserId() ? "ADD FRIEND" : "ADD NEW POST"}
-                        </Link>
+                    <button className='newpost ml-2' onClick={handleNewPostClick}>
+                        {user.user_id !== getCurrentUserId() ? "ADD FRIEND" : "ADD NEW POST"}
                     </button>
                 </div>
                 {showFriendsList && <FriendsListPopup onClose={closeFriendsList} />}
