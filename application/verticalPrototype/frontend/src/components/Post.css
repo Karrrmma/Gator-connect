@@ -1,6 +1,6 @@
 .card {
   margin-bottom: 30px;
-  background-color: #ffffff;
+  background-color: black;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   position: relative;
@@ -68,10 +68,6 @@
   color: #AD45ff;
 }
 
-.card {
-  background-color: black;
-
-}
 
 .card-title {
   color: white;
@@ -107,4 +103,11 @@
   font-size: 24px;
   color: white;
   padding-bottom: 5px;
+}
+
+
+.chat-container {
+  background-color: black;
+  margin-bottom: 20px;
+
 }

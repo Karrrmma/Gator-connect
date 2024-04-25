@@ -33,9 +33,9 @@ const Channel = () => {
       <div className="container-fluid" >
         <div className="row justify-content-center "  >
            <div className="" style={{ marginTop: '20px' }}>
-           <h5 style={{fontWeight: 'bold', color: 'white', fontSize: '35px'}} className=" ">PUBLIC CHAT</h5>
+           <h1 style={{fontWeight: 'bold', color: 'white', fontSize: '2.0rem', marginBottom: '25px'}} className=" ">PUBLIC CHAT</h1>
            <Head/>
-            <div className="card h-75 border-0 " style={{ background:'black', width: '500px'}}>
+            <div className="chat-container h-75 border-0 " style={{ background:'black', width: '500px', borderBottomLeftRadius: '20px', borderBottomRightRadius: '20px'}}>
                 
                 <div className="card-body" style={{ backgroundColor: 'black', overflowY: 'auto', height: '378px'}}>
                   {messages.map((message, index) =>
@@ -79,11 +79,11 @@ const Channel = () => {
   
 
     return(
-     <div style={{background: 'black'}}>      
-      <div class="d-flex align-items-center" style={{ width: '100%', border: '1px solid black', padding: '10px', textAlign: 'right' }}>
+     <div style={{background: 'black', borderTopLeftRadius: '20px', borderTopRightRadius: '20px' }}>     
+      <div class="d-flex align-items-center" style={{ width: '100%', padding: '20px', textAlign: 'right' }}>
         {selectElement(channel_names)}
-        <p style={{ color: 'white', fontSize: '25px'}}>{channel_names}</p>
-        <Link to='/pubChat' className='text-decoration-none' style={{fontWeight: 'bold', color: '#252525', fontSize: '35px', display: 'inline-block', marginLeft:'auto' }}>X</Link>
+        <p style={{ color: 'white', fontSize: '25px', marginLeft: '5px' }}>{channel_names}</p>
+        <Link to='/pubChat' className='text-decoration-none' style={{fontWeight: 'bold', color: 'gray', fontSize: '30px', display: 'inline-block', marginLeft:'auto'}}>X</Link>
       </div>
     </div>
     );
@@ -104,7 +104,7 @@ const Channel = () => {
 
 
   return(
-    <div className="card border-0" style={{background: 'black', justifyContent: 'center'}}>
+    <div className="chat-container border-0" style={{background: 'black', justifyContent: 'center'}}>
         <div className="card-body d-flex align-items-center" style={{background: 'black', justifyContent: 'center'}}>
           <input type="text rounded-pill" className="form-control" placeholder="Type here ..." aria-label="Recipient's username" 
             aria-describedby="basic-addon2" value={inputMessage} onChange={handleChange} onKeyPress={handleKeyPress}
