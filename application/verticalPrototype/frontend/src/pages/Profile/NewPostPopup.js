@@ -34,10 +34,7 @@ function NewPostPopup({ onClose }) {
                         <p className="popup-subtitle">Share anything to connect more!</p>
                         <form onSubmit={handleSubmit}>
                             <textarea className="post-input" value={post} onChange={handlePost} placeholder="Enter your content here" />
-                            <div className="image-upload-container">
-                                <textarea className="post-upload" placeholder="Add an image (optional)" />
-                                <button className="upload-button" type="button">Upload</button>
-                            </div>
+                            <button className="upload-button" type="button">Upload an image (optional)</button>
                             <div className="button-group">
                                 <button className="cancel-button" type="button" onClick={handleExit}>CANCEL</button>
                                 <button className="post-button" type="submit">POST</button>

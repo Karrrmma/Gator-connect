@@ -140,8 +140,7 @@ input.friend-search::placeholder {
     /* margin-top: 10px; */
 }
 
-.post-upload,
-.upload-button {
+.post-upload{
     height: 4.5vh;
     box-sizing: border-box;
     outline: none;
@@ -153,12 +152,6 @@ input.friend-search::placeholder {
 
 .image-input::placeholder {
     color: #fff;
-}
-
-.image-upload-container {
-    display: grid;
-    grid-template-columns: 80% 20%;
-    gap: 0px;
 }
 
 .upload-button {
@@ -173,7 +166,14 @@ input.friend-search::placeholder {
     padding: 0.5em 1em;
     cursor: pointer;
     /* margin-left: -30%; */
+    width: 80%;
 }
+
+.upload-button:hover {
+    background-color: gray;
+    color: white;
+}
+
 
 .post-input,
 .post-upload {
@@ -193,8 +193,8 @@ input.friend-search::placeholder {
     height: 50px;
     border: none;
     cursor: pointer;
-    width: 20vh;
-    padding: 0px 30px;
+    width: 150px;
+    padding: 0px 20px;
     font-size: 23px;
     font-weight: bold;
 }
@@ -210,8 +210,8 @@ input.friend-search::placeholder {
     height: 50px;
     border: none;
     cursor: pointer;
-    width: 20vh;
-    padding: 0px 30px;
+    width: 150px;
+    padding: 0px 20px;
     font-size: 23px;
     font-weight: bold;
 }
