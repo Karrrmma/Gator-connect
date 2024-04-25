@@ -17,12 +17,12 @@ function RSVPForm({ onSubmit, onClose }) {
       <div className="popup-inner">
         <h2>Confirm Register</h2>
         <form onSubmit={handleSubmit}>
-          <label>Full Name:</label>
-          <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
-          <label>Email:</label>
-          <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+          <label>Your Full Name:</label>
+          <input type="text" placeholder="fullname" value={name} onChange={(e) => setName(e.target.value)} />
+          <label>SFSU Email:</label>
+          <input type="email" placeholder="@sfsu.edu" value={email} onChange={(e) => setEmail(e.target.value)} />
           
-          <button type="submit">Register</button>
+          <button type="submit">SUBMIT</button>
         </form>
       </div>
     </div>

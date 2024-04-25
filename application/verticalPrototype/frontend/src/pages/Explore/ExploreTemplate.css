@@ -395,7 +395,7 @@ body {
   border-radius: 5px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
   z-index: 9999;
-  color:#AD45FF
+  color:#AD45FF;
 }
 
 /* RSVPForm.css */
@@ -404,30 +404,39 @@ body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 300px;
+  width: 400px;
   padding: 20px;
-  background-color: black;
+  background-color: white;
   border-radius: 28px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  /* box-shadow: 0 0 10px #AD45FF; */
   z-index: 9999;
-  color: gray;
+  color: black;
+  align-items: center;
+  text-align: center;
   
 }
 
+.popup h2{
+  color: black;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+
 .popup input,
 .popup select {
-  background-color: #1c1c1c;
+  background-color: black;
   border-radius: 20px;
   border: none;
   width: 80%;
   height: 40px;
   padding: 10px;
   line-height: 30px;
-  color: gray;
+  color: white;
 }
 
 .popup button {
-  background-color: gray;
+  background-color: black;
   color: white;
   border: none;
   border-radius: 20px;
@@ -438,4 +447,5 @@ body {
 
 .popup button:hover {
   background-color: #AD45FF;
+  color: white;
 }
