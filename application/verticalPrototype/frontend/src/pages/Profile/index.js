@@ -115,7 +115,7 @@ function Profile() {
                     </button>
                 </div>
                 {showFriendsList && <FriendsListPopup onClose={closeFriendsList} />}
-                {/* {showNewPost && <NewPostPopup onClose={closeNewPost} />} */}
+                {showNewPost && <NewPostPopup onClose={closeNewPost} />}
             </div>
             <div className='mt-5' style={{ width: '40%' }}>
                 <PostCard item={{ username: user.username, content: 'This is the first sample post!' }} icon="🚗" />
