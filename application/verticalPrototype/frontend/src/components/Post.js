@@ -55,15 +55,15 @@ function PostCard({ item, icon }) {
 
 function UserCard({ username, major, icon }) {
     return (
-        <div class="card" style={{ marginBottom: '30px' }}>
-            <div class="card-body">
-                <div class="d-flex justify-content-start align-items-center mb-2">
-                    {/* <img src={TestPFP} class="rounded-circle" alt="placeholder pfp" style={{ width: 40, height: 40 }}></img> */}
+        <div className="card" style={{ marginBottom: '30px' }}>
+            <div className="card-body">
+                <div className="d-flex justify-content-start align-items-center mb-2">
+                    {/* <img src={TestPFP} className="rounded-circle" alt="placeholder pfp" style={{ width: 40, height: 40 }}></img> */}
                     {/* <div className="avatar">🐊</div> */}
                     {/* <div className="avatar">{icon}</div> */}
-                    <div class="text-left">
-                        <h5 class="card-title ml-2 mb-0">{username}</h5>
-                        <div class="text-muted small ml-2 mt-0 major">{major}</div>
+                    <div className="text-left">
+                        <h5 className="card-title ml-2 mb-0">{username}</h5>
+                        <div className="text-muted small ml-2 mt-0 major">{major}</div>
                     </div>
                 </div>
             </div>
@@ -124,7 +124,7 @@ function Post() {
             {Object.values(searchQuery).some(value => value) ? (
                 <>
                     {noUsersFound ? <p>No users found.</p> : null}
-                    <section class="w-50">
+                    <section className="w-50">
                         {items.map((item, index) => {
                             if (item) {
                                 return <UserCard key={index} username={item.username} major={item.major} icon={item.icon} />;
@@ -134,7 +134,7 @@ function Post() {
                     </section>
                 </>
             ) : (
-                <section class="w-50">
+                <section className="w-50">
                     {items.map((item, index) => {
                     const timestamp = new Date().toLocaleString();
                     return <PostCard key={index} item={{...item, timestamp: timestamp}} icon={'🐊'} timestamp={timestamp} />

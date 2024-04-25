@@ -1,6 +1,6 @@
 // import { getCurrentUserId } from "./decodeData";
 
-// OBSOLETE
+
 // export const getCurrMajorAndYear = async () => {
 //     const user_id = getCurrentUserId();
 //     // console.log("calling getCurrMajorAndYear!");
@@ -42,19 +42,3 @@ export const queryData = async (userId) => {
         console.error('Failed to fetch student:', error);
     }
 }
-
-// async function getStudentMajorAndYear(user_id) {
-//     try {
-//         const response = await fetch(`/api/user/${user_id}`);
-
-//         if (!response.ok) {
-//             throw new Error(`HTTP error! status: ${response.status}`);
-//         }
-
-//         const student = await response.json();
-
-//         return student;
-//     } catch (error) {
-//         console.error('Failed to fetch student:', error);
-//     }
-// }

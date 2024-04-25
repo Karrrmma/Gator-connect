@@ -13,8 +13,6 @@ function NewPost() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        // debug
-        // console.log("New Post:", post); 
 
         // DISCONNECTED FROM BACKEND
         // TODO: clean up fetch requests and store them in one location

@@ -40,23 +40,16 @@ function Profile() {
 
     const [user, setUser] = useState({ major: '', role: '', username: '', fullname: '', bio: '', post_count: 0, friend_count: 0, user_id: 0});
 
+    // handle popup display
     const [showFriendsList, setShowFriendsList] = useState(false);
     const [showNewPost, setShowNewPost] = useState(false);
     
     const handleFriendsListClick = () => {
-        setShowFriendsList(true);
+        setShowFriendsList(!showFriendsList);
     };
     
     const handleNewPostClick = () => {
-        setShowNewPost(true);
-    };
-    
-    const closeFriendsList = () => {
-        setShowFriendsList(false);
-    };
-    
-    const closeNewPost = () => {
-        setShowNewPost(false);
+        setShowNewPost(!showNewPost);
     };
 
     useEffect(() => {
@@ -116,8 +109,8 @@ function Profile() {
                         {user.user_id !== getCurrentUserId() ? "ADD FRIEND" : "ADD NEW POST"}
                     </button>
                 </div>
-                {showFriendsList && <FriendsListPopup onClose={closeFriendsList} />}
-                {showNewPost && <NewPostPopup onClose={closeNewPost} />}
+                {showFriendsList && <FriendsListPopup onClose={handleFriendsListClick} />}
+                {showNewPost && <NewPostPopup onClose={handleNewPostClick} />}
             </div>
             <div className='mt-5' style={{ width: '40%' }}>
                 <PostCard item={{ username: user.fullname, content: 'This is the first sample post!', timestamp: timestamp }} icon="🚗" />

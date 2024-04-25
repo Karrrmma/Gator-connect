@@ -31,17 +31,16 @@ const SearchBar = ({ onSearch }) => {
 
                 <input type="text" className="form-control" value={username} onChange={e => setUsername(e.target.value)} placeholder="Search by username..." />
                 <select className="form-control" value={major} onChange={e => setMajor(e.target.value)}>
-                    <option >Select major</option>
-                    {MAJORS.map(major => <option value={major}>{major}</option>)}
+                    <option value="">Select major</option>
+                    {MAJORS.map((major, index) => <option key={major} value={major}>{major}</option>)}
                 </select>
                 <select className='form-control'value={year} onChange={e => setYear(e.target.value)}>
                     <option value="">Select school year</option>
-                    {YEARS.map((year, index)=> <option key={index} value={year}>{year}</option>)}
+                    {YEARS.map((year, index) => <option key={year} value={year}>{year}</option>)}
                 </select>
                 <button type="submit" id="search-bar-button"><FaSearch /></button>
             </form>
 
-            {/* <p className='welcome'>WELCOME TO GATOR CONNECT</p> */}
             <div className="welcome-container">
                 <div className="welcome-circle"></div>
                 <p className="welcome-text">WELCOME TO GATOR CONNECT</p>

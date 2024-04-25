@@ -23,7 +23,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 
 function App() {
-  const { token, setToken} = useToken();
+  const { token, setToken } = useToken();
 
   if (!token) {
     return (

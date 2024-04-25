@@ -33,6 +33,7 @@ function Login({ setToken }) {
 
     const [ errors, setErrors ] = useState({});
 
+    // on submit
     const handleSubmit = async e => {
         e.preventDefault();
         const errors = validateLoginFields(user);
@@ -45,15 +46,10 @@ function Login({ setToken }) {
         try {
             console.log('User:', user);
             const response = await loginUser(user);
-            console.log(response);
-            // console.log(response.ok);
             if(response.ok){
                 console.log('front end - login success');
                 const data = await response.json(); // resolve promise
-                // console.log(data);
                 setToken(data); // access the token property and set
-
-                // setToken(token);
                 return navigate('/home');
             }
             else{

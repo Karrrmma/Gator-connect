@@ -43,16 +43,17 @@ function Register({setToken}) {
     }
     
     const [errors, setErrors] = useState({});
+    // on form submitted
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(values);
+        // check and set front end errors
         const err = validateFields(values);
         setErrors(err);
 
         if(!tosAccepted) {
             setErrors({...err, tos: 'You must accept the Terms of Service'});
         }
-
+        // if no errors, send requests to backend
         if (Object.keys(err).length === 0) {
             try {
                 const res = await fetch('/register', {
@@ -63,15 +64,16 @@ function Register({setToken}) {
                     body: JSON.stringify(values),
                 });
         
-                if (!res.ok) { // double check
+                if (!res.ok) {
                     const errorData = await res.json();
                     setErrors({...err, backend: 'Email is already in use. Please use another one.'});
                     throw new Error(errorData.error);
                 }
         
                 console.log('User registered successfully');
-
-                const loginRes = await fetch('/login', {
+                
+                // login user after registration
+                const loginRes = await fetch('/login', { 
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
