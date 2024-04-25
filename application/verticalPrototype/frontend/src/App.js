@@ -32,7 +32,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Start />} />
             <Route path="/login" element={<Login setToken={setToken} />} />
-            <Route path="/register" element={<Register />} />
+            <Route path="/register" element={<Register setToken={setToken}/>} />
             <Route path="/tos" element={<TOS />} />
           </Routes>
         </Router>

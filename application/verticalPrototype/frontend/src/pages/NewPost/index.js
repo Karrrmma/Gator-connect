@@ -14,32 +14,32 @@ function NewPost() {
     const handleSubmit = async (event) => {
         event.preventDefault();
         // debug
-        console.log("New Post:", post); 
+        // console.log("New Post:", post); 
 
-        // COMMENT THIS TO TEST WITHOUT ACTUALLY POSTING
+        // DISCONNECTED FROM BACKEND
         // TODO: clean up fetch requests and store them in one location
-        const response = await fetch('/newpost', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(post),
-        });
+        // const response = await fetch('/newpost', {
+        //     method: 'POST',
+        //     headers: {
+        //         'Content-Type': 'application/json',
+        //     },
+        //     body: JSON.stringify(post),
+        // });
 
-        const data = await response.json();
-        console.log(data);
-
-        if (response.ok) {
-            setConfirmation('New post has been successfully created!');
-        } else {
-            setConfirmation('Failed to create new post.');
-        }
+        // const data = await response.json();
+        // console.log(data);
+        setConfirmation('New post has been successfully created!');
+        // if (response.ok) {
+        //     setConfirmation('New post has been successfully created!');
+        // } else {
+        //     setConfirmation('Failed to create new post.');
+        // }
     };
 
     return (
         <div className="container mt-5">
             <h1 className="mb-4">ADD NEW POST</h1>
-            
+
             <form onSubmit={handleSubmit} onChange={handleChange}>
                 <div className="form-group">
                     <input type="text" name="post_content" placeholder="Content" className="form-control" />
