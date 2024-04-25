@@ -16,14 +16,7 @@ export default function validateFields(values) {
     if (!values.password) {
         errors.password = 'Password required';
     }
-
     // password validation
-    // password is at least 8 char long, password contains a num?
-    if (values.password.length < 8) {
-        errors.password = 'Password must be at least 8 characters';
-    } else if (!/\d/.test(values.password)) {
-        errors.password = 'Password must contain a number';
-    }
 
     // Does fullname exist
     if (!values.fullname) {

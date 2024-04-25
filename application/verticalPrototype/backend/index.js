@@ -9,11 +9,11 @@ app.use(bodyParser.json());
 app.use('/', routesHandler);
 
 // dummy token
-// app.use('/login', (req, res) => {
-//     res.send({
-//         token: 'test'
-//     });
-// });
+app.use('/login', (req, res) => {
+    res.send({
+        token: 'test'
+    });
+});
 
 // Backend Server Port
 const PORT = 4000;
