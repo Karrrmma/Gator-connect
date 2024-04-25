@@ -95,7 +95,7 @@ function Register() {
                                 <span className='text-danger'> {errors.username || '\u00A0'}</span>
                                 <input name="password" type="password" className="input-field" placeholder="Password" />
                                 <span className='text-danger'> {errors.password || '\u00A0'}</span>
-                                <span className='text-muted text-left'>*Password must contain at least 8 characters and a number</span>
+                                <p className='text-muted text-left'>*Password must contain at least 8 characters and a number</p>
                             </div>
                             <div className='form-column'>
                                 <input name="fullname" type="text" className="input-field" placeholder="Full Name" />
@@ -117,24 +117,26 @@ function Register() {
                                             {YEARS.map(year => <option key={year} value={year}>{year}</option>)}
                                         </select>
                                     )}
-                                    <span className='text-danger'> {errors.major || '\u00A0'}</span>
-                                    <span className='text-danger'> {errors.year || '\u00A0'}</span>
+                                    <span className='text-danger mr-5'> {errors.major || '\u00A0'}</span>
+                                    <span className='text-danger ml-2'> {errors.year || '\u00A0'}</span>
                                 </div>
                                 <div className='form-row' style={{ gap: '4px', alignItems: 'left', justifyContent: 'unset'}}>
-                                    <input type='checkbox' id='tos-check' className='mb-1' onChange={handleChange} style={{ width: '15px', height: '15px' }} />
-                                    <label htmlFor='tos-check' className='form-check-label tos-check ml-2'>I accept and agree to the </label>
-                                    <Link to='/tos' className='tos-check'>Terms and Service</Link>
+                                    <input type='checkbox' id='tos-check' className='mb-1 ml-2' onChange={handleChange} style={{ width: '15px', height: '15px' }} />
+                                    <div style={{ display: 'flex', flexDirection: 'row'}}>
+                                    <label htmlFor='tos-check' className='form-check-label tos-check '>I accept and agree to the </label>
+                                    <Link to='/tos' className='tos-check'> Terms and Service</Link>
+                                    </div>
                                 </div>
                                 <div className='form-column'>
                                         <span className='text-danger justify-content-center'> {errors.tos || '\u00A0'}</span>
                                 </div>
                             </div>
                         </div>
-                        <div className='mt-4'>
+                        <div className='mt-2'>
                             <button type='submit'><b>REGISTER</b></button>
                         </div>
                         <div className='login-link'>
-                            <p className='mb-3 mt-5'>Already have an account?</p>
+                            <p className='mt-2 '>Already have an account?</p>
                             <Link to='/login'>
                                 <u>Log in here</u>
                             </Link>

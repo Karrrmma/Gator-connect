@@ -85,7 +85,7 @@ function Login({ setToken }) {
                             <button type='submit'><b>LOGIN</b></button>
                         </div>
                         <div className='register-link'>
-                            <p className='mb-3 mt-5'>Not registered yet? Let's create one 😎</p>
+                            <p className='mt-2'>Not registered yet? Let's create one 😎</p>
                             <Link to='/register'>
                                 <u>Create an account</u>
                             </Link>
