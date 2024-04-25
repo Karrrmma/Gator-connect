@@ -32,7 +32,7 @@ connection.connect((err) => {
 // Server-side validation
 function validateRegister(req, res, next) {
   const { fullname, sfsu_email, username, password, major, year } = req.body;
-  if (!fullname || !sfsu_email || !username || !password || !major || !year) {
+  if (!fullname || !sfsu_email || !username || !password || !major) {
       return res.status(400).json({ error: 'Missing fields' });
   }
 
@@ -49,52 +49,50 @@ function validateRegister(req, res, next) {
 
 // Register query for sign up form
 router.post("/register", validateRegister, (req, res) => {
-  const { fullname, sfsu_email, username, password, major, year } = req.body;
+  const { fullname, sfsu_email, username, password, major, year, role } = req.body;
   const salt = bcrypt.genSaltSync(10);
   const hash = bcrypt.hashSync(password, salt);
 
-  const studentQuery =
-    "INSERT INTO Student(user_id, major, year) VALUES(?, ?, ?)";
-  const accountQuery =
-    "INSERT INTO Account(username, password, user_id) VALUES(?,?,?)";
   const userQuery = "INSERT INTO User (full_name, sfsu_email) VALUES (?, ?)";
+  const accountQuery = "INSERT INTO Account(username, password, user_id) VALUES(?,?,?)";
   connection.query(userQuery, [fullname, sfsu_email], (userErr, userResult) => {
     if (userErr) {
       console.error("Error inserting user:", userErr);
       return res.status(500).json({ error: "Failed to insert user" });
     }
-    console.log("Password at registration:", password);
-    connection.query(
-      accountQuery,
-      [username, hash, userResult.insertId],
-      (accountErr, accountResult) => {
-        if (accountErr) {
-          console.error("Error inserting account:", accountErr);
-          return res.status(500).json({ error: "Failed to insert account" });
-        }
 
-        connection.query(
-          studentQuery,
-          [userResult.insertId, major, year],
-          (studentErr, studentResult) => {
-            if (studentErr) {
-              // Changed from accountErr to studentErr
-              console.error("Error inserting student:", studentErr);
-              return res
-                .status(500)
-                .json({ error: "Failed to insert student" });
-            }
-            res.status(200).json({
-              message: "User, account, and student inserted successfully",
-              userId: userResult.insertId,
-              accountId: accountResult.insertId,
-            });
-          }
-        );
+    connection.query(accountQuery, [username, hash, userResult.insertId], (accountErr, accountResult) => {
+      if (accountErr) {
+        console.error("Error inserting account:", accountErr);
+        return res.status(500).json({ error: "Failed to insert account" });
       }
-    );
+
+      // Conditionally handle the role of the user
+      // when user == student
+      if (role === 'Student') {
+        const studentQuery = "INSERT INTO Student(user_id, major, year) VALUES(?, ?, ?)";
+        connection.query(studentQuery, [userResult.insertId, major, year], (studentErr, studentResult) => {
+          if (studentErr) {
+            console.error("Error inserting student:", studentErr);
+            return res.status(500).json({ error: "Failed to insert student" });
+          }
+          res.json({ message: "User, account, and student details inserted successfully" });
+        });
+      // when user == professor
+      } else if (role === 'Professor') {
+        const professorQuery = "INSERT INTO Professor(user_id, department) VALUES(?, ?)";
+        connection.query(professorQuery, [userResult.insertId, major], (professorErr, professorResult) => {
+          if (professorErr) {
+            console.error("Error inserting professor:", professorErr);
+            return res.status(500).json({ error: "Failed to insert professor" });
+          }
+          res.json({ message: "User, account, and professor details inserted successfully" });
+        });
+      }
+    });
   });
 });
+
 
 // ***************************** Login ************************************
 // ***************************** Login ************************************
