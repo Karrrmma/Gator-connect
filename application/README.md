@@ -8,34 +8,29 @@ This does include the structure of your application. Points will be deducted fro
 
 ## Please use the rest of the README.md to store important information for your team's application. 
 *********************************************************************************************************************************************
-<<<<<<< HEAD
 
-1. backend
-    - node js server
+## Backend Directory Structure
+- `routes`: This directory contains `handler.js` that has all of the backend routes that we used in this project.
+- `index.js`: 
 
-2. frontend
-    - src
-    - package-lock.json
+## Frontend Directory Structure
+- `public`: Holds static files that are directly served by the web server.
+- `src`: Main folder that holds the applications source code.
+    * `assets`: Holds static files (images) used in the application.
+    * `components`: Used to store reused UI pieces in the application.
+    * `constants`: Contains the constant values used throughout the application.
+    * `hooks`: Contains custom React hooks that are reused.
+    * `pages`: Contains different folders with pages that user can navigate to. Each folder represents a different page.
+    * `utils`: Contains useful utility functions that are used throughout the application, 
 
-3. credentials
-    - SSH key: GatorConnects.pem
-=======
->>>>>>> b5ebdb6dabe970cb542802a0cbd1c6922fe37cdd
+## Credentials Folder
+- SSH key: `california.pem`
 
-1. backend
-    - routes
+# Instructions to Start Server for Development:
 
-2. frontend
-    - src
-    - public
+`cd` into both the frontend and backend and type `npm install`
+To start the server, go into backend and run `npm run dev`
 
-3. credentials
-    - SSH key: GatorConnects.pem
-
-Before starting, cd into both the frontend and backend and type 'npm install'
-To start the server, go into backend and run 'npm run dev'
-It was created to 
-
-If it fails to work, open split terminals and run these two commands in each:
-    - 'npm run server' in backend folder
-    - 'npm run start' in frontend folder
+If it fails to work, open split terminals and run these to commands in each:
+    - `npm run server` in backend folder
+    - `npm run start` in frontend folder
