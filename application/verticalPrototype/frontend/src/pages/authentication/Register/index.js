@@ -131,8 +131,8 @@ function Register({setToken}) {
                                         {MAJORS.map(major => <option key={major} value={major}>{major}</option>)}
                                     </select>
                                     {role === 'Student' && (
-                                        <select className="input-field choose half" name="year" onChange={handleChange} >
-                                            <option>Select school year</option>
+                                        <select className="input-field choose half ml-2" name="year" onChange={handleChange} >
+                                            <option>Start year</option>
                                             {YEARS.map(year => <option key={year} value={year}>{year}</option>)}
                                         </select>
                                     )}

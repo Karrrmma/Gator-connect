@@ -26,12 +26,12 @@
 .user-info .card-title {
   margin-left: 10px;
   font-weight: bold;
-  font-size: 1rem;
+  /* font-size: 1rem; */
 }
 
 .card-text {
   color: white;
-  font-size: 1rem;
+  font-size: 1.1rem;
   margin-bottom: 15px;
   text-align: left;
   white-space: pre-line;

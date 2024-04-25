@@ -91,15 +91,16 @@ function Profile() {
 
     return (
         <>
-            <div>
-                <img src={TestPFP} alt="Profile" style={{width: '150px', height: '150px', borderRadius: '50%', marginTop: '20px'}}/>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+                {/* <img src={TestPFP} alt="Profile" style={{width: '150px', height: '150px', borderRadius: '50%', marginTop: '20px'}}/> */}
+                <div className="avatar" style={{fontSize: '100px', margin: '10px', backgroundColor: 'white', padding: '50px 70px 90px 70px'}}>🚗</div>
                 {/* <p className='role mt-3'>{user.role}</p> */}
                 <p className='role mt-3'>STUDENT</p>
-                <p className='fullname mb-4'><b>{user.fullname}</b></p>
-                <p className='username mb-3'>username: {user.username}</p>
+                <p className='fullname mb-3'><b>{user.fullname}</b></p>
+                <p className='username mb-3'>{user.username}</p>
                 <p className='major mb-4'>{user.role === 'Professor' ? 'Department' : 'Major'}: {user.major}</p>
                 {/* <p className='bio mb-4'>{user.bio}</p> */}
-                <p className='bio mb-4'>This is a placeholder bio!</p>
+                <p className='bio mb-4'>Hello everyone! This is my profile where you can see <br></br> my personal posts! I will update my bio later : )</p>
                 <p className='text-white mb-4 post'>
                     {/* <b>{user.post_count} POSTS | {user.friend_count} FRIENDS</b> */}
                     <b>2 POSTS | 3 FRIENDS</b>
@@ -118,8 +119,8 @@ function Profile() {
                 {showNewPost && <NewPostPopup onClose={closeNewPost} />}
             </div>
             <div className='mt-5' style={{ width: '40%' }}>
-                <PostCard item={{ username: user.username, content: 'This is the first sample post!' }} icon="🚗" />
-                <PostCard item={{ username: user.username, content: "This is the second sample post!" }} icon="🚗" />
+                <PostCard item={{ username: user.fullname, content: 'This is the first sample post!' }} icon="🚗" />
+                <PostCard item={{ username: user.fullname, content: "This is the second sample post!" }} icon="🚗" />
             </div>
         </>
     );
