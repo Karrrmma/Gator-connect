@@ -27,7 +27,10 @@ function PostCard({ item, icon }) {
                     <div className="user-info">
                         {/* <img src={avatar} className="rounded-circle" alt="User profile" /> */}
                         <div className="avatar">{icon}</div>
-                        <h5 className="card-title">{item.username}</h5>
+                        <div className="title-container">
+                            <h5 className="card-title">{item.username}</h5>
+                            <p className="timestamp">{item.timestamp}</p>
+                        </div>
                     </div>
                     <div className="actions d-flex align-items-center" style={{ fontSize: '1.2rem' }}>
                         {/* <button type="button" className="btn btn-outline-secondary btn-sm"><FaCommentDots /></button>
@@ -72,7 +75,7 @@ function Post() {
     const [items, setItems] = useState([]);
     const [searchQuery, setSearchQuery] = useState({});
     const [noUsersFound, setNoUsersFound] = useState(false);
-
+    const timestamp = new Date().toLocaleString(); // placeholder timestamp
     // calls fetchItems when component mounts
     useEffect(() => {
         fetchItems(searchQuery);
@@ -132,11 +135,14 @@ function Post() {
                 </>
             ) : (
                 <section class="w-50">
-                    {items.map((item, index) => <PostCard key={index} item={item} icon={'🐊'} />)}
-                    <PostCard item={{ username: 'Felonious Gru', content: 'Hope you have a beautiful day!', imageUrl: Cat }} icon="🎃" />
-                    <PostCard item={{ username: 'Jose Ortiz', content: 'I love Gator Connect app 😎 ' }} icon="🎄" />
-                    <PostCard item={{ username: 'Marco Lorenz', content: 'Weee! Does anyone love dogs here?', imageUrl: Dog }} icon="🐶" />
-                    <PostCard item={{ username: 'Fabian Weiland', content: ">> Hello World! \n My code is working and I have no idea why : ) " }} icon="🐳" />
+                    {items.map((item, index) => {
+                    const timestamp = new Date().toLocaleString();
+                    return <PostCard key={index} item={{...item, timestamp: timestamp}} icon={'🐊'} timestamp={timestamp} />
+                    })}
+                    <PostCard item={{ username: 'Felonious Gru', content: 'Hope you have a beautiful day!', imageUrl: Cat, timestamp: timestamp }} icon="🎃" />
+                    <PostCard item={{ username: 'Jose Ortiz', content: 'I love Gator Connect app 😎 ', timestamp: timestamp}} icon="🎄" />
+                    <PostCard item={{ username: 'Marco Lorenz', content: 'Weee! Does anyone love dogs here?', imageUrl: Dog, timestamp: timestamp }} icon="🐶" />
+                    <PostCard item={{ username: 'Fabian Weiland', content: ">> Hello World! \n My code is working and I have no idea why : ) ", timestamp: timestamp }} icon="🐳" />
                 </section>
             )}
         </>
