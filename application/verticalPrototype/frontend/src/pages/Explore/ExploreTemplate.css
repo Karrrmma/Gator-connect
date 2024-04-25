@@ -419,11 +419,17 @@ body {
 }
 
 .popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   width: 400px;
   padding: 20px;
   background-color: white;
   border-radius: 28px;
   /* box-shadow: 0 0 10px #AD45FF; */
+  z-index: 9999;
+  color: black;
   text-align: center;
   
 }
