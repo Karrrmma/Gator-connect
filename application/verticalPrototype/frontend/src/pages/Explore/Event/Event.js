@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import "../ExploreTemplate.css";
-import RSVPForm from './RSVPForm';
 import { useNavigate } from "react-router-dom";
+import CreateEventForm from './CreateEventForm';
+import RSVPForm from './RSVPForm';
 
 function Event() {
   const navigate = useNavigate();
@@ -15,6 +16,8 @@ function Event() {
   const [searchQuery, setSearchQuery] = useState("");
 
   const [filters, setFilters] = useState(initialFilters);
+
+  const [showCreateEventForm, setShowCreateEventForm] = useState(false);
 
   const events = [
     {
@@ -139,6 +142,10 @@ function Event() {
     navigate("/explore");
   };
 
+  const handleCreateEventClick = () => {
+    setShowCreateEventForm(true); 
+  };
+
   const handleRSVPClick = () => {
     setShowForm(true);
   };
@@ -146,6 +153,15 @@ function Event() {
   const handleSubmitRSVP = (formData) => {
     // Handle form submission
     console.log('RSVP form submitted:', formData);
+  };
+
+  const handleCloseCreateEventForm = () => {
+    setShowCreateEventForm(false); // Close the CreateEvent form
+  };
+
+  const handleSubmitCreateEvent = (formData) => {
+    // Handle CreateEvent form submission
+    console.log('CreateEvent form submitted:', formData);
   };
 
   const handleCloseForm = () => {
@@ -235,7 +251,11 @@ function Event() {
           <button onClick={handleResetFilters} className="search-button">
             Reset Filters
           </button>
+          <button onClick={handleCreateEventClick} className="search-button">
+            Create Event
+          </button>
         </div>
+        {showCreateEventForm && <CreateEventForm onSubmit={handleSubmitCreateEvent} onClose={handleCloseCreateEventForm} />}
       </div>
       <div className="grid-wrapper">
         {filteredEvents.length === 0 ? (

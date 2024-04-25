@@ -12,6 +12,11 @@ function RSVPForm({ onSubmit, onClose }) {
     onClose();
   };
 
+  const handleExit = () => {
+    onClose(); 
+  };
+  
+
   return (
     <div className="popup">
       <div className="popup-inner">
@@ -23,6 +28,7 @@ function RSVPForm({ onSubmit, onClose }) {
           <input type="email" placeholder="@sfsu.edu" value={email} onChange={(e) => setEmail(e.target.value)} />
           
           <button type="submit">SUBMIT</button>
+          <button className="exit-button" onClick={handleExit}>CANCEL</button>
         </form>
       </div>
     </div>
