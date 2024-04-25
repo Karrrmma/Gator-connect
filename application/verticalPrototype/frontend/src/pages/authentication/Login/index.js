@@ -50,14 +50,14 @@ function Login({ setToken }) {
             if(response.ok){
                 console.log('front end - login success');
                 const data = await response.json(); // resolve promise
-                console.log(data);
+                // console.log(data);
                 setToken(data); // access the token property and set
 
                 // setToken(token);
                 return navigate('/home');
             }
             else{
-                setErrors({...errors, form:'invalid username or password'});
+                setErrors({...errors, form:'Invalid username or password'});
             }
         } catch (error) {
             console.error('Error logging in, user does not exist?', error);
@@ -81,6 +81,7 @@ function Login({ setToken }) {
                         <span className='text-danger'> {errors.username || '\u00A0'}</span>
                         <input name='password' type='password' placeholder='Password' className='input-field' />
                         <span className='text-danger'> {errors.password || '\u00A0'}</span>
+                        <span className='text-danger mb-3'> {errors.form || '\u00A0'}</span>
                         <div>
                             <button type='submit'><b>LOGIN</b></button>
                         </div>

@@ -1,4 +1,4 @@
-import { getCurrentUserId } from "./decodeData";
+// import { getCurrentUserId } from "./decodeData";
 
 // OBSOLETE
 // export const getCurrMajorAndYear = async () => {

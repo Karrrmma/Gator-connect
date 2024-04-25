@@ -6,6 +6,8 @@ import { queryData } from '../../utils/queryUser';
 import './Profile.css';
 import { useLocation } from 'react-router-dom';
 import PostCard from '../../components/PostCard';
+import FriendsListPopup from './FriendsListPopup';
+import NewPostPopup from './NewPostPopup';
 
 const sampleStudent = { // fill with major, year, role, major, bio, post_count, friend_count
     major: 'Computer Science',
@@ -32,9 +34,29 @@ const sampleStudent = { // fill with major, year, role, major, bio, post_count, 
 // }
 
 function Profile() {
-    const location = useLocation(); 
+    // get current URL
+    const location = useLocation();
 
     const [user, setUser] = useState({ major: '', role: '', username: '', fullname: '', bio: '', post_count: 0, friend_count: 0, user_id: 0});
+
+    const [showFriendsList, setShowFriendsList] = useState(false);
+    const [showNewPost, setShowNewPost] = useState(false);
+    
+    const handleFriendsListClick = () => {
+        setShowFriendsList(true);
+    };
+    
+    const handleNewPostClick = () => {
+        setShowNewPost(true);
+    };
+    
+    const closeFriendsList = () => {
+        setShowFriendsList(false);
+    };
+    
+    const closeNewPost = () => {
+        setShowNewPost(false);
+    };
 
     useEffect(() => {
         const fetchUserData = async () => {
@@ -76,18 +98,30 @@ function Profile() {
                 <p className='fullname mb-4'><b>{user.fullname}</b></p>
                 <p className='username mb-3'>username: {user.username}</p>
                 <p className='major mb-4'>{user.role === 'Professor' ? 'Department' : 'Major'}: {user.major}</p>
-                <p className='bio mb-4'>{user.bio}</p>
+                {/* <p className='bio mb-4'>{user.bio}</p> */}
+                <p className='bio mb-4'>This is a placeholder bio!</p>
                 <p className='text-white mb-4 post'>
                     {/* <b>{user.post_count} POSTS | {user.friend_count} FRIENDS</b> */}
                     <b>2 POSTS | {user.friend_count} FRIENDS</b>
                 </p>
-                <button className='newpost'>
-                <Link to={user.user_id !== getCurrentUserId() ? "/addfriend" : "/newpost"}>
-                {user.user_id !== getCurrentUserId() ? "ADD FRIEND" : "ADD NEW POST"}
-                </Link>
-                </button>
+                <div>
+                    {user.user_id === getCurrentUserId() && (
+                        <button className='friend-list mr-2'>
+                            <Link to="/friendlist">
+                                FRIEND LIST
+                            </Link>
+                        </button>
+                    )}
+                    <button className='newpost ml-2'>
+                        <Link to={user.user_id !== getCurrentUserId() ? "/addfriend" : "/newpost"}>
+                            {user.user_id !== getCurrentUserId() ? "ADD FRIEND" : "ADD NEW POST"}
+                        </Link>
+                    </button>
+                </div>
+                {showFriendsList && <FriendsListPopup onClose={closeFriendsList} />}
+                {/* {showNewPost && <NewPostPopup onClose={closeNewPost} />} */}
             </div>
-            <div className='mt-5'>
+            <div className='mt-5' style={{ width: '40%' }}>
                 <PostCard item={{ username: user.username, content: 'This is the first sample post!' }} icon="🚗" />
                 <PostCard item={{ username: user.username, content: "This is the second sample post!" }} icon="🚗" />
             </div>
