@@ -36,6 +36,7 @@ const sampleStudent = { // fill with major, year, role, major, bio, post_count, 
 function Profile() {
     // get current URL
     const location = useLocation();
+    const timestamp = new Date().toLocaleString();
 
     const [user, setUser] = useState({ major: '', role: '', username: '', fullname: '', bio: '', post_count: 0, friend_count: 0, user_id: 0});
 
@@ -119,8 +120,8 @@ function Profile() {
                 {showNewPost && <NewPostPopup onClose={closeNewPost} />}
             </div>
             <div className='mt-5' style={{ width: '40%' }}>
-                <PostCard item={{ username: user.fullname, content: 'This is the first sample post!' }} icon="🚗" />
-                <PostCard item={{ username: user.fullname, content: "This is the second sample post!" }} icon="🚗" />
+                <PostCard item={{ username: user.fullname, content: 'This is the first sample post!', timestamp: timestamp }} icon="🚗" />
+                <PostCard item={{ username: user.fullname, content: "This is the second sample post!", timestamp }} icon="🚗" />
             </div>
         </>
     );
