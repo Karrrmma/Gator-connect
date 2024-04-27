@@ -86,6 +86,9 @@ function Login({ setToken }) {
                             <Link to='/register'>
                                 <u>Create an account</u>
                             </Link>
+                            <Link to='/forgot-password'>
+                                <u style={{marginLeft: '25px'}}>Forgot Password?</u>
+                            </Link>
                         </div>
                     </form>
                 </div>

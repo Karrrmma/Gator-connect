@@ -6,6 +6,7 @@ import Register from './authentication/Register';
 import Start from './Start';
 import NewPost from './NewPost';
 import TOS from './TOS';
+import ForgotPassword from './authentication/Login/ForgotPassword';
 
 export {
     Chat,
@@ -15,5 +16,6 @@ export {
     Register,
     Start,
     NewPost,
-    TOS
+    TOS,
+    ForgotPassword
 }

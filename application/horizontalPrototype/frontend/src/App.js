@@ -2,7 +2,7 @@ import './App.css';
 import Nav from './components/Nav';  
 import Notification from './components/Notification';
 import Post from './components/Post';
-import { Explore, Profile, Chat, Login, Register, Start, NewPost, TOS } from './pages';
+import { Explore, Profile, Chat, Login, Register, Start, NewPost, TOS, ForgotPassword} from './pages';
 // -------------------------------------------------------------------------
 // Route for directing foodvendor, transportation and event
 // If there is another way to optimize the route, please edit it !!
@@ -34,6 +34,7 @@ function App() {
             <Route path="/login" element={<Login setToken={setToken} />} />
             <Route path="/register" element={<Register setToken={setToken}/>} />
             <Route path="/tos" element={<TOS />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
           </Routes>
         </Router>
       </div>
