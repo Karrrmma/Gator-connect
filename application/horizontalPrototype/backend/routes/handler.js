@@ -232,33 +232,6 @@ router.post("/reset-password", async (req, res) => {
   }
 });
 
-// *******************************************************************************
-// *******************************************************************************
-router.get("/chat", (req, res) => {
-  /*   console.log("das ist ein Test")
-   */
-  const test = "SELECT * FROM Account";
-  connection.query(test, async (err, results) => {
-    if (err) {
-      console.error("Error fetching data from database:", err);
-      res.status(500).json({ error: "Internal Server Error" });
-      return;
-    }
-    res.send(JSON.stringify(results));
-  });
-});
-
-// TODO: make this communiate with database and grab a post
-router.get("/testpost", (req, res) => {
-  const str = [
-    {
-      username: "Ali Gator",
-      content: "Hello! This is a test content!",
-    },
-  ];
-  res.end(JSON.stringify(str));
-});
-
 // *************************************************************************************
 // Add New Post
 
@@ -313,14 +286,14 @@ router.post("/newpost", (req, res) => {
 
 // GET all posts
 router.get("/posts", async (req, res) => {
-    // Modify the query to retrieve post components and full_name from User table
-    const query = `
+  // Modify the query to retrieve post components and full_name from User table
+  const query = `
       SELECT Post.post_content, Post.post_time, Post.num_likes, Post.num_comments, User.full_name 
       FROM Post
       JOIN User ON Post.user_id = User.user_id 
       ORDER BY Post.post_time DESC
     `;
-  
+
   connection.query(query, (error, results) => {
     if (error) {
       console.error("Error fetching average ratings:", error);
@@ -331,6 +304,32 @@ router.get("/posts", async (req, res) => {
   });
 });
 
+// *******************************************************************************
+// *******************************************************************************
+router.get("/chat", (req, res) => {
+  /*   console.log("das ist ein Test")
+   */
+  const test = "SELECT * FROM Account";
+  connection.query(test, async (err, results) => {
+    if (err) {
+      console.error("Error fetching data from database:", err);
+      res.status(500).json({ error: "Internal Server Error" });
+      return;
+    }
+    res.send(JSON.stringify(results));
+  });
+});
+
+// TODO: make this communiate with database and grab a post
+router.get("/testpost", (req, res) => {
+  const str = [
+    {
+      username: "Ali Gator",
+      content: "Hello! This is a test content!",
+    },
+  ];
+  res.end(JSON.stringify(str));
+});
 
 //  SEARCH QUERY
 router.post("/search", (req, res) => {
@@ -371,27 +370,32 @@ router.post("/search", (req, res) => {
 // Profile  DETAIL
 router.get("/api/user/:user_id", (req, res) => {
   const { user_id } = req.params;
-  //gets imformation of below from USER, POST, Friend , STUDENT table as combines in to a table based on the user_id
-  const query = `SELECT 
-                  User.user_id,
-                  User.full_name AS fullName,
-                  User.sfsu_email AS sfsu_email,
-                  Student.major, 
-                  Account.username,
-                  COUNT(Post.post_id) AS post_count,
-                  COUNT(DISTINCT CASE WHEN Friend_Request.status = 'accepted' THEN Friend_Request.friend_request_id END) AS friend_accepted_count,
-                  COUNT(DISTINCT CASE WHEN Friend_Request.status = 'declined' THEN Friend_Request.friend_request_id END) AS friend_declined_count
-                FROM
-                    User
-                LEFT JOIN Student ON User.user_id = Student.user_id
-                LEFT JOIN Post ON User.user_id = Post.user_id
-                LEFT JOIN Friend_Request ON (User.user_id = Friend_Request.requester_id OR User.user_id = Friend_Request.receiver_id)
-                LEFT JOIN Account ON User.user_id = Account.user_id
-
-                WHERE
-                    User.user_id = ?
-                GROUP BY
-                    User.user_id`;
+  const query = `
+  SELECT 
+  User.user_id,
+  User.full_name AS fullName,
+  User.sfsu_email AS sfsu_email,
+  Student.major, 
+  Professor.department AS department,
+  CASE 
+    WHEN Student.user_id IS NOT NULL THEN 'Student'
+    WHEN Professor.user_id IS NOT NULL THEN 'Professor'
+    ELSE 'Unknown'
+  END AS role,
+  Account.username,
+  COUNT(Post.post_id) AS post_count,
+  COUNT(DISTINCT CASE WHEN Friend_Request.status = 'accepted' THEN Friend_Request.friend_request_id END) AS friend_accepted_count,
+  COUNT(DISTINCT CASE WHEN Friend_Request.status = 'declined' THEN Friend_Request.friend_request_id END) AS friend_declined_count
+  FROM User
+  LEFT JOIN Student ON User.user_id = Student.user_id
+  LEFT JOIN Professor ON User.user_id = Professor.user_id
+  LEFT JOIN Post ON User.user_id = Post.user_id
+  LEFT JOIN Friend_Request ON (User.user_id = Friend_Request.requester_id OR User.user_id = Friend_Request.receiver_id)
+  LEFT JOIN Account ON User.user_id = Account.user_id
+  WHERE
+      User.user_id = ?
+  GROUP BY
+      User.user_id;`;
 
   connection.query(query, [user_id], (error, results) => {
     if (error) {

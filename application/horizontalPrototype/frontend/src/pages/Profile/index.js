@@ -9,6 +9,7 @@ import PostCard from '../../components/PostCard';
 import FriendsListPopup from './FriendsListPopup';
 import NewPostPopup from './NewPostPopup';
 
+
 function Profile() {
     // get current URL
     const location = useLocation();
@@ -47,6 +48,8 @@ function Profile() {
                 if (userData) {
                     setUser({
                         ...userData,
+                        major: userData.role === 'Student' ? userData.major : userData.department,
+                        role: userData.role,
                         fullname: userData.fullName,  
                         posts: userData.posts || []  
                     });
@@ -70,10 +73,8 @@ function Profile() {
                 {/* <img src={TestPFP} alt="Profile" style={{width: '150px', height: '150px', borderRadius: '50%', marginTop: '20px'}}/> */}
                 <div className="avatar" style={{fontSize: '100px', margin: '10px', backgroundColor: 'white', padding: '50px 70px 90px 70px'}}>🚗</div>
 
-                {/* DO NOT KNOW HOW TO ACCESS THE ROLE SO FAR. We dont have role attribute right?? */}
+                {/* DONE */}    
                 <p className='role mt-3'>{user.role}</p>
-
-                {/* DONE */}
                 <p className='fullname mb-3'><b>{user.fullname}</b></p>
                 <p className='username mb-3'>{user.username}</p>
                 <p className='major mb-4'>{user.role === 'Professor' ? 'Department' : 'Major'}: {user.major}</p>

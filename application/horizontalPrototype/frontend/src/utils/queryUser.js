@@ -33,12 +33,10 @@ export const queryData = async (userId) => {
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
-        const student = await response.json();
-        console.log(student);
-        // expected return stucture:
-        // major, year, role, username, fullname, post_count, friend_count,
-        return student;
+        const profileData = await response.json();
+        console.log("Fetched user data:", profileData);  // Log the full profile data including the role
+        return profileData;
     } catch (error) {
-        console.error('Failed to fetch student:', error);
+        console.error('Failed to fetch user profile:', error);
     }
 }
