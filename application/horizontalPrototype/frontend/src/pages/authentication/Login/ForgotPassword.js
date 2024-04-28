@@ -43,7 +43,7 @@ function ForgotPassword() {
                 alert('Password reset successfully.');
                 navigate('/login');
             } else {
-                setErrors({...errors, form: 'Failed to reset password. Please check your details and try again.'});
+                setErrors({...errors, form: 'Failed to reset password. Please check your details.'});
             }
         } catch (error) {
             console.error('Error resetting password:', error);
@@ -80,7 +80,9 @@ function ForgotPassword() {
                             <button type='submit' style={{ width: '300px' }}><b>CHANGE PASSWORD</b></button>
                         </div>
                         <div className='register-link'>
-
+                            <Link to='/login'>
+                                <u>Back to Login</u>
+                            </Link>
                         </div>
                     </form>
                 </div>

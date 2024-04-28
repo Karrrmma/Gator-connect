@@ -43,8 +43,7 @@ function validateRegister(req, res, next) {
   next();
 }
 
-// *******************************************************************************
-// *******************************************************************************
+
 // ***************************** Register ************************************
 // Register query for sign up form
 
@@ -94,7 +93,6 @@ router.post("/register", validateRegister, (req, res) => {
 });
 
 
-// ***************************** Login ************************************
 // ***************************** Login ************************************
 // log in user query
 
@@ -151,19 +149,9 @@ router.post("/login", (req, res) => {
 
 // *******************************************************************************
 // Reset Password
-// *******************************************************************************
 router.post('/reset-password', async (req, res) => {
-  const { username, email, newPassword, confirmNewPassword } = req.body;
+  const { username, email, newPassword} = req.body;
   
-  // Check whether "new password" and "confirm new password" match each other
-  if (newPassword !== confirmNewPassword) {
-    return res.status(400).json({ error: 'New passwords do not match' });
-  }
-
-  if (newPassword.length < 8 || !/\d/.test(newPassword)) {
-    return res.status(400).json({ error: 'Password must be at least 8 characters long and contain a number' });
-  }
-
   try {
     // Verify that the username and email match an existing user by joining Account and User tables
     const userQuery = `
@@ -198,6 +186,7 @@ router.post('/reset-password', async (req, res) => {
         if (updateResult.affectedRows === 0) {
           return res.status(404).json({ error: 'Failed to update password' });
         }
+        console.log('\n Username: ', username);
         console.log('New Password:', newPassword);
         console.log('New password with hash:', hashedPassword);
 
