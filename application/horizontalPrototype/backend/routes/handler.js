@@ -288,7 +288,7 @@ router.post("/newpost", (req, res) => {
 router.get("/posts", async (req, res) => {
   // Modify the query to retrieve post components and full_name from User table
   const query = `
-      SELECT Post.post_content, Post.post_time, Post.num_likes, Post.num_comments, User.full_name 
+      SELECT Post.post_id, Post.post_content, Post.post_time, Post.num_likes, Post.num_comments, User.full_name 
       FROM Post
       JOIN User ON Post.user_id = User.user_id 
       ORDER BY Post.post_time DESC
@@ -421,26 +421,51 @@ router.get("/api/user/:user_id", (req, res) => {
   });
 });
 
-// Get user info by ID, OBSOLETE
+router.post("/likes", (req, res) => {
+  const { user_id, post_id } = req.body;
+  const query = "INSERT INTO `Like` (user_id, post_id) VALUES (?, ?)";
+  
+  connection.query(query, [user_id, post_id], (error, results) => {
+      if (error) {
+          console.error("Error adding like:", error);
+          return res.status(500).json({ error: "Failed to add like" });
+      }
+      res.status(201).json({ message: "Like added successfully", likeId: results.insertId });
+  });
+});
 
-// router.get('/api/user/:user_id', (req, res) => {
-//   const { user_id } = req.params;
+router.delete("/likes", (req, res) => {
+  const { user_id, post_id } = req.body;
+  const query = "DELETE FROM `Like` WHERE user_id = ? AND post_id = ?";
+  
+  connection.query(query, [user_id, post_id], (error) => {
+      if (error) {
+          console.error("Error removing like:", error);
+          return res.status(500).json({ error: "Failed to remove like" });
+      }
+      res.status(200).json({ message: "Like removed successfully" });
+  });
+});
+/*
+router.get("/likes/count/:post_id", (req, res) => {
+  const { post_id } = req.params;
+  const query = "SELECT COUNT(*) AS likeCount FROM `Like` WHERE post_id = ?";
 
-//   const query = 'SELECT major, year FROM Student WHERE user_id = ?';
+  connection.query(query, [post_id], (error, results) => {
+    if (error) {
+      console.error("Error fetching like count:", error);
+      return res.status(500).json({ error: "Failed to fetch like count" });
+    }
+    if (results.length > 0) {
+      res.status(200).json({ likeCount: results[0].likeCount });
+    } else {
+      res.status(200).json({ likeCount: 0 });  // No likes yet
+    }
+  });
+});
+*/
 
-//   connection.query(query, [user_id], (error, results) => {
-//       if (error) {
-//           console.error('Error fetching student:', error);
-//           return res.status(500).json({ error: 'Failed to fetch student' });
-//       }
 
-//       if (results.length === 0) {
-//           return res.status(404).json({ error: 'Student not found' });
-//       }
-
-//       res.status(200).json(results[0]);
-//   });
-// });
 
 // *******************************************************************************************************************
 // VENDOR DETAIL

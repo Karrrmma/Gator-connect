@@ -6,19 +6,43 @@ import Cat from "../assets/images/art5.jpg";
 import Dog from "../assets/images/art10.jpg";
 import SearchBar from "./SearchBar";
 import "./Post.css";
+import { getCurrentUserId } from '../utils/decodeData';
 
 // import {Link} from 'react-router-dom';
 // import App from './../App';
-function PostCard({ item, icon }) {
+
+function PostCard({ item, icon}) {
   const [isLiked, setIsLiked] = useState(false);
   const [likesCount, setLikesCount] = useState(item.likes || 0);
-  const handleLike = () => {
-    if (!isLiked) {
-      setLikesCount(likesCount + 1);
-    } else {
-      setLikesCount(likesCount - 1);
+  const userId = getCurrentUserId();
+  console.log(userId); // Correct to get userId
+
+  const handleLike = async () => {
+    const method = isLiked ? 'DELETE' : 'POST';
+    const endpoint = '/likes';
+    const body = JSON.stringify({
+      user_id: userId, 
+      post_id: item.post_id
+    });
+
+    try {
+      const response = await fetch(endpoint, {
+        method: method,
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: body
+      });
+
+      if (response.ok) {
+        setIsLiked(!isLiked);
+        setLikesCount(prevCount => isLiked ? prevCount - 1 : prevCount + 1);
+      } else {
+        throw new Error('Failed to update like');
+      }
+    } catch (error) {
+      console.error('Error updating like:', error);
     }
-    setIsLiked(!isLiked);
   };
   return (
     <div className="card post-card">
@@ -184,6 +208,7 @@ function Post() {
                 comments: post.num_comments || 0,
                 likes: post.num_likes || 0,
                 imageUrl: post.imageUrl,
+                post_id: post.post_id
               }}
               icon={"🐊"} // You can customize this icon based on your application's needs
             />
