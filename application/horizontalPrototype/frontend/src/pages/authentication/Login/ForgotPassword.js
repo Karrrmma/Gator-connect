@@ -23,6 +23,7 @@ function ForgotPassword() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        console.log("Submitting form");
         const errors = validateResetFields(inputs);
         if (Object.keys(errors).length > 0) {
             setErrors(errors);
@@ -61,14 +62,17 @@ function ForgotPassword() {
                     </Link>
                     <form onSubmit={handleSubmit} onChange={handleChange}>
                         <img src={gatorLogo} alt='Gator Logo' className='gator-logo' />
+
                         <input name='username' type='text' placeholder='Username' className='input-field' />
                         <span className='text-danger'> {errors.username || '\u00A0'}</span>
-                        <input name='username' type='text' placeholder='Email' className='input-field' />
+
+                        <input name='email' type='text' placeholder='Email' className='input-field' />
                         <span className='text-danger'> {errors.email || '\u00A0'}</span>
 
-                        <input name='password' type='password' placeholder='New Password' className='input-field' />
+                        <input name='newPassword' type='password' placeholder='New Password' className='input-field' />
                         <span className='text-danger'> {errors.newPassword || '\u00A0'}</span>
-                        <input name='password' type='password' placeholder='Confirm New Password' className='input-field' />
+
+                        <input name='confirmNewPassword' type='password' placeholder='Confirm New Password' className='input-field' />
                         <span className='text-danger'> {errors.confirmNewPassword || '\u00A0'}</span>
 
                         <span className='text-danger mb-3'> {errors.form || '\u00A0'}</span>

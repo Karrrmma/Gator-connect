@@ -7,7 +7,6 @@ const mysql = require("mysql");
 
 // Need to install CORS if we have our database in a diff link
 
-
 // Connect Database
 const connection = mysql.createConnection({
   host: "gatorconnect.cfwym6mqiofo.us-west-1.rds.amazonaws.com",
@@ -26,10 +25,7 @@ connection.connect((err) => {
 });
 
 
-// ***************************** Register ************************************
-// ***************************** Register ************************************
-
-// Server-side validation
+// Server-side Register validation
 function validateRegister(req, res, next) {
   const { fullname, sfsu_email, username, password, major, year } = req.body;
   if (!fullname || !sfsu_email || !username || !password || !major) {
@@ -47,7 +43,11 @@ function validateRegister(req, res, next) {
   next();
 }
 
+// *******************************************************************************
+// *******************************************************************************
+// ***************************** Register ************************************
 // Register query for sign up form
+
 router.post("/register", validateRegister, (req, res) => {
   const { fullname, sfsu_email, username, password, major, year, role } = req.body;
   const salt = bcrypt.genSaltSync(10);
@@ -97,6 +97,7 @@ router.post("/register", validateRegister, (req, res) => {
 // ***************************** Login ************************************
 // ***************************** Login ************************************
 // log in user query
+
 router.post("/login", (req, res) => {
   const { username, password } = req.body;
   console.log("Received username:", username);
@@ -147,8 +148,71 @@ router.post("/login", (req, res) => {
   });
 });
 
-// *******************************************************************************
 
+// *******************************************************************************
+// Reset Password
+// *******************************************************************************
+router.post('/reset-password', async (req, res) => {
+  const { username, email, newPassword, confirmNewPassword } = req.body;
+  
+  // Check whether "new password" and "confirm new password" match each other
+  if (newPassword !== confirmNewPassword) {
+    return res.status(400).json({ error: 'New passwords do not match' });
+  }
+
+  if (newPassword.length < 8 || !/\d/.test(newPassword)) {
+    return res.status(400).json({ error: 'Password must be at least 8 characters long and contain a number' });
+  }
+
+  try {
+    // Verify that the username and email match an existing user by joining Account and User tables
+    const userQuery = `
+      SELECT a.username, a.password
+      FROM Account a
+      JOIN User u ON a.user_id = u.user_id
+      WHERE a.username = ? AND u.sfsu_email = ?`; // match of username and email !!
+
+    connection.query(userQuery, [username, email], async (err, results) => {
+      
+      if (results.length === 0) {
+        return res.status(404).json({ error: 'No matching user found' });
+      }
+
+      // Check if the new password is the same as the old password
+      const user = results[0];
+      const passwordMatch = await bcrypt.compare(newPassword, user.password);
+      if (passwordMatch) {
+        return res.status(400).json({ error: 'New password cannot be the same as the current password' });
+      }
+
+      // If the new password is different, proceed to update password
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash(newPassword, salt);
+      const updateQuery = 'UPDATE Account SET password = ? WHERE username = ?';
+      connection.query(updateQuery, [hashedPassword, username], (updateErr, updateResult) => {
+        if (updateErr) {
+          console.error('Error updating password:', updateErr);
+          return res.status(500).json({ error: 'Failed to update password' });
+        }
+
+        if (updateResult.affectedRows === 0) {
+          return res.status(404).json({ error: 'Failed to update password' });
+        }
+        console.log('New Password:', newPassword);
+        console.log('New password with hash:', hashedPassword);
+
+        res.json({ message: 'Password updated successfully' });
+      });
+    });
+  } catch (error) {
+    console.error('Error resetting password:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+
+// *******************************************************************************
+// *******************************************************************************
 router.get("/chat", (req, res) => {
   /*   console.log("das ist ein Test")
    */
