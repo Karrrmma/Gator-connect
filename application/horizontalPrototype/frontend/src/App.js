@@ -2,7 +2,7 @@ import './App.css';
 import Nav from './components/Nav';  
 import Notification from './components/Notification';
 import Post from './components/Post';
-import { Explore, Profile, Chat, Login, Register, Start, NewPost, TOS, ForgotPassword} from './pages';
+import { Explore, Profile, Chat, Login, Register, Start, TOS, ForgotPassword} from './pages';
 // -------------------------------------------------------------------------
 // Route for directing foodvendor, transportation and event
 // If there is another way to optimize the route, please edit it !!
@@ -50,7 +50,6 @@ function App() {
             <Route path="/home" element={<Post />} />
             <Route path="/notification" element={<Notification />} />
             <Route path="/explore" element={<Explore />} /> 
-            <Route path="/newPost" element={<NewPost />} />
               <Route path="/explore/foodVendor" element={<FoodVendor />} /> 
                 <Route path="/explore/foodVendor/:name" element={<VendorDetail />} />  
               <Route path="/explore/transportation" element={<Transportation />} /> 

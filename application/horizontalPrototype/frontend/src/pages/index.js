@@ -4,7 +4,6 @@ import Login from './authentication/Login';
 import Profile from './Profile';
 import Register from './authentication/Register';
 import Start from './Start';
-import NewPost from './NewPost';
 import TOS from './TOS';
 import ForgotPassword from './authentication/Login/ForgotPassword';
 
@@ -15,7 +14,6 @@ export {
     Profile,
     Register,
     Start,
-    NewPost,
     TOS,
     ForgotPassword
 }

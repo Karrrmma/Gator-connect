@@ -6,7 +6,7 @@ require('dotenv/config');
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use('/', routesHandler);
+app.use(routesHandler);
 
 // dummy token
 // app.use('/login', (req, res) => {

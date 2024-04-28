@@ -1,8 +1,12 @@
 const express = require("express");
 const router = express.Router();
+
+router.use(express.json());
+
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const mysql = require("mysql");
+
 // const pool = require('../config/db.js');
 
 // Need to install CORS if we have our database in a diff link
@@ -24,74 +28,102 @@ connection.connect((err) => {
   console.log("Connected to database");
 });
 
-
 // Server-side Register validation
 function validateRegister(req, res, next) {
   const { fullname, sfsu_email, username, password, major, year } = req.body;
   if (!fullname || !sfsu_email || !username || !password || !major) {
-      return res.status(400).json({ error: 'Missing fields' });
+    return res.status(400).json({ error: "Missing fields" });
   }
 
   if (!/^[\w-]+(\.[\w-]+)*@sfsu.edu$/.test(sfsu_email)) {
-    return res.status(400).json({ error: 'Invalid email address' });
+    return res.status(400).json({ error: "Invalid email address" });
   }
 
   if (password.length < 8 || !/\d/.test(password)) {
-    return res.status(400).json({ error: 'Password must be at least 8 characters long and contain a number' });
+    return res
+      .status(400)
+      .json({
+        error:
+          "Password must be at least 8 characters long and contain a number",
+      });
   }
 
   next();
 }
 
-
 // ***************************** Register ************************************
 // Register query for sign up form
 
 router.post("/register", validateRegister, (req, res) => {
-  const { fullname, sfsu_email, username, password, major, year, role } = req.body;
+  const { fullname, sfsu_email, username, password, major, year, role } =
+    req.body;
   const salt = bcrypt.genSaltSync(10);
   const hash = bcrypt.hashSync(password, salt);
 
   const userQuery = "INSERT INTO User (full_name, sfsu_email) VALUES (?, ?)";
-  const accountQuery = "INSERT INTO Account(username, password, user_id) VALUES(?,?,?)";
+  const accountQuery =
+    "INSERT INTO Account(username, password, user_id) VALUES(?,?,?)";
   connection.query(userQuery, [fullname, sfsu_email], (userErr, userResult) => {
     if (userErr) {
       console.error("Error inserting user:", userErr);
       return res.status(500).json({ error: "Failed to insert user" });
     }
 
-    connection.query(accountQuery, [username, hash, userResult.insertId], (accountErr, accountResult) => {
-      if (accountErr) {
-        console.error("Error inserting account:", accountErr);
-        return res.status(500).json({ error: "Failed to insert account" });
-      }
+    connection.query(
+      accountQuery,
+      [username, hash, userResult.insertId],
+      (accountErr, accountResult) => {
+        if (accountErr) {
+          console.error("Error inserting account:", accountErr);
+          return res.status(500).json({ error: "Failed to insert account" });
+        }
 
-      // Conditionally handle the role of the user
-      // when user == student
-      if (role === 'Student') {
-        const studentQuery = "INSERT INTO Student(user_id, major, year) VALUES(?, ?, ?)";
-        connection.query(studentQuery, [userResult.insertId, major, year], (studentErr, studentResult) => {
-          if (studentErr) {
-            console.error("Error inserting student:", studentErr);
-            return res.status(500).json({ error: "Failed to insert student" });
-          }
-          res.json({ message: "User, account, and student details inserted successfully" });
-        });
-      // when user == professor
-      } else if (role === 'Professor') {
-        const professorQuery = "INSERT INTO Professor(user_id, department) VALUES(?, ?)";
-        connection.query(professorQuery, [userResult.insertId, major], (professorErr, professorResult) => {
-          if (professorErr) {
-            console.error("Error inserting professor:", professorErr);
-            return res.status(500).json({ error: "Failed to insert professor" });
-          }
-          res.json({ message: "User, account, and professor details inserted successfully" });
-        });
+        // Conditionally handle the role of the user
+        // when user == student
+        if (role === "Student") {
+          const studentQuery =
+            "INSERT INTO Student(user_id, major, year) VALUES(?, ?, ?)";
+          connection.query(
+            studentQuery,
+            [userResult.insertId, major, year],
+            (studentErr, studentResult) => {
+              if (studentErr) {
+                console.error("Error inserting student:", studentErr);
+                return res
+                  .status(500)
+                  .json({ error: "Failed to insert student" });
+              }
+              res.json({
+                message:
+                  "User, account, and student details inserted successfully",
+              });
+            }
+          );
+          // when user == professor
+        } else if (role === "Professor") {
+          const professorQuery =
+            "INSERT INTO Professor(user_id, department) VALUES(?, ?)";
+          connection.query(
+            professorQuery,
+            [userResult.insertId, major],
+            (professorErr, professorResult) => {
+              if (professorErr) {
+                console.error("Error inserting professor:", professorErr);
+                return res
+                  .status(500)
+                  .json({ error: "Failed to insert professor" });
+              }
+              res.json({
+                message:
+                  "User, account, and professor details inserted successfully",
+              });
+            }
+          );
+        }
       }
-    });
+    );
   });
 });
-
 
 // ***************************** Login ************************************
 // log in user query
@@ -146,12 +178,11 @@ router.post("/login", (req, res) => {
   });
 });
 
-
 // *******************************************************************************
 // Reset Password
-router.post('/reset-password', async (req, res) => {
-  const { username, email, newPassword} = req.body;
-  
+router.post("/reset-password", async (req, res) => {
+  const { username, email, newPassword } = req.body;
+
   try {
     // Verify that the username and email match an existing user by joining Account and User tables
     const userQuery = `
@@ -161,44 +192,50 @@ router.post('/reset-password', async (req, res) => {
       WHERE a.username = ? AND u.sfsu_email = ?`; // match of username and email !!
 
     connection.query(userQuery, [username, email], async (err, results) => {
-      
       if (results.length === 0) {
-        return res.status(404).json({ error: 'No matching user found' });
+        return res.status(404).json({ error: "No matching user found" });
       }
 
       // Check if the new password is the same as the old password
       const user = results[0];
       const passwordMatch = await bcrypt.compare(newPassword, user.password);
       if (passwordMatch) {
-        return res.status(400).json({ error: 'New password cannot be the same as the current password' });
+        return res
+          .status(400)
+          .json({
+            error: "New password cannot be the same as the current password",
+          });
       }
 
       // If the new password is different, proceed to update password
       const salt = await bcrypt.genSalt(10);
       const hashedPassword = await bcrypt.hash(newPassword, salt);
-      const updateQuery = 'UPDATE Account SET password = ? WHERE username = ?';
-      connection.query(updateQuery, [hashedPassword, username], (updateErr, updateResult) => {
-        if (updateErr) {
-          console.error('Error updating password:', updateErr);
-          return res.status(500).json({ error: 'Failed to update password' });
-        }
+      const updateQuery = "UPDATE Account SET password = ? WHERE username = ?";
+      connection.query(
+        updateQuery,
+        [hashedPassword, username],
+        (updateErr, updateResult) => {
+          if (updateErr) {
+            console.error("Error updating password:", updateErr);
+            return res.status(500).json({ error: "Failed to update password" });
+          }
 
-        if (updateResult.affectedRows === 0) {
-          return res.status(404).json({ error: 'Failed to update password' });
-        }
-        console.log('\n Username: ', username);
-        console.log('New Password:', newPassword);
-        console.log('New password with hash:', hashedPassword);
+          if (updateResult.affectedRows === 0) {
+            return res.status(404).json({ error: "Failed to update password" });
+          }
+          console.log("\n Username: ", username);
+          console.log("New Password:", newPassword);
+          console.log("New password with hash:", hashedPassword);
 
-        res.json({ message: 'Password updated successfully' });
-      });
+          res.json({ message: "Password updated successfully" });
+        }
+      );
     });
   } catch (error) {
-    console.error('Error resetting password:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error("Error resetting password:", error);
+    res.status(500).json({ error: "Internal server error" });
   }
 });
-
 
 // *******************************************************************************
 // *******************************************************************************
@@ -227,31 +264,47 @@ router.get("/testpost", (req, res) => {
   res.end(JSON.stringify(str));
 });
 
-// router.post('/newpost', (req, res) => {
-//     res.end('To be implemented');
-// });
+// *************************************************************************************
+// Add New Post
 
 router.post("/newpost", (req, res) => {
-  // Destructuring the required fields from the request body
+  console.log("Received post data:", req.body);
   const { post_content, user_id } = req.body;
 
-  // query the data
-  const query = `
-      INSERT INTO Post (post_content, post_time, num_likes, num_comments, user_id)
-      VALUES (?, NOW(), 0, 0, ?)
-  `;
-  //get data from frontend
-  const queryParams = [post_content, user_id];
+  // Validate the required field
+  if (!post_content) {
+    return res.status(400).json({ error: "Post content required." });
+  }
 
-  // execute the query by subbing the data into ?
+  // Check for data types explicitly (assuming user_id should be a number)
+  if (typeof post_content !== "string" || typeof user_id !== "number") {
+    return res
+      .status(400)
+      .json({
+        error:
+          "Invalid data format: post_content must be a string and user_id must be a number.",
+      });
+  }
+
+  // Prepare SQL query
+  const query = `
+INSERT INTO Post (post_content, post_time, num_likes, num_comments, user_id)
+VALUES (?, NOW(), 0, 0, ?)
+`;
+  const queryParams = [post_content, user_id]; // Make sure these variables are taken from req.body
+
+  // Execute the query
   connection.query(query, queryParams, (error, results) => {
     if (error) {
       console.error("Error inserting new post:", error);
-      return res.status(500).json({ error: "Internal Server Error" });
+      return res.status(500).json({
+        error: "Internal Server Error",
+        sqlError: error.sqlMessage, // Providing SQL-specific error message
+      });
     }
 
-    // Success
-    return res.status(201).json({
+    // On success, send back the details of the new post
+    res.status(201).json({
       message: "New post created successfully",
       post: {
         post_id: results.insertId,
@@ -262,6 +315,14 @@ router.post("/newpost", (req, res) => {
         user_id,
       },
     });
+  });
+});
+
+// Endpoint to get posts
+router.get('/api/posts', (req, res) => {
+  connection.query('SELECT * FROM posts', (error, results) => {
+    if (error) throw error;
+    res.json(results);
   });
 });
 
@@ -452,12 +513,10 @@ router.post("/vendordetail", (req, res) => {
         console.error("Error inserting menu item:", error);
         res.status(500).json({ error: "Internal Server Error" });
       } else {
-        res
-          .status(201)
-          .json({
-            message: "Menu item added successfully",
-            id: results.insertId,
-          });
+        res.status(201).json({
+          message: "Menu item added successfully",
+          id: results.insertId,
+        });
       }
     }
   );
