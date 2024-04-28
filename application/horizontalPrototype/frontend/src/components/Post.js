@@ -1,47 +1,65 @@
 import React, { useEffect, useState } from "react";
-import {FaCommentDots,FaHeart,FaRegThumbsUp,FaRegThumbsDown,} from "react-icons/fa";
+import {
+  FaCommentDots,
+  FaHeart,
+  FaRegThumbsUp,
+  FaRegThumbsDown,
+} from "react-icons/fa";
 import TestPFP from "../assets/images/placeholder_pfp.png";
 import Logo from "../assets/images/gator.png";
 import Cat from "../assets/images/art5.jpg";
 import Dog from "../assets/images/art10.jpg";
 import SearchBar from "./SearchBar";
 import "./Post.css";
-import { getCurrentUserId } from '../utils/decodeData';
+import { getCurrentUserId } from "../utils/decodeData";
 
 // import {Link} from 'react-router-dom';
 // import App from './../App';
 
-function PostCard({ item, icon}) {
-  const [isLiked, setIsLiked] = useState(false);
+function PostCard({ item, icon }) {
   const [likesCount, setLikesCount] = useState(item.likes || 0);
   const userId = getCurrentUserId();
   console.log(userId); // Correct to get userId
 
+  const likeStatusKey = `liked_${userId}_post_${item.post_id}`;
+
+  const [isLiked, setIsLiked] = useState(
+    () => JSON.parse(localStorage.getItem(likeStatusKey)) || false
+  );
+
+  // Update whenever the like status changes
+  useEffect(() => {
+    localStorage.setItem(likeStatusKey, JSON.stringify(isLiked));
+  }, [isLiked, likeStatusKey]);
+
   const handleLike = async () => {
-    const method = isLiked ? 'DELETE' : 'POST';
-    const endpoint = '/likes';
+    const method = isLiked ? "DELETE" : "POST";
+    const endpoint = "/likes";
     const body = JSON.stringify({
-      user_id: userId, 
-      post_id: item.post_id
+      user_id: userId,
+      post_id: item.post_id,
     });
 
     try {
       const response = await fetch(endpoint, {
         method: method,
         headers: {
-          'Content-Type': 'application/json'
+          "Content-Type": "application/json",
         },
-        body: body
+        body: body,
       });
 
       if (response.ok) {
         setIsLiked(!isLiked);
-        setLikesCount(prevCount => isLiked ? prevCount - 1 : prevCount + 1);
+        // Optimistically update the likes count
+        setLikesCount((prevCount) => (isLiked ? prevCount - 1 : prevCount + 1));
+        // Update the like status in localStorage
+        localStorage.setItem(likeStatusKey, JSON.stringify(!isLiked));
       } else {
-        throw new Error('Failed to update like');
+        throw new Error("Failed to update like");
       }
     } catch (error) {
-      console.error('Error updating like:', error);
+      console.error("Error updating like:", error);
     }
   };
   return (
@@ -208,7 +226,7 @@ function Post() {
                 comments: post.num_comments || 0,
                 likes: post.num_likes || 0,
                 imageUrl: post.imageUrl,
-                post_id: post.post_id
+                post_id: post.post_id,
               }}
               icon={"🐊"} // You can customize this icon based on your application's needs
             />

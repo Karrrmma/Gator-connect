@@ -421,50 +421,91 @@ router.get("/api/user/:user_id", (req, res) => {
   });
 });
 
+//***********************************************************************
+// Like
+// Add a like to the database and increment the num_likes in Post table
 router.post("/likes", (req, res) => {
   const { user_id, post_id } = req.body;
-  const query = "INSERT INTO `Like` (user_id, post_id) VALUES (?, ?)";
-  
-  connection.query(query, [user_id, post_id], (error, results) => {
+  const insertLikeQuery = "INSERT INTO `Like` (user_id, post_id) VALUES (?, ?)";
+  const incrementLikesQuery = "UPDATE Post SET num_likes = num_likes + 1 WHERE post_id = ?";
+
+  connection.beginTransaction(err => {
+    if (err) {
+      console.error("Transaction Begin Error:", err);
+      return res.status(500).json({ error: "Transaction Begin Error" });
+    }
+
+    connection.query(insertLikeQuery, [user_id, post_id], (error, results) => {
       if (error) {
-          console.error("Error adding like:", error);
-          return res.status(500).json({ error: "Failed to add like" });
+        console.error("Error adding like:", error);
+        return connection.rollback(() => {
+          res.status(500).json({ error: "Failed to add like" });
+        });
       }
-      res.status(201).json({ message: "Like added successfully", likeId: results.insertId });
+
+      connection.query(incrementLikesQuery, [post_id], (error) => {
+        if (error) {
+          console.error("Error incrementing like count:", error);
+          return connection.rollback(() => {
+            res.status(500).json({ error: "Failed to increment like count" });
+          });
+        }
+
+        connection.commit(err => {
+          if (err) {
+            console.error("Transaction Commit Error:", err);
+            return connection.rollback(() => {
+              res.status(500).json({ error: "Transaction Commit Error" });
+            });
+          }
+          res.status(201).json({ message: "Like added successfully" });
+        });
+      });
+    });
   });
 });
 
+// Remove a like from the database and decrement the num_likes in Post table
 router.delete("/likes", (req, res) => {
   const { user_id, post_id } = req.body;
-  const query = "DELETE FROM `Like` WHERE user_id = ? AND post_id = ?";
-  
-  connection.query(query, [user_id, post_id], (error) => {
+  const deleteLikeQuery = "DELETE FROM `Like` WHERE user_id = ? AND post_id = ?";
+  const decrementLikesQuery = "UPDATE Post SET num_likes = num_likes - 1 WHERE post_id = ?";
+
+  connection.beginTransaction(err => {
+    if (err) {
+      console.error("Transaction Begin Error:", err);
+      return res.status(500).json({ error: "Transaction Begin Error" });
+    }
+
+    connection.query(deleteLikeQuery, [user_id, post_id], (error) => {
       if (error) {
-          console.error("Error removing like:", error);
-          return res.status(500).json({ error: "Failed to remove like" });
+        console.error("Error removing like:", error);
+        return connection.rollback(() => {
+          res.status(500).json({ error: "Failed to remove like" });
+        });
       }
-      res.status(200).json({ message: "Like removed successfully" });
+
+      connection.query(decrementLikesQuery, [post_id], (error) => {
+        if (error) {
+          console.error("Error decrementing like count:", error);
+          return connection.rollback(() => {
+            res.status(500).json({ error: "Failed to decrement like count" });
+          });
+        }
+
+        connection.commit(err => {
+          if (err) {
+            console.error("Transaction Commit Error:", err);
+            return connection.rollback(() => {
+              res.status(500).json({ error: "Transaction Commit Error" });
+            });
+          }
+          res.status(200).json({ message: "Like removed successfully" });
+        });
+      });
+    });
   });
 });
-/*
-router.get("/likes/count/:post_id", (req, res) => {
-  const { post_id } = req.params;
-  const query = "SELECT COUNT(*) AS likeCount FROM `Like` WHERE post_id = ?";
-
-  connection.query(query, [post_id], (error, results) => {
-    if (error) {
-      console.error("Error fetching like count:", error);
-      return res.status(500).json({ error: "Failed to fetch like count" });
-    }
-    if (results.length > 0) {
-      res.status(200).json({ likeCount: results[0].likeCount });
-    } else {
-      res.status(200).json({ likeCount: 0 });  // No likes yet
-    }
-  });
-});
-*/
-
 
 
 // *******************************************************************************************************************
