@@ -40,12 +40,9 @@ function validateRegister(req, res, next) {
   }
 
   if (password.length < 8 || !/\d/.test(password)) {
-    return res
-      .status(400)
-      .json({
-        error:
-          "Password must be at least 8 characters long and contain a number",
-      });
+    return res.status(400).json({
+      error: "Password must be at least 8 characters long and contain a number",
+    });
   }
 
   next();
@@ -200,11 +197,9 @@ router.post("/reset-password", async (req, res) => {
       const user = results[0];
       const passwordMatch = await bcrypt.compare(newPassword, user.password);
       if (passwordMatch) {
-        return res
-          .status(400)
-          .json({
-            error: "New password cannot be the same as the current password",
-          });
+        return res.status(400).json({
+          error: "New password cannot be the same as the current password",
+        });
       }
 
       // If the new password is different, proceed to update password
@@ -278,19 +273,17 @@ router.post("/newpost", (req, res) => {
 
   // Check for data types explicitly (assuming user_id should be a number)
   if (typeof post_content !== "string" || typeof user_id !== "number") {
-    return res
-      .status(400)
-      .json({
-        error:
-          "Invalid data format: post_content must be a string and user_id must be a number.",
-      });
+    return res.status(400).json({
+      error:
+        "Invalid data format: post_content must be a string and user_id must be a number.",
+    });
   }
 
   // Prepare SQL query
   const query = `
-INSERT INTO Post (post_content, post_time, num_likes, num_comments, user_id)
-VALUES (?, NOW(), 0, 0, ?)
-`;
+  INSERT INTO Post (post_content, post_time, num_likes, num_comments, user_id)
+  VALUES (?, NOW(), 0, 0, ?)
+  `;
   const queryParams = [post_content, user_id]; // Make sure these variables are taken from req.body
 
   // Execute the query
@@ -318,78 +311,28 @@ VALUES (?, NOW(), 0, 0, ?)
   });
 });
 
-// Endpoint to get posts
-router.get('/api/posts', (req, res) => {
-  connection.query('SELECT * FROM posts', (error, results) => {
-    if (error) throw error;
-    res.json(results);
+// GET all posts
+router.get("/posts", async (req, res) => {
+    // Modify the query to retrieve post components and full_name from User table
+    const query = `
+      SELECT Post.post_content, Post.post_time, Post.num_likes, Post.num_comments, User.full_name 
+      FROM Post
+      JOIN User ON Post.user_id = User.user_id 
+      ORDER BY Post.post_time DESC
+    `;
+  
+  connection.query(query, (error, results) => {
+    if (error) {
+      console.error("Error fetching average ratings:", error);
+      res.status(500).json({ error: "Internal Server Error" });
+    } else {
+      res.status(200).json(results);
+    }
   });
 });
 
-// router.post('/search')
 
-//Function just to add users /// just use to test
-function addUser(
-  sfsu_email,
-  username,
-  password,
-  fullName,
-  major,
-  year,
-  callback
-) {
-  const userQuery = "INSERT INTO User (full_name, sfsu_email) VALUES (?, ?)";
-  const accountQuery =
-    "INSERT INTO Account(username, password, user_id) VALUES(?, ?, ?)";
-  const studentQuery =
-    "INSERT INTO Student(user_id, major, year) VALUES(?, ?, ?)";
-
-  connection.query(userQuery, [fullName, sfsu_email], (userErr, userResult) => {
-    if (userErr) {
-      console.error("Error inserting user:", userErr);
-      return callback(userErr);
-    }
-
-    connection.query(
-      accountQuery,
-      [username, password, userResult.insertId],
-      (accountErr, accountResult) => {
-        if (accountErr) {
-          console.error("Error inserting account:", accountErr);
-          return callback(accountErr);
-        }
-
-        connection.query(
-          studentQuery,
-          [userResult.insertId, major, year],
-          (studentErr, studentResult) => {
-            if (studentErr) {
-              console.error("Error inserting student:", studentErr);
-              return callback(studentErr);
-            }
-
-            callback(null, {
-              userId: userResult.insertId,
-              accountId: accountResult.insertId,
-            });
-          }
-        );
-      }
-    );
-  });
-}
-
-// Usage example:
-
-// addUser('kargdsdsdyal@sfsu.edu', 'karddsdsdsma', '1234', 'KaSrma Gyalpo', 'Computer Science', '2022', (err, result) => {
-//   if (err) {
-//       console.error('Error adding user:', err);
-//   } else {
-//       console.log('User added successfully:', result);
-//   }
-// });
-
-//                  SEARCH QUERY
+//  SEARCH QUERY
 router.post("/search", (req, res) => {
   const { username, major, year } = req.body;
 
