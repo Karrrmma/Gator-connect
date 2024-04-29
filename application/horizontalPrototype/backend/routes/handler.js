@@ -287,8 +287,9 @@ router.post("/newpost", (req, res) => {
 // GET all posts
 router.get("/posts", async (req, res) => {
   // Modify the query to retrieve post components and full_name from User table
+  // Those Select components are useful in navigating home --> each profile (post.user_id)
   const query = `
-      SELECT Post.post_id, Post.post_content, Post.post_time, Post.num_likes, Post.num_comments, User.full_name 
+      SELECT Post.post_id, Post.post_content, Post.post_time, Post.num_likes, Post.num_comments, User.full_name, Post.user_id
       FROM Post
       JOIN User ON Post.user_id = User.user_id 
       ORDER BY Post.post_time DESC

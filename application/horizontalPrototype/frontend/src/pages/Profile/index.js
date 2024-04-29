@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { getCurrentUserId } from '../../utils/decodeData';
 import { queryData } from '../../utils/queryUser';
 import './Profile.css';
-import { useLocation } from 'react-router-dom';
+import {useParams } from 'react-router-dom';
 import PostCard from '../../components/PostCard';
 import FriendsListPopup from './FriendsListPopup';
 import NewPostPopup from './NewPostPopup';
@@ -12,8 +12,7 @@ import NewPostPopup from './NewPostPopup';
 
 function Profile() {
     // get current URL
-    const location = useLocation();
-
+    const { userId } = useParams();
     const [user, setUser] = useState({
         major: '',
         role: '',
@@ -41,8 +40,7 @@ function Profile() {
     useEffect(() => {
         const fetchUserData = async () => {
             try {
-                const params = new URLSearchParams(location.search);
-                const id = params.get('id') || getCurrentUserId();
+                const id = userId || getCurrentUserId();
 
                 const userData = await queryData(id);
                 if (userData) {
@@ -60,7 +58,7 @@ function Profile() {
         };
 
         fetchUserData();
-    }, [location.search]);
+    }, [userId]);
 
 
 
@@ -93,9 +91,23 @@ function Profile() {
                             FRIEND LIST
                         </button>
                     )}
+                    {/*
+                    1. Now, Frontend for each profile navigating works properly ++ appropriate button
+                        If user_id == 1 enter user_id == 1 feed, shows both friend list and add new post
+                        If user_id == 1 enter other post.user_id, at least not != 1, navigate another person's feed
+                        and show the add Friend Button
+                    2. Add Friend Button BackEnd should be implemented
+                        
+                        Friend Request Table
+                        request_id    ||     status     ||     requester_id    ||     receiver_id
+                        auto increment                              1                     7    
+
+
+                    */}
                     <button className='newpost ml-2' onClick={handleNewPostClick}>
                         {user.user_id !== getCurrentUserId() ? "ADD FRIEND" : "ADD NEW POST"}
                     </button>
+                    {/* */}
                 </div>
                 {showFriendsList && <FriendsListPopup onClose={handleFriendsListClick} />}
                 {showNewPost && <NewPostPopup userId={user.user_id} onClose={handleNewPostClick} />}

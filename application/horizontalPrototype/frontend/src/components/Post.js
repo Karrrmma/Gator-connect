@@ -12,6 +12,7 @@ import Dog from "../assets/images/art10.jpg";
 import SearchBar from "./SearchBar";
 import "./Post.css";
 import { getCurrentUserId } from "../utils/decodeData";
+import { useNavigate } from 'react-router-dom';
 
 // import {Link} from 'react-router-dom';
 // import App from './../App';
@@ -19,8 +20,7 @@ import { getCurrentUserId } from "../utils/decodeData";
 function PostCard({ item, icon }) {
   const [likesCount, setLikesCount] = useState(item.likes || 0);
   const userId = getCurrentUserId();
-  console.log(userId); // Correct to get userId
-
+  const navigate = useNavigate();
   const likeStatusKey = `liked_${userId}_post_${item.post_id}`;
 
   const [isLiked, setIsLiked] = useState(
@@ -62,13 +62,31 @@ function PostCard({ item, icon }) {
       console.error("Error updating like:", error);
     }
   };
+
+  const navigateToProfile = () => {
+    // Debugging line to see what you're about to navigate to post.user_id ( Receiver )
+    // Check post.user_id
+    if (item.user_id) {
+    console.log("Post's User ID for navigation (destination's id aka receiver):", item.user_id); 
+      navigate(`/profile/${item.user_id}`);
+    } else {
+      console.error("User ID is undefined, cannot navigate");
+    }
+  };
+
+  // Check user_id
+  console.log("Current User Id(requester) :", userId); // Correct to get userId ( Requester)
+
   return (
     <div className="card post-card">
       <div className="card-body">
         <div className="d-flex justify-content-between align-items-start">
           <div className="user-info">
             {/* <img src={avatar} className="rounded-circle" alt="User profile" /> */}
-            <div className="avatar">{icon}</div>
+            <div className="avatar" onClick={(e) => {
+              e.stopPropagation();
+              navigateToProfile();
+            }}>{icon}</div>
             <div className="title-container">
               <h5 className="card-title">{item.username}</h5>
               <p className="timestamp">{item.timestamp}</p>
@@ -192,6 +210,7 @@ function Post() {
       setItems(newItems.slice(0, 3));
     }
   }
+
   return (
     <>
       <SearchBar onSearch={setSearchQuery} />
@@ -220,6 +239,7 @@ function Post() {
             <PostCard
               key={index}
               item={{
+                user_id: post.user_id,
                 username: post.full_name,
                 content: post.post_content,
                 timestamp: new Date(post.post_time).toLocaleString(),

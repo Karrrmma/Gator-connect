@@ -55,6 +55,8 @@ function App() {
               <Route path="/explore/transportation" element={<Transportation />} /> 
               <Route path="/explore/event" element={<Event />} /> 
             <Route path="/profile" element={<Profile />} />
+            {/* /profile/:userId represents each user's profile (triggered by clikcing img in home post) */}
+              <Route path="/profile/:userId" element={<Profile />} />
             <Route path="/chat" element={<Chat />} />
 
             <Route path="/chatWindow/:name" element={<ChatWindow />} />
