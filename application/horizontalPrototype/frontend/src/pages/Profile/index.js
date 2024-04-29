@@ -51,7 +51,7 @@ function Profile() {
                         major: userData.role === 'Student' ? userData.major : userData.department,
                         role: userData.role,
                         fullname: userData.fullName,  
-                        posts: userData.posts || []  
+                        posts: userData.posts || [] 
                     });
                 }
             } catch (error) {
@@ -62,7 +62,7 @@ function Profile() {
         fetchUserData();
     }, [location.search]);
 
-    
+
 
     // Sort posts by 'post_time' in descending order before rendering
     const sortedPosts = user.posts.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
