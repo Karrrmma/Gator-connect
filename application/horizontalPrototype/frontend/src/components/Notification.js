@@ -2,12 +2,14 @@
 import { Link } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import './Notification.css';
+import { getCurrentUserId } from "../utils/decodeData";
 
 function NotificationItem({ notification, onAccept, onDecline }) {
     // Replace with actual action handlers
     //const handleAccept = () => console.log('Accepted');
     //const handleDecline = () => console.log('Declined');
 
+    notification.avatar = "🚗"
     return (
         <div className="notification-item">
             <div className="notification-content">
@@ -34,33 +36,49 @@ function NotificationItem({ notification, onAccept, onDecline }) {
 //{!notification.accepted && <span className="accepted">decline </span>} 
 
 function Notification() {
-    const [notifications, setNotifications] = useState([
-        //fake data for now
-        { id: 1, sender: 'Ali Gator', avatar: '🐊', accepted: false },
-        { id: 2, sender: 'Felonious Gru', avatar: '🎃', accepted: false },
-        { id: 3, sender: 'Pizza Lee', avatar: '🍕', accepted: false },
-        { id: 4, sender: 'Chris Bob', avatar: '🥑', accepted: false },
-    ]);
+
+    const [notifications, setNotifications] = useState([]);
 
     useEffect(() => {
-        // fetchNotifications();
+        const fetchNotifications = async () => {
+            try {
+                const userId = getCurrentUserId(); // Ensure you have a function to get the current user ID
+                const response = await fetch(`/api/friends/requests?userId=${userId}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                if (response.ok) {
+                    const data = await response.json();
+                    setNotifications(data);
+                } else {
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || 'Failed to fetch notifications');
+                }
+            } catch (error) {
+                console.error('Error fetching notifications:', error.message);
+            }
+        };
+
+        fetchNotifications();
     }, []);
 
-    const handleAccept = (id) => {
-        setNotifications(currentNotifications =>
-            currentNotifications.map(notification =>
+
+    const handleAccept = id => {
+        setNotifications(current =>
+            current.map(notification =>
                 notification.id === id ? { ...notification, accepted: true } : notification
             )
         );
     };
 
-    const handleDecline = (id) => {
-        setNotifications(currentNotifications =>
-            currentNotifications.filter(notification => notification.id !== id)
+    const handleDecline = id => {
+        setNotifications(current =>
+            current.filter(notification => notification.id !== id)
         );
-
-
     };
+
 
     return (
         <section className="notification-section">

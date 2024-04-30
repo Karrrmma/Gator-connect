@@ -373,30 +373,25 @@ router.get("/api/user/:user_id", (req, res) => {
   const { user_id } = req.params;
   const query = `
   SELECT 
-  User.user_id,
-  User.full_name AS fullName,
-  User.sfsu_email AS sfsu_email,
-  Student.major, 
-  Professor.department AS department,
-  CASE 
-    WHEN Student.user_id IS NOT NULL THEN 'Student'
-    WHEN Professor.user_id IS NOT NULL THEN 'Professor'
+    User.user_id,
+    User.full_name AS fullName,
+    User.sfsu_email AS sfsu_email,
+    Student.major AS major,
+    Professor.department AS department,
+    CASE 
+      WHEN Student.user_id IS NOT NULL THEN 'Student'
+      WHEN Professor.user_id IS NOT NULL THEN 'Professor'
     ELSE 'Unknown'
-  END AS role,
-  Account.username,
-  COUNT(Post.post_id) AS post_count,
-  COUNT(DISTINCT CASE WHEN Friend_Request.status = 'accepted' THEN Friend_Request.friend_request_id END) AS friend_accepted_count,
-  COUNT(DISTINCT CASE WHEN Friend_Request.status = 'declined' THEN Friend_Request.friend_request_id END) AS friend_declined_count
-  FROM User
-  LEFT JOIN Student ON User.user_id = Student.user_id
-  LEFT JOIN Professor ON User.user_id = Professor.user_id
-  LEFT JOIN Post ON User.user_id = Post.user_id
-  LEFT JOIN Friend_Request ON (User.user_id = Friend_Request.requester_id OR User.user_id = Friend_Request.receiver_id)
-  LEFT JOIN Account ON User.user_id = Account.user_id
-  WHERE
-      User.user_id = ?
-  GROUP BY
-      User.user_id;`;
+    END AS role,
+    Account.username,
+    (SELECT COUNT(*) FROM Post WHERE Post.user_id = User.user_id) AS post_count,  -- Ensure this only counts posts
+    (SELECT COUNT(*) FROM Friend_Request WHERE Friend_Request.receiver_id = User.user_id AND Friend_Request.status = 'accepted') AS friend_count
+    FROM User
+    LEFT JOIN Student ON User.user_id = Student.user_id
+    LEFT JOIN Professor ON User.user_id = Professor.user_id
+    LEFT JOIN Account ON User.user_id = Account.user_id
+    WHERE User.user_id = ?
+    GROUP BY User.user_id;`;
 
   connection.query(query, [user_id], (error, results) => {
     if (error) {
@@ -508,6 +503,81 @@ router.delete("/likes", (req, res) => {
   });
 });
 
+// *******************************************************************************************************************
+// Friend Request
+// Send a friend request
+router.post('/api/friends/request', (req, res) => {
+  const { requester_id, receiver_id } = req.body;
+
+  // First, check if a friend request already exists in either direction
+  const checkRequestQuery = `
+      SELECT * FROM Friend_Request
+      WHERE (requester_id = ? AND receiver_id = ?)
+      OR (requester_id = ? AND receiver_id = ?)
+  `;
+
+  connection.query(checkRequestQuery, [requester_id, receiver_id, receiver_id, requester_id], (err, results) => {
+      if (err) {
+          console.error("SQL Error:", err);
+          return res.status(500).send({ message: "Database error", error: err.message });
+      }
+      
+      // If a friend request already exists in either direction, do not allow a new one
+      if (results.length > 0) {
+          return res.status(409).send({ message: "Friend request already exists." });
+      }
+
+      // If no existing request, proceed to insert a new request
+      const insertRequestQuery = `
+          INSERT INTO Friend_Request (status, requester_id, receiver_id)
+          VALUES ('pending', ?, ?)
+      `;
+
+      connection.query(insertRequestQuery, [requester_id, receiver_id], (insertErr, insertResult) => {
+          if (insertErr) {
+              console.error("SQL Error on insert:", insertErr);
+              return res.status(500).send({ message: "Failed to create friend request", error: insertErr.message });
+          }
+          res.send({ message: 'Friend request sent!', requestId: insertResult.insertId });
+      });
+  });
+});
+
+// Receive a freind request (default: pending) can accepted / declined
+// GET /api/friends/requests
+// This endpoint retrieves the list of pending friend requests for the current user
+router.get('/api/friends/requests', (req, res) => {
+  const { userId } = req.query;  // Ensure userId is being passed correctly
+
+  if (!userId) {
+      return res.status(400).send({ message: "User ID is required." });
+  }
+
+  const fetchRequestsQuery = `
+      SELECT f.friend_request_id, u.full_name AS sender
+      FROM Friend_Request f
+      JOIN User u ON f.requester_id = u.user_id
+      WHERE f.receiver_id = ? AND f.status = 'pending'
+  `;
+
+  connection.query(fetchRequestsQuery, [userId], (err, results) => {
+      if (err) {
+          console.error("SQL Error:", err);
+          return res.status(500).send({ message: "Database error", error: err.message });
+      }
+      if (results.length === 0) {
+          return res.status(404).send({ message: "No friend requests found." });
+      }
+      res.json(results.map(row => ({
+          id: row.friend_request_id,
+          sender: row.sender,
+          accepted: false  // Initial state for all notifications
+      })));
+  });
+});
+
+
+// *******************************************************************************************************************
 
 // *******************************************************************************************************************
 // VENDOR DETAIL
