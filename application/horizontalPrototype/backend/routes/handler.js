@@ -402,7 +402,7 @@ router.get("/api/user/:user_id", (req, res) => {
 // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  
 // Like
 // Add a like to the database and increment the num_likes in Post table
-router.post("/likes", (req, res) => {
+router.post("/api/likes", (req, res) => {
   const { user_id, post_id } = req.body;
   const insertLikeQuery = "INSERT INTO `Like` (user_id, post_id) VALUES (?, ?)";
   const incrementLikesQuery =
@@ -445,7 +445,7 @@ router.post("/likes", (req, res) => {
 });
 
 // Remove a like from the database and decrement the num_likes in Post table
-router.delete("/likes", (req, res) => {
+router.delete("/api/likes", (req, res) => {
   const { user_id, post_id } = req.body;
   const deleteLikeQuery =
     "DELETE FROM `Like` WHERE user_id = ? AND post_id = ?";

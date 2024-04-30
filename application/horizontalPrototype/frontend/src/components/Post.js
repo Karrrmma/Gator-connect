@@ -54,7 +54,7 @@ function PostCard({ item, icon }) {
    // deal with like button both delete and post
   const handleLike = async () => {
     const method = isLiked ? "DELETE" : "POST";
-    const endpoint = "/likes";
+    const endpoint = "/api/likes";
     const body = JSON.stringify({
       user_id: userId,
       post_id: item.post_id,
@@ -169,7 +169,7 @@ function PostCard({ item, icon }) {
 
 
   // Check user_id
-  console.log("Current User Id(requester) :", userId); // Correct to get userId ( Requester)
+  // console.log("Current User Id(requester) :", userId); // Correct to get userId ( Requester)
 
   return (
     <div className="card post-card">
@@ -269,9 +269,9 @@ function PostCard({ item, icon }) {
                 )}
               </div>
             ))
-          ) : (
-            <p>No comments yet.</p>
-          )}
+          ) : 
+            <p></p>
+          }
         </div>
       </div>
     </div>
