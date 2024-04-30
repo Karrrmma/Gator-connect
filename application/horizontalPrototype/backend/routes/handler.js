@@ -1,22 +1,19 @@
 const express = require("express");
 const router = express.Router();
-
-router.use(express.json());
-
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const mysql = require("mysql");
-
+router.use(express.json());
 // const pool = require('../config/db.js');
 
-// Need to install CORS if we have our database in a diff link
+// @@@ Need to install CORS if we have our database in a diff link @@@
 
 // Connect Database
 const connection = mysql.createConnection({
   host: "gatorconnect.cfwym6mqiofo.us-west-1.rds.amazonaws.com",
   user: "thream",
   password: "Jose*ortiz3",
-  database: "mydb", //name of the databse within the mysql to connect to
+  database: "mydb",
 });
 
 // Debugging Connection
@@ -48,9 +45,8 @@ function validateRegister(req, res, next) {
   next();
 }
 
-// ***************************** Register ************************************
+// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Register @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 
 // Register query for sign up form
-
 router.post("/register", validateRegister, (req, res) => {
   const { fullname, sfsu_email, username, password, major, year, role } =
     req.body;
@@ -122,9 +118,8 @@ router.post("/register", validateRegister, (req, res) => {
   });
 });
 
-// ***************************** Login ************************************
+// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  Login @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 
 // log in user query
-
 router.post("/login", (req, res) => {
   const { username, password } = req.body;
   console.log("Received username:", username);
@@ -175,7 +170,7 @@ router.post("/login", (req, res) => {
   });
 });
 
-// *******************************************************************************
+// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  
 // Reset Password
 router.post("/reset-password", async (req, res) => {
   const { username, email, newPassword } = req.body;
@@ -232,19 +227,17 @@ router.post("/reset-password", async (req, res) => {
   }
 });
 
-// *************************************************************************************
+// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  
 // Add New Post
 
 router.post("/newpost", (req, res) => {
   console.log("Received post data:", req.body);
   const { post_content, user_id } = req.body;
 
-  // Validate the required field
   if (!post_content) {
     return res.status(400).json({ error: "Post content required." });
   }
 
-  // Check for data types explicitly (assuming user_id should be a number)
   if (typeof post_content !== "string" || typeof user_id !== "number") {
     return res.status(400).json({
       error:
@@ -252,12 +245,11 @@ router.post("/newpost", (req, res) => {
     });
   }
 
-  // Prepare SQL query
   const query = `
   INSERT INTO Post (post_content, post_time, num_likes, num_comments, user_id)
   VALUES (?, NOW(), 0, 0, ?)
   `;
-  const queryParams = [post_content, user_id]; // Make sure these variables are taken from req.body
+  const queryParams = [post_content, user_id]; 
 
   // Execute the query
   connection.query(query, queryParams, (error, results) => {
@@ -265,7 +257,7 @@ router.post("/newpost", (req, res) => {
       console.error("Error inserting new post:", error);
       return res.status(500).json({
         error: "Internal Server Error",
-        sqlError: error.sqlMessage, // Providing SQL-specific error message
+        sqlError: error.sqlMessage,
       });
     }
 
@@ -305,8 +297,7 @@ router.get("/posts", async (req, res) => {
   });
 });
 
-// *******************************************************************************
-// *******************************************************************************
+// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  
 router.get("/chat", (req, res) => {
   /*   console.log("das ist ein Test")
    */
@@ -321,17 +312,8 @@ router.get("/chat", (req, res) => {
   });
 });
 
-// TODO: make this communiate with database and grab a post
-router.get("/testpost", (req, res) => {
-  const str = [
-    {
-      username: "Ali Gator",
-      content: "Hello! This is a test content!",
-    },
-  ];
-  res.end(JSON.stringify(str));
-});
 
+// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  
 //  SEARCH QUERY
 router.post("/search", (req, res) => {
   const { username, major, year } = req.body;
@@ -367,7 +349,7 @@ router.post("/search", (req, res) => {
   });
 });
 
-// *******************************************************************************************************************
+// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  
 // Profile  DETAIL
 router.get("/api/user/:user_id", (req, res) => {
   const { user_id } = req.params;
@@ -417,15 +399,16 @@ router.get("/api/user/:user_id", (req, res) => {
   });
 });
 
-//***********************************************************************
+// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  
 // Like
 // Add a like to the database and increment the num_likes in Post table
 router.post("/likes", (req, res) => {
   const { user_id, post_id } = req.body;
   const insertLikeQuery = "INSERT INTO `Like` (user_id, post_id) VALUES (?, ?)";
-  const incrementLikesQuery = "UPDATE Post SET num_likes = num_likes + 1 WHERE post_id = ?";
+  const incrementLikesQuery =
+    "UPDATE Post SET num_likes = num_likes + 1 WHERE post_id = ?";
 
-  connection.beginTransaction(err => {
+  connection.beginTransaction((err) => {
     if (err) {
       console.error("Transaction Begin Error:", err);
       return res.status(500).json({ error: "Transaction Begin Error" });
@@ -447,7 +430,7 @@ router.post("/likes", (req, res) => {
           });
         }
 
-        connection.commit(err => {
+        connection.commit((err) => {
           if (err) {
             console.error("Transaction Commit Error:", err);
             return connection.rollback(() => {
@@ -464,10 +447,12 @@ router.post("/likes", (req, res) => {
 // Remove a like from the database and decrement the num_likes in Post table
 router.delete("/likes", (req, res) => {
   const { user_id, post_id } = req.body;
-  const deleteLikeQuery = "DELETE FROM `Like` WHERE user_id = ? AND post_id = ?";
-  const decrementLikesQuery = "UPDATE Post SET num_likes = num_likes - 1 WHERE post_id = ?";
+  const deleteLikeQuery =
+    "DELETE FROM `Like` WHERE user_id = ? AND post_id = ?";
+  const decrementLikesQuery =
+    "UPDATE Post SET num_likes = num_likes - 1 WHERE post_id = ?";
 
-  connection.beginTransaction(err => {
+  connection.beginTransaction((err) => {
     if (err) {
       console.error("Transaction Begin Error:", err);
       return res.status(500).json({ error: "Transaction Begin Error" });
@@ -489,7 +474,7 @@ router.delete("/likes", (req, res) => {
           });
         }
 
-        connection.commit(err => {
+        connection.commit((err) => {
           if (err) {
             console.error("Transaction Commit Error:", err);
             return connection.rollback(() => {
@@ -503,28 +488,34 @@ router.delete("/likes", (req, res) => {
   });
 });
 
-// *******************************************************************************************************************
+// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  
 // Friend Request
 // Send a friend request
-router.post('/api/friends/request', (req, res) => {
+router.post("/api/friends/request", (req, res) => {
   const { requester_id, receiver_id } = req.body;
 
-  // First, check if a friend request already exists in either direction
   const checkRequestQuery = `
       SELECT * FROM Friend_Request
       WHERE (requester_id = ? AND receiver_id = ?)
       OR (requester_id = ? AND receiver_id = ?)
   `;
 
-  connection.query(checkRequestQuery, [requester_id, receiver_id, receiver_id, requester_id], (err, results) => {
+  connection.query(
+    checkRequestQuery,
+    [requester_id, receiver_id, receiver_id, requester_id],
+    (err, results) => {
       if (err) {
-          console.error("SQL Error:", err);
-          return res.status(500).send({ message: "Database error", error: err.message });
+        console.error("SQL Error:", err);
+        return res
+          .status(500)
+          .send({ message: "Database error", error: err.message });
       }
-      
+
       // If a friend request already exists in either direction, do not allow a new one
       if (results.length > 0) {
-          return res.status(409).send({ message: "Friend request already exists." });
+        return res
+          .status(409)
+          .send({ message: "Friend request already exists." });
       }
 
       // If no existing request, proceed to insert a new request
@@ -533,26 +524,36 @@ router.post('/api/friends/request', (req, res) => {
           VALUES ('pending', ?, ?)
       `;
 
-      connection.query(insertRequestQuery, [requester_id, receiver_id], (insertErr, insertResult) => {
+      connection.query(
+        insertRequestQuery,
+        [requester_id, receiver_id],
+        (insertErr, insertResult) => {
           if (insertErr) {
-              console.error("SQL Error on insert:", insertErr);
-              return res.status(500).send({ message: "Failed to create friend request", error: insertErr.message });
+            console.error("SQL Error on insert:", insertErr);
+            return res.status(500).send({
+              message: "Failed to create friend request",
+              error: insertErr.message,
+            });
           }
-          res.send({ message: 'Friend request sent!', requestId: insertResult.insertId });
-      });
-  });
+          res.send({
+            message: "Friend request sent!",
+            requestId: insertResult.insertId,
+          });
+        }
+      );
+    }
+  );
 });
 
 // Receive a freind request (default: pending) can accepted / declined
 // GET /api/friends/requests
 // This endpoint retrieves the list of pending friend requests for the current user
-router.get('/api/friends/requests', (req, res) => {
-   // need receiver id and sender id just like post api/request to navigate the profile
+router.get("/api/friends/requests", (req, res) => {
+  // need receiver id and sender id just like post api/request to navigate the profile
   const { userId } = req.query;
-  
 
   if (!userId) {
-      return res.status(400).send({ message: "User ID is required." });
+    return res.status(400).send({ message: "User ID is required." });
   }
 
   const fetchRequestsQuery = `
@@ -561,29 +562,30 @@ router.get('/api/friends/requests', (req, res) => {
       JOIN User u ON f.requester_id = u.user_id
       WHERE f.receiver_id = ? AND f.status = 'pending'
   `;
-  
+
   connection.query(fetchRequestsQuery, [userId], (err, results) => {
-      if (err) {
-          console.error("SQL Error:", err);
-          return res.status(500).send({ message: "Database error", error: err.message });
-      }
-      if (results.length === 0) {
-          return res.status(404).send({ message: "No friend requests found." });
-      }
-      res.json(results.map(row => ({
-          id: row.friend_request_id,
-          sender: row.sender,
-          receiverId: userId,
-          senderId: row.senderId, // this one is used for navigating each profile
-          accepted: false  // Initial state for all notifications
-      })));
+    if (err) {
+      console.error("SQL Error:", err);
+      return res
+        .status(500)
+        .send({ message: "Database error", error: err.message });
+    }
+    if (results.length === 0) {
+      return res.status(404).send({ message: "No friend requests found." });
+    }
+    res.json(
+      results.map((row) => ({
+        id: row.friend_request_id,
+        sender: row.sender,
+        receiverId: userId,
+        senderId: row.senderId, // this one is used for navigating each profile
+        accepted: false, // Initial state for all notifications
+      }))
+    );
   });
 });
 
-
-// *******************************************************************************************************************
-
-// *******************************************************************************************************************
+// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  
 // VENDOR DETAIL
 // Insert the data in the Food Vendor from Backend (VendorDetail.js)
 router.post("/vendordetail", (req, res) => {
@@ -591,7 +593,7 @@ router.post("/vendordetail", (req, res) => {
   const query = `
       INSERT INTO Food_Vendor (menu_rating, menu_review, vendor_name, menu_name)
       VALUES (?, ?, ?, ?)
-  `; // Make sure the query reflects the correct number of placeholders
+  `;
 
   connection.query(
     query,
@@ -635,7 +637,6 @@ router.get("/vendordetail/:vendor_name", (req, res) => {
   });
 });
 
-// *******************************************************************************************************************
 // FoodVendor Average Rating
 router.get("/vendor-average-ratings", (req, res) => {
   const query = `
@@ -653,4 +654,7 @@ router.get("/vendor-average-ratings", (req, res) => {
     }
   });
 });
+
+// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  
+
 module.exports = router;

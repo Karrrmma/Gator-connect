@@ -39,8 +39,8 @@ function NotificationItem({ notification, onAccept, onDecline }) {
 
     );
 }
-//{!notification.accepted && <span className="accepted">decline </span>} 
 
+//{!notification.accepted && <span className="accepted">decline </span>} 
 function Notification() {
 
     const [notifications, setNotifications] = useState([]);
