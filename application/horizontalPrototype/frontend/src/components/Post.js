@@ -1,37 +1,50 @@
 import React, { useEffect, useState } from "react";
-import {
-  FaCommentDots,
-  FaHeart,
-  FaRegThumbsUp,
-  FaRegThumbsDown,
-} from "react-icons/fa";
-import TestPFP from "../assets/images/placeholder_pfp.png";
-import Logo from "../assets/images/gator.png";
-import Cat from "../assets/images/art5.jpg";
-import Dog from "../assets/images/art10.jpg";
+import { FaCommentDots, FaHeart } from "react-icons/fa";
 import SearchBar from "./SearchBar";
 import "./Post.css";
 import { getCurrentUserId } from "../utils/decodeData";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 // import {Link} from 'react-router-dom';
 // import App from './../App';
 
 function PostCard({ item, icon }) {
   const [likesCount, setLikesCount] = useState(item.likes || 0);
+  const [commentsCount, setCommentsCount] = useState(item.comments || 0);
+  const [commentsData, setCommentsData] = useState([]);
+  const [commentText, setCommentText] = useState("");
   const userId = getCurrentUserId();
   const navigate = useNavigate();
+
   const likeStatusKey = `liked_${userId}_post_${item.post_id}`;
 
-  const [isLiked, setIsLiked] = useState(
-    () => JSON.parse(localStorage.getItem(likeStatusKey)) || false
-  );
+  const [isLiked, setIsLiked] = useState(() => JSON.parse(localStorage.getItem(likeStatusKey)) || false);
 
-  // Update whenever the like status changes
   useEffect(() => {
     localStorage.setItem(likeStatusKey, JSON.stringify(isLiked));
   }, [isLiked, likeStatusKey]);
 
+  // fetch all comments from all posts
+  useEffect(() => {
+    fetchComments(item.post_id);
+  }, [item.post_id]);
+
+  // fetch comment for specific post
+  const fetchComments = async (postId) => {
+    try {
+      const response = await fetch(`/api/comments/${postId}`);
+      if (!response.ok) {
+        throw new Error('Failed to fetch comments');
+      }
+      const data = await response.json();
+      setCommentsData(data);
+      setCommentsCount(data.length);
+    } catch (error) {
+      console.error("Error fetching comments:", error);
+    }
+  };
+
+   // deal with like button both delete and post
   const handleLike = async () => {
     const method = isLiked ? "DELETE" : "POST";
     const endpoint = "/likes";
@@ -51,10 +64,7 @@ function PostCard({ item, icon }) {
 
       if (response.ok) {
         setIsLiked(!isLiked);
-        // Optimistically update the likes count
-        setLikesCount((prevCount) => (isLiked ? prevCount - 1 : prevCount + 1));
-        // Update the like status in localStorage
-        localStorage.setItem(likeStatusKey, JSON.stringify(!isLiked));
+        setLikesCount((prevCount) => isLiked ? prevCount - 1 : prevCount + 1);
       } else {
         throw new Error("Failed to update like");
       }
@@ -63,16 +73,74 @@ function PostCard({ item, icon }) {
     }
   };
 
+  const handleAddComment = async () => {
+    if (!commentText.trim()) return;
+    const endpoint = "/api/comments";
+    const body = JSON.stringify({
+      user_id: userId,
+      post_id: item.post_id,
+      comment_content: commentText,
+    });
+  
+    try {
+      const response = await fetch(endpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: body,
+      });
+  
+      if (response.ok) {
+        const newComment = await response.json();
+        setCommentsCount((prevCount) => prevCount + 1);
+        setCommentText("");
+        setCommentsData((prevData) => [newComment, ...prevData]);
+      } else {
+        throw new Error("Failed to add comment");
+      }
+    } catch (error) {
+      console.error("Error adding comment:", error);
+    }
+  };
+  
+  
+
+  const handleDeleteComment = async (commentId) => {
+    const endpoint = `/api/comments/${commentId}`;
+    try {
+      const response = await fetch(endpoint, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ post_id: item.post_id }), 
+      });
+  
+      if (response.ok) {
+        setCommentsCount((prevCount) => prevCount - 1);
+        setCommentsData((prevData) =>
+          prevData.filter((comment) => comment.comment_id !== commentId)
+        );
+      } else {
+        throw new Error("Failed to delete comment");
+      }
+    } catch (error) {
+      console.error("Error deleting comment:", error);
+    }
+  };
+
   const navigateToProfile = () => {
     // Debugging line to see what you're about to navigate to post.user_id ( Receiver )
     // Check post.user_id
     if (item.user_id) {
-    console.log("Post's User ID for navigation (destination's id aka receiver):", item.user_id); 
+      console.log(
+        "Post's User ID for navigation (destination's id aka receiver):",
+        item.user_id
+      );
       navigate(`/profile/${item.user_id}`);
     } else {
       console.error("User ID is undefined, cannot navigate");
     }
   };
+
+
 
   // Check user_id
   console.log("Current User Id(requester) :", userId); // Correct to get userId ( Requester)
@@ -83,12 +151,33 @@ function PostCard({ item, icon }) {
         <div className="d-flex justify-content-between align-items-start">
           <div className="user-info">
             {/* <img src={avatar} className="rounded-circle" alt="User profile" /> */}
-            <div className="avatar" style={{  cursor: 'pointer', transition: 'transform 1s ease', boxShadow: '0.3s ease'}}
-            onClick={(e) => {e.stopPropagation(); navigateToProfile();}}>{icon}
+            <div
+              className="avatar"
+              style={{
+                cursor: "pointer",
+                transition: "transform 1s ease",
+                boxShadow: "0.3s ease",
+              }}
+              onClick={(e) => {
+                e.stopPropagation();
+                navigateToProfile();
+              }}
+            >
+              {icon}
             </div>
             <div className="title-container">
-              <h5 className="card-title" style={{  cursor: 'pointer', transition: 'transform 1s ease', boxShadow: '0.3s ease'}}
-              onClick={(e) => {e.stopPropagation(); navigateToProfile();}}>
+              <h5
+                className="card-title"
+                style={{
+                  cursor: "pointer",
+                  transition: "transform 1s ease",
+                  boxShadow: "0.3s ease",
+                }}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  navigateToProfile();
+                }}
+              >
                 {item.username}
               </h5>
               <p className="timestamp">{item.timestamp}</p>
@@ -101,7 +190,8 @@ function PostCard({ item, icon }) {
             {/* <button type="button" className="btn btn-outline-secondary btn-sm"><FaCommentDots /></button>
                         <span className="comments-count">{item.comments || 0}</span> */}
             <span className="comments-count">
-              <FaCommentDots /> {item.comments || 0}
+              {/* need to get total item_comments */}
+              <FaCommentDots /> {commentsCount}
             </span>
             <span className={`outline-success ${isLiked ? "red-heart" : ""}`}>
               <FaHeart /> {likesCount}
@@ -120,14 +210,38 @@ function PostCard({ item, icon }) {
         )}
 
         <div className="comment-input-section">
+          {/* need to implement comment */}
           <input
             type="text"
             className="form-control comment-input"
             placeholder="Leave a comment..."
+            value={commentText}
+            onChange={(e) => setCommentText(e.target.value)}
+            onKeyPress={(e) => {
+              if (e.key === "Enter" && !e.shiftKey) {
+                e.preventDefault();
+                handleAddComment();
+              }
+            }}
           />
+          {/* */}
           <button type="button" onClick={handleLike}>
             <FaHeart /> {isLiked ? "Unlike" : "Like"}
           </button>
+        </div>
+        <div className="comment-section">
+          {commentsData.length > 0 ? (
+            commentsData.map((comment) => (
+              <div key={comment.comment_id} className="comment">
+                <p className="comment-content">{comment.comment_content}</p>
+                {comment.user_id === userId && (
+                  <button onClick={() => handleDeleteComment(comment.comment_id)}>x</button>
+                )}
+              </div>
+            ))
+          ) : (
+            <p>No comments yet.</p>
+          )}
         </div>
       </div>
     </div>

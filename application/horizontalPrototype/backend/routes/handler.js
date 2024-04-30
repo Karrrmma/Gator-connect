@@ -488,6 +488,113 @@ router.delete("/likes", (req, res) => {
   });
 });
 
+// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+// Write comment
+router.post("/api/comments", (req, res) => {
+  const { user_id, post_id, comment_content } = req.body;
+  const insertCommentQuery = "INSERT INTO `Comment` (user_id, post_id, comment_content, comment_time) VALUES (?, ?, ?, NOW())";
+  const incrementCommentsQuery = "UPDATE Post SET num_comments = num_comments + 1 WHERE post_id = ?";
+
+  connection.beginTransaction((err) => {
+    if (err) {
+      console.error("Transaction Begin Error:", err);
+      return res.status(500).json({ error: "Transaction Begin Error" });
+    }
+
+    connection.query(insertCommentQuery, [user_id, post_id, comment_content], (error, results) => {
+      if (error) {
+        console.error("Error adding comment:", error);
+        return connection.rollback(() => {
+          res.status(500).json({ error: "Failed to add comment" });
+        });
+      }
+
+      connection.query(incrementCommentsQuery, [post_id], (error) => {
+        if (error) {
+          console.error("Error incrementing comment count:", error);
+          return connection.rollback(() => {
+            res.status(500).json({ error: "Failed to increment comment count" });
+          });
+        }
+
+        connection.commit((err) => {
+          if (err) {
+            console.error("Transaction Commit Error:", err);
+            return connection.rollback(() => {
+              res.status(500).json({ error: "Transaction Commit Error" });
+            });
+          }
+          res.status(201).json({ message: "Comment added successfully" });
+        });
+      });
+    });
+  });
+});
+
+// delete comment
+router.delete("/api/comments/:commentId", (req, res) => {
+  const { commentId } = req.params; 
+  const deleteCommentQuery = "DELETE FROM `Comment` WHERE comment_id = ?";
+  const decrementCommentsQuery = "UPDATE Post SET num_comments = num_comments - 1 WHERE post_id = ?";
+
+  connection.beginTransaction((err) => {
+    if (err) {
+      console.error("Transaction Begin Error:", err);
+      return res.status(500).json({ error: "Transaction Begin Error" });
+    }
+
+    connection.query(deleteCommentQuery, [commentId], (error) => {
+      if (error) {
+        console.error("Error removing comment:", error);
+        return connection.rollback(() => {
+          res.status(500).json({ error: "Failed to remove comment" });
+        });
+      }
+
+      const postId = req.body.post_id;
+
+      connection.query(decrementCommentsQuery, [postId], (error) => {
+        if (error) {
+          console.error("Error decrementing comment count:", error);
+          return connection.rollback(() => {
+            res.status(500).json({ error: "Failed to decrement comment count" });
+          });
+        }
+
+        connection.commit((err) => {
+          if (err) {
+            console.error("Transaction Commit Error:", err);
+            return connection.rollback(() => {
+              res.status(500).json({ error: "Transaction Commit Error" });
+            });
+          }
+          res.status(200).json({ message: "Comment removed successfully" });
+        });
+      });
+    });
+  });
+});
+
+
+// Fetch comments for a post
+router.get("/api/comments/:postId", (req, res) => {
+  const { postId } = req.params;
+  const fetchCommentsQuery = `SELECT comment_id, user_id, comment_content, comment_time 
+          FROM Comment 
+          WHERE post_id = ? 
+          ORDER BY comment_time DESC`;
+
+  connection.query(fetchCommentsQuery, [postId], (error, results) => {
+    if (error) {
+      console.error("Error fetching comments:", error);
+      return res.status(500).json({ error: "Failed to fetch comments" });
+    }
+    res.status(200).json(results);
+  });
+});
+
+
+
 // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  
 // Friend Request
 // Send a friend request
