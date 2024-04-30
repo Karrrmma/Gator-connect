@@ -84,12 +84,13 @@ function PostCard({ item, icon }) {
           <div className="user-info">
             {/* <img src={avatar} className="rounded-circle" alt="User profile" /> */}
             <div className="avatar" style={{  cursor: 'pointer', transition: 'transform 1s ease', boxShadow: '0.3s ease'}}
-            onClick={(e) => {
-              e.stopPropagation();
-              navigateToProfile();
-            }}>{icon}</div>
+            onClick={(e) => {e.stopPropagation(); navigateToProfile();}}>{icon}
+            </div>
             <div className="title-container">
-              <h5 className="card-title">{item.username}</h5>
+              <h5 className="card-title" style={{  cursor: 'pointer', transition: 'transform 1s ease', boxShadow: '0.3s ease'}}
+              onClick={(e) => {e.stopPropagation(); navigateToProfile();}}>
+                {item.username}
+              </h5>
               <p className="timestamp">{item.timestamp}</p>
             </div>
           </div>

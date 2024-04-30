@@ -21,7 +21,9 @@ function NotificationItem({ notification, onAccept, onDecline }) {
                 <div className="avatar" style={{  cursor: 'pointer', transition: 'transform 1s ease', boxShadow: '0.3s ease'}}
                 onClick={navigateToSenderProfile}>{notification.avatar}</div>
                 <div className="notification-info">
-                    <div className="notification-sender">{notification.sender}</div>
+                    <div className="notification-sender" style={{  cursor: 'pointer', transition: 'transform 1s ease', boxShadow: '0.3s ease'}}
+                    onClick={navigateToSenderProfile}>
+                        {notification.sender}</div>
                     <div className="notification-text">just sent you a friend request!</div>
                 </div>
             </div>
