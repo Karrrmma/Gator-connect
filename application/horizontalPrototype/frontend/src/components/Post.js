@@ -9,22 +9,29 @@ import { useNavigate } from "react-router-dom";
 // import App from './../App';
 
 function PostCard({ item, icon }) {
-  const [likesCount, setLikesCount] = useState(item.likes || 0);
-  const [commentsCount, setCommentsCount] = useState(item.comments || 0);
-  const [commentsData, setCommentsData] = useState([]);
-  const [commentText, setCommentText] = useState("");
   const userId = getCurrentUserId();
   const navigate = useNavigate();
-
+  
+  // Local Storage Keys
+  const commentsCountKey = `comments_${item.post_id}`;
   const likeStatusKey = `liked_${userId}_post_${item.post_id}`;
 
+  // States
+  const [likesCount, setLikesCount] = useState(item.likes || 0);
+  const [commentsCount, setCommentsCount] = useState(() => JSON.parse(localStorage.getItem(commentsCountKey)) || item.comments || 0);
+  const [commentsData, setCommentsData] = useState([]);
+  const [commentText, setCommentText] = useState("");
   const [isLiked, setIsLiked] = useState(() => JSON.parse(localStorage.getItem(likeStatusKey)) || false);
 
+  // Effects
   useEffect(() => {
     localStorage.setItem(likeStatusKey, JSON.stringify(isLiked));
   }, [isLiked, likeStatusKey]);
 
-  // fetch all comments from all posts
+  useEffect(() => {
+    localStorage.setItem(commentsCountKey, JSON.stringify(commentsCount));
+  }, [commentsCount, commentsCountKey]);
+
   useEffect(() => {
     fetchComments(item.post_id);
   }, [item.post_id]);
@@ -75,6 +82,18 @@ function PostCard({ item, icon }) {
 
   const handleAddComment = async () => {
     if (!commentText.trim()) return;
+    const newComment = {
+      comment_id: Date.now(), // Temporary ID for optimistic update
+      user_id: userId,
+      post_id: item.post_id,
+      comment_content: commentText,
+    };
+  
+    // Optimistically update UI
+    setCommentsCount((prevCount) => prevCount + 1);
+    setCommentText("");
+    setCommentsData((prevData) => [newComment, ...prevData]);
+  
     const endpoint = "/api/comments";
     const body = JSON.stringify({
       user_id: userId,
@@ -90,17 +109,24 @@ function PostCard({ item, icon }) {
       });
   
       if (response.ok) {
-        const newComment = await response.json();
-        setCommentsCount((prevCount) => prevCount + 1);
-        setCommentText("");
-        setCommentsData((prevData) => [newComment, ...prevData]);
+        const addedComment = await response.json();
+        // Update the comment with actual ID from the server
+        setCommentsData((prevData) =>
+          prevData.map((c) => (c.comment_id === newComment.comment_id ? addedComment : c))
+        );
       } else {
         throw new Error("Failed to add comment");
       }
     } catch (error) {
       console.error("Error adding comment:", error);
+      // Roll back if error
+      setCommentsCount((prevCount) => prevCount - 1);
+      setCommentsData((prevData) =>
+        prevData.filter((c) => c.comment_id !== newComment.comment_id)
+      );
     }
   };
+  
   
   
 
@@ -233,7 +259,11 @@ function PostCard({ item, icon }) {
           {commentsData.length > 0 ? (
             commentsData.map((comment) => (
               <div key={comment.comment_id} className="comment">
-                <p className="comment-content">{comment.comment_content}</p>
+                <p className="comment-content"> 
+                {comment.full_name}   <br></br>
+                {comment.comment_content} <br></br>
+                {new Date(comment.comment_time).toLocaleString('en-US')}
+                </p>
                 {comment.user_id === userId && (
                   <button onClick={() => handleDeleteComment(comment.comment_id)}>x</button>
                 )}
@@ -358,7 +388,7 @@ function Post() {
                 user_id: post.user_id,
                 username: post.full_name,
                 content: post.post_content,
-                timestamp: new Date(post.post_time).toLocaleString(),
+                timestamp: new Date(post.post_time).toLocaleString('en-US'),
                 comments: post.num_comments || 0,
                 likes: post.num_likes || 0,
                 imageUrl: post.imageUrl,

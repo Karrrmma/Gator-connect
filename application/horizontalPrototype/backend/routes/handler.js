@@ -493,8 +493,7 @@ router.delete("/likes", (req, res) => {
 router.post("/api/comments", (req, res) => {
   const { user_id, post_id, comment_content } = req.body;
   const insertCommentQuery = "INSERT INTO `Comment` (user_id, post_id, comment_content, comment_time) VALUES (?, ?, ?, NOW())";
-  const incrementCommentsQuery = "UPDATE Post SET num_comments = num_comments + 1 WHERE post_id = ?";
-
+  
   connection.beginTransaction((err) => {
     if (err) {
       console.error("Transaction Begin Error:", err);
@@ -509,27 +508,46 @@ router.post("/api/comments", (req, res) => {
         });
       }
 
-      connection.query(incrementCommentsQuery, [post_id], (error) => {
+      const fetchLastInsertQuery = `
+        SELECT c.comment_id, c.user_id, c.comment_content, c.comment_time, u.full_name
+        FROM Comment AS c
+        INNER JOIN User AS u ON c.user_id = u.user_id
+        WHERE c.comment_id = LAST_INSERT_ID()
+      `;
+
+      connection.query(fetchLastInsertQuery, (error, results) => {
         if (error) {
-          console.error("Error incrementing comment count:", error);
           return connection.rollback(() => {
-            res.status(500).json({ error: "Failed to increment comment count" });
+            res.status(500).json({ error: "Failed to fetch last inserted comment" });
           });
         }
 
-        connection.commit((err) => {
-          if (err) {
-            console.error("Transaction Commit Error:", err);
+        let newComment = results[0];
+
+        const incrementCommentsQuery = "UPDATE Post SET num_comments = num_comments + 1 WHERE post_id = ?";
+        connection.query(incrementCommentsQuery, [post_id], (error) => {
+          if (error) {
+            console.error("Error incrementing comment count:", error);
             return connection.rollback(() => {
-              res.status(500).json({ error: "Transaction Commit Error" });
+              res.status(500).json({ error: "Failed to increment comment count" });
             });
           }
-          res.status(201).json({ message: "Comment added successfully" });
+
+          connection.commit((err) => {
+            if (err) {
+              console.error("Transaction Commit Error:", err);
+              return connection.rollback(() => {
+                res.status(500).json({ error: "Transaction Commit Error" });
+              });
+            }
+            res.status(201).json(newComment);  // Return the newly added comment with user's full name
+          });
         });
       });
     });
   });
 });
+
 
 // delete comment
 router.delete("/api/comments/:commentId", (req, res) => {
@@ -579,10 +597,13 @@ router.delete("/api/comments/:commentId", (req, res) => {
 // Fetch comments for a post
 router.get("/api/comments/:postId", (req, res) => {
   const { postId } = req.params;
-  const fetchCommentsQuery = `SELECT comment_id, user_id, comment_content, comment_time 
-          FROM Comment 
-          WHERE post_id = ? 
-          ORDER BY comment_time DESC`;
+  const fetchCommentsQuery = `
+    SELECT c.comment_id, c.user_id, c.comment_content, c.comment_time, u.full_name
+      FROM Comment AS c
+        INNER JOIN User AS u ON c.user_id = u.user_id  -- Ensure the correct use of aliases
+          WHERE c.post_id = ?
+            ORDER BY c.comment_time DESC
+  `;
 
   connection.query(fetchCommentsQuery, [postId], (error, results) => {
     if (error) {
@@ -592,6 +613,7 @@ router.get("/api/comments/:postId", (req, res) => {
     res.status(200).json(results);
   });
 });
+
 
 
 
