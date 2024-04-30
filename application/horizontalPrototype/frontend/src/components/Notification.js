@@ -3,17 +3,22 @@ import { Link } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import './Notification.css';
 import { getCurrentUserId } from "../utils/decodeData";
+import { useNavigate } from 'react-router-dom';
 
 function NotificationItem({ notification, onAccept, onDecline }) {
     // Replace with actual action handlers
     //const handleAccept = () => console.log('Accepted');
     //const handleDecline = () => console.log('Declined');
+    const navigate = useNavigate();
+    const navigateToSenderProfile = () => {
+        navigate(`/profile/${notification.senderId}`);  // Navigate to sender's profile
+    };
 
     notification.avatar = "🚗"
     return (
         <div className="notification-item">
             <div className="notification-content">
-                <div className="avatar">{notification.avatar}</div>
+                <div className="avatar" onClick={navigateToSenderProfile}>{notification.avatar}</div>
                 <div className="notification-info">
                     <div className="notification-sender">{notification.sender}</div>
                     <div className="notification-text">just sent you a friend request!</div>

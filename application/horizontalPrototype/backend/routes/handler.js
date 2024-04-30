@@ -547,14 +547,15 @@ router.post('/api/friends/request', (req, res) => {
 // GET /api/friends/requests
 // This endpoint retrieves the list of pending friend requests for the current user
 router.get('/api/friends/requests', (req, res) => {
-  const { userId } = req.query;  // Ensure userId is being passed correctly
+   // need receiver id and sender id just like post api/request to navigate the profile
+  const { userId } = req.query;
 
   if (!userId) {
       return res.status(400).send({ message: "User ID is required." });
   }
 
   const fetchRequestsQuery = `
-      SELECT f.friend_request_id, u.full_name AS sender
+      SELECT f.friend_request_id, u.full_name AS sender, u.user_id
       FROM Friend_Request f
       JOIN User u ON f.requester_id = u.user_id
       WHERE f.receiver_id = ? AND f.status = 'pending'
@@ -571,6 +572,7 @@ router.get('/api/friends/requests', (req, res) => {
       res.json(results.map(row => ({
           id: row.friend_request_id,
           sender: row.sender,
+          senderId: userId,
           accepted: false  // Initial state for all notifications
       })));
   });
