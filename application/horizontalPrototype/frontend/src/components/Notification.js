@@ -18,7 +18,8 @@ function NotificationItem({ notification, onAccept, onDecline }) {
     return (
         <div className="notification-item">
             <div className="notification-content">
-                <div className="avatar" onClick={navigateToSenderProfile}>{notification.avatar}</div>
+                <div className="avatar" style={{  cursor: 'pointer', transition: 'transform 1s ease', boxShadow: '0.3s ease'}}
+                onClick={navigateToSenderProfile}>{notification.avatar}</div>
                 <div className="notification-info">
                     <div className="notification-sender">{notification.sender}</div>
                     <div className="notification-text">just sent you a friend request!</div>
@@ -47,7 +48,7 @@ function Notification() {
     useEffect(() => {
         const fetchNotifications = async () => {
             try {
-                const userId = getCurrentUserId(); // Ensure you have a function to get the current user ID
+                const userId = getCurrentUserId(); 
                 const response = await fetch(`/api/friends/requests?userId=${userId}`, {
                     method: 'GET',
                     headers: {

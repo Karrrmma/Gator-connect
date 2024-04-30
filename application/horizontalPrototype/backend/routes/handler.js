@@ -549,18 +549,19 @@ router.post('/api/friends/request', (req, res) => {
 router.get('/api/friends/requests', (req, res) => {
    // need receiver id and sender id just like post api/request to navigate the profile
   const { userId } = req.query;
+  
 
   if (!userId) {
       return res.status(400).send({ message: "User ID is required." });
   }
 
   const fetchRequestsQuery = `
-      SELECT f.friend_request_id, u.full_name AS sender, u.user_id
+      SELECT f.friend_request_id, u.full_name AS sender, f.requester_id AS senderId
       FROM Friend_Request f
       JOIN User u ON f.requester_id = u.user_id
       WHERE f.receiver_id = ? AND f.status = 'pending'
   `;
-
+  
   connection.query(fetchRequestsQuery, [userId], (err, results) => {
       if (err) {
           console.error("SQL Error:", err);
@@ -572,7 +573,8 @@ router.get('/api/friends/requests', (req, res) => {
       res.json(results.map(row => ({
           id: row.friend_request_id,
           sender: row.sender,
-          senderId: userId,
+          receiverId: userId,
+          senderId: row.senderId, // this one is used for navigating each profile
           accepted: false  // Initial state for all notifications
       })));
   });

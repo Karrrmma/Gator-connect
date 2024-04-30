@@ -83,7 +83,8 @@ function PostCard({ item, icon }) {
         <div className="d-flex justify-content-between align-items-start">
           <div className="user-info">
             {/* <img src={avatar} className="rounded-circle" alt="User profile" /> */}
-            <div className="avatar" onClick={(e) => {
+            <div className="avatar" style={{  cursor: 'pointer', transition: 'transform 1s ease', boxShadow: '0.3s ease'}}
+            onClick={(e) => {
               e.stopPropagation();
               navigateToProfile();
             }}>{icon}</div>
