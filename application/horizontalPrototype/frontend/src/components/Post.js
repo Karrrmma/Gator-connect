@@ -21,7 +21,10 @@ function PostCard({ item, icon }) {
   const [commentsCount, setCommentsCount] = useState(() => JSON.parse(localStorage.getItem(commentsCountKey)) || item.comments || 0);
   const [commentsData, setCommentsData] = useState([]);
   const [commentText, setCommentText] = useState("");
-  const [isLiked, setIsLiked] = useState(() => JSON.parse(localStorage.getItem(likeStatusKey)) || false);
+  const [isLiked, setIsLiked] = useState(() => {
+    const storedLikeStatus = localStorage.getItem(likeStatusKey);
+    return storedLikeStatus ? JSON.parse(storedLikeStatus) : false;
+  });
 
   // Effects
   useEffect(() => {

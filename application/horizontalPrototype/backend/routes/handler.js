@@ -55,7 +55,7 @@ router.post("/register", validateRegister, (req, res) => {
 
   const userQuery = "INSERT INTO User (full_name, sfsu_email) VALUES (?, ?)";
   const accountQuery =
-    "INSERT INTO Account(username, password, user_id) VALUES(?,?,?)";
+    "INSERT INTO Account(username, password, created_time, user_id) VALUES(?, ?, DATE_SUB(NOW(), INTERVAL 7 HOUR), ?)";
   connection.query(userQuery, [fullname, sfsu_email], (userErr, userResult) => {
     if (userErr) {
       console.error("Error inserting user:", userErr);
@@ -247,7 +247,7 @@ router.post("/newpost", (req, res) => {
 
   const query = `
   INSERT INTO Post (post_content, post_time, num_likes, num_comments, user_id)
-  VALUES (?, NOW(), 0, 0, ?)
+  VALUES (?, DATE_SUB(NOW(), INTERVAL 7 HOUR), 0, 0, ?)
   `;
   const queryParams = [post_content, user_id]; 
 
@@ -353,6 +353,7 @@ router.post("/search", (req, res) => {
 // Profile  DETAIL
 router.get("/api/user/:user_id", (req, res) => {
   const { user_id } = req.params;
+  // user year to add to the profile
   const query = `
   SELECT 
     User.user_id,
@@ -492,7 +493,7 @@ router.delete("/api/likes", (req, res) => {
 // Write comment
 router.post("/api/comments", (req, res) => {
   const { user_id, post_id, comment_content } = req.body;
-  const insertCommentQuery = "INSERT INTO `Comment` (user_id, post_id, comment_content, comment_time) VALUES (?, ?, ?, NOW())";
+  const insertCommentQuery = "INSERT INTO `Comment` (user_id, post_id, comment_content, comment_time) VALUES (?, ?, ?, DATE_SUB(NOW(), INTERVAL 7 HOUR))";
   
   connection.beginTransaction((err) => {
     if (err) {

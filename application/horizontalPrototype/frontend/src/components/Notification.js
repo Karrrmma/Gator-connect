@@ -72,7 +72,7 @@ function Notification() {
         fetchNotifications();
     }, []);
 
-
+    // update backend status to
     const handleAccept = id => {
         setNotifications(current =>
             current.map(notification =>

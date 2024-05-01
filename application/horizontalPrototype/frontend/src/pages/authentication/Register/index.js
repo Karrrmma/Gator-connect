@@ -48,11 +48,20 @@ function Register({setToken}) {
         e.preventDefault();
         // check and set front end errors
         const err = validateFields(values);
-        setErrors(err);
+        let allerr = {...err}
+
 
         if(!tosAccepted) {
-            setErrors({...err, tos: 'You must accept the Terms of Service'});
+            allerr.tos ='You must accept the Terms of Service';
         }
+
+        setErrors(allerr);
+
+        if (Object.keys(allerr).length > 0) {
+            console.error('Validation errors:', allerr);
+            return;  // Prevent the function from proceeding
+        }
+
         // if no errors, send requests to backend
         if (Object.keys(err).length === 0) {
             try {
@@ -69,10 +78,15 @@ function Register({setToken}) {
                     setErrors({...err, backend: 'Email is already in use. Please use another one.'});
                     throw new Error(errorData.error);
                 }
+
+                const data = await res.json();
+                setToken(data);
         
                 console.log('User registered successfully');
+                navigate('/login');  // Navigate to login page after successful registration
                 
-                // login user after registration
+                /*
+                login user after registration
                 const loginRes = await fetch('/login', { 
                     method: 'POST',
                     headers: {
@@ -84,11 +98,11 @@ function Register({setToken}) {
                 if (!loginRes.ok) {
                     throw new Error('User login failed');
                 }
-    
+                
                 const data = await loginRes.json();
                 setToken(data);
+                */
 
-                return navigate('/home');
             } catch (error) {
                 console.log(error);
             }

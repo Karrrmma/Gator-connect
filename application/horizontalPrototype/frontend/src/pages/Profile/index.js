@@ -63,9 +63,9 @@ function Profile() {
   }, [userId]);
 
     // get user_id, post.user_id properly setting to implement friend request in Profile
-    //console.log("Check user_id and post.user_id status in /profile/:userId");
-    //console.log("In Profile, user_id: ", getCurrentUserId());
-    // console.log("In Profile, /profile/:userId: ", userId);
+    console.log("Check user_id and post.user_id status in /profile/:userId");
+    console.log("In Profile, user_id: ", getCurrentUserId());
+     console.log("In Profile, /profile/:userId: ", userId);
 
      const sendFriendRequest = async (requesterId, receiverId) => {
         try {
