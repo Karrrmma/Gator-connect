@@ -236,7 +236,7 @@ function PostCard({ item, icon }) {
                     <p className="comment-date">{new Date(comment.comment_time).toLocaleString('en-US')}</p>
                   </div>
 
-                  <div className="commente">
+                  <div className="comment">
                     <p className="comment-content" style={{ width: '77%' }}>{comment.comment_content}</p>
                     {comment.user_id === userId && (
                       <button onClick={() => handleDeleteComment(comment.comment_id)} style={{ marginBottom: 'auto', backgroundColor: '#1c1c1c', color: 'gray', border: 'none', borderRadius: '4px' }}>delete your comment</button>
