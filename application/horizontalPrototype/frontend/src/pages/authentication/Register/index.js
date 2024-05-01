@@ -118,7 +118,7 @@ function Register({setToken}) {
                 <div className='form-wrapper register-wrapper'>
                     <img src={gatorLogo} alt='Gator Logo' className='gator-logo' />
                     <Link to='/'>
-                        <div className='back-text'><u>go back</u></div>
+                        <div className='back-text'><u>back home</u></div>
                     </Link>
                     <form onSubmit={handleSubmit} onChange={handleChange}>
                         <h1 className='mb-4'>SIGN UP</h1>
@@ -156,10 +156,10 @@ function Register({setToken}) {
                                     <span className='text-danger ml-2'> {errors.year || '\u00A0'}</span>
                                 </div>
                                 <div className='form-row' style={{ gap: '4px', alignItems: 'left', justifyContent: 'unset'}}>
-                                    <input type='checkbox' id='tos-check' className='mb-1 ml-2' onChange={handleChange} style={{ width: '15px', height: '15px' }} />
+                                    <input type='checkbox' id='tos-check' className='mb-1 ml-2' onChange={handleChange} style={{ width: '22px', height: '22px' }} />
                                     <div style={{ display: 'flex', flexDirection: 'row'}}>
-                                    <label htmlFor='tos-check' className='form-check-label tos-check '>I accept and agree to the </label>
-                                    <Link to='/tos' className='tos-check'> Terms and Service</Link>
+                                    <label htmlFor='tos-check' className='form-check-label tos-check mt-1'>I accept and agree to the </label>
+                                    <Link to='/tos' className='tos-check mt-1 ml-1'> Terms and Service</Link>
                                     </div>
                                 </div>
                                 <div className='form-column'>

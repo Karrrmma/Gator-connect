@@ -17,30 +17,36 @@ function Start() {
     // const previews = [LOGO, LOGO2, LOGO, LOGO2, LOGO];
     const previews = [THUMBNAIL1, THUMBNAIL2, THUMBNAIL3, THUMBNAIL4, THUMBNAIL5];
     const [currentPreview, setCurrentPreview] = useState(previews[0]);
+    const [highlightedButtonIndex, setHighlightedButtonIndex] = useState(0);
     // const [index, setIndex] = useState(0);
-
-    // const handleButtonClick = () => {
-    //     setIndex((index + 1) % previews.length);
-    //     setCurrentPreview(previews[index]);
-    // };
-
-    const handleButtonClick = (index) => {
-        setCurrentPreview(previews[index]);
-    };
 
     useEffect(() => {
         const interval = setInterval(() => {
-            // Increment index to switch to the next preview
-            // setIndex((prevIndex) => (prevIndex + 1) % previews.length);
-            setCurrentPreview((prevPreview) => {
-                const nextIndex = (previews.indexOf(prevPreview) + 1) % previews.length;
-                return previews[nextIndex];
-            });
-        }, 4000); // Change image every 4 seconds
+            const nextIndex = (previews.indexOf(currentPreview) + 1) % previews.length;
+            setCurrentPreview(previews[nextIndex]);
+
+            // Update the highlighted button index
+            setHighlightedButtonIndex(nextIndex);
+        }, 7000); // Change image every 7 seconds
 
         // Clean up interval on component unmount
         return () => clearInterval(interval);
-    }, [previews]); // Run effect only once on component mount
+    }, [currentPreview, previews]);
+
+    const handleButtonClick = (index) => {
+        setCurrentPreview(previews[index]);
+        setHighlightedButtonIndex(index);
+    };
+
+    const highlightedButtonStyle = {
+        backgroundColor: '#AD45FF',
+        color: 'white',
+    };
+
+    const nonHighlightedButtonStyle = {
+        backgroundColor: 'white',
+        color: 'black',
+    };
 
     // useEffect(() => {
     //     // Update current preview when index changes
@@ -55,10 +61,10 @@ function Start() {
                         <div className='logo-wrapper'>
                             <img src={LOGO} alt="Gator" className="logo" />
                         </div>
-                       <div>
-                       <h1 className='ml-2' style={{ color: 'green' }}>GATOR CONNECT</h1>
-                        <p>First social media platform for the SFSU students!</p>
-                       </div>
+                        <div>
+                            <h1 style={{ color: 'green' }}>GATOR CONNECT</h1>
+                            <p style={{ color: 'green', fontSize: '20px' }}>First social media platform for the SFSU students!</p>
+                        </div>
                     </div>
                     <div className="login-button-wrapper">
                         <Link to='/login'>
@@ -73,11 +79,11 @@ function Start() {
             <div className="content-section">
                 <div className="content d-flex flex-column align-items-center justify-content-center">
                     <div className='button-group' /*onClick={handleButtonClick}*/>
-                        <button onClick={() => handleButtonClick(0)}>👪 Make friends</button>
-                        <button onClick={() => handleButtonClick(1)}>🍔 Find food vendors</button>
-                        <button onClick={() => handleButtonClick(2)}>🚌 Check bus routes</button>
-                        <button onClick={() => handleButtonClick(3)}>🎉 Explore events</button>
-                        <button onClick={() => handleButtonClick(4)}>🗨️ Chat to everyone</button>
+                        <button onClick={() => handleButtonClick(0)} style={highlightedButtonIndex === 0 ? highlightedButtonStyle : nonHighlightedButtonStyle}>👪 Make friends</button>
+                        <button onClick={() => handleButtonClick(1)} style={highlightedButtonIndex === 1 ? highlightedButtonStyle : nonHighlightedButtonStyle}>🍔 Find food vendors</button>
+                        <button onClick={() => handleButtonClick(2)} style={highlightedButtonIndex === 2 ? highlightedButtonStyle : nonHighlightedButtonStyle}>🚌 Check bus routes</button>
+                        <button onClick={() => handleButtonClick(3)} style={highlightedButtonIndex === 3 ? highlightedButtonStyle : nonHighlightedButtonStyle}>🎉 Explore events</button>
+                        <button onClick={() => handleButtonClick(4)} style={highlightedButtonIndex === 4 ? highlightedButtonStyle : nonHighlightedButtonStyle}>🗨️ Chat to everyone</button>
                     </div>
                     <div className='footer'>
                         <p>Let's make an account to explore more!</p>
@@ -86,8 +92,8 @@ function Start() {
                                 REGISTER NOW
                             </button>
                         </Link>
-                        
-                    {/* <h3 style={{ color: 'green', marginBottom: '0px' }}>join</h3> */}
+
+                        {/* <h3 style={{ color: 'green', marginBottom: '0px' }}>join</h3> */}
                     </div>
                 </div>
             </div>
