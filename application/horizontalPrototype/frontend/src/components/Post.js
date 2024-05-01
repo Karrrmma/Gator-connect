@@ -9,37 +9,26 @@ import { useNavigate } from "react-router-dom";
 // import App from './../App';
 
 function PostCard({ item, icon }) {
-  const userId = getCurrentUserId();
-  const navigate = useNavigate();
-  
-  // Local Storage Keys
-  const commentsCountKey = `comments_${item.post_id}`;
-  const likeStatusKey = `liked_${userId}_post_${item.post_id}`;
-
-  // States
+  // clear the localStorage ... manually?? 5MB LIMIT
+  // localStorage.clear();
   const [likesCount, setLikesCount] = useState(item.likes || 0);
-  const [commentsCount, setCommentsCount] = useState(() => JSON.parse(localStorage.getItem(commentsCountKey)) || item.comments || 0);
+  const [commentsCount, setCommentsCount] = useState(item.comments || 0);
   const [commentsData, setCommentsData] = useState([]);
   const [commentText, setCommentText] = useState("");
-  const [isLiked, setIsLiked] = useState(() => {
-    const storedLikeStatus = localStorage.getItem(likeStatusKey);
-    return storedLikeStatus ? JSON.parse(storedLikeStatus) : false;
-  });
+  const userId = getCurrentUserId();
+  const navigate = useNavigate();
 
-  // Effects
+  const likeStatusKey = `liked_${userId}_post_${item.post_id}`;
+  const [isLiked, setIsLiked] = useState(() => JSON.parse(localStorage.getItem(likeStatusKey)) || false);
+
   useEffect(() => {
     localStorage.setItem(likeStatusKey, JSON.stringify(isLiked));
   }, [isLiked, likeStatusKey]);
 
   useEffect(() => {
-    localStorage.setItem(commentsCountKey, JSON.stringify(commentsCount));
-  }, [commentsCount, commentsCountKey]);
-
-  useEffect(() => {
     fetchComments(item.post_id);
   }, [item.post_id]);
 
-  // fetch comment for specific post
   const fetchComments = async (postId) => {
     try {
       const response = await fetch(`/api/comments/${postId}`);
@@ -54,7 +43,6 @@ function PostCard({ item, icon }) {
     }
   };
 
-   // deal with like button both delete and post
   const handleLike = async () => {
     const method = isLiked ? "DELETE" : "POST";
     const endpoint = "/api/likes";
@@ -85,53 +73,32 @@ function PostCard({ item, icon }) {
 
   const handleAddComment = async () => {
     if (!commentText.trim()) return;
-    const newComment = {
-      comment_id: Date.now(), // Temporary ID for optimistic update
-      user_id: userId,
-      post_id: item.post_id,
-      comment_content: commentText,
-    };
-  
-    // Optimistically update UI
-    setCommentsCount((prevCount) => prevCount + 1);
-    setCommentText("");
-    setCommentsData((prevData) => [newComment, ...prevData]);
-  
     const endpoint = "/api/comments";
     const body = JSON.stringify({
       user_id: userId,
       post_id: item.post_id,
       comment_content: commentText,
     });
-  
+
     try {
       const response = await fetch(endpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: body,
       });
-  
+
       if (response.ok) {
-        const addedComment = await response.json();
-        // Update the comment with actual ID from the server
-        setCommentsData((prevData) =>
-          prevData.map((c) => (c.comment_id === newComment.comment_id ? addedComment : c))
-        );
+        const newComment = await response.json();
+        setCommentsCount((prevCount) => prevCount + 1);
+        setCommentText("");
+        setCommentsData((prevData) => [newComment, ...prevData]);
       } else {
         throw new Error("Failed to add comment");
       }
     } catch (error) {
       console.error("Error adding comment:", error);
-      // Roll back if error
-      setCommentsCount((prevCount) => prevCount - 1);
-      setCommentsData((prevData) =>
-        prevData.filter((c) => c.comment_id !== newComment.comment_id)
-      );
     }
   };
-  
-  
-  
 
   const handleDeleteComment = async (commentId) => {
     const endpoint = `/api/comments/${commentId}`;
@@ -141,7 +108,7 @@ function PostCard({ item, icon }) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ post_id: item.post_id }), 
       });
-  
+
       if (response.ok) {
         setCommentsCount((prevCount) => prevCount - 1);
         setCommentsData((prevData) =>
@@ -156,23 +123,15 @@ function PostCard({ item, icon }) {
   };
 
   const navigateToProfile = () => {
-    // Debugging line to see what you're about to navigate to post.user_id ( Receiver )
-    // Check post.user_id
     if (item.user_id) {
-      console.log(
-        "Post's User ID for navigation (destination's id aka receiver):",
-        item.user_id
-      );
+      console.log("Post's User ID for navigation (destination's id aka receiver):", item.user_id);
       navigate(`/profile/${item.user_id}`);
     } else {
       console.error("User ID is undefined, cannot navigate");
     }
   };
 
-
-
-  // Check user_id
-  // console.log("Current User Id(requester) :", userId); // Correct to get userId ( Requester)
+  console.log("Current User Id(requester) :", userId);
 
   return (
     <div className="card post-card">

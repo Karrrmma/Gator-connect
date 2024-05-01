@@ -451,7 +451,7 @@ router.delete("/api/likes", (req, res) => {
   const deleteLikeQuery =
     "DELETE FROM `Like` WHERE user_id = ? AND post_id = ?";
   const decrementLikesQuery =
-    "UPDATE Post SET num_likes = num_likes - 1 WHERE post_id = ?";
+    "UPDATE Post SET num_likes = num_likes - 1 WHERE post_id = ? AND num_likes > 0";
 
   connection.beginTransaction((err) => {
     if (err) {
