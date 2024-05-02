@@ -20,6 +20,7 @@ function PostCard({ item, icon }) {
 
   const likeStatusKey = `liked_${userId}_post_${item.post_id}`;
   const [isLiked, setIsLiked] = useState(() => JSON.parse(localStorage.getItem(likeStatusKey)) || false);
+  const [showAllComments, setShowAllComments] = useState(false);
 
   useEffect(() => {
     localStorage.setItem(likeStatusKey, JSON.stringify(isLiked));
@@ -106,7 +107,7 @@ function PostCard({ item, icon }) {
       const response = await fetch(endpoint, {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ post_id: item.post_id }), 
+        body: JSON.stringify({ post_id: item.post_id }),
       });
 
       if (response.ok) {
@@ -160,6 +161,8 @@ function PostCard({ item, icon }) {
                   cursor: "pointer",
                   transition: "transform 1s ease",
                   boxShadow: "0.3s ease",
+                  // color: "red",
+                  textTransform: 'uppercase',
                 }}
                 onClick={(e) => {
                   e.stopPropagation();
@@ -168,7 +171,7 @@ function PostCard({ item, icon }) {
               >
                 {item.username}
               </h5>
-              <p className="timestamp">{item.timestamp}</p>
+              <p className="timestamp" style={{ color: 'gray', fontSize: '12px' }}>{item.timestamp}</p>
             </div>
           </div>
           <div
@@ -217,23 +220,38 @@ function PostCard({ item, icon }) {
             <FaHeart /> {isLiked ? "Unlike" : "Like"}
           </button>
         </div>
-        <div className="comment-section">
+        <div className="comment-section mt-2">
           {commentsData.length > 0 ? (
-            commentsData.map((comment) => (
-              <div key={comment.comment_id} className="comment">
-                <p className="comment-content"> 
+            <>
+              {commentsData.slice(0, showAllComments ? commentsData.length : 3).map((comment) => (
+                <div key={comment.comment_id}>
+                  {/* <p className="comment-content"> 
                 {comment.full_name}   <br></br>
                 {comment.comment_content} <br></br>
                 {new Date(comment.comment_time).toLocaleString('en-US')}
-                </p>
-                {comment.user_id === userId && (
-                  <button onClick={() => handleDeleteComment(comment.comment_id)}>x</button>
-                )}
-              </div>
-            ))
-          ) : 
-            <p></p>
-          }
+                </p> */}
+
+                  <div className="comment">
+                    <h4 style={{ textTransform: 'uppercase' }}>{comment.full_name}</h4>
+                    <p className="comment-date">{new Date(comment.comment_time).toLocaleString('en-US')}</p>
+                  </div>
+
+                  <div className="comment">
+                    <p className="comment-content" style={{ width: '77%' }}>{comment.comment_content}</p>
+                    {comment.user_id === userId && (
+                      <button onClick={() => handleDeleteComment(comment.comment_id)} style={{ marginBottom: 'auto', backgroundColor: '#1c1c1c', color: 'gray', border: 'none', borderRadius: '4px' }}>delete your comment</button>
+                    )}
+                  </div>
+
+                </div>
+              ))}
+              {commentsData.length > 3 && (
+                <button onClick={() => setShowAllComments(!showAllComments)} style={{ border: 'none', backgroundColor: 'transparent', color: '#007bff', cursor: 'pointer' }}>Show {showAllComments ? 'less' : 'more'} comments</button>
+              )}
+            </>
+          ) : (
+            <p style={{ fontSize: '15px', marginTop: '10px' }}>No comments yet</p>
+          )}
         </div>
       </div>
     </div>

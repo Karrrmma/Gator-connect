@@ -68,7 +68,7 @@ function Login({ setToken }) {
                 </Link>
                 <div className='form-wrapper'>
                     <Link to='/'>
-                        <div className='back-text'><u>back</u></div>
+                        <div className='back-text'><u>back home</u></div>
                     </Link>
                     <form onSubmit={handleSubmit} onChange={handleChange}>
                         <img src={gatorLogo} alt='Gator Logo' className='gator-logo' />

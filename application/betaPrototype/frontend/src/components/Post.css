@@ -62,10 +62,33 @@
   border: none;
   width: 20%;
   height: 30px;
+  margin-left: 5px;
 }
 
 .comment-input-section button:hover {
   color: #AD45ff;
+}
+
+.comment-section {
+  text-align: left;
+  color: gray;
+}
+
+.comment {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.comment-content {
+  color: gray;
+  font-size: 15px;
+}
+
+.comment-date {
+  color: gray;
+  font-size: 12px;
+  margin-right: 10px;
 }
 
 

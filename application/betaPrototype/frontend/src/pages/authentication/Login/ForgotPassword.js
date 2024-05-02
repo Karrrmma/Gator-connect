@@ -58,15 +58,16 @@ function ForgotPassword() {
                 </Link>
                 <div className='form-wrapper'>
                     <Link to='/'>
-                        <div className='back-text'><u>back</u></div>
+                        <div className='back-text'><u>back home</u></div>
                     </Link>
                     <form onSubmit={handleSubmit} onChange={handleChange}>
-                        <img src={gatorLogo} alt='Gator Logo' className='gator-logo' />
+                        <img src={gatorLogo} alt='Gator Logo' className='gator-logo' style={{ width: '180px'}}/>
+                        <h1 className='mb-3'>Reset Password</h1>
 
                         <input name='username' type='text' placeholder='Username' className='input-field' />
                         <span className='text-danger'> {errors.username || '\u00A0'}</span>
 
-                        <input name='email' type='text' placeholder='Email' className='input-field' />
+                        <input name='email' type='text' placeholder='SFSU Email' className='input-field' />
                         <span className='text-danger'> {errors.email || '\u00A0'}</span>
 
                         <input name='newPassword' type='password' placeholder='New Password' className='input-field' />
@@ -77,7 +78,7 @@ function ForgotPassword() {
 
                         <span className='text-danger mb-3'> {errors.form || '\u00A0'}</span>
                         <div>
-                            <button type='submit' style={{ width: '300px' }}><b>CHANGE PASSWORD</b></button>
+                            <button type='submit' style={{ width: '150px', marginTop: '5px', marginBottom: '10px'}}><b>RESET</b></button>
                         </div>
                         <div className='register-link'>
                             <Link to='/login'>
