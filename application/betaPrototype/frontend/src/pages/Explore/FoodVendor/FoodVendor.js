@@ -369,7 +369,7 @@ function FoodVendor() {
         <div className="search-container">
           <input
             type="text"
-            placeholder="🔎 SEARCH FOOD VENDOR..."
+            placeholder="🔎 ENTER FOOD VENDOR NAME..."
             className="search-bar"
             // style={{
             //   marginTop: "30px",
