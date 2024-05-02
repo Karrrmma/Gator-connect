@@ -106,7 +106,8 @@ function Profile() {
       } else {
         if (response.status === 409) {
           alert("Friend request already exists.");
-        } else {
+        } 
+        else {
           alert(data.message || "Failed to send friend request.");
         }
       }
@@ -123,6 +124,7 @@ function Profile() {
       console.log("Send Friend Request from: ", requesterId);
       console.log("Send Friend Request to: ", receiverId);
     }
+
   };
 
   // Sort posts by 'post_time' in descending order before rendering

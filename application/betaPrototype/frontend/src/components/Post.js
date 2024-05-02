@@ -123,7 +123,7 @@ function PostCard({ item, icon }) {
     }
   };
 
-  const navigateToProfile = () => {
+  const navigatePostUserProfile = () => {
     if (item.user_id) {
       console.log("Post's User ID for navigation (destination's id aka receiver):", item.user_id);
       navigate(`/profile/${item.user_id}`);
@@ -132,7 +132,14 @@ function PostCard({ item, icon }) {
     }
   };
 
-  console.log("Current User Id(requester) :", userId);
+  const navigateCommentUserProfile = (userId) => {
+    if (userId) {
+        navigate(`/profile/${userId}`);
+    } else {
+        console.error("User ID is undefined, cannot navigate");
+    }
+};
+
 
   return (
     <div className="card post-card">
@@ -149,7 +156,7 @@ function PostCard({ item, icon }) {
               }}
               onClick={(e) => {
                 e.stopPropagation();
-                navigateToProfile();
+                navigatePostUserProfile();
               }}
             >
               {icon}
@@ -166,7 +173,7 @@ function PostCard({ item, icon }) {
                 }}
                 onClick={(e) => {
                   e.stopPropagation();
-                  navigateToProfile();
+                  navigatePostUserProfile();
                 }}
               >
                 {item.username}
@@ -232,7 +239,11 @@ function PostCard({ item, icon }) {
                 </p> */}
 
                   <div className="comment">
-                    <h4 style={{ textTransform: 'uppercase' }}>{comment.full_name}</h4>
+                    <h4 style={{ textTransform: 'uppercase', cursor: "pointer", }}              
+                      onClick={(e) => {
+                      e.stopPropagation();
+                     navigateCommentUserProfile(comment.user_id);
+                      }}>{comment.full_name}</h4>
                     <p className="comment-date">{new Date(comment.comment_time).toLocaleString('en-US')}</p>
                   </div>
 
