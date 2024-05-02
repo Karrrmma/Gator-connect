@@ -353,6 +353,7 @@ router.post("/search", (req, res) => {
 // Profile  DETAIL
 router.get("/api/user/:user_id", (req, res) => {
   const { user_id } = req.params;
+
   // user year to add to the profile
   const query = `
   SELECT 
@@ -360,6 +361,7 @@ router.get("/api/user/:user_id", (req, res) => {
     User.full_name AS fullName,
     User.sfsu_email AS sfsu_email,
     Student.major AS major,
+    Student.year AS year,
     Professor.department AS department,
     CASE 
       WHEN Student.user_id IS NOT NULL THEN 'Student'
@@ -368,7 +370,7 @@ router.get("/api/user/:user_id", (req, res) => {
     END AS role,
     Account.username,
     (SELECT COUNT(*) FROM Post WHERE Post.user_id = User.user_id) AS post_count,  -- Ensure this only counts posts
-    (SELECT COUNT(*) FROM Friend_Request WHERE Friend_Request.receiver_id = User.user_id AND Friend_Request.status = 'accepted') AS friend_count
+    (SELECT COUNT(*) FROM Friend_Request WHERE (Friend_Request.receiver_id = User.user_id OR Friend_Request.requester_id = User.user_id) AND Friend_Request.status = 'accepted') AS friend_count
     FROM User
     LEFT JOIN Student ON User.user_id = Student.user_id
     LEFT JOIN Professor ON User.user_id = Professor.user_id
@@ -397,6 +399,7 @@ router.get("/api/user/:user_id", (req, res) => {
       profile.posts = postResults;
       res.status(200).json(profile);
     });
+
   });
 });
 
@@ -712,6 +715,74 @@ router.get("/api/friends/requests", (req, res) => {
         accepted: false, // Initial state for all notifications
       }))
     );
+  });
+});
+
+// Accept a friend request (bi-directional friend_count ++)
+router.post("/api/friends/accept/:id", (req, res) => {
+  const requestId = req.params.id;
+
+  const acceptRequestQuery = `
+      UPDATE Friend_Request
+      SET status = 'accepted'
+      WHERE friend_request_id = ?
+  `;
+
+  connection.query(acceptRequestQuery, [requestId], (err, result) => {
+    if (err) {
+      console.error("SQL Error:", err);
+      return res.status(500).send({ message: "Database error", error: err.message });
+    }
+    if (result.affectedRows === 0) {
+      return res.status(404).send({ message: "Friend request not found." });
+    }
+    res.send({ message: "Friend request accepted." });
+  });
+});
+
+// Decline a friend request --> just drop / delete from the table
+router.delete("/api/friends/decline/:id", (req, res) => {
+  const requestId = req.params.id;
+
+  const deleteRequestQuery = `
+      DELETE FROM Friend_Request
+      WHERE friend_request_id = ?
+  `;
+
+  connection.query(deleteRequestQuery, [requestId], (err, result) => {
+    if (err) {
+      console.error("SQL Error:", err);
+      return res.status(500).send({ message: "Database error", error: err.message });
+    }
+    if (result.affectedRows === 0) {
+      return res.status(404).send({ message: "Friend request not found." });
+    }
+    res.send({ message: "Friend request declined." });
+  });
+});
+
+router.get("/api/isFriend", (req, res) => {
+  const { requester_id, receiver_id } = req.query;
+
+  // Ensure both IDs are provided
+  if (!requester_id || !receiver_id) {
+      return res.status(400).send({ message: "Both requester_id and receiver_id must be provided." });
+  }
+
+  const checkFriendshipQuery = `
+      SELECT * FROM Friend_Request
+      WHERE ((requester_id = ? AND receiver_id = ?) OR (requester_id = ? AND receiver_id = ?))
+      AND status = 'accepted'
+  `;
+
+  connection.query(checkFriendshipQuery, [requester_id, receiver_id, receiver_id, requester_id], (err, results) => {
+      if (err) {
+          console.error("SQL Error:", err);
+          return res.status(500).send({ message: "Database error", error: err.message });
+      }
+
+      const isFriend = results.length > 0;
+      res.send({ isFriend });
   });
 });
 

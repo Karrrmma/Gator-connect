@@ -72,19 +72,24 @@ function Notification() {
         fetchNotifications();
     }, []);
 
-    // update backend status to
-    const handleAccept = id => {
-        setNotifications(current =>
-            current.map(notification =>
-                notification.id === id ? { ...notification, accepted: true } : notification
-            )
-        );
+    const handleAccept = async (id) => {
+            const response = await fetch(`/api/friends/accept/${id}`, { method: 'POST' });
+            if (response.ok) {
+                setNotifications(current =>
+                    current.map(notification =>
+                        notification.id === id ? { ...notification, accepted: true } : notification
+                    )
+                );
+            }
     };
-
-    const handleDecline = id => {
-        setNotifications(current =>
-            current.filter(notification => notification.id !== id)
-        );
+    
+    const handleDecline = async (id) => {
+            const response = await fetch(`/api/friends/decline/${id}`, { method: 'DELETE' });
+            if (response.ok) {
+                setNotifications(current =>
+                    current.filter(notification => notification.id !== id)
+                );
+            }
     };
 
 
