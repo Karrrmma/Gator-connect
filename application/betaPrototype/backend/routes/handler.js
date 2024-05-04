@@ -901,4 +901,43 @@ router.get("/vendor-average-ratings", (req, res) => {
 
 // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  
 
+// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  
+// CREATE EVENT
+// Insert the data in the event table from user input
+router.post("/creatEvent", (req, res) => {
+  const {
+    event_description,
+    event_type,
+    event_name,
+    event_location,
+    event_host,
+    event_time,
+    event_creator,
+  } = req.body;
+  const query = `
+    INSERT INTO Event (event_description, event_type, event_name, event_location, event_host, event_time, event_creator)
+    VALUES (?, ?, ?, ?, ?, ?, ?)
+  `;
+
+  connection.query(
+    query,
+    [event_description, event_type, event_name, event_location, event_host, event_time, event_creator],
+    (error, results) => {
+      if (error) {
+        console.error("Error inserting event:", error);
+        res.status(500).json({ error: "Internal Server Error" });
+      } else {
+        res.status(201).json({
+          message: "Event added successfully",
+          id: results.insertId,
+        });
+      }
+    }
+  );
+});
+
+
+// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  
+
+
 module.exports = router;
