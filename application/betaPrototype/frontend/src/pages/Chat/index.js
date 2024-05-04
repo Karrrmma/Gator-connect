@@ -1,8 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Dog from '../../assets/images/art10.jpg';
-import Cat from '../../assets/images/art5.jpg';
-import Placeholder from '../../assets/images/placeholder_pfp.png';
 
 
 
