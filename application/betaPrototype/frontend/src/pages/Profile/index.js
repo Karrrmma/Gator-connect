@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { getCurrentUserId } from "../../utils/decodeData";
 import { queryData } from "../../utils/queryUser";
 import "./Profile.css";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import PostCard from "../../components/PostCard";
 import FriendsListPopup from "./FriendsListPopup";
 import NewPostPopup from "./NewPostPopup";
@@ -132,6 +132,8 @@ function Profile() {
     (a, b) => new Date(b.post_time) - new Date(a.post_time)
   );
 
+  const nameLink = user.fullname.trim().replace(/\s/g, '%20');
+
   return (
     <>
       <div className="post-header">
@@ -193,7 +195,9 @@ function Profile() {
               <>
                 {/* Buttons for "Unfriend" and "Chat" when the profile is of a friend */}
                 <button className="profile-button">UNFRIEND</button>
-                <button className="profile-button">CHAT</button>
+                <Link to={`/chatWindow/${nameLink}`}>
+                  <button className="profile-button">CHAT</button>
+                </Link>
               </>
             ) : (
               // Button to send a friend request if not friends
