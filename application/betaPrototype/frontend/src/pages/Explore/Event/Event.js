@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState , useEffect} from "react";
 import "../ExploreTemplate.css";
 import { useNavigate } from "react-router-dom";
 import CreateEventForm from './CreateEventForm';
@@ -11,7 +11,7 @@ function Event() {
 
   const initialFilters = {
     type: "",
-    creator: "",
+    host: "",
   };
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -19,101 +19,47 @@ function Event() {
 
   const [showCreateEventForm, setShowCreateEventForm] = useState(false);
 
-  const events = [
-    {
-      name: "Queer Alliance Makeup Night",
-      type: "Art",
-      description:
-        "Wanna learn how to do your makeup in a gender-affirming way? Come join the Queer Alliance for a -MAKEUP NIGHT !",
-      hosts: "Student Names",
-      location: "Ceasar Chavez Building",
-      time: "Saturday April 20th, 5:30pm PDT",
-      creator: "faculty",
-    },
-    {
-      name: "Movie Night Under the Stars",
-      type: "Entertainment",
-      description:
-        "Join us for a cozy movie night under the stars! Bring your blankets and snacks as we screen a classic film.",
-      hosts: "Campus Activities Board",
-      location: "Campus Lawn",
-      time: "Friday, May 3rd, 7:00pm PDT",
-      creator: "student",
-    },
-    {
-      name: "Cultural Fest 2024",
-      type: "Cultural",
-      description:
-        "Experience the rich diversity of our campus community at Cultural Fest 2024! Enjoy performances, food, and activities from around the world.",
-      hosts: "Multicultural Student Union",
-      location: "Malcolm X Plaza",
-      time: "Saturday, April 27th, 12:00pm PDT",
-      creator: "student",
-    },
-    {
-      name: "Tech Expo: Future Innovations",
-      type: "Technology",
-      description:
-        "Explore the latest advancements in technology at our Tech Expo! Network with industry professionals.",
-      hosts: "Computer Science Society",
-      location: "Engineering Building",
-      time: "Thursday, May 9th, 10:00am PDT",
-      creator: "faculty",
-    },
-    {
-      name: "Wellness Workshop: Stress Management",
-      type: "Wellness",
-      description:
-        "Learn practical strategies for managing stress and maintaining well-being at our Wellness Workshop! Open to all students.",
-      hosts: "Student Health Services",
-      location: "Wellness Center",
-      time: "Wednesday, May 15th, 3:00pm PDT",
-      creator: "faculty",
-    },
-    {
-      name: "Sports Tournament: Intramural Soccer",
-      type: "Sports",
-      description:
-        "Compete with fellow students in our Intramural Soccer Tournament! Show off your skills and win prizes.",
-      hosts: "Intramural Sports Association",
-      location: "Campus Soccer Field",
-      time: "Saturday, May 18th, 9:00am PDT",
-      creator: "faculty",
-    },
-    {
-      name: "Career Fair 2024",
-      type: "Career",
-      description:
-        "Connect with employers and explore career opportunities at our annual Career Fair! Bring your resume and dress to impress.",
-      hosts: "Career Services Center",
-      location: "Student Union Ballroom",
-      time: "Tuesday, May 21st, 11:00am PDT",
-      creator: "faculty",
-    },
-    {
-      name: "Art Exhibition: Student Showcase",
-      type: "Art",
-      description:
-        "Discover the talent of our student artists at the Student Showcase Art Exhibition! View a variety of artworks.",
-      hosts: "Art Department",
-      location: "University Art Gallery",
-      time: "Friday, May 24th, 5:00pm PDT",
-      creator: "student",
-    },
-    {
-      name: "Music Concert: Battle of the Bands",
-      type: "Music",
-      description:
-        "Experience the ultimate battle of the bands as student musicians compete for the title! Enjoy a night of live music.",
-      hosts: "Music Department",
-      location: "Campus Amphitheater",
-      time: "Saturday, May 25th, 6:00pm PDT",
-      creator: "student",
-    },
-  ];
+  const [events, setEvents] = useState([]);
+
+  // Function to fetch events from backend
+  const fetchEvents = async () => {
+    try {
+      const response = await fetch("/events");
+      if (response.ok) {
+        const eventData = await response.json();
+        setEvents(eventData);
+      } else {
+        console.error("Failed to fetch events:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error fetching events:", error);
+    }
+  };
+
+   // Fetch events when component mounts
+   useEffect(() => {
+    fetchEvents();
+  }, []);
+
+
+  const formatDate = (dateTimeString) => {
+    const options = {
+      month: 'long',
+      day: 'numeric',
+      year: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric',
+      hour12: true
+    };
+  
+    const date = new Date(dateTimeString);
+    return date.toLocaleString('en-US', options);
+  };
+
+
   const filteredEvents = events.filter((event) => {
-    if (filters.type && event.type !== filters.type) return false;
-    if (filters.creator && event.creator !== filters.creator) return false;
+    if (filters.type && event.event_type !== filters.type) return false;
+    if (filters.host && event.event_host !== filters.host) return false;
     // Check if the event name contains the search query
     if (
       searchQuery &&
@@ -242,11 +188,11 @@ function Event() {
               className: "select-options",
             }}
             value={filters.creator}
-            onChange={(e) => handleFilterChange("creator", e.target.value)}
+            onChange={(e) => handleFilterChange("host", e.target.value)}
           >
-            <option value="">Created by</option>
-            <option value="faculty">Faculty</option>
-            <option value="student">Student</option>
+            <option value="">Hosted by</option>
+            <option value="Professor">professor</option>
+            <option value="Student">student</option>
           </select>
 
           <div className="button-container">
@@ -272,45 +218,45 @@ function Event() {
         ) : (
           filteredEvents.map((event, index) => (
             <div key={index} className="grid-item">
-              <p
-                style={{
-                  color: "#AD45FF",
-                  fontSize: "20px",
-                  fontWeight: "bold",
-                  margin: "5",
-                  textAlign: "center",
-                  marginTop: "20px",
-                }}
-              >
-                {event.name}
-              </p>
-              <p
-                style={{
-                  color: "gray",
-                  fontSize: "14px",
-                  margin: "0",
-                  fontWeight: "bold",
-                  textAlign: "center",
-                  marginBottom: "10px",
-                }}
-              >
-                {event.type}
-              </p>
-              <p style={{ color: "white", fontSize: "12px", marginTop: "0px" }}>
-                {event.description}
-              </p>
-              <p style={{ color: "gray", fontSize: "12px" }}>
-                Hosts: {event.hosts}
-              </p>
-              <p style={{ color: "gray", fontSize: "12px" }}>
-                Location: {event.location}
-              </p>
-              <p
-                style={{ color: "gray", fontSize: "12px", marginBottom: "0px" }}
-              >
-                Time: {event.time}
-              </p>
-              <button onClick={handleRSVPClick} className="route-button">Register</button>
+            <p
+              style={{
+                color: "#AD45FF",
+                fontSize: "20px",
+                fontWeight: "bold",
+                margin: "5",
+                textAlign: "center",
+                marginTop: "20px",
+              }}
+            >
+              {event.event_name}
+            </p>
+            <p
+              style={{
+                color: "gray",
+                fontSize: "14px",
+                margin: "0",
+                fontWeight: "bold",
+                textAlign: "center",
+                marginBottom: "10px",
+              }}
+            >
+              {event.event_type}
+            </p>
+            <p style={{ color: "white", fontSize: "12px", marginTop: "0px" }}>
+              {event.event_description}
+            </p>
+            <p style={{ color: "gray", fontSize: "12px" }}>
+              Hosts: {event.event_host}
+            </p>
+            <p style={{ color: "gray", fontSize: "12px" }}>
+              Location: {event.event_location}
+            </p>
+            <p
+              style={{ color: "gray", fontSize: "12px", marginBottom: "0px" }}
+            >
+               Time: {formatDate(event.event_time)}
+            </p>
+            <button onClick={handleRSVPClick} className="route-button">Register</button>
             </div>
           ))
         )}

@@ -936,6 +936,19 @@ router.post("/creatEvent", (req, res) => {
   );
 });
 
+//fetch the event
+router.get('/events', (req, res) => {
+  const query = 'SELECT * FROM Event';
+  connection.query(query, (error, results) => {
+    if (error) {
+      console.error('Error fetching events:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    } else {
+      res.json(results);
+    }
+  });
+});
+
 
 // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  
 
