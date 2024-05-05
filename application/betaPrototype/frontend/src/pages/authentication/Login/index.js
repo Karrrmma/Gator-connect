@@ -44,7 +44,7 @@ function Login({ setToken }) {
         }
 
         try {
-            console.log('User:', user);
+            // console.log('User:', user);
             const response = await loginUser(user);
             if(response.ok){
                 console.log('front end - login success');

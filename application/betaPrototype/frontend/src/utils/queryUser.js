@@ -34,7 +34,7 @@ export const queryData = async (userId) => {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
         const profileData = await response.json();
-        console.log("Fetched user data:", profileData);  // Log the full profile data including the role
+        // console.log("Fetched user data:", profileData);  // Log the full profile data including the role
         return profileData;
     } catch (error) {
         console.error('Failed to fetch user profile:', error);

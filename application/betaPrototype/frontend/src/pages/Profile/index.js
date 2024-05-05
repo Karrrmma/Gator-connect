@@ -69,9 +69,11 @@ function Profile() {
   }, [userId]);
 
   // get user_id, post.user_id properly setting to implement friend request in Profile
+  /*
   console.log("Check user_id and post.user_id status in /profile/:userId");
   console.log("In Profile, user_id: ", getCurrentUserId());
   console.log("In Profile, /profile/:userId: ", userId);
+  */
 
   const checkFriendship = async (userId) => {
     const requesterId = getCurrentUserId();
@@ -159,11 +161,15 @@ function Profile() {
             <p className="profile-note">* Username: {user.username}</p>
             <p className="profile-note">
               {user.role === "Professor"
-                ? "Department: " + user.department
+                ? "* Department: " + user.department
                 : "* Major: " + user.major}
             </p>
             {/*user's year visible*/}
-            <p className="profile-note mb-4">* School year: {user.year} </p>
+            <p className="profile-note mb-4">
+              {user.role === "Student"
+              ? "* School year: " + user.year
+              : ""}
+            </p>
           </div>
         </div>
         {/* <p className='bio mb-4'>{user.bio}</p> Bio should be implemented when edit profile*/}
