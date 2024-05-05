@@ -1,9 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
-import Dog from '../../assets/images/art10.jpg';
-import Cat from '../../assets/images/art5.jpg';
-import Placeholder from '../../assets/images/placeholder_pfp.png';import Button from 'react-bootstrap/Button';
+import Button from 'react-bootstrap/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 
@@ -31,7 +29,7 @@ const ChatWindow = () => {
           <Head />
           <div className="chat-container h-75 border-0 " style={{ background: 'black', width: '500px', borderBottomLeftRadius: '20px', borderBottomRightRadius: '20px'}}>
 
-            <div className="card-body" style={{ backgroundColor: 'black', overflowY: 'auto', height: '378px' }}>
+            <div className="card-body" style={{ backgroundColor: 'black', overflowY: 'auto', height: '478px' }}>
               {messages.map((message, index) =>
                 <p className='rounded-pill' key={index} style={{
                   backgroundColor: '#252525', padding: '10px', color: 'white',

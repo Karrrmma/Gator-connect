@@ -297,20 +297,63 @@ router.get("/posts", async (req, res) => {
   });
 });
 
-// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  
-router.get("/chat", (req, res) => {
-  /*   console.log("das ist ein Test")
-   */
-  const test = "SELECT * FROM Account";
-  connection.query(test, async (err, results) => {
-    if (err) {
-      console.error("Error fetching data from database:", err);
-      res.status(500).json({ error: "Internal Server Error" });
-      return;
+
+// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 
+// @@@@@ CHAT
+
+//------put public Message to DB----//
+router.post("/api/chat/sendPublicMessage", (req, res) => {
+  const { sender_id, message_content, message_type } = req.body;
+  const date = new Date();
+
+
+  const insertMessageInformation = `INSERT INTO Message (message_time, message_content, message_type, sender_id) VALUES (?, ?, ?, ?)`;
+
+  connection.query(insertMessageInformation,[date, message_content, message_type, sender_id],(insertErr, insertResult) => {
+      if (insertErr) {
+        console.error("SQL Error on insert:", insertErr);
+        return res.status(500).send({
+          message: "Failed to send public Message",
+          error: insertErr.message,
+        });
+      }
+      res.send({
+        message: "Public Message sent!",
+//        requestId: insertResult.insertId,
+      });
     }
-    res.send(JSON.stringify(results));
-  });
+  );
 });
+
+
+//------Fetch public Messages----//
+router.get("/api/chat/getPublicMessages/:message_type", (req, res) => {
+  const {message_type} = req.params;
+  const getPublicMessages = `SELECT * FROM Message WHERE message_type = ?`;
+
+  connection.query(getPublicMessages, [message_type], async(err, results) => {
+    if(err){
+      console.error('Error fetching public Messages from DB: ', err);
+      return res.status(500).json({ error: "Failed to fetch public Messages" });
+    }
+    
+    //format Date
+    const results_formatted = results.map(item => {
+      const formattedDate = (item.message_time).toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: 'numeric',
+        hour12: true,
+      });
+      return {...item, message_time: formattedDate}
+    })
+
+    res.status(200).json(results_formatted);
+  })
+})
+
 
 
 // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  
@@ -857,5 +900,57 @@ router.get("/vendor-average-ratings", (req, res) => {
 });
 
 // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  
+
+// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  
+// CREATE EVENT
+// Insert the data in the event table from user input
+router.post("/creatEvent", (req, res) => {
+  const {
+    event_description,
+    event_type,
+    event_name,
+    event_location,
+    event_host,
+    event_time,
+    event_creator,
+  } = req.body;
+  const query = `
+    INSERT INTO Event (event_description, event_type, event_name, event_location, event_host, event_time, event_creator)
+    VALUES (?, ?, ?, ?, ?, ?, ?)
+  `;
+
+  connection.query(
+    query,
+    [event_description, event_type, event_name, event_location, event_host, event_time, event_creator],
+    (error, results) => {
+      if (error) {
+        console.error("Error inserting event:", error);
+        res.status(500).json({ error: "Internal Server Error" });
+      } else {
+        res.status(201).json({
+          message: "Event added successfully",
+          id: results.insertId,
+        });
+      }
+    }
+  );
+});
+
+//fetch the event
+router.get('/events', (req, res) => {
+  const query = 'SELECT * FROM Event';
+  connection.query(query, (error, results) => {
+    if (error) {
+      console.error('Error fetching events:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    } else {
+      res.json(results);
+    }
+  });
+});
+
+
+// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  
+
 
 module.exports = router;
