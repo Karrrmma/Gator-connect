@@ -5,18 +5,6 @@ import { Link } from 'react-router-dom';
 
 
 const Chat = () => {
-/*   fetch('/chat', {
-    method: 'GET',
-    headers: {
-        'Content-Type': 'application/json',
-    }, */
-
-/*   oder so:  fetch('/chat')
-    .then((response) => response.json())
-    .then((data) => {
-      console.log(data)
-    }) */
-
 
 
     return (

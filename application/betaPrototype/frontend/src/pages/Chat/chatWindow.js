@@ -52,33 +52,16 @@ const ChatWindow = () => {
 function Head() {
   const { name } = useParams()
 
-  const selectElement = (name) => {
-    switch (name) {
-      case 'Fabian Weiland':
-        // return <img src={Cat} class="rounded-circle" alt="placeholder pfp" style={{ width: 50, height: 50, display: 'inline-block', marginLeft: '10px', marginRight: '10px' }}></img>;
-        return <div className="avatar" style={{fontSize: '30px'}}>🐳</div>
-      case 'Jose Ortiz':
-        // return <img src={Dog} class="rounded-circle" alt="placeholder pfp" style={{ width: 50, height: 50, display: 'inline-block', marginLeft: '10px', marginRight: '10px' }}></img>;
-        return <div className="avatar" style={{fontSize: '30px'}}>🎄</div>
-      case 'Marco Lorenz':
-        // return <img src={Placeholder} class="rounded-circle" alt="placeholder pfp" style={{ width: 50, height: 50, display: 'inline-block', marginLeft: '10px', marginRight: '10px' }}></img>;
-        return <div className="avatar" style={{fontSize: '30px'}}>🐶</div>
-      default:
-        return <p>user is not found{name}.</p>;
-    }
-  };
-
   return (
     <div style={{ background: 'black', borderTopLeftRadius: '20px', borderTopRightRadius: '20px' }}>
       <div class="d-flex align-items-center" style={{ width: '100%', padding: '20px', textAlign: 'right' }}>
-        {selectElement(name)}
+        <div className="avatar" style={{fontSize: '30px'}}>🐳</div>
         <p style={{ color: 'white', fontSize: '25px', marginLeft: '5px' }}>{name}</p>
         <Link to='/chat' className='text-decoration-none' style={{fontWeight: 'bold', color: 'gray', fontSize: '30px', display: 'inline-block', marginLeft:'auto'}}>X</Link>
       </div>
     </div>
   );
 }
-/* , marginLeft: '230px', marginRight: '10px'  */
 
 function Bottom({ inputMessage, setInputMessage, sendMessage }) {
 
