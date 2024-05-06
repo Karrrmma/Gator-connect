@@ -149,11 +149,6 @@ function PostCard({ item, icon }) {
             {/* <img src={avatar} className="rounded-circle" alt="User profile" /> */}
             <div
               className="avatar"
-              style={{
-                cursor: "pointer",
-                transition: "transform 1s ease",
-                boxShadow: "0.3s ease",
-              }}
               onClick={(e) => {
                 e.stopPropagation();
                 navigatePostUserProfile();
@@ -164,13 +159,6 @@ function PostCard({ item, icon }) {
             <div className="title-container">
               <h5
                 className="card-title"
-                style={{
-                  cursor: "pointer",
-                  transition: "transform 1s ease",
-                  boxShadow: "0.3s ease",
-                  // color: "red",
-                  textTransform: 'uppercase',
-                }}
                 onClick={(e) => {
                   e.stopPropagation();
                   navigatePostUserProfile();
@@ -239,7 +227,7 @@ function PostCard({ item, icon }) {
                 </p> */}
 
                   <div className="comment">
-                    <h4 style={{ textTransform: 'uppercase', cursor: "pointer", }}              
+                    <h4 className="comment-user"             
                       onClick={(e) => {
                       e.stopPropagation();
                      navigateCommentUserProfile(comment.user_id);
