@@ -9,11 +9,14 @@ function Event() {
 
   const [showForm, setShowForm] = useState(false);
 
-  const initialFilters = {
+  const initialFilters = { //items that will be filtered
     type: "",
     host: "",
     location: "",
+    startDate: "",
+    endDate: "",
   };
+
   const [searchQuery, setSearchQuery] = useState("");
 
   const [filters, setFilters] = useState(initialFilters);
@@ -62,10 +65,12 @@ function Event() {
     if (filters.type && event.event_type !== filters.type) return false;
     if (filters.host && event.event_host !== filters.host) return false;
     if (filters.location && event.event_location != filters.location) return false;
+    if (filters.startDate && new Date(event.event_time) < new Date(filters.startDate)) return false;
+    if (filters.endDate && new Date(event.event_time) > new Date(filters.endDate)) return false;
     // Check if the event name contains the search query
     if (
       searchQuery &&
-      !event.name.toLowerCase().includes(searchQuery.toLowerCase())
+      !event.event_name.toLowerCase().includes(searchQuery.toLowerCase())
     )
       return false;
     return true;
@@ -145,7 +150,13 @@ function Event() {
           discover the wide array of opportunities to engage, learn, and connect. 
         </p>
 
-        <div className="search-container-te">
+        <div className="search-container-tee">
+        <p
+            style={{ marginTop: "20px", fontSize: "16px", fontWeight: "bold", marginBottom:"0px" }}
+          >
+            {" "}
+            SEARCH
+          </p>
           <input
             type="text"
             placeholder="Search by event name..."
@@ -159,12 +170,6 @@ function Event() {
             value={searchQuery}
             onChange={handleSearchChange}
           />
-          <p
-            style={{ marginTop: "20px", fontSize: "16px", fontWeight: "bold" }}
-          >
-            {" "}
-            FILTERS
-          </p>
           <select
             style={{
               marginTop: "10px",
@@ -227,6 +232,38 @@ function Event() {
             <option value="Fine Arts Building">Fine Arts Building</option>
           </select>
 
+          <p
+              style={{
+                color: "gray",
+                fontSize: "14px",
+                margin: "0",
+                fontWeight: "bold",
+                textAlign: "center",
+                marginBottom: "10px",
+              }}
+            >Enter start date</p>
+        <input
+          type="date"
+          value={filters.startDate}
+          onChange={(e) => handleFilterChange("startDate", e.target.value)}
+        />
+        
+        <p
+              style={{
+                color: "gray",
+                fontSize: "14px",
+                margin: "0",
+                fontWeight: "bold",
+                textAlign: "center",
+                marginBottom: "10px",
+              }}
+            >Enter end date</p>
+        <input
+          type="date"
+          value={filters.endDate}
+          onChange={(e) => handleFilterChange("endDate", e.target.value)}
+        />
+
 
           <div className="button-container">
           <button onClick={handleCreateEventClick} className="search-button">
@@ -279,7 +316,7 @@ function Event() {
               {event.event_description}
             </p>
             <p style={{ color: "gray", fontSize: "12px" }}>
-              Hosts: {event.event_host}
+              Hosted By: {event.event_host}
             </p>
             <p style={{ color: "gray", fontSize: "12px" }}>
               Location: {event.event_location}
