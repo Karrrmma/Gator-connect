@@ -1,6 +1,6 @@
 import { React } from 'react';
 
-function UserCard({ fullname, username, icon }) {
+function UserCard({ fullname, username, icon, userId, onUnfriend }) {
     return (
         <div className="friend-item">
             <div className="friend-container">
@@ -11,7 +11,7 @@ function UserCard({ fullname, username, icon }) {
                 </div>
             </div>
             <div className="friend-action">
-                <button className="unfriend">Unfriend</button>
+                <button className="unfriend" onClick={() => onUnfriend(userId)}>Unfriend</button>
             </div>
         </div>
     );

@@ -155,6 +155,14 @@ function Profile() {
     }
   };
 
+  // when unfriend happens in friend list popup, update the friend_count immediately
+  const handleFriendCountChange = () => {
+    setUser(prevState => ({
+      ...prevState,
+      friend_count: prevState.friend_count > 0 ? prevState.friend_count - 1 : 0
+    }));
+  };
+
   // Sort posts by 'post_time' in descending order before rendering
   const sortedPosts = user.posts.sort(
     (a, b) => new Date(b.post_time) - new Date(a.post_time)
@@ -242,7 +250,7 @@ function Profile() {
         </div>
 
         {showFriendsList && (
-          <FriendsListPopup onClose={handleFriendsListClick} />
+          <FriendsListPopup onClose={handleFriendsListClick} onFriendCountChange={handleFriendCountChange} />
         )}
         {showNewPost && (
           <NewPostPopup userId={user.user_id} onClose={handleNewPostClick} />
