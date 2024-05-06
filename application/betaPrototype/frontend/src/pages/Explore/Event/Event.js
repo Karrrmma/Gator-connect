@@ -116,6 +116,12 @@ function Event() {
     setShowForm(false);
   };
 
+  const isEventLapsed = (event_time) => { //if the event has lapsed, then it will display something different
+    const selectedDateTime = new Date(event_time).getTime();
+    const currentDateTime = Date.now();
+    return selectedDateTime <= currentDateTime;
+  };
+
   return (
     <div className="content-wrapper">
       <div className="search-wrapper">
@@ -283,7 +289,11 @@ function Event() {
             >
                Time: {formatDate(event.event_time)}
             </p>
+                  {isEventLapsed(event.event_time) ? (
+            <button className="route-button" disabled>Lapsed Event</button>
+          ) : (
             <button onClick={handleRSVPClick} className="route-button">Register</button>
+          )}
             </div>
           ))
         )}

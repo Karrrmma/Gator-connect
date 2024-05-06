@@ -83,48 +83,51 @@ function CreateEventForm({ onSubmit, onClose }) {
     <div className="popup">
       <div className="popup-inner">
         <h2>CREATE AN EVENT</h2>
-        <p>Fill out this information to start your own event!</p>
+        <p>Fill out this out to start your own event!</p>
 
         <form  className="form-box" onSubmit={handleSubmit}>
 
           <div className='create-event'>
-          <input type="text" placeholder='Enter your fullname' value={fullName} onChange={(e) => setFullName(e.target.value)} />
-          <input type="text" placeholder='Enter event title' value={eventTitle} onChange={(e) => setEventTitle(e.target.value)}/>
-          <input type="text" placeholder='Enter username' value={eventCreator} onChange={(e) => setEventCreator(e.target.value)}/>
-          <select value={eventType} onChange={(e) => setEventType(e.target.value)}>
-            <option value="">Select Event Type</option>
-            <option value="Art">Art</option>
-            <option value="Entertainment">Entertainment</option>
-            <option value="Cultural">Cultural</option>
-            <option value="Technology">Technology</option>
-            <option value="Wellness">Wellness</option>
-            <option value="Music">Music</option>
-            <option value="Sports">Sports</option>
-            <option value="Career">Career</option>
-          </select>
-          <textarea placeholder='Description...' value={description} onChange={(e) => setDescription(e.target.value)} maxLength={256} />
-         
-          <select value={hostedBy} onChange={(e) => setHostedBy(e.target.value)}>
-            <option value="">Select Hosts by</option>
-            <option value="Professor">Professor</option>
-            <option value="Student">Student</option>
-          </select>
+            <p style={{textAlign: "left", marginTop:"10px", color:"black"}}>Event Information</p>
+            <input type="text" placeholder='Enter event title' value={eventTitle} onChange={(e) => setEventTitle(e.target.value)}/>
+            <select value={eventType} onChange={(e) => setEventType(e.target.value)}>
+              <option value="">Select Event Type</option>
+              <option value="Art">Art</option>
+              <option value="Entertainment">Entertainment</option>
+              <option value="Cultural">Cultural</option>
+              <option value="Technology">Technology</option>
+              <option value="Wellness">Wellness</option>
+              <option value="Music">Music</option>
+              <option value="Sports">Sports</option>
+              <option value="Career">Career</option>
+            </select>
+            <textarea placeholder='Description...' value={description} onChange={(e) => setDescription(e.target.value)} maxLength={256} />
 
-          <select value={location} onChange={(e) => setLocation(e.target.value)}>
-            <option value="">Select Location</option>
-            <option value="Cesar Chavez Building">Cesar Chavez Building</option>
-            <option value="Quad">Quad</option>
-            <option value="Library">Library</option>
-            <option value="Student Center">Student Center</option>
-            <option value="Creative Arts Building">Creative Arts Building</option>
-            <option value="Business Building">Business Building</option>
-            <option value="Ethnic Studies and Psychology Building">Ethnic Studies and Psychology Building</option>
-            <option value="Hensill Hall">Hensill Hall</option>
-            <option value="Burk Hall">Burk Hall</option>
-            <option value="Fine Arts Building">Fine Arts Building</option>
-          </select>
+            <select value={location} onChange={(e) => setLocation(e.target.value)}>
+              <option value="">Select Location</option>
+              <option value="Cesar Chavez Building">Cesar Chavez Building</option>
+              <option value="Quad">Quad</option>
+              <option value="Library">Library</option>
+              <option value="Student Center">Student Center</option>
+              <option value="Creative Arts Building">Creative Arts Building</option>
+              <option value="Business Building">Business Building</option>
+              <option value="Ethnic Studies and Psychology Building">Ethnic Studies and Psychology Building</option>
+              <option value="Hensill Hall">Hensill Hall</option>
+              <option value="Burk Hall">Burk Hall</option>
+              <option value="Fine Arts Building">Fine Arts Building</option>
+            </select>
 
-          <input type="datetime-local" placeholder='Date & Time' value={dateTime} onChange={(e) => setDateTime(e.target.value)} />
+            <input type="datetime-local" placeholder='Date & Time' value={dateTime} onChange={(e) => setDateTime(e.target.value)} />
+
+            <p style={{textAlign: "left", marginTop:"10px", color:"black"}}>Your Information</p>
+            <input type="text" placeholder='Enter your fullname' value={fullName} onChange={(e) => setFullName(e.target.value)} />
+            <input type="text" placeholder='Enter your username' value={eventCreator} onChange={(e) => setEventCreator(e.target.value)}/>
+            <select value={hostedBy} onChange={(e) => setHostedBy(e.target.value)}>
+              <option value="">Select your title</option>
+              <option value="Professor">Professor</option>
+              <option value="Student">Student</option>
+            </select>
+
           </div>
           
           <div className='create-event-btn'>
