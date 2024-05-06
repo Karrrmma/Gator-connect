@@ -804,6 +804,28 @@ router.delete("/api/friends/decline/:id", (req, res) => {
   });
 });
 
+// Unfriend
+router.delete("/api/friends/unfriend", (req, res) => {
+  const { requester_id, receiver_id } = req.body;
+
+  const unfriendQuery = `
+    DELETE FROM Friend_Request
+    WHERE ((requester_id = ? AND receiver_id = ?) OR (requester_id = ? AND receiver_id = ?))
+    AND status = 'accepted'
+  `;
+
+  connection.query(unfriendQuery, [requester_id, receiver_id, receiver_id, requester_id], (err, result) => {
+    if (err) {
+      console.error("SQL Error:", err);
+      return res.status(500).send({ message: "Database error", error: err.message });
+    }
+    if (result.affectedRows === 0) {
+      return res.status(404).send({ message: "Friendship not found." });
+    }
+    res.send({ message: "Friendship ended." });
+  });
+});
+
 router.get("/api/isFriend", (req, res) => {
   const { requester_id, receiver_id } = req.query;
 

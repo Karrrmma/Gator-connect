@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { getCurrentUserId } from "../../utils/decodeData";
 import { queryData } from "../../utils/queryUser";
 import "./Profile.css";
-import { useParams, Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import PostCard from "../../components/PostCard";
 import FriendsListPopup from "./FriendsListPopup";
 import NewPostPopup from "./NewPostPopup";
@@ -129,12 +129,36 @@ function Profile() {
 
   };
 
+  const handleUnfriendClick = async () => {
+    try {
+      const response = await fetch("/api/friends/unfriend", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          requester_id: getCurrentUserId(),
+          receiver_id: userId,
+        }),
+      });
+      const data = await response.json();
+      if (response.ok) {
+        alert("You are no longer friends.");
+        setUser(prevState => ({
+          ...prevState,
+          isFriend: false,
+          friend_count: prevState.friend_count > 0 ? prevState.friend_count - 1 : 0
+        }));
+      } else {
+        alert(data.message || "Failed to end friendship.");
+      }
+    } catch (error) {
+      console.error("Error unfriending:", error);
+    }
+  };
+
   // Sort posts by 'post_time' in descending order before rendering
   const sortedPosts = user.posts.sort(
     (a, b) => new Date(b.post_time) - new Date(a.post_time)
   );
-
-  const nameLink = user.fullname.trim().replace(/\s/g, '%20');
 
   return (
     <>
@@ -200,10 +224,8 @@ function Profile() {
             user.isFriend ? (
               <>
                 {/* Buttons for "Unfriend" and "Chat" when the profile is of a friend */}
-                <button className="profile-button">UNFRIEND</button>
-                <Link to={`/chatWindow/${nameLink}`}>
-                  <button className="profile-button">CHAT</button>
-                </Link>
+                <button className="profile-button" onClick={handleUnfriendClick}>UNFRIEND</button>
+                <button className="profile-button">CHAT</button>
               </>
             ) : (
               // Button to send a friend request if not friends
