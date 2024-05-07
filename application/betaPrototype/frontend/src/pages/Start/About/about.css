@@ -1,0 +1,13 @@
+.names-wrapper {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.names-wrapper p {
+    margin-right: 20px;
+}
+
+.about-wrapper {
+    width: 80%;
+}

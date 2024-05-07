@@ -6,6 +6,7 @@ import { MAJORS } from '../../../constants/majors';
 import { YEARS } from '../../../constants/years';
 import gatorLogo from '../../../assets/images/gator_logo_happy.PNG';
 import PropTypes from 'prop-types';
+import { registerUser } from '../../../services/authentication/authService';
 
 // TODO: STILL NEED TO COMPLETELY IMPLEMENT THIS PAGE
 function Register({setToken}) {
@@ -65,22 +66,24 @@ function Register({setToken}) {
         // if no errors, send requests to backend
         if (Object.keys(err).length === 0) {
             try {
-                const res = await fetch('/register', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(values),
-                });
-        
-                if (!res.ok) {
-                    const errorData = await res.json();
-                    setErrors({...err, backend: 'Email is already in use. Please use another one.'});
-                    throw new Error(errorData.error);
-                }
+                // const res = await fetch('/register', {
+                //     method: 'POST',
+                //     headers: {
+                //         'Content-Type': 'application/json',
+                //     },
+                //     body: JSON.stringify(values),
+                // });
 
-                const data = await res.json();
-                setToken(data);
+                await registerUser(values);
+        
+                // if (!res.ok) {
+                //     const errorData = await res.json();
+                //     setErrors({...err, backend: 'Email is already in use. Please use another one.'});
+                //     throw new Error(errorData.error);
+                // }
+
+                // const data = await res.json();
+                // setToken(data);
         
                 console.log('User registered successfully');
                 navigate('/login');  // Navigate to login page after successful registration
@@ -105,6 +108,7 @@ function Register({setToken}) {
 
             } catch (error) {
                 console.log(error);
+                setErrors({...err, backend: 'Email is already in use. Please use another one.'});
             }
         }
     }
@@ -131,6 +135,7 @@ function Register({setToken}) {
                                 <input name="password" type="password" className="input-field" placeholder="Password" />
                                 <span className='text-danger'> {errors.password || '\u00A0'}</span>
                                 <p className='text-muted text-left'>*Password must contain at least 8 characters and a number</p>
+                                <span className='text-danger justify-content-center'> {errors.backend || '\u00A0'}</span>
                             </div>
                             <div className='form-column'>
                                 <input name="fullname" type="text" className="input-field" placeholder="Full Name" />

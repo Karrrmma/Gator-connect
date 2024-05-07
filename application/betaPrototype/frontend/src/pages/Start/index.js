@@ -9,12 +9,9 @@ import THUMBNAIL3 from '../../assets/images/thumbnail3.png';
 import THUMBNAIL4 from '../../assets/images/thumbnail4.png';
 import THUMBNAIL5 from '../../assets/images/thumbnail5.png';
 import './start.css';
+import { AiFillInstagram, AiFillFacebook, AiFillTwitterSquare } from "react-icons/ai";
 
 function Start() {
-    // const previews = [preview1, preview2, preview3, preview4, preview5];
-    // i have no clue how to implement this properly, with sliding transitions
-    // sample images for now!
-    // const previews = [LOGO, LOGO2, LOGO, LOGO2, LOGO];
     const previews = [THUMBNAIL1, THUMBNAIL2, THUMBNAIL3, THUMBNAIL4, THUMBNAIL5];
     const [currentPreview, setCurrentPreview] = useState(previews[0]);
     const [highlightedButtonIndex, setHighlightedButtonIndex] = useState(0);
@@ -27,7 +24,7 @@ function Start() {
 
             // Update the highlighted button index
             setHighlightedButtonIndex(nextIndex);
-        }, 7000); // Change image every 7 seconds
+        }, 20000); // Change image every 20 seconds
 
         // Clean up interval on component unmount
         return () => clearInterval(interval);
@@ -48,11 +45,6 @@ function Start() {
         color: 'black',
     };
 
-    // useEffect(() => {
-    //     // Update current preview when index changes
-    //     setCurrentPreview(previews[index]);
-    // }, [index, previews]);
-
     return (
         <div className="start-page">
             <div className="header-section">
@@ -72,8 +64,6 @@ function Start() {
                         </Link>
                     </div>
                 </div>
-                {/* <div className="preview-wrapper" style={{ backgroundImage: `url(${currentPreview})`, backgroundSize: 'contain', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', transform: transitioning ? 'translateX(-100%)' : 'translateX(0)' }}></div> */}
-                {/* <div className="preview-next" style={{ backgroundImage: `url(${nextPreview})`, backgroundSize: 'contain', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', transform: transitioning ? 'translateX(0)' : 'translateX(100%)' }}></div> */}
                 <div className="preview" style={{ backgroundImage: `url(${currentPreview})`, backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }}></div>
             </div>
             <div className="content-section">
@@ -92,8 +82,18 @@ function Start() {
                                 REGISTER NOW
                             </button>
                         </Link>
-
-                        {/* <h3 style={{ color: 'green', marginBottom: '0px' }}>join</h3> */}
+                        <div className='below'>
+                            <div className='social-media-links'>
+                                <Link to='/about'>
+                                    <button className='about-button'>
+                                        ABOUT
+                                    </button>
+                                </Link>
+                                <Link to='https://www.facebook.com'><AiFillInstagram /></Link>
+                                <Link to='https://www.twitter.com'><AiFillTwitterSquare /></Link>
+                                <Link to='https://www.instagram.com'><AiFillFacebook /></Link>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
