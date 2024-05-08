@@ -56,6 +56,7 @@ router.post("/register", validateRegister, (req, res) => {
   const userQuery = "INSERT INTO User (full_name, sfsu_email) VALUES (?, ?)";
   const accountQuery =
     "INSERT INTO Account(username, password, created_time, user_id) VALUES(?, ?, DATE_SUB(NOW(), INTERVAL 7 HOUR), ?)";
+  const profileQuery = "INSERT INTO Profile (biography, avatar, account_id) VALUES (NULL, NULL, ?)";
   connection.query(userQuery, [fullname, sfsu_email], (userErr, userResult) => {
     if (userErr) {
       console.error("Error inserting user:", userErr);
@@ -71,6 +72,15 @@ router.post("/register", validateRegister, (req, res) => {
           return res.status(500).json({ error: "Failed to insert account" });
         }
 
+        connection.query(
+          profileQuery,
+          [accountResult.insertId],
+          (profileErr, profileResult) => {
+            if (profileErr) {
+              console.error("Error inserting profile:", profileErr);
+              return res.status(500).json({ error: "Failed to insert profile" });
+            }
+          })
         // Conditionally handle the role of the user
         // when user == student
         if (role === "Student") {
@@ -307,7 +317,7 @@ router.post("/api/chat/sendPublicMessage", (req, res) => {
   const date = new Date();
 
 
-  const insertMessageInformation = `INSERT INTO Message (message_time, message_content, message_type, sender_id) VALUES (?, ?, ?, ?)`;
+  const insertMessageInformation = `INSERT INTO Public_Message (message_time, message_content, message_type, sender_id) VALUES (?, ?, ?, ?)`;
 
   connection.query(insertMessageInformation,[date, message_content, message_type, sender_id],(insertErr, insertResult) => {
       if (insertErr) {
@@ -329,7 +339,7 @@ router.post("/api/chat/sendPublicMessage", (req, res) => {
 //------Fetch public Messages----//
 router.get("/api/chat/getPublicMessages/:message_type", (req, res) => {
   const {message_type} = req.params;
-  const getPublicMessages = `SELECT * FROM Message WHERE message_type = ?`;
+  const getPublicMessages = `SELECT * FROM Public_Message WHERE message_type = ?`;
 
   connection.query(getPublicMessages, [message_type], async(err, results) => {
     if(err){
