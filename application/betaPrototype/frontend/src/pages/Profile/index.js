@@ -182,6 +182,7 @@ function Profile() {
             }}
           >
             🚗
+            <div className="edit-profile-message">Edit Profile</div>
           </div>
 
           {/* DONE */}
