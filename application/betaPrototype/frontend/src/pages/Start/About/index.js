@@ -1,5 +1,5 @@
 import React from 'react';
-import Gator from '../../../assets/images/gator.png';
+import Gator from '../../../assets/images/About.jpg';
 import { Link } from 'react-router-dom';
 import './about.css';
 
@@ -11,7 +11,7 @@ function About() {
                     <div className='back-text'><u>back home</u></div>
                 </Link>
                 <h1 className='mb-3'>About Us</h1>
-                <img src={Gator}></img> {/* This is formatted for a group picture right now, change later as needed */}
+                <img src={Gator} style ={{width: '500px', height: '400px'}}></img> {/* This is formatted for a group picture right now, change later as needed */}
                 <div className='names-wrapper'>
                     <p>Name 1: Hoang-Anh Tran</p>
                     <p>Name 2: Karma Gyalpo</p>

@@ -1,6 +1,5 @@
+
 import React, { useState, useEffect } from "react";
-// import { Link } from 'react-router-dom';
-// import TestPFP from '../../assets/images/placeholder_pfp.png';
 import { getCurrentUserId } from "../../utils/decodeData";
 import { queryData } from "../../utils/queryUser";
 import "./Profile.css";
@@ -10,7 +9,6 @@ import FriendsListPopup from "./FriendsListPopup";
 import NewPostPopup from "./NewPostPopup";
 
 function Profile() {
-  // get current URL
   const { userId } = useParams();
   const [user, setUser] = useState({
     major: "",
