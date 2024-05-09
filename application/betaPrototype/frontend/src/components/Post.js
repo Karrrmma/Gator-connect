@@ -257,7 +257,13 @@ function PostCard({ item, icon }) {
   );
 }
 
-function UserCard({ username, major, icon }) {
+function UserCard({ username, major, icon, userId }) {
+
+  const navigate = useNavigate();
+
+  const navigateToUserProfile = () => {
+    navigate(`/profile/${userId}`);
+  };
   return (
     <div className="card" style={{ marginBottom: "30px" }}>
       <div className="card-body">
@@ -266,7 +272,7 @@ function UserCard({ username, major, icon }) {
           {/* <div className="avatar">🐊</div> */}
           {/* <div className="avatar">{icon}</div> */}
           <div className="text-left">
-            <h5 className="card-title ml-2 mb-0" >{username}</h5>
+            <h5 className="card-title ml-2 mb-0" onClick={navigateToUserProfile} >{username}</h5>
             <div className="text-muted small ml-2 mt-0 major">{major}</div>
           </div>
         </div>
@@ -351,6 +357,7 @@ function Post() {
                     username={item.username}
                     major={item.major}
                     icon={item.icon}
+                    userId={item.user_id}
                   />
                 );
               }
