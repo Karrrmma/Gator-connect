@@ -66,24 +66,7 @@ function Register({setToken}) {
         // if no errors, send requests to backend
         if (Object.keys(err).length === 0) {
             try {
-                // const res = await fetch('/register', {
-                //     method: 'POST',
-                //     headers: {
-                //         'Content-Type': 'application/json',
-                //     },
-                //     body: JSON.stringify(values),
-                // });
-
                 await registerUser(values);
-        
-                // if (!res.ok) {
-                //     const errorData = await res.json();
-                //     setErrors({...err, backend: 'Email is already in use. Please use another one.'});
-                //     throw new Error(errorData.error);
-                // }
-
-                // const data = await res.json();
-                // setToken(data);
         
                 console.log('User registered successfully');
                 navigate('/login');  // Navigate to login page after successful registration
