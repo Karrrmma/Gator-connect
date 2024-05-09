@@ -266,7 +266,7 @@ function UserCard({ username, major, icon }) {
           {/* <div className="avatar">🐊</div> */}
           {/* <div className="avatar">{icon}</div> */}
           <div className="text-left">
-            <h5 className="card-title ml-2 mb-0">{username}</h5>
+            <h5 className="card-title ml-2 mb-0" >{username}</h5>
             <div className="text-muted small ml-2 mt-0 major">{major}</div>
           </div>
         </div>

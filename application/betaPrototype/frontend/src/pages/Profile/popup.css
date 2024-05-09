@@ -1,4 +1,4 @@
-.friend-list-popup {
+.friend-list-popup, .profile-edit-popup {
     position: fixed;
     top: 45%;
     left: 50%;
@@ -115,7 +115,7 @@ input.friend-search::placeholder {
     color: #656565;
 }
 
-.post-input {
+.post-input, .profile-input {
     background-color: #000;
     border-radius: 10px;
     color: #fff;
@@ -241,3 +241,4 @@ input.friend-search::placeholder {
     color: red;
     border: 1px solid red;
   }
+

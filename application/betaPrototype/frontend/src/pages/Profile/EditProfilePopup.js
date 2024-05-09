@@ -1,55 +1,51 @@
 import React, { useState, useEffect } from 'react';
 
-function NewPostPopup({ userId, onClose }) {
-    const [post, setPost] = useState('');
+function EditProfilePopup({ userId, onClose, updateBiography }) {
+    const [profileInfo, setProfileInfo] = useState('');
     const [confirmation, setConfirmation] = useState('');
     const [showPopup, setShowPopup] = useState(false);
 
     useEffect(() => {
-        // Automatically show the popup when the component mounts
         setShowPopup(true);
     }, []);
 
     const handleClose = () => {
         setShowPopup(false);
-        setConfirmation('');
+        setConfirmation(''); 
         if (onClose) {
             onClose();
         }
     };
 
-    const handleSubmit = async (postData) => {
+    const handleSubmit = async (e) => {
+        e.preventDefault();
         try {
-            const response = await fetch('/newpost', {
+            const response = await fetch('/editprofile', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ post_content: post, user_id: userId }),
+                body: JSON.stringify({ biography: profileInfo, account_id: userId }),
             });
 
             const data = await response.json();
             if (response.ok) {
-                setConfirmation(data.message || 'New post has been successfully created!');
-                setPost('');  // Reset the post content after successful post creation.
-                setTimeout(handleClose, 2000);  // Optionally close popup automatically after a delay.
+                setConfirmation(data.message || 'Profile updated successfully!');
+                updateBiography(profileInfo); 
+                setTimeout(handleClose, 2000);
             } else {
-                setConfirmation(data.error || 'Failed to create new post.');
+                setConfirmation(data.error || 'Failed to update profile.');
             }
         } catch (error) {
-            console.error('Failed to create post:', error);
+            console.error('Failed to update profile:', error);
             setConfirmation('Failed to send request.');
         }
     };
 
-    if (!userId) {
-        return <div>No user ID provided.</div>;
-    }
-
     return (
         <>
             {showPopup && (
-                <div className="friend-list-popup">
+                <div className="profile-edit-popup">
                     <div className="popup-inner">
                         {confirmation ? (
                             <>
@@ -58,12 +54,12 @@ function NewPostPopup({ userId, onClose }) {
                             </>
                         ) : (
                             <>
-                                <h2>Add New Post</h2>
+                                <h2>Edit Your Profile</h2>
                                 <form onSubmit={handleSubmit}>
-                                    <textarea className="post-input" value={post} onChange={(e) => setPost(e.target.value)} placeholder="Enter your content here" />
+                                    <textarea className="profile-input" value={profileInfo} onChange={(e) => setProfileInfo(e.target.value)} placeholder="Update your biography here" />
                                     <div className="button-group">
                                         <button className="cancel-button" type="button" onClick={handleClose}>Cancel</button>
-                                        <button className="post-button" type="submit">Post</button>
+                                        <button className="post-button" type="submit">Update</button>
                                     </div>
                                 </form>
                             </>
@@ -75,6 +71,4 @@ function NewPostPopup({ userId, onClose }) {
     );
 }
 
-export default NewPostPopup;
-
-
+export default EditProfilePopup;

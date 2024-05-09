@@ -238,6 +238,28 @@ router.post("/reset-password", async (req, res) => {
 });
 
 // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  
+// Edit profile, especially for biography
+router.post('/editprofile', (req, res) => {
+  const { account_id, biography } = req.body;
+
+  const profileQuery = 'UPDATE Profile SET biography = ? WHERE account_id = ?';
+
+  connection.query(profileQuery, [biography, account_id], (error, results) => {
+    if (error) {
+      console.error('Database error:', error);
+      return res.status(500).send({ error: 'Internal server error' });
+    }
+
+    if (results.affectedRows === 0) {
+      return res.status(404).send({ error: 'Account not found' });
+    }
+
+    res.send({ message: 'Profile updated successfully' });
+  });
+});
+
+
+// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  
 // Add New Post
 
 router.post("/newpost", (req, res) => {
@@ -416,6 +438,7 @@ router.get("/api/user/:user_id", (req, res) => {
     Student.major AS major,
     Student.year AS year,
     Professor.department AS department,
+    Profile.biography,
     CASE 
       WHEN Student.user_id IS NOT NULL THEN 'Student'
       WHEN Professor.user_id IS NOT NULL THEN 'Professor'
@@ -428,6 +451,7 @@ router.get("/api/user/:user_id", (req, res) => {
     LEFT JOIN Student ON User.user_id = Student.user_id
     LEFT JOIN Professor ON User.user_id = Professor.user_id
     LEFT JOIN Account ON User.user_id = Account.user_id
+    LEFT JOIN Profile ON Account.account_id = Profile.account_id
     WHERE User.user_id = ?
     GROUP BY User.user_id;`;
 
