@@ -57,6 +57,7 @@ router.post("/register", validateRegister, (req, res) => {
   const userQuery = "INSERT INTO User (full_name, sfsu_email) VALUES (?, ?)";
   const accountQuery =
     "INSERT INTO Account(username, password, created_time, user_id) VALUES(?, ?, DATE_SUB(NOW(), INTERVAL 7 HOUR), ?)";
+  const profileQuery = "INSERT INTO Profile (biography, avatar, account_id) VALUES (NULL, NULL, ?)";
   connection.query(userQuery, [fullname, sfsu_email], (userErr, userResult) => {
     if (userErr) {
       console.error("Error inserting user:", userErr);
@@ -72,6 +73,15 @@ router.post("/register", validateRegister, (req, res) => {
           return res.status(500).json({ error: "Failed to insert account" });
         }
 
+        connection.query(
+          profileQuery,
+          [accountResult.insertId],
+          (profileErr, profileResult) => {
+            if (profileErr) {
+              console.error("Error inserting profile:", profileErr);
+              return res.status(500).json({ error: "Failed to insert profile" });
+            }
+          })
         // Conditionally handle the role of the user
         // when user == student
         if (role === "Student") {
@@ -232,6 +242,28 @@ router.post("/reset-password", async (req, res) => {
 */
 
 // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  
+// Edit profile, especially for biography
+router.post('/editprofile', (req, res) => {
+  const { account_id, biography } = req.body;
+
+  const profileQuery = 'UPDATE Profile SET biography = ? WHERE account_id = ?';
+
+  connection.query(profileQuery, [biography, account_id], (error, results) => {
+    if (error) {
+      console.error('Database error:', error);
+      return res.status(500).send({ error: 'Internal server error' });
+    }
+
+    if (results.affectedRows === 0) {
+      return res.status(404).send({ error: 'Account not found' });
+    }
+
+    res.send({ message: 'Profile updated successfully' });
+  });
+});
+
+
+// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  
 // Add New Post
 
 /*
@@ -314,7 +346,7 @@ router.post("/api/chat/sendPublicMessage", (req, res) => {
   const date = new Date();
 
 
-  const insertMessageInformation = `INSERT INTO Message (message_time, message_content, message_type, sender_id) VALUES (?, ?, ?, ?)`;
+  const insertMessageInformation = `INSERT INTO Public_Message (message_time, message_content, message_type, sender_id) VALUES (?, ?, ?, ?)`;
 
   connection.query(insertMessageInformation,[date, message_content, message_type, sender_id],(insertErr, insertResult) => {
       if (insertErr) {
@@ -337,7 +369,7 @@ router.post("/api/chat/sendPublicMessage", (req, res) => {
 //------Fetch public Messages----//
 router.get("/api/chat/getPublicMessages/:message_type", (req, res) => {
   const {message_type} = req.params;
-  const getPublicMessages = `SELECT * FROM Message WHERE message_type = ?`;
+  const getPublicMessages = `SELECT * FROM Public_Message WHERE message_type = ?`;
 
   connection.query(getPublicMessages, [message_type], async(err, results) => {
     if(err){
@@ -416,6 +448,7 @@ router.get("/api/user/:user_id", (req, res) => {
     Student.major AS major,
     Student.year AS year,
     Professor.department AS department,
+    Profile.biography,
     CASE 
       WHEN Student.user_id IS NOT NULL THEN 'Student'
       WHEN Professor.user_id IS NOT NULL THEN 'Professor'
@@ -428,6 +461,7 @@ router.get("/api/user/:user_id", (req, res) => {
     LEFT JOIN Student ON User.user_id = Student.user_id
     LEFT JOIN Professor ON User.user_id = Professor.user_id
     LEFT JOIN Account ON User.user_id = Account.user_id
+    LEFT JOIN Profile ON Account.account_id = Profile.account_id
     WHERE User.user_id = ?
     GROUP BY User.user_id;`;
 

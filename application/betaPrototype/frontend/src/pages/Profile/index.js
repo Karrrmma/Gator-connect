@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from "react";
-// import { Link } from 'react-router-dom';
-// import TestPFP from '../../assets/images/placeholder_pfp.png';
 import { getCurrentUserId } from "../../utils/decodeData";
 import { queryData } from "../../utils/queryUser";
 import "./Profile.css";
@@ -8,9 +6,9 @@ import { useParams } from "react-router-dom";
 import PostCard from "../../components/PostCard";
 import FriendsListPopup from "./FriendsListPopup";
 import NewPostPopup from "./NewPostPopup";
+import EditProfilePopup from "./EditProfilePopup";
 
 function Profile() {
-  // get current URL
   const { userId } = useParams();
   const [user, setUser] = useState({
     major: "",
@@ -21,13 +19,15 @@ function Profile() {
     fullname: "",
     bio: "",
     post_count: 0,
-    friend_count: 0, 
+    friend_count: 0,
     user_id: 0,
     posts: [],
+    biography: "",
   });
 
   const [showFriendsList, setShowFriendsList] = useState(false);
   const [showNewPost, setShowNewPost] = useState(false);
+  const [showEditProfile, setShowEditProfile] = useState(false);
 
   const handleFriendsListClick = () => {
     setShowFriendsList(!showFriendsList);
@@ -35,6 +35,10 @@ function Profile() {
 
   const handleNewPostClick = () => {
     setShowNewPost(!showNewPost);
+  };
+
+  const handleEditProfileClick = () => {
+    setShowEditProfile(!showEditProfile);
   };
 
   useEffect(() => {
@@ -55,6 +59,7 @@ function Profile() {
             year: userData.year,
             posts: userData.posts || [],
             isFriend: userData.isFriend,
+            biography: userData.biography,
           });
         }
         if (userId && userId !== getCurrentUserId()) {
@@ -108,8 +113,7 @@ function Profile() {
       } else {
         if (response.status === 409) {
           alert("Friend request already exists.");
-        } 
-        else {
+        } else {
           alert(data.message || "Failed to send friend request.");
         }
       }
@@ -126,7 +130,6 @@ function Profile() {
       console.log("Send Friend Request from: ", requesterId);
       console.log("Send Friend Request to: ", receiverId);
     }
-
   };
 
   const handleUnfriendClick = async () => {
@@ -142,10 +145,11 @@ function Profile() {
       const data = await response.json();
       if (response.ok) {
         alert("You are no longer friends.");
-        setUser(prevState => ({
+        setUser((prevState) => ({
           ...prevState,
           isFriend: false,
-          friend_count: prevState.friend_count > 0 ? prevState.friend_count - 1 : 0
+          friend_count:
+            prevState.friend_count > 0 ? prevState.friend_count - 1 : 0,
         }));
       } else {
         alert(data.message || "Failed to end friendship.");
@@ -157,9 +161,16 @@ function Profile() {
 
   // when unfriend happens in friend list popup, update the friend_count immediately
   const handleFriendCountChange = () => {
-    setUser(prevState => ({
+    setUser((prevState) => ({
       ...prevState,
-      friend_count: prevState.friend_count > 0 ? prevState.friend_count - 1 : 0
+      friend_count: prevState.friend_count > 0 ? prevState.friend_count - 1 : 0,
+    }));
+  };
+
+  const updateBiography = (newBio) => {
+    setUser((prevState) => ({
+      ...prevState,
+      biography: newBio,
     }));
   };
 
@@ -175,6 +186,7 @@ function Profile() {
         <div className="post-row">
           <div
             className="avatar"
+            onClick={handleEditProfileClick}
             style={{
               fontSize: "100px",
               // margin: "10px",
@@ -184,7 +196,17 @@ function Profile() {
             }}
           >
             🚗
+            <div className="edit-profile-message">Edit Profile</div>
           </div>
+
+          {showEditProfile && (
+            <EditProfilePopup
+              userId={user.user_id}
+              currentBiography={user.biography}
+              updateBiography={updateBiography}
+              onClose={handleEditProfileClick}
+            />
+          )}
 
           {/* DONE */}
           <div className="post-column">
@@ -200,18 +222,13 @@ function Profile() {
             </p>
             {/*user's year visible*/}
             <p className="profile-note mb-4">
-              {user.role === "Student"
-              ? "* School year: " + user.year
-              : ""}
+              {user.role === "Student" ? "* School year: " + user.year : ""}
             </p>
           </div>
         </div>
         {/* <p className='bio mb-4'>{user.bio}</p> Bio should be implemented when edit profile*/}
 
-        <p className="bio mb-4 mt-2">
-          Hello everyone! This is my profile where you can see <br></br> my
-          personal posts! I will update my bio later :)
-        </p>
+        <p className="bio mb-4 mt-2">{user.biography}</p>
 
         {/* POSTS DONE // FRIENDS: need to be implemented */}
         <p className="text-white mb-4 post">
@@ -232,7 +249,12 @@ function Profile() {
             user.isFriend ? (
               <>
                 {/* Buttons for "Unfriend" and "Chat" when the profile is of a friend */}
-                <button className="profile-button" onClick={handleUnfriendClick}>UNFRIEND</button>
+                <button
+                  className="profile-button"
+                  onClick={handleUnfriendClick}
+                >
+                  UNFRIEND
+                </button>
                 <button className="profile-button">CHAT</button>
               </>
             ) : (
@@ -250,7 +272,10 @@ function Profile() {
         </div>
 
         {showFriendsList && (
-          <FriendsListPopup onClose={handleFriendsListClick} onFriendCountChange={handleFriendCountChange} />
+          <FriendsListPopup
+            onClose={handleFriendsListClick}
+            onFriendCountChange={handleFriendCountChange}
+          />
         )}
         {showNewPost && (
           <NewPostPopup userId={user.user_id} onClose={handleNewPostClick} />

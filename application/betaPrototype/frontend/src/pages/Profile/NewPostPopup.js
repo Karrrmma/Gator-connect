@@ -14,7 +14,10 @@ function NewPostPopup({ userId, onClose }) {
 
         onClose();
         setShowPopup(false);
-        setConfirmation('');  // Reset confirmation message on close.
+        setConfirmation('');
+        if (onClose) {
+            onClose();
+        }
     };
 
     const handleSubmit = async (postData) => {

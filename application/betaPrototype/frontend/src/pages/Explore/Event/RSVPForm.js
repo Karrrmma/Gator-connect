@@ -9,6 +9,7 @@ function RSVPForm({ onSubmit, onClose }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     onSubmit({ name, email, acceptedTerms });
+    alert('You have successfully registered.');
     onClose();
   };
 

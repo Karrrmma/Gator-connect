@@ -9,17 +9,21 @@ function Event() {
 
   const [showForm, setShowForm] = useState(false);
 
-  const initialFilters = {
+  const initialFilters = { //items that will be filtered
     type: "",
     host: "",
+    location: "",
+    startDate: "",
+    endDate: "",
   };
+
   const [searchQuery, setSearchQuery] = useState("");
 
   const [filters, setFilters] = useState(initialFilters);
 
   const [showCreateEventForm, setShowCreateEventForm] = useState(false);
 
-  const [events, setEvents] = useState([]);
+  const [events, setEvents] = useState([]); 
 
   // Function to fetch events from backend
   const fetchEvents = async () => {
@@ -60,10 +64,13 @@ function Event() {
   const filteredEvents = events.filter((event) => {
     if (filters.type && event.event_type !== filters.type) return false;
     if (filters.host && event.event_host !== filters.host) return false;
+    if (filters.location && event.event_location != filters.location) return false;
+    if (filters.startDate && new Date(event.event_time) < new Date(filters.startDate)) return false;
+    if (filters.endDate && new Date(event.event_time) > new Date(filters.endDate)) return false;
     // Check if the event name contains the search query
     if (
       searchQuery &&
-      !event.name.toLowerCase().includes(searchQuery.toLowerCase())
+      !event.event_name.toLowerCase().includes(searchQuery.toLowerCase())
     )
       return false;
     return true;
@@ -114,6 +121,12 @@ function Event() {
     setShowForm(false);
   };
 
+  const isEventLapsed = (event_time) => { //if the event has lapsed, then it will display something different
+    const selectedDateTime = new Date(event_time).getTime();
+    const currentDateTime = Date.now();
+    return selectedDateTime <= currentDateTime;
+  };
+
   return (
     <div className="content-wrapper">
       <div className="search-wrapper">
@@ -137,10 +150,16 @@ function Event() {
           discover the wide array of opportunities to engage, learn, and connect. 
         </p>
 
-        <div className="search-container-te">
+        <div className="search-container-tee">
+        <p
+            style={{ marginTop: "20px", fontSize: "16px", fontWeight: "bold", marginBottom:"0px" }}
+          >
+            {" "}
+            SEARCH
+          </p>
           <input
             type="text"
-            placeholder="Search events by name..."
+            placeholder="Search by event name..."
             className="search-bar"
             style={{
               marginTop: "30px",
@@ -151,12 +170,6 @@ function Event() {
             value={searchQuery}
             onChange={handleSearchChange}
           />
-          <p
-            style={{ marginTop: "20px", fontSize: "16px", fontWeight: "bold" }}
-          >
-            {" "}
-            TYPE & CREATOR
-          </p>
           <select
             style={{
               marginTop: "10px",
@@ -187,13 +200,70 @@ function Event() {
               borderRadius: "50px",
               className: "select-options",
             }}
-            value={filters.creator}
+            value={filters.host}
             onChange={(e) => handleFilterChange("host", e.target.value)}
           >
             <option value="">Hosted by</option>
             <option value="Professor">professor</option>
             <option value="Student">student</option>
           </select>
+
+          <select
+            style={{
+              marginTop: "10px",
+              width: "300px",
+              height: "40px",
+              borderRadius: "50px",
+              className: "select-options",
+            }}
+            value={filters.location}
+            onChange={(e) => handleFilterChange("location", e.target.value)}
+          >
+            <option value="">Select Location</option>
+            <option value="Cesar Chavez Building">Cesar Chavez Building</option>
+            <option value="Quad">Quad</option>
+            <option value="Library">Library</option>
+            <option value="Student Center">Student Center</option>
+            <option value="Creative Arts Building">Creative Arts Building</option>
+            <option value="Business Building">Business Building</option>
+            <option value="Ethnic Studies and Psychology Building">Ethnic Studies and Psychology Building</option>
+            <option value="Hensill Hall">Hensill Hall</option>
+            <option value="Burk Hall">Burk Hall</option>
+            <option value="Fine Arts Building">Fine Arts Building</option>
+          </select>
+
+          <p
+              style={{
+                color: "gray",
+                fontSize: "14px",
+                margin: "0",
+                fontWeight: "bold",
+                textAlign: "center",
+                marginBottom: "10px",
+              }}
+            >Enter start date</p>
+        <input
+          type="date"
+          value={filters.startDate}
+          onChange={(e) => handleFilterChange("startDate", e.target.value)}
+        />
+        
+        <p
+              style={{
+                color: "gray",
+                fontSize: "14px",
+                margin: "0",
+                fontWeight: "bold",
+                textAlign: "center",
+                marginBottom: "10px",
+              }}
+            >Enter end date</p>
+        <input
+          type="date"
+          value={filters.endDate}
+          onChange={(e) => handleFilterChange("endDate", e.target.value)}
+        />
+
 
           <div className="button-container">
           <button onClick={handleCreateEventClick} className="search-button">
@@ -246,7 +316,7 @@ function Event() {
               {event.event_description}
             </p>
             <p style={{ color: "gray", fontSize: "12px" }}>
-              Hosts: {event.event_host}
+              Hosted By: {event.event_host}
             </p>
             <p style={{ color: "gray", fontSize: "12px" }}>
               Location: {event.event_location}
@@ -256,7 +326,11 @@ function Event() {
             >
                Time: {formatDate(event.event_time)}
             </p>
+                  {isEventLapsed(event.event_time) ? (
+            <button className="route-button" disabled>Lapsed Event</button>
+          ) : (
             <button onClick={handleRSVPClick} className="route-button">Register</button>
+          )}
             </div>
           ))
         )}

@@ -45,18 +45,21 @@ function Login({ setToken }) {
 
         try {
             // console.log('User:', user);
-            const response = await loginUser(user);
-            if(response.ok){
-                console.log('front end - login success');
-                const data = await response.json(); // resolve promise
-                setToken(data); // access the token property and set
-                return navigate('/home');
-            }
-            else{
-                setErrors({...errors, form:'Invalid username or password'});
-            }
+            const data = await loginUser(user);
+            setToken(data);
+            return navigate('/home');
+            // if(response.ok){
+            //     console.log('front end - login success');
+            //     const data = await response.json(); // resolve promise
+            //     setToken(data); // access the token property and set
+            //     return navigate('/home');
+            // }
+            // else{
+            //     setErrors({...errors, form:'Invalid username or password'});
+            // }
         } catch (error) {
             console.error('Error logging in, user does not exist?', error);
+            setErrors({...errors, form:'Invalid username or password'});
         }
     };
 

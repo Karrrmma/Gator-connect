@@ -76,6 +76,36 @@
     margin-top: 10px;
 }
 
+.about-button {
+    background-color: #60258f;
+    color: #ffffff;
+    border-radius: 20px;
+    height: 42px;
+    border: none;
+    cursor: pointer;
+    width: auto;
+    padding: 0px 30px;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.social-media-links {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0 5%;
+    padding-top: 20px;
+    font-size: 50px;
+    align-items: center;
+    color: #60258f;
+    margin-top: 10px;
+}
+
+.social-media-links a {
+    color: #60258f;
+    text-decoration: none;
+}
+
 .header-section {
     flex: 4;
     background-color: #D9D9D9;

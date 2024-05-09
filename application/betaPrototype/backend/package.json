@@ -6,8 +6,9 @@
   "scripts": {
     "server": "nodemon index.js",
     "client": "npm run start --prefix ../frontend",
+    "frontserve": "npm run serve --prefix ../frontend",
     "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\"",
-    "prod": "concurrently --kill-others-on-fail \"node index.js\" \"npm run client\""
+    "prod": "concurrently --kill-others-on-fail \"node index.js\" \"npm run frontserve\""
   },
   "keywords": [],
   "author": "",
@@ -25,6 +26,7 @@
     "body-parser": "^1.20.2",
     "bootstrap": "^5.3.3",
     "concurrently": "^8.2.2",
+    "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "i": "^0.3.7",
     "jsonwebtoken": "^9.0.2",
