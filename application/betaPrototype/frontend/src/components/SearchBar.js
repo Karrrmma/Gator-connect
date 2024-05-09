@@ -3,6 +3,7 @@ import { FaSearch } from "react-icons/fa";
 import './SearchBar.css';
 import { MAJORS } from '../constants/majors';
 import { YEARS } from '../constants/years';
+import NewPostPopup from '../pages/Profile/NewPostPopup';
 
 const SearchBar = ({ onSearch }) => {
     // const [searchTerm, setSearchTerm] = useState('');
@@ -49,6 +50,7 @@ const SearchBar = ({ onSearch }) => {
             <p className='guide'>
                 {submitted ? '\u00A0' : 'SCROLL DOWN TO EXPLORE MORE POSTS FROM EVERYONE'}
             </p>
+            
         </div>
 
     );

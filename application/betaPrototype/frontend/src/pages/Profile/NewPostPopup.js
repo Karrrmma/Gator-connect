@@ -11,6 +11,8 @@ function NewPostPopup({ userId, onClose }) {
     }, []);
 
     const handleClose = () => {
+
+        onClose();
         setShowPopup(false);
         setConfirmation('');
         if (onClose) {
@@ -19,6 +21,10 @@ function NewPostPopup({ userId, onClose }) {
     };
 
     const handleSubmit = async (postData) => {
+        postData.preventDefault();
+        
+
+        
         try {
             const response = await fetch('/newpost', {
                 method: 'POST',
@@ -29,6 +35,7 @@ function NewPostPopup({ userId, onClose }) {
             });
 
             const data = await response.json();
+
             if (response.ok) {
                 setConfirmation(data.message || 'New post has been successfully created!');
                 setPost('');  // Reset the post content after successful post creation.

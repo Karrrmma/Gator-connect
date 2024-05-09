@@ -5,6 +5,7 @@ import './Notification.css';
 import { getCurrentUserId } from "../utils/decodeData";
 import { useNavigate } from 'react-router-dom';
 
+
 function NotificationItem({ notification, onAccept, onDecline }) {
     // Replace with actual action handlers
     //const handleAccept = () => console.log('Accepted');

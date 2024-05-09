@@ -31,7 +31,7 @@ function ForgotPassword() {
         }
 
         try {
-            const response = await fetch('/reset-password', {
+            const response = await fetch('reset-password', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

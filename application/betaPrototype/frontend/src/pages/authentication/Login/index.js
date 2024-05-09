@@ -5,17 +5,16 @@ import validateLoginFields from '../validateLoginFields';
 // import { useForm } from '../../../hooks/useForm';
 import '../auth.css';
 import gatorLogo from '../../../assets/images/gator_logo.PNG';
-import { loginUser } from '../../../services/authentication/authService';
 
-// async function loginUser(fields) {
-//     return fetch('/login', {
-//         method: 'POST',
-//         headers: {
-//             'Content-Type': 'application/json',
-//         },
-//         body: JSON.stringify( fields ),
-//     })
-// }
+async function loginUser(fields) {
+    return fetch('login', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify( fields ),
+    })
+}
 
 function Login({ setToken }) {
     const navigate = useNavigate();
