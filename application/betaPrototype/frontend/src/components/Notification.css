@@ -110,3 +110,6 @@
 .notification-section .back-home:hover{
     background-color: #AD45FF;
 }
+.notification-icon {
+    color: red; /* Set the color to red */
+}

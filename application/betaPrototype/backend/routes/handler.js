@@ -4,7 +4,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const mysql = require("mysql");
 router.use(express.json());
-// const pool = require('../config/db.js');
+ const pool = require('../config/db.js');
 
 // @@@ Need to install CORS if we have our database in a diff link @@@
 
@@ -25,6 +25,7 @@ connection.connect((err) => {
   console.log("Connected to database");
 });
 
+/*
 // Server-side Register validation
 function validateRegister(req, res, next) {
   const { fullname, sfsu_email, username, password, major, year } = req.body;
@@ -169,9 +170,11 @@ router.post("/login", (req, res) => {
     }
   });
 });
+*/
 
 // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  
 // Reset Password
+/*
 router.post("/reset-password", async (req, res) => {
   const { username, email, newPassword } = req.body;
 
@@ -226,9 +229,12 @@ router.post("/reset-password", async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 });
+*/
 
 // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  
 // Add New Post
+
+/*
 
 router.post("/newpost", (req, res) => {
   console.log("Received post data:", req.body);
@@ -276,6 +282,7 @@ router.post("/newpost", (req, res) => {
   });
 });
 
+
 // GET all posts
 router.get("/posts", async (req, res) => {
   // Modify the query to retrieve post components and full_name from User table
@@ -296,8 +303,8 @@ router.get("/posts", async (req, res) => {
     }
   });
 });
-
-
+*/
+/*
 // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 
 // @@@@@ CHAT
 
@@ -324,6 +331,7 @@ router.post("/api/chat/sendPublicMessage", (req, res) => {
     }
   );
 });
+
 
 
 //------Fetch public Messages----//
@@ -354,8 +362,8 @@ router.get("/api/chat/getPublicMessages/:message_type", (req, res) => {
   })
 })
 
-
-
+*/
+/*
 // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  
 //  SEARCH QUERY
 router.post("/search", (req, res) => {
@@ -391,7 +399,9 @@ router.post("/search", (req, res) => {
     res.json({ results });
   });
 });
+*/
 
+/*
 // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  
 // Profile  DETAIL
 router.get("/api/user/:user_id", (req, res) => {
@@ -445,7 +455,10 @@ router.get("/api/user/:user_id", (req, res) => {
 
   });
 });
+*/
 
+
+/*
 // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  
 // Like
 // Add a like to the database and increment the num_likes in Post table
@@ -872,7 +885,7 @@ router.get("/api/isFriend", (req, res) => {
       const isFriend = results.length > 0;
       res.send({ isFriend });
   });
-});
+});*/
 
 // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  
 // VENDOR DETAIL

@@ -7,7 +7,7 @@ import '../auth.css';
 import gatorLogo from '../../../assets/images/gator_logo.PNG';
 
 async function loginUser(fields) {
-    return fetch('/login', {
+    return fetch('login', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

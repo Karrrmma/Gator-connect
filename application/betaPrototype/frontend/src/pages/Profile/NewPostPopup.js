@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-function NewPostPopup({ userId }) {
+function NewPostPopup({ userId, onClose }) {
     const [post, setPost] = useState('');
     const [confirmation, setConfirmation] = useState('');
     const [showPopup, setShowPopup] = useState(false);
@@ -11,11 +11,17 @@ function NewPostPopup({ userId }) {
     }, []);
 
     const handleClose = () => {
+
+        onClose();
         setShowPopup(false);
         setConfirmation('');  // Reset confirmation message on close.
     };
 
     const handleSubmit = async (postData) => {
+        postData.preventDefault();
+        
+
+        
         try {
             const response = await fetch('/newpost', {
                 method: 'POST',
@@ -26,6 +32,7 @@ function NewPostPopup({ userId }) {
             });
 
             const data = await response.json();
+
             if (response.ok) {
                 setConfirmation(data.message || 'New post has been successfully created!');
                 setPost('');  // Reset the post content after successful post creation.

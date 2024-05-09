@@ -4,6 +4,8 @@ import SearchBar from "./SearchBar";
 import "./Post.css";
 import { getCurrentUserId } from "../utils/decodeData";
 import { useNavigate } from "react-router-dom";
+import NewPostPopup from '../pages/Profile/NewPostPopup';
+
 
 // import {Link} from 'react-router-dom';
 // import App from './../App';
@@ -279,10 +281,15 @@ function Post() {
   const [items, setItems] = useState([]);
   const [searchQuery, setSearchQuery] = useState({});
   const [noUsersFound, setNoUsersFound] = useState(false);
-
+  const[showNewPost, setShowNewPost] = useState(false);
   useEffect(() => {
     fetchAllPosts(); // This should only fetch all posts, not interfere with search
   }, []); // Empty dependency array ensures this only runs once on mount
+
+  const userId = getCurrentUserId();
+  const handleNewPostClick = () => {
+    setShowNewPost(!showNewPost);
+  };
 
   useEffect(() => {
     if (Object.keys(searchQuery).length > 0) {
@@ -339,6 +346,8 @@ function Post() {
   return (
     <>
       <SearchBar onSearch={setSearchQuery} />
+      <button className="btn btn-primary" onClick={()=> setShowNewPost(true)}> CLICK HERE TO ADD A NEW POST</button>
+      {showNewPost && <NewPostPopup userId={userId}onClose={handleNewPostClick}/>}
       {Object.values(searchQuery).some((value) => value) ? (
         <>
           {noUsersFound ? <p>No users found.</p> : null}

@@ -1,12 +1,42 @@
-import React from 'react';
+import React ,{useState, useEffect} from 'react';
 import { NavLink } from 'react-router-dom';
 // import { NavLink } from 'react-router-dom';
 import { FaCompass, FaBell, FaHome, FaUser, FaComment } from 'react-icons/fa';
 import SignOut from './SignOut';
-import { getCurrentUsername } from '../utils/decodeData';
-
+import { getCurrentUsername, getCurrentUserId} from '../utils/decodeData';
+import {Notification} from '../components/Notification'
 function Nav() {
     const username = getCurrentUsername();
+
+    //[newnotification, setNewNotification] = useState(false);
+    
+    const [notifications, setNotifications] = useState([]);
+
+    useEffect(() => {
+        const fetchNotifications = async () => {
+            try {
+                const userId = getCurrentUserId(); 
+                const response = await fetch(`/api/friends/requests?userId=${userId}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                if (response.ok) {
+                    const data = await response.json();
+                    setNotifications(data);
+                } else {
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || 'Failed to fetch notifications');
+                }
+            } catch (error) {
+                console.error('Error fetching notifications:', error.message);
+            }
+        };
+
+        fetchNotifications();
+    }, []);
+
 
     return (
         <>
@@ -28,7 +58,7 @@ function Nav() {
                             to='/notification'
                             className="nav-item nav-link"
                             style={({ isActive }) => ({ color: isActive ? '#AD45FF' : 'gray', fontSize: '1.5rem', fontWeight: 'bold'  })}>
-                            <FaBell style={{ marginBottom: '5px', marginRight: '5px' }} />
+                            <FaBell className={notifications.length > 0? 'notification-icon': '' }style={{marginBottom:'5px', marginRight:'5px'}}/>
                             <span className="d-lg-inline-block d-none"> NOTIFICATION</span>
                         </NavLink>
                         <NavLink
