@@ -89,9 +89,9 @@ function Start() {
                                         ABOUT
                                     </button>
                                 </Link>
-                                <Link to='https://www.facebook.com'><AiFillInstagram /></Link>
+                                <Link to='https://www.instagram.com'><AiFillInstagram /></Link>
                                 <Link to='https://www.twitter.com'><AiFillTwitterSquare /></Link>
-                                <Link to='https://www.instagram.com'><AiFillFacebook /></Link>
+                                <Link to='https://www.facebook.com'><AiFillFacebook /></Link>
                             </div>
                         </div>
                     </div>

@@ -45,7 +45,8 @@ function Login({ setToken }) {
 
         try {
             // console.log('User:', user);
-            const data = await loginUser(user);
+            const response = await loginUser(user);
+            const data = await response.json()
             setToken(data);
             return navigate('/home');
             // if(response.ok){
