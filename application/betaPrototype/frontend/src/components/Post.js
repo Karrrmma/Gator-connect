@@ -352,7 +352,7 @@ function Post() {
   return (
     <>
       <SearchBar onSearch={setSearchQuery} />
-      <button className="btn btn-primary" onClick={()=> setShowNewPost(true)}> CLICK HERE TO ADD A NEW POST</button>
+      <button className="pbutton" onClick={()=> setShowNewPost(true)}> CLICK HERE TO ADD A NEW POST</button>
       {showNewPost && <NewPostPopup userId={userId}onClose={handleNewPostClick}/>}
       {Object.values(searchQuery).some((value) => value) ? (
         <>

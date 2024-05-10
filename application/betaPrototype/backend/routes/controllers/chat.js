@@ -12,12 +12,12 @@ const connection = require("../db");
 
 router.use(express.json());
 
-exports.privatechat= (req, res) => {
+exports.publicchat= (req, res) => {
     const { sender_id, message_content, message_type } = req.body;
     const date = new Date();
   
   
-    const insertMessageInformation = `INSERT INTO Message (message_time, message_content, message_type, sender_id) VALUES (?, ?, ?, ?)`;
+    const insertMessageInformation = `INSERT INTO Public_Message (message_time, message_content, message_type, sender_id) VALUES (?, ?, ?, ?)`;
   
     connection.query(insertMessageInformation,[date, message_content, message_type, sender_id],(insertErr, insertResult) => {
         if (insertErr) {
@@ -40,7 +40,7 @@ exports.privatechat= (req, res) => {
   //------Fetch public Messages----//
   exports.publicchat= (req, res) => {
     const {message_type} = req.params;
-    const getPublicMessages = `SELECT * FROM Message WHERE message_type = ?`;
+    const getPublicMessages = `SELECT * FROM Public_Message WHERE message_type = ?`;
   
     connection.query(getPublicMessages, [message_type], async(err, results) => {
       if(err){

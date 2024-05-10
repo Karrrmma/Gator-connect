@@ -158,3 +158,29 @@
   transform: scale(1.1); 
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
+
+.pbutton {
+  background-color: #D9D9D9;
+  color: black;
+  border-radius: 25px;
+  height: 40px;
+  border: none;
+  cursor: pointer;
+  /* width: 90%; */
+  padding: 0px 15px;
+  font-size: 20px;
+  font-weight: bold;
+  margin-right: 15px;
+  margin-bottom: 20px;
+}
+
+.pbutton a {
+  color: black;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.button:hover {
+  background-color: #AD45FF;
+  color: white;
+}
