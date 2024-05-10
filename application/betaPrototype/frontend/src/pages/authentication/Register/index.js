@@ -64,7 +64,7 @@ function Register({setToken}) {
         if(!tosAccepted) {
             allerr.tos ='You must accept the Terms of Service';
         }
-        setIsRegistered(true); // DEBUG REMOVE LATER
+        // setIsRegistered(true); // DEBUG REMOVE LATER
         setErrors(allerr);
 
         if (Object.keys(allerr).length > 0) {
@@ -107,15 +107,20 @@ function Register({setToken}) {
 
     const handleAvatarChange = (event) => {
         const {value} = event.target;
+
+        if (!value || value.length === 0) {
+            value = values.fullname[0];
+        }
+
         setAvatar({
-            ...avatar,
-            [avatar]: value
+            avatar: value
         });
     }
 
     const handleAvatarSubmit = async (event) => {
         event.preventDefault();
-        const err = validateAvatarField(avatar);
+        console.log(avatar.avatar); // Add this line to log the avatar value
+        const err = validateAvatarField(avatar.avatar);
         setErrors(err);
 
         if (Object.keys(err).length > 0) {
@@ -131,9 +136,16 @@ function Register({setToken}) {
         setToken(userData); // token returns user id
 
         const currentUserId = getCurrentUserId();
-        const data = await createProfile(); // i believe this should not ever fail
-
-
+        const field = {
+            userId: currentUserId,
+            avatar: avatar.avatar,
+            biography: ''
+        }
+        try {
+            const data = await createProfile(field); // i believe this should not ever fail
+        } catch (error) {
+            console.log(error + "SOMEHOW FAILED TO CREATE PROFILE");
+        }
     }
 
     const registerForm = (
