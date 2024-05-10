@@ -50,7 +50,7 @@ function EditProfilePopup({ userId, onClose, updateBiography }) {
                         {confirmation ? (
                             <>
                                 <p className='mt-5 mb-5'>{confirmation}</p>
-                                <button className="close-button" onClick={handleClose}>Close</button>
+                                <button className="close-button" onClick={handleClose}>x</button>
                             </>
                         ) : (
                             <>
