@@ -23,6 +23,9 @@ exports.register = (req, res) => {
         console.error("Error inserting user:", userErr);
         return res.status(500).json({ error: "Failed to insert user" });
       }
+
+    const profileQuery = "INSERT INTO Profile (biography, avatar, account_id) VALUES (NULL, NULL, ?)";
+
   
       connection.query(
         accountQuery,
@@ -32,6 +35,17 @@ exports.register = (req, res) => {
             console.error("Error inserting account:", accountErr);
             return res.status(500).json({ error: "Failed to insert account" });
           }
+
+          connection.query(
+            profileQuery,
+            [accountResult.insertId],
+            (profileErr, profileResult) => {
+              if (profileErr) {
+                console.error("Error inserting profile:", profileErr);
+                return res.status(500).json({ error: "Failed to insert profile" });
+              }
+            })
+      
   
           // Conditionally handle the role of the user
           // when user == student
