@@ -7,6 +7,8 @@ import PostCard from "../../components/PostCard";
 import FriendsListPopup from "./FriendsListPopup";
 import NewPostPopup from "./NewPostPopup";
 import EditProfilePopup from "./EditProfilePopup";
+import { Link } from 'react-router-dom';
+
 
 function Profile() {
   const { userId } = useParams();
@@ -188,6 +190,9 @@ function Profile() {
     (a, b) => new Date(b.post_time) - new Date(a.post_time)
   );
 
+
+  const nameLink = user.fullname.trim().replace(/\s/g, '%20');
+
   return (
     <>
       <div className="post-header">
@@ -264,7 +269,9 @@ function Profile() {
                 >
                   UNFRIEND
                 </button>
-                <button className="profile-button">CHAT</button>
+                <Link to={`/chatWindow/${nameLink}`}>
+                  <button className="profile-button">CHAT</button>
+                </Link>
               </>
             ) : (
               // Button to send a friend request if not friends
