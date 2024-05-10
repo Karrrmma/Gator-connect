@@ -1021,7 +1021,7 @@ router.post("/creatEvent", (req, res) => {
         res.status(500).json({ error: "Internal Server Error" });
       } else {
         res.status(201).json({
-          message: "New event created! Refresh page to see it displayed",
+          message: "New event created! Refresh page to see it displayed.",
           id: results.insertId,
         });
       }

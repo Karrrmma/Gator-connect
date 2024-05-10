@@ -1,24 +1,46 @@
 import React, { useState, useEffect } from "react";
+import { queryData } from "../../../utils/queryUser";
+import { getCurrentUserId } from "../../../utils/decodeData";
+import { useParams } from "react-router-dom";
 import "../ExploreTemplate.css";
 import "../../Profile/popup.css";
 
-function CreateEventForm({ onSubmit, onClose }) {
-  
-  const [fullName, setFullName] = useState('');
+function CreateEventForm({ onClose }) {
+
   const [eventType, setEventType] = useState('');
   const [description, setDescription] = useState('');
   const [dateTime, setDateTime] = useState('');
   const [location, setLocation] = useState('');
-  const [hostedBy, setHostedBy] = useState('');
   const [eventTitle, setEventTitle] = useState('');
   const [eventItems, setEventItems] = useState([]);
-  const [eventCreator, setEventCreator] = useState('');
   const [confirmation, setConfirmation] = useState('');
   const [showPopup, setShowPopup] = useState(false);
 
-    useEffect(() => {
-      setShowPopup(true);
-    }, []);
+  const { userId } = useParams();
+  const [user, setUser] = useState({
+    username: "",
+    role: "",
+  });
+
+  useEffect(() => {
+    setShowPopup(true);
+    const fetchUserData = async () => {
+      try {
+        const id = userId || getCurrentUserId();
+        const userData = await queryData(id);
+        if (userData) {
+          setUser({
+            username: userData.username,
+            role: userData.role,
+          });
+        }
+      } catch (error) {
+        console.error("Failed to fetch user data:", error);
+      }
+    };
+  
+      fetchUserData();
+    }, [userId]);
 
     const handleExit = () => {
       onClose(); 
@@ -44,9 +66,9 @@ function CreateEventForm({ onSubmit, onClose }) {
         event_type: eventType,
         event_name: eventTitle,
         event_location: location,
-        event_host: hostedBy,
+        event_host: user.role,
         event_time: dateTime,
-        event_creator: eventCreator,
+        event_creator: user.username,
       };
 
         try {
@@ -119,14 +141,6 @@ function CreateEventForm({ onSubmit, onClose }) {
 
                                 <input type="datetime-local" placeholder='Date & Time' value={dateTime} onChange={(e) => setDateTime(e.target.value)} />
 
-                                <p style={{textAlign: "left", marginTop:"10px", color:"black"}}>Your Information</p>
-                                <input type="text" placeholder='Enter your fullname' value={fullName} onChange={(e) => setFullName(e.target.value)} />
-                                <input type="text" placeholder='Enter your username' value={eventCreator} onChange={(e) => setEventCreator(e.target.value)}/>
-                                <select value={hostedBy} onChange={(e) => setHostedBy(e.target.value)}>
-                                  <option value="">Select your title</option>
-                                  <option value="Professor">Professor</option>
-                                  <option value="Student">Student</option>
-                                </select>
                             </div>                            
                             <div className='create-event-btn'>
                             <button className="exit-button" onClick={handleExit}>CANCEL</button>
