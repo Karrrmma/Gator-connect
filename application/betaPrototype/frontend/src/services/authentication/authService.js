@@ -2,13 +2,13 @@
 import apiCall from "../apiCall";
 
 export const loginUser = async (fields) => {
-    return apiCall('/login', 'POST', fields);
+    return apiCall('/login', 'POST', fields, false);
 }
 
 export const registerUser = async (fields) => {
-    return apiCall('/register', 'POST', fields);
+    return apiCall('/register', 'POST', fields, false);
 }
 
 export const resetPassword = async (fields) => {
-    return apiCall('/reset-password', 'POST', fields);
+    return apiCall('/reset-password', 'POST', fields, false);
 }

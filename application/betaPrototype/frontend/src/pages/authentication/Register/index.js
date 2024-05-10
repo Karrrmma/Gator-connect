@@ -64,7 +64,7 @@ function Register({setToken}) {
         if(!tosAccepted) {
             allerr.tos ='You must accept the Terms of Service';
         }
-        // setIsRegistered(true); // DEBUG REMOVE LATER
+        setIsRegistered(true); // BYPASS REGISTER PAGE
         setErrors(allerr);
 
         if (Object.keys(allerr).length > 0) {
@@ -106,12 +106,15 @@ function Register({setToken}) {
     }
 
     const handleAvatarChange = (event) => {
-        const {value} = event.target;
+        let {value} = event.target;
 
         if (!value || value.length === 0) {
             value = values.fullname[0];
+            // console.log("setting val to first letter");
         }
-
+        // if (value) {
+        //     console.log(Array.from(value).length);
+        // }
         setAvatar({
             avatar: value
         });
@@ -119,22 +122,19 @@ function Register({setToken}) {
 
     const handleAvatarSubmit = async (event) => {
         event.preventDefault();
-        console.log(avatar.avatar); // Add this line to log the avatar value
-        const err = validateAvatarField(avatar.avatar);
+        const err = validateAvatarField(avatar.avatar, Array.from(avatar.avatar).length);
         setErrors(err);
 
         if (Object.keys(err).length > 0) {
             return; 
         } // if avatar selection is valid, then login the user
 
-            // Check if avatar is empty
-        if (!avatar || avatar.length === 0) {
-            setAvatar(values.fullname[0]);
-        }
+        // console.log("success! bring user into login");
+        // return;
 
         const userData = await loginUser(values);
         setToken(userData); // token returns user id
-
+        
         const currentUserId = getCurrentUserId();
         const field = {
             userId: currentUserId,
@@ -144,8 +144,9 @@ function Register({setToken}) {
         try {
             const data = await createProfile(field); // i believe this should not ever fail
         } catch (error) {
-            console.log(error + "SOMEHOW FAILED TO CREATE PROFILE");
+            console.log(error + "SOMEHOW FAILED TO CREATE PROFILE, cant read a value?");
         }
+        
     }
 
     const registerForm = (
@@ -215,7 +216,6 @@ function Register({setToken}) {
                 <h1 className='mt-5 mb-2'>TYPE YOUR ICON</h1>
                 <p className='titletwo'>for your avatar</p>
                 <input
-                maxLength="1" 
                 onChange={handleAvatarChange} 
                 placeholder={values.fullname[0]}
                 className='avatar-input'

@@ -1,12 +1,17 @@
 import API_ROUTE from "../constants/api_route";
 
-async function apiCall(endpoint, method = 'GET', body) {
+async function apiCall(endpoint, method = 'GET', body, useToken=true) {
     const options = {
       method,
       headers: {
         'Content-Type': 'application/json',
       },
     };
+    
+    if (useToken) {
+      const token = localStorage.getItem('token');
+      options.headers.Authorization = `Bearer ${token}`;
+    }
   
     if (body) {
       options.body = JSON.stringify(body);
