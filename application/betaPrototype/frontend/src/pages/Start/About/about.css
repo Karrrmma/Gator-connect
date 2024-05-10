@@ -11,3 +11,7 @@
 .about-wrapper {
     width: 80%;
 }
+
+.description p {
+    font-size: medium;
+}
