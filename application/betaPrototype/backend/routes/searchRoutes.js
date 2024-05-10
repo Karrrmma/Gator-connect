@@ -19,7 +19,7 @@ router.post("/search", (req, res) => {
   const { username, major, year } = req.body;
 
   let query =
-    "SELECT Account.username, Student.major FROM Account JOIN Student ON Account.user_id = Student.user_id WHERE 1=1";
+    "SELECT Account.user_id, Account.username, Student.major FROM Account JOIN Student ON Account.user_id = Student.user_id WHERE 1=1";
   const params = [];
 
   if (username) {
