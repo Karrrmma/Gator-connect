@@ -1,10 +1,50 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { getCurrentUserId } from '../../utils/decodeData';
+import { useState } from "react";
+import { useEffect } from "react";
+import { queryData } from '../../utils/queryUser';
+
 
 
 
 
 const Chat = () => {
+
+  const [privateChats, setPrivateChats] = useState([]);
+  const [fetched, setFetched] = useState(false);
+
+    //--fetching existing private chats from DB
+  useEffect(() => {
+    const fetchPrivateChats = async () => {
+      const currentUserID = getCurrentUserId();
+      const responseFetch = await fetch(`/api/chat/getPrivateChats/${currentUserID}`);
+      if(!responseFetch){
+        console.error('Failed to fetch private chats!');
+        return;
+      }
+
+      try{
+        if (!responseFetch.ok) {
+          throw new Error(`HTTP error! status: ${responseFetch.status}`);
+        }
+        const returnFetch = await responseFetch.json();
+        console.log("Fetched private chats:", returnFetch);
+        return returnFetch;
+      }catch (error){
+        console.error('Failed to fetch private chats!: ', error);
+      }
+    }
+
+    fetchPrivateChats().then(res => {
+      setPrivateChats(res);
+    }).catch(error => {
+      console.error(error); // Handle errors if the Promise is rejected
+    });
+    setFetched(true);
+  }, [fetched]);
+
+  //---end fetching
 
 
     return (
@@ -13,23 +53,12 @@ const Chat = () => {
            <div className="" style={{ marginTop: '20px' }}>
            <Head/>
             <div className="chat-container h-75 border-0" style={{backgroundColor: 'black', width: '500px', borderTopLeftRadius: '20px', borderTopRightRadius: '20px'}}>
-              
               <div className="card-body" style={{overflowY: 'auto', height: '450px'}}>
-                <div class="d-flex justify-content-start align-items-center" style={{ width: '100%', border: '1px solid black', padding: '10px', textAlign: 'right' }}>
-                    {/* <img src={Cat} class="rounded-circle" alt="placeholder pfp" style={{ width: 50, height: 50 }}></img> */}
-                    <div className="avatar" style={{fontSize: '30px'}}>🐳</div>
-                    <Link to='/chatWindow/Fabian Weiland' className='btn btn-link text-decoration-none' style={{color: 'white', fontSize: '25px'}}>Fabian Weiland</Link>
-                </div>
-                <div class="d-flex justify-content-start align-items-center" style={{ width: '100%', border: '1px solid black', padding: '10px', textAlign: 'right' }}>
-                    {/* <img src={Dog} class="rounded-circle" alt="placeholder pfp" style={{ width: 50, height: 50 }}></img> */}
-                    <div className="avatar" style={{fontSize: '30px'}}>🎄</div>
-                    <Link to='/chatWindow/Jose Ortiz' className='btn btn-link text-decoration-none' style={{color: 'white', fontSize: '25px'}}>Jose Ortiz</Link>
-                </div>
-                <div class="d-flex justify-content-start align-items-center" style={{ width: '100%', border: '1px solid black', padding: '10px', textAlign: 'right' }}>
-                    {/* <img src={Placeholder} class="rounded-circle" alt="placeholder pfp" style={{ width: 50, height: 50 }}></img> */}
-                    <div className="avatar" style={{fontSize: '30px'}}>🐶</div>
-                    <Link to='/chatWindow/Marco Lorenz' className='btn btn-link text-decoration-none' style={{color: 'white', fontSize: '25px'}}>Marco Lorenz</Link>
-                </div>
+
+                {privateChats.map((chats, index) =>
+                <SenderName senderID={chats.sender_id} index={index}/>
+                )}
+
               </div>
               <Bottom/>
               
@@ -39,6 +68,32 @@ const Chat = () => {
       </div>
     );
   };
+
+
+  function SenderName({senderID}, {index}){
+    const [userData, setUserData] = useState([]);
+    const [fetched, setFetched] = useState(false);
+
+    useEffect(()=> {
+      console.log('----senderID: ', senderID)
+      queryData(senderID).then(res => {
+        console.log(res.fullName);
+        setUserData(res);
+        setFetched(true);
+      }).catch(error => {
+        console.error(error); // Handle errors if the Promise is rejected
+      });
+    },[fetched]);
+    
+    return(
+      <div class="d-flex justify-content-start align-items-center" key={index} style={{ width: '100%', border: '1px solid black', padding: '10px', textAlign: 'right' }}>
+        {/* <img src={Cat} class="rounded-circle" alt="placeholder pfp" style={{ width: 50, height: 50 }}></img> */}
+        <div className="avatar" style={{fontSize: '30px'}}>🐶</div>
+        <Link to={`/chatWindow/${userData.fullName}`} className='btn btn-link text-decoration-none' style={{color: 'white', fontSize: '25px'}}>{userData.fullName}</Link>
+      </div>
+    );
+  }
+
 
   function Head(){
     return(

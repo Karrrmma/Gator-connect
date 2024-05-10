@@ -7,6 +7,8 @@ import PostCard from "../../components/PostCard";
 import FriendsListPopup from "./FriendsListPopup";
 import NewPostPopup from "./NewPostPopup";
 import EditProfilePopup from "./EditProfilePopup";
+import { Link } from 'react-router-dom';
+
 
 function Profile() {
   const { userId } = useParams();
@@ -28,6 +30,15 @@ function Profile() {
   const [showFriendsList, setShowFriendsList] = useState(false);
   const [showNewPost, setShowNewPost] = useState(false);
   const [showEditProfile, setShowEditProfile] = useState(false);
+
+  // this is used for display the posts without refresh
+  const addNewPostToList = (newPost) => {
+    setUser((prevUser) => ({
+      ...prevUser,
+      posts: [newPost, ...prevUser.posts],
+      post_count: prevUser.post_count + 1,
+    }));
+  };
 
   const handleFriendsListClick = () => {
     setShowFriendsList(!showFriendsList);
@@ -179,6 +190,9 @@ function Profile() {
     (a, b) => new Date(b.post_time) - new Date(a.post_time)
   );
 
+
+  const nameLink = user.fullname.trim().replace(/\s/g, '%20');
+
   return (
     <>
       <div className="post-header">
@@ -255,7 +269,9 @@ function Profile() {
                 >
                   UNFRIEND
                 </button>
-                <button className="profile-button">CHAT</button>
+                <Link to={`/chatWindow/${nameLink}`}>
+                  <button className="profile-button">CHAT</button>
+                </Link>
               </>
             ) : (
               // Button to send a friend request if not friends
@@ -278,7 +294,7 @@ function Profile() {
           />
         )}
         {showNewPost && (
-          <NewPostPopup userId={user.user_id} onClose={handleNewPostClick} />
+          <NewPostPopup userId={user.user_id} onClose={handleNewPostClick} onAddPost={addNewPostToList} />
         )}
       </div>
 

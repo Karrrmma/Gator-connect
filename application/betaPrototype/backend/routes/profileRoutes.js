@@ -65,5 +65,51 @@ router.get("/api/user/:user_id", (req, res) => {
   });
 });
 
+// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  
+// Profile DB Creation
 
+router.post('/api/createprofile', (req, res) => {
+  const { userId, avatar, biography } = req.body;
+
+  const query = `
+      INSERT INTO Profile (account_id, avatar, biography)
+      VALUES (?, ?, ?)
+  `;
+
+  connection.query(query, [userId, avatar, biography], (error, results) => {
+      if (error) {
+          console.error("Error creating profile:", error);
+          return res.status(500).json({ error: "Failed to create profile" });
+      }
+
+      res.status(200).json({ message: "Profile created successfully" });
+  });
+});
+
+// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  
+// Profile DB Update
+
+router.post('/api/updateprofile', (req, res) => {
+    const { userId, avatar, biography } = req.body;
+
+    const query = `
+        UPDATE Profile
+        SET avatar = ?, biography = ?
+        WHERE account_id = ?
+    `;
+
+    connection.query(query, [avatar, biography, userId], (error, results) => {
+        if (error) {
+            console.error("Error updating profile:", error);
+            return res.status(500).json({ error: "Failed to update profile" });
+        }
+
+        if (results.affectedRows === 0) {
+          return res.status(404).json({ error: "No profile found for id, account was created before changes" });
+        }
+
+        res.status(200).json({ message: "Profile updated successfully" });
+    });
+  }
+);
 module.exports = router;

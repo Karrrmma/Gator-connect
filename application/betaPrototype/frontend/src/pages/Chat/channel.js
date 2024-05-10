@@ -61,10 +61,10 @@ const Channel = () => {
   const [inputMessage, setInputMessage] = useState('');
 
   const sendMessage = () => {
-    const senderID = getCurrentUserId()
-    sendMessageToDB(senderID, inputMessage.trim(), channel_names);
-
     if(inputMessage.trim() !== ''){
+      const senderID = getCurrentUserId()
+      sendMessageToDB(senderID, inputMessage.trim(), channel_names);
+
       setMessages([...messages, {text: inputMessage}]);
       setInputMessage('');
     }

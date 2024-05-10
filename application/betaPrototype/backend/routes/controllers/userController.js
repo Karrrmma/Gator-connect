@@ -25,7 +25,8 @@ exports.register = (req, res) => {
         console.error("Error inserting user:", userErr);
         return res.status(500).json({ error: "Failed to insert user" });
       }
-  
+
+
       connection.query(
         accountQuery,
         [username, hash, userResult.insertId],
@@ -34,6 +35,7 @@ exports.register = (req, res) => {
             console.error("Error inserting account:", accountErr);
             return res.status(500).json({ error: "Failed to insert account" });
           }
+
   
           // Conditionally handle the role of the user
           // when user == student

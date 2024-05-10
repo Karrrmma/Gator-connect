@@ -336,6 +336,7 @@ router.get("/posts", async (req, res) => {
   });
 });
 */
+
 /*
 // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 
 // @@@@@ CHAT
@@ -393,8 +394,8 @@ router.get("/api/chat/getPublicMessages/:message_type", (req, res) => {
     res.status(200).json(results_formatted);
   })
 })
-
 */
+
 /*
 // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  
 //  SEARCH QUERY
@@ -1020,7 +1021,7 @@ router.post("/creatEvent", (req, res) => {
         res.status(500).json({ error: "Internal Server Error" });
       } else {
         res.status(201).json({
-          message: "Event added successfully",
+          message: "New event created! Refresh page to see it displayed.",
           id: results.insertId,
         });
       }

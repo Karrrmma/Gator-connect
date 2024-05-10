@@ -10,6 +10,11 @@ async function apiCall(endpoint, method = 'GET', body) {
 
       },
     };
+    
+    if (useToken) {
+      const token = localStorage.getItem('token');
+      options.headers.Authorization = `Bearer ${token}`;
+    }
   
     if (body) {
       options.body = JSON.stringify(body);
