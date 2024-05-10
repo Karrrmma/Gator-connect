@@ -1,47 +1,40 @@
 import React, { useState, useEffect } from 'react';
 
-function NewPostPopup({ userId, onClose }) {
+function NewPostPopup({ userId, onClose, onAddPost }) {
     const [post, setPost] = useState('');
     const [confirmation, setConfirmation] = useState('');
-    const [showPopup, setShowPopup] = useState(false);
+    const [showPopup, setShowPopup] = useState(true);
 
     useEffect(() => {
-        // Automatically show the popup when the component mounts
         setShowPopup(true);
     }, []);
 
     const handleClose = () => {
-
         onClose();
         setShowPopup(false);
         setConfirmation('');
-        if (onClose) {
-            onClose();
-        }
     };
 
     const handleSubmit = async (postData) => {
         postData.preventDefault();
-        
 
-        
         try {
             const response = await fetch('/newpost', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+                headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({ post_content: post, user_id: userId }),
             });
 
             const data = await response.json();
 
             if (response.ok) {
-                setConfirmation(data.message || 'New post has been successfully created!');
-                setPost('');  // Reset the post content after successful post creation.
-                setTimeout(handleClose, 2000);  // Optionally close popup automatically after a delay.
+                setConfirmation(data.message);
+                setPost('');
+                // this is used for display the posts without refresh
+                onAddPost(data.post);  
+                setTimeout(handleClose, 2000);
             } else {
-                setConfirmation(data.error || 'Failed to create new post.');
+                setConfirmation(data.error);
             }
         } catch (error) {
             console.error('Failed to create post:', error);
@@ -61,7 +54,7 @@ function NewPostPopup({ userId, onClose }) {
                         {confirmation ? (
                             <>
                                 <p className='mt-5 mb-5'>{confirmation}</p>
-                                <button className="close-button" onClick={handleClose}>Close</button>
+                                <button className="close-button" onClick={handleClose}>x</button>
                             </>
                         ) : (
                             <>

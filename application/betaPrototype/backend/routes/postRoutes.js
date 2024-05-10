@@ -4,19 +4,15 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const mysql = require("mysql");
 router.use(express.json());
-const connection = require('./db')
+const connection = require("./db");
 
-
-const postcontrol = require('./controllers/post')
+const postcontrol = require("./controllers/post");
 
 //router.post('/newpost', postcontrol.newposts)
 //router.post('/posts', postcontrol.post)
 
-
-// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  
+// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 // Add New Post
-
-
 
 router.post("/newpost", (req, res) => {
   console.log("Received post data:", req.body);
@@ -33,37 +29,48 @@ router.post("/newpost", (req, res) => {
     });
   }
 
-  const query = `
-  INSERT INTO Post (post_content, post_time, num_likes, num_comments, user_id)
-  VALUES (?, DATE_SUB(NOW(), INTERVAL 7 HOUR), 0, 0, ?)
+  const insertQuery = `
+      INSERT INTO Post (post_content, post_time, num_likes, num_comments, user_id)
+      VALUES (?, DATE_SUB(NOW(), INTERVAL 7 HOUR), 0, 0, ?)
   `;
-  const queryParams = [post_content, user_id]; 
+  const insertParams = [post_content, user_id];
 
-  // Execute the query
-  connection.query(query, queryParams, (error, results) => {
-    if (error) {
-      console.error("Error inserting new post:", error);
+  connection.query(insertQuery, insertParams, (insertError, insertResults) => {
+    if (insertError) {
+      console.error("Error inserting new post:", insertError);
       return res.status(500).json({
         error: "Internal Server Error",
-        sqlError: error.sqlMessage,
+        sqlError: insertError.sqlMessage,
       });
     }
 
-    // On success, send back the details of the new post
-    res.status(201).json({
-      message: "New post created successfully",
-      post: {
-        post_id: results.insertId,
-        post_content,
-        post_time: new Date(),
-        num_likes: 0,
-        num_comments: 0,
-        user_id,
-      },
+    // Fetch the username
+    const userQuery = `SELECT full_name FROM User WHERE user_id = ?`;
+    connection.query(userQuery, [user_id], (userError, userResults) => {
+      if (userError) {
+        console.error("Error fetching user name:", userError);
+        return res.status(500).json({
+          error: "Internal Server Error",
+          sqlError: userError.sqlMessage,
+        });
+      }
+
+      // On success, send back the details of the new post including the username
+      res.status(201).json({
+        message: "New post created successfully",
+        post: {
+          post_id: insertResults.insertId,
+          post_content,
+          post_time: new Date(),
+          num_likes: 0,
+          num_comments: 0,
+          user_id,
+          full_name: userResults[0].full_name,
+        },
+      });
     });
   });
 });
-
 
 // GET all posts
 router.get("/posts", async (req, res) => {

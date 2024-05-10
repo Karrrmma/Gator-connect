@@ -29,6 +29,15 @@ function Profile() {
   const [showNewPost, setShowNewPost] = useState(false);
   const [showEditProfile, setShowEditProfile] = useState(false);
 
+  // this is used for display the posts without refresh
+  const addNewPostToList = (newPost) => {
+    setUser((prevUser) => ({
+      ...prevUser,
+      posts: [newPost, ...prevUser.posts],
+      post_count: prevUser.post_count + 1,
+    }));
+  };
+
   const handleFriendsListClick = () => {
     setShowFriendsList(!showFriendsList);
   };
@@ -278,7 +287,7 @@ function Profile() {
           />
         )}
         {showNewPost && (
-          <NewPostPopup userId={user.user_id} onClose={handleNewPostClick} />
+          <NewPostPopup userId={user.user_id} onClose={handleNewPostClick} onAddPost={addNewPostToList} />
         )}
       </div>
 

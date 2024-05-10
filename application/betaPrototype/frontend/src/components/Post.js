@@ -297,6 +297,12 @@ function Post() {
     setShowNewPost(!showNewPost);
   };
 
+  // Callback to add new post to the state
+  const addNewPost = (newPost) => {
+    setItems(prevItems => [newPost, ...prevItems]);
+    console.log(newPost);
+  };
+
   useEffect(() => {
     if (Object.keys(searchQuery).length > 0) {
       // Only run this if there's a valid search query
@@ -353,7 +359,7 @@ function Post() {
     <>
       <SearchBar onSearch={setSearchQuery} />
       <button className="pbutton" onClick={()=> setShowNewPost(true)}> CLICK HERE TO ADD A NEW POST</button>
-      {showNewPost && <NewPostPopup userId={userId}onClose={handleNewPostClick}/>}
+      {showNewPost && <NewPostPopup userId={userId}onClose={handleNewPostClick} onAddPost={addNewPost}/>}
       {Object.values(searchQuery).some((value) => value) ? (
         <>
           {noUsersFound ? <p>No users found.</p> : null}
