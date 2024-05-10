@@ -1,16 +1,18 @@
 const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
 const mysql = require("mysql");
 router.use(express.json());
 const connection = require('./db')
 
+const postcontrol = require('./controllers/post');
+const { verifyToken } = require("./verifyToken");
+/*
+router.post('/newpost', postcontrol.newposts);
+router.post('/posts', postcontrol.post);
 
-const postcontrol = require('./controllers/post')
+*/
 
-//router.post('/newpost', postcontrol.newposts)
-//router.post('/posts', postcontrol.post)
 
 
 // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  
@@ -18,7 +20,7 @@ const postcontrol = require('./controllers/post')
 
 
 
-router.post("/newpost", (req, res) => {
+router.post("/newpost",  verifyToken,(req, res) => {
   console.log("Received post data:", req.body);
   const { post_content, user_id } = req.body;
 
@@ -87,3 +89,4 @@ router.get("/posts", async (req, res) => {
 });
 
 module.exports = router;
+

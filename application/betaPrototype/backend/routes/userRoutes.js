@@ -11,7 +11,7 @@ const connection = require('../routes/db')
 const userController = require('./controllers/userController')
 const {validateRegister} = require('./controllers/validateRegister')
 
-router.post('/register', userController.register)
+router.post('/register', validateRegister, userController.register)
 router.post('/login', userController.login)
 router.post('/reset-password', userController.reset)
 module.exports = router;

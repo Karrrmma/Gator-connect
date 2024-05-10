@@ -6,6 +6,8 @@ const jwt = require("jsonwebtoken");
 const mysql = require("mysql");
 router.use(express.json());
 const connection = require('../db')
+require('dotenv/config');
+
 
 // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Register @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 
 // Register query for sign up form
@@ -113,9 +115,10 @@ exports.register = (req, res) => {
           return res.status(401).json({ error: "Invalid password" });
         }
   
+
         const token = jwt.sign(
           { username: user.username, user_id: user.user_id },
-          "your_secret_key",
+          process.env.JWT,
           { expiresIn: "1h" }
         );
         return res.status(200).json({

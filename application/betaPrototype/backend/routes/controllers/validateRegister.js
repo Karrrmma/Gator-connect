@@ -8,7 +8,7 @@ const mysql = require("mysql");
 router.use(express.json());
 const connection = require('../db')
 
-function validateRegister(req, res, next) {
+exports.validateRegister = (req, res, next) =>{
     const { fullname, sfsu_email, username, password, major, year } = req.body;
     if (!fullname || !sfsu_email || !username || !password || !major) {
       return res.status(400).json({ error: "Missing fields" });
@@ -25,6 +25,5 @@ function validateRegister(req, res, next) {
     }
   
     next();
-  }
+}
 
-  module.exports = validateRegister;

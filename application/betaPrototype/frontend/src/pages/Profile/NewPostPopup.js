@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import useToken from '../../hooks/useToken';
 
 function NewPostPopup({ userId, onClose }) {
     const [post, setPost] = useState('');
     const [confirmation, setConfirmation] = useState('');
     const [showPopup, setShowPopup] = useState(false);
+    const{token} = useToken();
 
     useEffect(() => {
         // Automatically show the popup when the component mounts
@@ -23,13 +25,18 @@ function NewPostPopup({ userId, onClose }) {
     const handleSubmit = async (postData) => {
         postData.preventDefault();
         
-
+        if(!token){
+            setConfirmation('no auth token found');
+            return;
+        }
         
         try {
             const response = await fetch('/newpost', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                   'Authorization' : `Bearer ${token}` ,
+
                 },
                 body: JSON.stringify({ post_content: post, user_id: userId }),
             });

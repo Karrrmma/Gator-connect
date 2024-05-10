@@ -28,8 +28,9 @@ app.use(postRoutes);
 app.use(chatRoutes);
 app.use(searchRoutes);
 app.use(profileRoutes);
-app.use(friend);
 app.use(likecomment);
+app.use(friend);
+
 // dummy token
 // app.use('/login', (req, res) => {
 //     res.send({
@@ -40,5 +41,6 @@ app.use(likecomment);
 // Backend Server Port
 const PORT = 4000;
 app.listen(PORT, () => {
+
     console.log(`Server is running on port ${PORT}.`);
 });
