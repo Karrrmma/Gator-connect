@@ -192,3 +192,28 @@ exports.reset = (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 };
+
+// Does email or username already exist in the database?
+exports.canRegister = (req, res) => {
+  const { sfsu_email, username } = req.body;
+  const query = "SELECT * FROM User INNER JOIN Account ON User.user_id = Account.user_id WHERE User.sfsu_email = ? OR Account.username = ?";
+  connection.query(query, [sfsu_email, username], (err, results) => {
+    if (err) {
+      console.error("Error checking email and username:", err);
+      return res.status(500).json({ error: "Failed to check email and username" });
+    }
+
+    if (results.length === 0) {
+      return res.status(200).json({ message: "Email and username don't exist" });
+    }
+
+    const existingEmail = results.find(user => user.sfsu_email === sfsu_email);
+    const existingUsername = results.find(user => user.username === username);
+
+    if (existingEmail) {
+      return res.status(500).json({ message: "Email already exists" });
+    } else if (existingUsername) {
+      return res.status(500).json({ message: "Username already exists" });
+    }
+  });
+};

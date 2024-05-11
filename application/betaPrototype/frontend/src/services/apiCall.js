@@ -20,7 +20,9 @@ async function apiCall(endpoint, method = 'GET', body, useToken=true) {
     const response = await fetch(`${API_ROUTE}${endpoint}`, options);
   
     if (!response.ok) {
-      throw new Error(`API call failed using apiCall.js: ${response.status}`);
+      // console.log(`Error ${response.status} given`);
+      const responseBody = await response.json();
+      throw new Error(responseBody.message);
     }
   
     return response.json();

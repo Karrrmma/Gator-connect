@@ -69,20 +69,37 @@ router.get("/api/user/:user_id", (req, res) => {
 // Profile DB Creation
 
 router.post('/api/createprofile', (req, res) => {
-  const { userId, avatar, biography } = req.body;
+  const { username, avatar, biography } = req.body;
 
-  const query = `
-      INSERT INTO Profile (account_id, avatar, biography)
-      VALUES (?, ?, ?)
+  const queryAccountId = `
+      SELECT account_id FROM Account WHERE username = ?
   `;
 
-  connection.query(query, [userId, avatar, biography], (error, results) => {
+  connection.query(queryAccountId, [username], (error, results) => {
       if (error) {
-          console.error("Error creating profile:", error);
-          return res.status(500).json({ error: "Failed to create profile" });
+          console.error("Error fetching account_id:", error);
+          return res.status(500).json({ error: "Failed to fetch account_id" });
       }
 
-      res.status(200).json({ message: "Profile created successfully" });
+      if (results.length === 0) {
+          return res.status(404).json({ error: "Username not found" });
+      }
+
+      const userId = results[0].account_id;
+
+      const queryInsertProfile = `
+          INSERT INTO Profile (account_id, avatar, biography)
+          VALUES (?, ?, ?)
+      `;
+
+      connection.query(queryInsertProfile, [userId, avatar, biography], (error, results) => {
+          if (error) {
+              console.error("Error creating profile:", error);
+              return res.status(500).json({ error: "Failed to create profile" });
+          }
+
+          res.status(200).json({ message: "Profile created successfully" });
+      });
   });
 });
 
@@ -112,4 +129,7 @@ router.post('/api/updateprofile', (req, res) => {
     });
   }
 );
+
+
+
 module.exports = router;
