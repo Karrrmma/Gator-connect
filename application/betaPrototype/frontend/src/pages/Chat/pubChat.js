@@ -13,10 +13,9 @@ const PubChat = () => {
 
     return (
       <div className="container-fluid">
-        <div className="row justify-content-center" >
            <div className="" style={{ marginTop: '20px' }}>
            <Head/>
-            <div className="chat-container h-75 border-0" style={{backgroundColor: 'black', width: '500px', borderTopLeftRadius: '20px', borderTopRightRadius: '20px'}}>
+            <div className="chat-container">
 
               <div className="card-body" style={{ overflowY: 'auto', height: '450px'}}>
                 <div class="d-flex justify-content-start align-items-center" style={{ width: '100%', border: '1px solid black', padding: '10px', textAlign: 'right' }}>
@@ -41,7 +40,6 @@ const PubChat = () => {
                 </div>
               </div>
               <Bottom/>
-            </div>
            </div>
         </div>
       </div>

@@ -106,11 +106,10 @@ const ChatWindow = () => {
 
   return (
     <div className="container-fluid" >
-      <div className="row justify-content-center "  >
         <div className="" style={{ marginTop: '20px' }}>
         <h1 style={{fontWeight: 'bold', color: 'white', fontSize: '2.0rem', marginBottom: '25px'}} className=" ">PRIVATE CHAT</h1>
           <Head />
-          <div className="chat-container h-75 border-0 " style={{ background: 'black', width: '500px', borderBottomLeftRadius: '20px', borderBottomRightRadius: '20px'}}>
+          <div className="chat-container"  style={{ borderTopLeftRadius: '0px', borderTopRightRadius: '0px'}}>
 
             <div className="card-body" style={{ backgroundColor: 'black', overflowY: 'auto', height: '468px' }}>
 
@@ -123,7 +122,7 @@ const ChatWindow = () => {
 
                   <SenderName userID={priv_message.sender_id}/>
 
-                  <p className='rounded-pill' key={index} style={{ backgroundColor: '#252525', padding:'10px', color:'white',
+                  <p className='rounded' key={index} style={{ backgroundColor: '#252525', padding:'10px', color:'white',
                   maxWidth:'50%', marginLeft: priv_message.sender_id === getCurrentUserId() ? 'auto' : '0', fontSize:'17px', border:'#252525', marginBottom:'5px', 
                   textAlign: priv_message.sender_id === getCurrentUserId() ? 'right' : 'left'}}>
                     {priv_message.message_content}
@@ -133,9 +132,9 @@ const ChatWindow = () => {
 
 
               {messages.map((message, index) =>
-                <p className='rounded-pill' key={index} style={{
+                <p className='rounded' key={index} style={{
                   backgroundColor: '#252525', padding: '10px', color: 'white',
-                  maxWidth: '50%', marginLeft: 'auto', fontSize: '20px', border: '#252525', marginBottom: '5px',
+                  maxWidth: '50%', marginLeft: 'auto', fontSize: '17px', border: '#252525', marginBottom: '5px',
                   textAlign: message.sender === 'user' ? 'right' : 'left'
                 }}>
                   {message.text}
@@ -145,7 +144,6 @@ const ChatWindow = () => {
             {/*---BOTTOM---*/}
             <Bottom inputMessage={inputMessage} setInputMessage={setInputMessage} sendMessage={sendMessage} />
           </div>
-        </div>
       </div>
     </div>
   );
@@ -180,7 +178,7 @@ function Head() {
   const { name } = useParams()
 
   return (
-    <div style={{ background: 'black', borderTopLeftRadius: '20px', borderTopRightRadius: '20px' }}>
+    <div className="head-chat">
       <div class="d-flex align-items-center" style={{ width: '100%', padding: '20px', textAlign: 'right' }}>
         <div className="avatar" style={{fontSize: '30px'}}>🐶</div>
         <p style={{ color: 'white', fontSize: '25px', marginLeft: '5px' }}>{name}</p>
@@ -204,7 +202,7 @@ function Bottom({ inputMessage, setInputMessage, sendMessage }) {
 
 
   return (
-    <div className="chat-container border-0" style={{ background: 'black', justifyContent: 'center' }}>
+    <div className="w-100">
       <div className="card-body d-flex align-items-center" style={{ background: 'black', justifyContent: 'center' }}>
         <input type="text rounded-pill" className="form-control" placeholder="Enter your message here ..." aria-label="Recipient's username"
           aria-describedby="basic-addon2" value={inputMessage} onChange={handleChange} onKeyPress={handleKeyPress}

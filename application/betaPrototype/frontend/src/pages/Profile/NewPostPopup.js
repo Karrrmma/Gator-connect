@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import useToken from '../../hooks/useToken';
+import { createPost } from './../../services/Post/postService';
 
 function NewPostPopup({ userId, onClose, onAddPost }) {
     const [post, setPost] = useState('');
@@ -19,38 +20,27 @@ function NewPostPopup({ userId, onClose, onAddPost }) {
 
     const handleSubmit = async (postData) => {
         postData.preventDefault();
-        
-        if(!token){
-            setConfirmation('no auth token found');
-            return;
-        }
-
+        // UNNEEDED: this popup is not accessible when the user does not have an account created
+        // if(!token){ 
+        //     setConfirmation('no auth token found');
+        //     return;
+        // }
+        console.log(post);
         try {
-            const response = await fetch('/newpost', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                   'Authorization' : `Bearer ${token}` ,
-
-                },
-                body: JSON.stringify({ post_content: post, user_id: userId }),
-            });
-
-
-            const data = await response.json();
-
-            if (response.ok) {
-                setConfirmation(data.message);
-                setPost('');
-                // this is used for display the posts without refresh
-                onAddPost(data.post);  
-                setTimeout(handleClose, 2000);
-            } else {
-                setConfirmation(data.error);
-            }
+            const postContent = { post_content: post, user_id: userId };
+            console.log('trying to create a post!');
+            const data = await createPost(postContent);
+            console.log('done creating a post!');
+            setConfirmation(data.message);
+            setPost('');
+            // this is used for display the posts without refresh
+            onAddPost(data.post);  
+            setTimeout(handleClose, 2000);
         } catch (error) {
             console.error('Failed to create post:', error);
-            setConfirmation('Failed to send request.');
+            // setConfirmation('Failed to send request.');
+            setConfirmation(error);
+            console.log('ERROR IN POST!');
         }
     };
 

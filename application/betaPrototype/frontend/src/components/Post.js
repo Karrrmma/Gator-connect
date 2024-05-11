@@ -6,6 +6,9 @@ import "./Post.css";
 import { getCurrentUserId } from "../utils/decodeData";
 import { useNavigate } from "react-router-dom";
 import NewPostPopup from '../pages/Profile/NewPostPopup';
+import { addComment, deleteComment, getComments, getPosts, postHandleLike } from "../services/Post/postService";
+import { searchUsers } from "../services/User/userService";
+
 
 // import {Link} from 'react-router-dom';
 // import App from './../App';
@@ -29,11 +32,8 @@ function PostCard({ item, icon }) {
   }, [item.post_id]);
   const fetchComments = async (postId) => {
     try {
-      const response = await fetch(`/api/comments/${postId}`);
-      if (!response.ok) {
-        throw new Error('Failed to fetch comments');
-      }
-      const data = await response.json();
+      const data = await getComments(postId);
+
       setCommentsData(data);
       setCommentsCount(data.length);
     } catch (error) {
@@ -42,71 +42,45 @@ function PostCard({ item, icon }) {
   };
   const handleLike = async () => {
     const method = isLiked ? "DELETE" : "POST";
-    const endpoint = "/api/likes";
-    const body = JSON.stringify({
+    const body = {
       user_id: userId,
       post_id: item.post_id,
-    });
+    };
+
     try {
-      const response = await fetch(endpoint, {
-        method: method,
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: body,
-      });
-      if (response.ok) {
-        setIsLiked(!isLiked);
-        setLikesCount((prevCount) => isLiked ? prevCount - 1 : prevCount + 1);
-      } else {
-        throw new Error("Failed to update like");
-      }
+      await postHandleLike(method, body);
+      setIsLiked(!isLiked);
+      setLikesCount((prevCount) => isLiked ? prevCount - 1 : prevCount + 1);
     } catch (error) {
       console.error("Error updating like:", error);
     }
   };
   const handleAddComment = async () => {
     if (!commentText.trim()) return;
-    const endpoint = "/api/comments";
-    const body = JSON.stringify({
+    const body = {
       user_id: userId,
       post_id: item.post_id,
       comment_content: commentText,
-    });
+    };
+    
     try {
-      const response = await fetch(endpoint, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: body,
-      });
-      if (response.ok) {
-        const newComment = await response.json();
-        setCommentsCount((prevCount) => prevCount + 1);
-        setCommentText("");
-        setCommentsData((prevData) => [newComment, ...prevData]);
-      } else {
-        throw new Error("Failed to add comment");
-      }
+      const newComment = await addComment(body);
+
+      setCommentsCount((prevCount) => prevCount + 1);
+      setCommentText("");
+      setCommentsData((prevData) => [newComment, ...prevData]);
     } catch (error) {
-      console.error("Error adding comment:", error);
+        console.error("Error adding comment:", error);
     }
   };
   const handleDeleteComment = async (commentId) => {
-    const endpoint = `/api/comments/${commentId}`;
     try {
-      const response = await fetch(endpoint, {
-        method: "DELETE",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ post_id: item.post_id }),
-      });
-      if (response.ok) {
-        setCommentsCount((prevCount) => prevCount - 1);
-        setCommentsData((prevData) =>
-          prevData.filter((comment) => comment.comment_id !== commentId)
-        );
-      } else {
-        throw new Error("Failed to delete comment");
-      }
+      await deleteComment(commentId, { post_id: item.post_id });
+
+      setCommentsCount((prevCount) => prevCount - 1);
+      setCommentsData((prevData) =>
+        prevData.filter((comment) => comment.comment_id !== commentId)
+      );
     } catch (error) {
       console.error("Error deleting comment:", error);
     }
@@ -248,7 +222,7 @@ function UserCard({ username, major, icon, userId }) {
         <div className="d-flex justify-content-start align-items-center mb-2">
           {/* <img src={TestPFP} className="rounded-circle" alt="placeholder pfp" style={{ width: 40, height: 40 }}></img> */}
           {/* <div className="avatar">🐊</div> */}
-          {/* <div className="avatar">{icon}</div> */}
+          <div className="avatar">{icon}</div>
           <div className="text-left">
             <h5 className="card-title ml-2 mb-0 capitalize" onClick={navigateToUserProfile} >{username}</h5>
             <div className="text-muted small ml-2 mt-0 major">{major}</div>
@@ -283,43 +257,30 @@ function Post() {
   }, [searchQuery]);
   async function fetchAllPosts() {
     try {
-      const response = await fetch("/posts");
-      const data = await response.json();
-      if (response.ok) {
-        setItems(data);
-      } else {
-        console.error("Failed to fetch posts:", data.message);
-        setItems([]); // Reset the posts on failure
-      }
+      const data = await getPosts();
+      setItems(data);
     } catch (error) {
       console.error("Error fetching posts:", error);
+      setItems([]); // reset the posts on fail
     }
   }
   async function fetchItems({ username, major, year }) {
-    let url = "/search";
-    let options = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ username, major, year }),
-    };
+    const body = { username, major, year };
+    // error handle in case
     if (!username && !major && !year) {
-      url = "/testpost";
-      options = {};
+      return;
     }
-    const response = await fetch(url, options);
-    const newItems = await response.json();
+
+    const newItems = await searchUsers(body);
+
     if (!newItems.results || newItems.results.length === 0) {
       setNoUsersFound(true);
     } else {
       setNoUsersFound(false);
     }
-    if (url === "/search") {
-      setItems(newItems.results);
-    } else {
-      setItems(newItems.slice(0, 3));
-    }
+
+    setItems(newItems.results);
+
   }
   return (
     <>
@@ -337,7 +298,7 @@ function Post() {
                     key={index}
                     username={item.username}
                     major={item.major}
-                    icon={item.icon}
+                    icon={item.avatar}
                     userId={item.user_id}
                   />
                 );

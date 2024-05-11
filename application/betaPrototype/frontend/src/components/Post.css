@@ -7,8 +7,26 @@
   size-adjust: 60px;
 }
 
+.chat-container {
+  padding: 5px;
+  width: 40%;
+  border-radius: 20px;
+  margin: 0 auto;
+  background-color: black;
+  /* margin-bottom: 10px; */
+}
+
+.head-chat{
+  width: 40%;
+  border-radius: 20px;
+  margin: 0 auto;
+  background-color: black;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
 .card-body {
-  padding: 15px;
+  border-radius: 20px;
 }
 
 .user-info {
@@ -138,11 +156,6 @@
 }
 
 
-.chat-container {
-  background-color: black;
-  margin-bottom: 20px;
-
-}
 
 .title-container {
   display: flex;
@@ -216,6 +229,11 @@
   .post-container {
     width: 90%;
   }
+  .card-body, .chat-container, .head-chat {
+    margin-left: 20px;
+    width: 90%;
+  }
+  
 }
 
   

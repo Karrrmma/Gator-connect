@@ -99,11 +99,10 @@ const Channel = () => {
 
     return (
       <div className="container-fluid" >
-        <div className="row justify-content-center "  >
            <div className="" style={{ marginTop: '20px' }}>
            <h1 style={{fontWeight: 'bold', color: 'white', fontSize: '2.0rem', marginBottom: '25px'}} className=" ">PUBLIC CHAT</h1>
            <Head/>
-            <div className="chat-container h-75 border-0 " style={{ background:'black', width: '500px', borderBottomLeftRadius: '20px', borderBottomRightRadius: '20px'}}>
+            <div className="chat-container" style={{ borderTopLeftRadius: '0px', borderTopRightRadius: '0px'}}>
                 
                 <div className="card-body" style={{ backgroundColor: 'black', overflowY: 'auto', height: '478px'}}>
                   {publicMessages.map((pub_message, index) =>
@@ -115,7 +114,7 @@ const Channel = () => {
 
                     <SenderName userID={pub_message.sender_id}/>
 
-                    <p className='rounded-pill' key={index} style={{ backgroundColor: '#252525', padding:'10px', color:'white',
+                    <p className='rounded' key={index} style={{ backgroundColor: '#252525', padding:'10px', color:'white',
                     maxWidth:'50%', marginLeft: pub_message.sender_id === getCurrentUserId() ? 'auto' : '0', fontSize:'17px', border:'#252525', marginBottom:'5px', 
                     textAlign: pub_message.sender_id === getCurrentUserId() ? 'right' : 'left'}}>
                       {pub_message.message_content}
@@ -124,7 +123,7 @@ const Channel = () => {
                   )}
 
                   {messages.map((message, index) =>
-                    <p className='rounded-pill' key={index} style={{ backgroundColor: '#252525', padding:'10px', color:'white',
+                    <p className='rounded' key={index} style={{ backgroundColor: '#252525', padding:'10px', color:'white',
                     maxWidth:'50%', marginLeft: 'auto', fontSize:'17px', border:'#252525', marginBottom:'5px', 
                     textAlign: 'right'}}>
                       {message.text}
@@ -133,7 +132,6 @@ const Channel = () => {
                 </div>
                 {/*---BOTTOM---*/}
                 <Bottom inputMessage={inputMessage} setInputMessage={setInputMessage} sendMessage={sendMessage} />
-            </div>
             </div>
         </div>
       </div>
@@ -185,7 +183,7 @@ const Channel = () => {
   
 
     return(
-     <div style={{background: 'black', borderTopLeftRadius: '20px', borderTopRightRadius: '20px' }}>     
+      <div className="head-chat">  
       <div class="d-flex align-items-center" style={{ width: '100%', padding: '20px', textAlign: 'right' }}>
         {selectElement(channel_names)}
         <p style={{ color: 'white', fontSize: '25px', marginLeft: '5px' }}>{channel_names}</p>
@@ -210,7 +208,7 @@ const Channel = () => {
 
 
   return(
-    <div className="chat-container border-0" style={{background: 'black', justifyContent: 'center'}}>
+    <div className="w-100">
         <div className="card-body d-flex align-items-center" style={{background: 'black', justifyContent: 'center'}}>
           <input type="text rounded-pill" className="form-control" placeholder="Type here ..." aria-label="Recipient's username" 
             aria-describedby="basic-addon2" value={inputMessage} onChange={handleChange} onKeyPress={handleKeyPress}

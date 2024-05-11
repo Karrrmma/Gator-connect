@@ -11,3 +11,7 @@ export const updateProfile = async (fields) => {
 export const getUserInfo = async (userId) => {
     return apiCall(`/api/profile/info/${userId}`);
 }
+
+export const searchUsers = async (fields) => {
+    return apiCall(`/search`, 'POST', fields);
+}

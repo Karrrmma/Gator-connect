@@ -110,8 +110,10 @@ function Nav() {
                         </NavLink>
                     </div>
                 </div>
-                <SignOut />
-                <div className="avatar">🚗</div>
+                <div className="d-none d-lg-block ml-auto">
+                    <SignOut />
+                </div>
+                <div className="d-none d-lg-flex avatar">🚗</div>
             </nav>
         </>
     );
