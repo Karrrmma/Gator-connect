@@ -3,9 +3,12 @@ import { NavLink } from 'react-router-dom';
 // import { NavLink } from 'react-router-dom';
 import { FaCompass, FaBell, FaHome, FaUser, FaComment } from 'react-icons/fa';
 import SignOut from './SignOut';
-import { getCurrentUsername, getCurrentUserId} from '../utils/decodeData';
-import {Notification} from '../components/Notification'
+import { getCurrentUsername, getCurrentUserId } from '../utils/decodeData';
+// import {Notification} from '../components/Notification'
+import { getUserInfo } from '../services/User/userService';
+
 function Nav() {
+    const [avatar, setAvatar] = useState('');
     const username = getCurrentUsername();
 
     //[newnotification, setNewNotification] = useState(false);
@@ -13,9 +16,14 @@ function Nav() {
     const [notifications, setNotifications] = useState([]);
 
     useEffect(() => {
+        const userId = getCurrentUserId(); 
+        const fetchUserInfo = async () => {
+            const userInfo = await getUserInfo(userId);
+            setAvatar(userInfo.avatar);
+          };
+
         const fetchNotifications = async () => {
             try {
-                const userId = getCurrentUserId(); 
                 const response = await fetch(`/api/friends/requests?userId=${userId}`, {
                     method: 'GET',
                     headers: {
@@ -34,6 +42,7 @@ function Nav() {
             }
         };
 
+        fetchUserInfo();
         fetchNotifications();
     }, []);
 
@@ -85,7 +94,7 @@ function Nav() {
                     </div>
                 </div>
                 <SignOut />
-                <div className="avatar">🚗</div>
+                <div className="avatar">{avatar}</div>
             </nav>
         </>
     );

@@ -8,6 +8,7 @@ import FriendsListPopup from "./FriendsListPopup";
 import NewPostPopup from "./NewPostPopup";
 import EditProfilePopup from "./EditProfilePopup";
 import { Link } from 'react-router-dom';
+import { getUserInfo } from "../../services/User/userService";
 
 
 function Profile() {
@@ -25,12 +26,12 @@ function Profile() {
     user_id: 0,
     posts: [],
     biography: "",
+    avatar: ""
   });
 
   const [showFriendsList, setShowFriendsList] = useState(false);
   const [showNewPost, setShowNewPost] = useState(false);
   const [showEditProfile, setShowEditProfile] = useState(false);
-  
 
   // this is used for display the posts without refresh
   const addNewPostToList = (newPost) => {
@@ -40,8 +41,6 @@ function Profile() {
       post_count: prevUser.post_count + 1,
     }));
   };
-
-  
 
   const handleFriendsListClick = () => {
     setShowFriendsList(!showFriendsList);
@@ -73,8 +72,15 @@ function Profile() {
             year: userData.year,
             posts: userData.posts || [],
             isFriend: userData.isFriend,
-            biography: userData.biography,
           });
+        }
+        const basicInfo = await getUserInfo(id);
+        if (basicInfo) {
+          setUser((prevState) => ({
+            ...prevState,
+            avatar: basicInfo.avatar,
+            biography: basicInfo.biography,
+          }));
         }
         if (userId && userId !== getCurrentUserId()) {
           checkFriendship(userId);
@@ -93,7 +99,6 @@ function Profile() {
   console.log("In Profile, user_id: ", getCurrentUserId());
   console.log("In Profile, /profile/:userId: ", userId);
   */
- 
 
   const checkFriendship = async (userId) => {
     const requesterId = getCurrentUserId();
@@ -203,17 +208,10 @@ function Profile() {
         {/* <img src={TestPFP} alt="Profile" style={{width: '150px', height: '150px', borderRadius: '50%', marginTop: '20px'}}/> */}
         <div className="post-row">
           <div
-            className="avatar"
+            className="avatar avatar-area"
             onClick={handleEditProfileClick}
-            style={{
-              fontSize: "100px",
-              // margin: "10px",
-              backgroundColor: "white",
-              padding: "50px 70px 90px 70px",
-              marginRight: "20px",
-            }}
           >
-            🚗
+            {user.avatar}
             <div className="edit-profile-message">Edit Profile</div>
           </div>
 

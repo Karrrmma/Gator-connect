@@ -70,7 +70,7 @@ router.get("/api/user/:user_id", (req, res) => {
 // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  
 // Profile DB Creation
 
-router.post('/api/createprofile', (req, res) => {
+router.post('/api/profile/create', (req, res) => {
   const { username, avatar, biography } = req.body;
 
   const queryAccountId = `
@@ -132,6 +132,26 @@ router.post('/api/updateprofile', (req, res) => {
   }
 );
 
+// Profile Avatar and Biography Retrieval
+router.get('/api/profile/info/:userId', (req, res) => {
+  const { userId } = req.params;
+  const query = `
+      SELECT avatar, biography
+      FROM Profile
+      WHERE account_id = ?
+  `;
+  connection.query(query, [userId], (error, results) => {
+      if (error) {
+          console.error("Error fetching profile info:", error);
+          return res.status(500).json({ error: "Failed to fetch profile info" });
+      }
+
+      if (results.length === 0) {
+          return res.status(404).json({ error: "Profile not found" });
+      }
+      res.status(200).json(results[0]);
+  });
+});
 
 
 module.exports = router;

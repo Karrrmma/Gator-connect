@@ -87,7 +87,19 @@
     font-weight: bold;
 }
 
-
+.avatar-area {
+    font-size: 100px;
+    background-color: white;
+    padding: 50px 70px 55px 70px;
+    margin-right: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    width: 150px;
+    height: 150px;
+    color: black;
+  }
   
   .avatar:hover {
     opacity: 0.3;
