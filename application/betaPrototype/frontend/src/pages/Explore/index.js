@@ -1,13 +1,22 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { FaUtensils, FaSchool, FaBus } from "react-icons/fa";
+import SearchBarCopy from "../../components/nonSearch";
 
 function Explore() {
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState(false)
+  //const[filteredItems, setFilteredItems] =useState([]);
+  
+  const[items, setItems] =useState([]);
 
-  const handleSearchChange = (event) => {
-    setSearchQuery(event.target.value);
+
+ 
+
+  const handleSearchSubmit = (event) => {
+     setSearchQuery(true);
+     
   };
+  
 
   const routes = [
     {
@@ -90,9 +99,13 @@ function Explore() {
   };
 
   return (
+    
     <section style={containerStyle}>
+
       <h1 style={{ fontSize: '2.0rem', marginBottom: "0.5rem", color: 'white' }}>EXPLORE</h1>
       <p style={{ fontSize: "1.1rem", color: 'gray' }}>Let's discover all the resources and opportunities available to SFSU students</p>
+
+      <SearchBarCopy onSearch={handleSearchSubmit}/>
 
       {routes.map((route, index) => (
         <div key={route.text} style={itemStyle}>

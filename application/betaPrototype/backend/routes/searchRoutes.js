@@ -7,7 +7,7 @@ router.use(express.json());
 const connection = require('./db')
 
 
-const searchControl = require('./controllers/search')
+const searchControl = require('./controllers/search');
 
 //router.post('/search', searchControl.search)
 
@@ -15,7 +15,7 @@ const searchControl = require('./controllers/search')
 
 // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  
 //  SEARCH QUERY
-router.post("/search", (req, res) => {
+router.post("/search",  (req, res) => {
   const { username, major, year } = req.body;
 
   let query =

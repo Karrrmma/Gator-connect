@@ -20,7 +20,7 @@ router.post('/posts', postcontrol.post);
 // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 // Add New Post
 
-router.post("/newpost",  verifyToken,(req, res) => {
+router.post("/newpost", verifyToken, (req, res) => {
   console.log("Received post data:", req.body);
   const { post_content, user_id } = req.body;
 
