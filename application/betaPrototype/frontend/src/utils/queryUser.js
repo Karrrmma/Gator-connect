@@ -1,5 +1,7 @@
+import API_ROUTE from "../constants/api_route";
+
 export const queryData = async (userId) => {
-    const response = await fetch(`/api/user/${userId}`);
+    const response = await fetch(`${API_ROUTE}/api/user/${userId}`);
     if (!response) {
         console.error('Failed to fetch user info!');
         return;
