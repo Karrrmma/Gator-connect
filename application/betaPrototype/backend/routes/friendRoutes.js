@@ -87,12 +87,21 @@ router.get("/api/friends/requests", (req, res) => {
     return res.status(400).send({ message: "User ID is required." });
   }
 
+  // const fetchRequestsQuery = `
+  //       SELECT f.friend_request_id, u.full_name AS sender, f.requester_id AS senderId
+  //       FROM Friend_Request f
+  //       JOIN User u ON f.requester_id = u.user_id
+  //       WHERE f.receiver_id = ? AND f.status = 'pending'
+  //   `;
+  // test query to see if i can get avatar
   const fetchRequestsQuery = `
-        SELECT f.friend_request_id, u.full_name AS sender, f.requester_id AS senderId
-        FROM Friend_Request f
-        JOIN User u ON f.requester_id = u.user_id
-        WHERE f.receiver_id = ? AND f.status = 'pending'
-    `;
+          SELECT f.friend_request_id, u.full_name AS sender, f.requester_id AS senderId, p.avatar
+          FROM Friend_Request f
+          LEFT JOIN User u ON f.requester_id = u.user_id
+          LEFT JOIN Account a ON u.user_id = a.user_id
+          LEFT JOIN Profile p ON a.account_id = p.account_id
+          WHERE f.receiver_id = ? AND f.status = 'pending'
+      `;
 
   connection.query(fetchRequestsQuery, [userId], (err, results) => {
     if (err) {
@@ -111,6 +120,7 @@ router.get("/api/friends/requests", (req, res) => {
         receiverId: userId,
         senderId: row.senderId, // this one is used for navigating each profile
         accepted: false, // Initial state for all notifications
+        avatar: row.avatar,
       }))
     );
   });

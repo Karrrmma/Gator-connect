@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FaCommentDots, FaHeart } from 'react-icons/fa';
 import { getCurrentUserId } from "../utils/decodeData";
+import { postHandleLike } from '../services/Post/postService';
 import './Post.css';
 
 function PostCard({ item, icon }) {
@@ -19,28 +20,21 @@ function PostCard({ item, icon }) {
     }, [isLiked, likeStatusKey]);
 
     const handleLike = async () => {
-        const method = isLiked ? "DELETE" : "POST";
-        const endpoint = "/likes";
-        const body = JSON.stringify({ user_id: userId, post_id: item.post_id });
-
-        try {
-            const response = await fetch(endpoint, {
-                method: method,
-                headers: { "Content-Type": "application/json" },
-                body: body,
-            });
-
-            if (response.ok) {
-                const newIsLiked = !isLiked;
-                setIsLiked(newIsLiked);
-                setLikesCount(prev => newIsLiked ? prev + 1 : prev - 1);
-            } else {
-                throw new Error("Failed to update like");
-            }
-        } catch (error) {
-            console.error("Error updating like:", error);
-        }
+      const method = isLiked ? "DELETE" : "POST";
+      const body = {
+        user_id: userId,
+        post_id: item.post_id,
+      };
+  
+      try {
+        await postHandleLike(method, body);
+        setIsLiked(!isLiked);
+        setLikesCount((prev) => isLiked ? prev - 1 : prev + 1);
+      } catch (error) {
+        console.error("Error updating like:", error);
+      }
     };
+    
     return (
       <div className="card post-card">
         <div className="card-body">
