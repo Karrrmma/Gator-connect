@@ -22,6 +22,7 @@ import vendorImage16 from "./vendorimg/vendor16.jpg";
 import vendorImage17 from "./vendorimg/vendor17.jpg";
 import vendorImage18 from "./vendorimg/vendor18.jpg";
 import vendorImage19 from "./vendorimg/vendor19.jpg";
+import { getVendors } from "../../../services/Explore/exploreService";
 
 function FoodVendor() {
   const navigate = useNavigate();
@@ -174,27 +175,23 @@ function FoodVendor() {
   useEffect(() => {
     async function fetchVendors() {
       try {
-        const response = await fetch("/vendor-average-ratings");
-        const data = await response.json();
-        if (response.ok) {
-          const fetchedRatings = data.reduce((acc, item) => {
-            acc[item.vendor_name] = {
-              average_rating: Number(item.average_rating),
-              num_reviews: item.num_reviews,
-            };
-            return acc;
-          }, {});
+        const data = await getVendors();
+        
+        const fetchedRatings = data.reduce((acc, item) => {
+          acc[item.vendor_name] = {
+            average_rating: Number(item.average_rating),
+            num_reviews: item.num_reviews,
+          };
+          return acc;
+        }, {});
 
-          const updatedVendors = initialVendorsRef.current.map((vendor) => ({
-            ...vendor,
-            average_rating: fetchedRatings[vendor.name]?.average_rating || 0,
-            num_reviews: fetchedRatings[vendor.name]?.num_reviews || 0,
-          }));
-          setVendors(updatedVendors);
-          setFullVendors(updatedVendors);
-        } else {
-          throw new Error(data.message);
-        }
+        const updatedVendors = initialVendorsRef.current.map((vendor) => ({
+          ...vendor,
+          average_rating: fetchedRatings[vendor.name]?.average_rating || 0,
+          num_reviews: fetchedRatings[vendor.name]?.num_reviews || 0,
+        }));
+        setVendors(updatedVendors);
+        setFullVendors(updatedVendors);
       } catch (error) {
         console.error("Fetch Error:", error);
       }

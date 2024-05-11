@@ -11,5 +11,3 @@ export const acceptFriendReq = async (id) => {
 export const declineFriendReq = async (id) => {
     return apiCall(`/api/friends/decline/${id}`, 'DELETE');
 }
-
-// `/api/friends/requests?userId=${userId}`
