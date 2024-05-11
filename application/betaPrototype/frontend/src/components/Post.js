@@ -395,7 +395,7 @@ function Post() {
                 imageUrl: post.imageUrl,
                 post_id: post.post_id,
               }}
-              icon={"🐊"} // You can customize this icon based on your application's needs
+              icon={post.avatar}
             />
           ))}
         </section>

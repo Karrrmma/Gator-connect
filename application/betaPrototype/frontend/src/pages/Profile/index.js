@@ -317,7 +317,7 @@ function Profile() {
                 num_likes: post.num_likes,
                 num_comments: post.num_comments,
               }}
-              icon="🚗"
+              icon={user.avatar}
             />
           ))}
         </div>

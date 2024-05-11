@@ -1,4 +1,3 @@
-// apiCall contains the API_ROUTE constant
 import apiCall from "../apiCall";
 
 export const loginUser = async (fields) => {

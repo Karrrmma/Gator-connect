@@ -8,7 +8,7 @@ async function apiCall(endpoint, method = 'GET', body, useToken=true) {
       },
     };
     
-    if (useToken) {
+    if (useToken) { // require JWT token by default
       const token = localStorage.getItem('token');
       options.headers.Authorization = `Bearer ${token}`;
     }
