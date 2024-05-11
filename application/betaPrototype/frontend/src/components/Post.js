@@ -363,7 +363,7 @@ function Post() {
       {Object.values(searchQuery).some((value) => value) ? (
         <>
           {noUsersFound ? <p>No users found.</p> : null}
-          <section className="w-50">
+          <section className="post-container m-2">
             {items.map((item, index) => {
               if (item) {
                 return (
@@ -381,7 +381,7 @@ function Post() {
           </section>
         </>
       ) : (
-        <section className="w-50">
+        <section className="post-container m-2">
           {items.map((post, index) => (
             <PostCard
               key={index}

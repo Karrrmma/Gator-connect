@@ -153,3 +153,17 @@
     text-align: center;
     margin-top: 50px;
 }
+
+
+.navbar-nav.d-flex {
+    justify-content: space-between;
+    flex-grow: 1;
+}
+
+/* @media (min-width: 768px) {
+    .navbar-nav.d-flex {
+        justify-content: space-between;
+        flex-grow: 1;
+    }
+  } */
+  

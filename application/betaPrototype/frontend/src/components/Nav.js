@@ -1,21 +1,22 @@
-import React ,{useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 // import { NavLink } from 'react-router-dom';
 import { FaCompass, FaBell, FaHome, FaUser, FaComment } from 'react-icons/fa';
 import SignOut from './SignOut';
-import { getCurrentUsername, getCurrentUserId} from '../utils/decodeData';
-import {Notification} from '../components/Notification'
+import { getCurrentUsername, getCurrentUserId } from '../utils/decodeData';
+import { Notification } from '../components/Notification'
 function Nav() {
     const username = getCurrentUsername();
 
     //[newnotification, setNewNotification] = useState(false);
-    
+
     const [notifications, setNotifications] = useState([]);
+    const [isMobile, setIsMobile] = useState(false);
 
     useEffect(() => {
         const fetchNotifications = async () => {
             try {
-                const userId = getCurrentUserId(); 
+                const userId = getCurrentUserId();
                 const response = await fetch(`/api/friends/requests?userId=${userId}`, {
                     method: 'GET',
                     headers: {
@@ -35,57 +36,73 @@ function Nav() {
         };
 
         fetchNotifications();
+
+        // Check for mobile size (768px)
+        const handleResize = () => {
+            setIsMobile(window.innerWidth < 740); 
+        };
+        handleResize();
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
     }, []);
 
 
     return (
         <>
             <nav className="navbar navbar-expand-lg navbar-dark top w-100 sticky-top mb-0" style={{ backgroundColor: 'black' }}>
-                <NavLink to='/home' className="nav-item nav-link d-inline-block mr-auto" style={{ fontSize: '1.2rem', color: 'white', textAlign: 'left', fontWeight: 'bold'  }}>
+                <NavLink to='/home' className="nav-item nav-link d-inline-block mr-auto" style={{ fontSize: '1.2rem', color: 'white', textAlign: 'left', fontWeight: 'bold' }}>
                     GATOR CONNECT
-                    <div style={{ fontSize: '1rem', fontWeight: 'lighter', marginTop: '3px' }}>Hi, {username}</div>
+                    <div className="d-none d-lg-flex" style={{ fontSize: '1rem', fontWeight: 'lighter', marginTop: '3px' }}>Hi, {username}</div>
                 </NavLink>
-                <div id="navMainMenu" className="navbar-expand">
+                <div className="d-lg-none d-inline-block">
+                    <SignOut />
+                </div>
+
+                {/* <div className="d-lg-flex w-100"></div> */}
+
+                <div id="navMainMenu" className={isMobile ? "navbar-expand d-flex w-100 justify-content-between ml-5 mr-5" : "navbar-expand d-flex  ml-5 mr-5"}>
                     <div className="navbar-nav d-flex">
                         <NavLink
                             to='/explore'
                             className="nav-item nav-link"
-                            style={({ isActive }) => ({ color: isActive ? '#AD45FF' : 'gray', fontSize: '1.5rem', fontWeight: 'bold'  })}>
+                            style={({ isActive }) => ({ color: isActive ? '#AD45FF' : 'gray', fontSize: '1.5rem', fontWeight: 'bold' })}>
                             <FaCompass style={{ marginBottom: '5px', marginRight: '5px' }} />
-                            <span className="d-lg-inline-block d-none"> EXPLORE</span>
+                            <span className={isMobile ? "d-lg-inline-block d-none" : ""}> EXPLORE</span>
                         </NavLink>
                         <NavLink
                             to='/notification'
                             className="nav-item nav-link"
-                            style={({ isActive }) => ({ color: isActive ? '#AD45FF' : 'gray', fontSize: '1.5rem', fontWeight: 'bold'  })}>
-                            <FaBell className={notifications.length > 0? 'notification-icon': '' }style={{marginBottom:'5px', marginRight:'5px'}}/>
-                            <span className="d-lg-inline-block d-none"> NOTIFICATION</span>
+                            style={({ isActive }) => ({ color: isActive ? '#AD45FF' : 'gray', fontSize: '1.5rem', fontWeight: 'bold' })}>
+                            <FaBell className={notifications.length > 0 ? 'notification-icon' : ''} style={{ marginBottom: '5px', marginRight: '5px' }} />
+                            <span className={isMobile ? "d-lg-inline-block d-none" : ""}> NOTIFICATION</span>
                         </NavLink>
                         <NavLink
                             to='/home'
                             className="nav-item nav-link"
-                            style={({ isActive }) => ({ color: isActive ? '#AD45FF' : 'gray', fontSize: '1.5rem', fontWeight: 'bold'  })}>
+                            style={({ isActive }) => ({ color: isActive ? '#AD45FF' : 'gray', fontSize: '1.5rem', fontWeight: 'bold' })}>
                             <FaHome style={{ marginBottom: '5px', marginRight: '5px' }} />
-                            <span className="d-lg-inline-block d-none"> HOME</span>
+                            <span className={isMobile ? "d-lg-inline-block d-none" : ""}> HOME</span>
                         </NavLink>
                         <NavLink
                             to='/profile'
                             className="nav-item nav-link"
-                            style={({ isActive }) => ({ color: isActive ? '#AD45FF' : 'gray', fontSize: '1.5rem', fontWeight: 'bold'  })}>
+                            style={({ isActive }) => ({ color: isActive ? '#AD45FF' : 'gray', fontSize: '1.5rem', fontWeight: 'bold' })}>
                             <FaUser style={{ marginBottom: '5px', marginRight: '5px' }} />
-                            <span className="d-lg-inline-block d-none"> PROFILE</span>
+                            <span className={isMobile ? "d-lg-inline-block d-none" : ""}> PROFILE</span>
                         </NavLink>
                         <NavLink
                             to='/chat'
                             className="nav-item nav-link"
-                            style={({ isActive }) => ({ color: isActive ? '#AD45FF' : 'gray', fontSize: '1.5rem', fontWeight: 'bold'  })}>
+                            style={({ isActive }) => ({ color: isActive ? '#AD45FF' : 'gray', fontSize: '1.5rem', fontWeight: 'bold' })}>
                             <FaComment style={{ marginBottom: '5px', marginRight: '5px' }} />
-                            <span className="d-lg-inline-block d-none"> CHAT</span>
+                            <span className={isMobile ? "d-lg-inline-block d-none" : ""}> CHAT</span>
                         </NavLink>
                     </div>
                 </div>
-                <SignOut />
-                <div className="avatar">🚗</div>
+                <div className="d-none d-lg-block ml-auto">
+                    <SignOut />
+                </div>
+                <div className="d-none d-lg-flex avatar">🚗</div>
             </nav>
         </>
     );
