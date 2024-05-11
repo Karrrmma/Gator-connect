@@ -156,7 +156,7 @@ router.get("/api/chat/getPrivateMessages", (req, res) => {
 //------Fetch private Chats----//
 router.get("/api/chat/getPrivateChats/:receiver_id", (req, res) => {
   const {receiver_id} = req.params;
-  const getPrivateChats = `SELECT Private_Message.sender_id FROM Private_Message WHERE receiver_id = ? LIMIT 1`;
+  const getPrivateChats = `SELECT DISTINCT sender_id FROM Private_Message WHERE (receiver_id = ?)`;
 
   connection.query(getPrivateChats, [receiver_id], async(err, results) => {
     if(err){
@@ -167,6 +167,23 @@ router.get("/api/chat/getPrivateChats/:receiver_id", (req, res) => {
     res.status(200).json(results);
   })
 })
+
+//------Fetch private Chats where receiver hasn't texted back yet----//
+router.get("/api/chat/getPrivateChats/noAnswer/:receiver_id", (req, res) => {
+  const {receiver_id} = req.params;
+  const getPrivateChats = `SELECT DISTINCT receiver_id FROM Private_Message WHERE (sender_id = ? AND 
+    receiver_id NOT IN (SELECT sender_id FROM Private_Message))`;
+
+  connection.query(getPrivateChats, [receiver_id, receiver_id], async(err, results) => {
+    if(err){
+      console.error('Error fetching private Chats with no answer from DB: ', err);
+      return res.status(500).json({ error: "Failed to fetch private Chats with no answer" });
+    }
+
+    res.status(200).json(results);
+  })
+})
+
 
 
 

@@ -148,20 +148,37 @@ exports.privchat= (req, res) => {
   })
 };
 
+//------Fetch private Chats----//
 exports.privchat= (req, res) => {
   const {receiver_id} = req.params;
-  const getPrivateChats = `SELECT Private_Message.sender_id FROM Private_Message WHERE receiver_id = ? LIMIT 1`;
+  const getPrivateChats = `SELECT DISTINCT sender_id FROM Private_Message WHERE (receiver_id = ?)`;
 
-  connection.query(getPrivateChats, [receiver_id], async(err, results) => {
+
+  connection.query(getPrivateChats, [receiver_id, receiver_id], async(err, results) => {
     if(err){
       console.error('Error fetching private Chats from DB: ', err);
       return res.status(500).json({ error: "Failed to fetch private Chats" });
+    }
+    res.status(200).json(results);
+  })
+};
+
+
+//------Fetch private Chats where receiver hasn't texted back yet----//
+exports.privchat= (req, res) => {
+  const {receiver_id} = req.params;
+  const getPrivateChats = `SELECT DISTINCT receiver_id FROM Private_Message WHERE (sender_id = ? AND 
+    receiver_id NOT IN (SELECT sender_id FROM Private_Message))`;
+
+  connection.query(getPrivateChats, [receiver_id, receiver_id], async(err, results) => {
+    if(err){
+      console.error('Error fetching private Chats with no answer from DB: ', err);
+      return res.status(500).json({ error: "Failed to fetch private Chats with no answer" });
     }
 
     res.status(200).json(results);
   })
 };
-
 
 
   
