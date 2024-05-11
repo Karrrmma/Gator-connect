@@ -9,6 +9,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { getCurrentUserId } from '../../utils/decodeData';
 import { queryData } from '../../utils/queryUser';
+import { getPrivateMessages, sendPrivateMessage } from '../../services/Chat/chatService';
 
 
 
@@ -30,21 +31,13 @@ const ChatWindow = () => {
       params.append('senderID', senderID);
       params.append('name', name);
 
-      const responseFetch = await fetch(`/api/chat/getPrivateMessages?${params.toString()}`);
-      if(!responseFetch){
-        console.error('Failed to fetch private messages!');
-        return;
-      }
 
       try{
-        if (!responseFetch.ok) {
-          throw new Error(`HTTP error! status: ${responseFetch.status}`);
-        }
-        const returnFetch = await responseFetch.json();
-        console.log("Fetched private messages:", returnFetch);
-        return returnFetch;
-      }catch (error){
-        console.error('Failed to fetch private messages!: ', error);
+          const returnFetch = await getPrivateMessages(params.toString());
+          console.log("Fetched private messages:", returnFetch);
+          return returnFetch;
+      } catch (error){
+          console.error('Failed to fetch private messages!: ', error);
       }
     }
 
@@ -79,23 +72,16 @@ const ChatWindow = () => {
   //--sending to DB
   const sendMessageToDB = async (senderID, contentMessage, name) => {
     try{
-      const response = await fetch(`/api/chat/sendPrivateMessage`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-            sender_id: senderID,
-            message_content: contentMessage,
-            receiver_name: name,
-        }),
-      });
-//      const data = await response.json();
-      if (response.ok) {
-          console.log("Send Message successfully to BE API!");
-      } else {
-          alert("Failed sending message to BE API!")
-      }
+      await sendPrivateMessage({
+        sender_id: senderID,
+        message_content: contentMessage,
+        receiver_name: name,
+    });
+    console.log("Send Message successfully to private BE API!");
+
 
     }catch(error){
+      alert("Failed sending message to BE API!")
       console.log('****error sending message to Backend API: ', error);
     }
   }

@@ -13,6 +13,7 @@ import { GiCampingTent } from "react-icons/gi";
 import { useState } from "react";
 import { getCurrentUserId } from '../../utils/decodeData';
 import { queryData } from '../../utils/queryUser';
+import { getPublicMessages, sendPublicMessage } from './../../services/Chat/chatService';
 
 
 
@@ -28,21 +29,13 @@ const Channel = () => {
   //--fetching existing public messages from DB
   useEffect(() => {
     const fetchPublicMessages = async () => {
-      const responseFetch = await fetch(`/api/chat/getPublicMessages/${channel_names}`);
-      if(!responseFetch){
-        console.error('Failed to fetch public messages!');
-        return;
-      }
-
-      try{
-        if (!responseFetch.ok) {
-          throw new Error(`HTTP error! status: ${responseFetch.status}`);
-        }
-        const returnFetch = await responseFetch.json();
-        console.log("Fetched public messages:", returnFetch);
-        return returnFetch;
-      }catch (error){
-        console.error('Failed to fetch public messages!: ', error);
+      try {
+          const data = await getPublicMessages(channel_names);
+          console.log("Fetched public messages:", data);
+          return data;
+          // return await getPublicMessages(channel_names);
+      } catch (error) {
+          console.error('Failed to fetch public messages!');
       }
     }
 
@@ -52,7 +45,7 @@ const Channel = () => {
       console.error(error); // Handle errors if the Promise is rejected
     });
     setFetched(true);
-  }, [fetched]);
+  }, [fetched, channel_names]);
 
   //---end fetching
 
@@ -73,23 +66,15 @@ const Channel = () => {
   //--sending to DB
   const sendMessageToDB = async (senderID, contentMessage, channel_names) => {
     try{
-      const response = await fetch(`/api/chat/sendPublicMessage`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-            sender_id: senderID,
-            message_content: contentMessage,
-            message_type: channel_names,
-        }),
+      await sendPublicMessage({
+        sender_id: senderID,
+        message_content: contentMessage,
+        message_type: channel_names,
       });
-//      const data = await response.json();
-      if (response.ok) {
-          console.log("Send Message successfully to BE API!");
-      } else {
-          alert("Failed sending message to BE API!")
-      }
 
+      console.log("Send Message successfully to BE API!");
     }catch(error){
+      alert("Failed sending message to BE API!")
       console.log('****error sending message to Backend API: ', error);
     }
   }
