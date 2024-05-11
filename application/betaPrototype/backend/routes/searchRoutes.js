@@ -19,7 +19,7 @@ router.post("/search",  (req, res) => {
   const { username, major, year } = req.body;
 
   let query =
-    "SELECT Account.user_id, Account.username, Student.major FROM Account JOIN Student ON Account.user_id = Student.user_id WHERE 1=1";
+    "SELECT Account.user_id, Account.username, Student.major, Profile.avatar FROM User JOIN Account ON User.user_id = Account.user_id JOIN Profile ON Account.account_id = Profile.account_id JOIN Student ON Account.user_id = Student.user_id WHERE 1=1";
   const params = [];
 
   if (username) {
@@ -34,10 +34,6 @@ router.post("/search",  (req, res) => {
     query += " AND Student.year LIKE ?";
     params.push("%" + year + "%");
   }
-  // if (content) {
-  //   query += ' AND Student.content LIKE ?';
-  //   params.push('%' + content + '%');
-  // }
 
   connection.query(query, params, (err, results) => {
     if (err) {

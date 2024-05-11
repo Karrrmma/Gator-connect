@@ -9,8 +9,10 @@ async function apiCall(endpoint, method = 'GET', body, useToken=true) {
     };
     
     if (useToken) { // require JWT token by default
-      const token = localStorage.getItem('token');
-      options.headers.Authorization = `Bearer ${token}`;
+      const token = sessionStorage.getItem('token');
+      // strip quotes from token
+      const userToken = token.substring(1, token.length - 1);
+      options.headers.Authorization = `Bearer ${userToken}`;
     }
   
     if (body) {
@@ -20,7 +22,6 @@ async function apiCall(endpoint, method = 'GET', body, useToken=true) {
     const response = await fetch(`${API_ROUTE}${endpoint}`, options);
   
     if (!response.ok) {
-      // console.log(`Error ${response.status} given`);
       const responseBody = await response.json();
       console.log(responseBody);
       throw new Error(responseBody.message);

@@ -20,7 +20,7 @@ router.post('/posts', postcontrol.post);
 // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 // Add New Post
 
-router.post("/newpost", verifyToken, (req, res) => {
+router.post("/api/post/new", verifyToken, (req, res) => {
   console.log("Received post data:", req.body);
   const { post_content, user_id } = req.body;
 
@@ -79,7 +79,7 @@ router.post("/newpost", verifyToken, (req, res) => {
 });
 
 // GET all posts
-router.get("/posts", async (req, res) => {
+router.get("/api/posts", async (req, res) => {
   // Modify the query to retrieve post components and full_name from User table
   // Those Select components are useful in navigating home --> each profile (post.user_id)
   const query = `
