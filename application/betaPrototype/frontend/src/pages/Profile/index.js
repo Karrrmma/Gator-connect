@@ -9,6 +9,7 @@ import NewPostPopup from "./NewPostPopup";
 import EditProfilePopup from "./EditProfilePopup";
 import { Link } from 'react-router-dom';
 import { getUserInfo } from "../../services/User/userService";
+import { getFriendshipStatus, sendFriendReq, unfriendUser } from "../../services/Notification/friendService";
 
 
 function Profile() {
@@ -103,15 +104,8 @@ function Profile() {
   const checkFriendship = async (userId) => {
     const requesterId = getCurrentUserId();
     try {
-      const response = await fetch(
-        `/api/isFriend?requester_id=${requesterId}&receiver_id=${userId}`
-      );
-      const data = await response.json();
-      if (response.ok) {
-        setUser((prevState) => ({ ...prevState, isFriend: data.isFriend }));
-      } else {
-        console.error(data.message || "Failed to check friendship status");
-      }
+      const data = await getFriendshipStatus(requesterId, userId);
+      setUser((prevState) => ({ ...prevState, isFriend: data.isFriend }));
     } catch (error) {
       console.error("Error fetching friendship status:", error);
     }
@@ -119,26 +113,14 @@ function Profile() {
 
   const sendFriendRequest = async (requesterId, receiverId) => {
     try {
-      const response = await fetch("/api/friends/request", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
+      const data = await sendFriendReq({
           requester_id: requesterId,
           receiver_id: receiverId,
-        }),
-      });
-      const data = await response.json();
-      if (response.ok) {
-        alert("Friend request sent successfully!");
-      } else {
-        if (response.status === 409) {
-          alert("Friend request already exists.");
-        } else {
-          alert(data.message || "Failed to send friend request.");
-        }
-      }
+        });
+      alert(data.message);
     } catch (error) {
-      console.error("Error sending friend request:", error);
+      console.error("Failed to send friend request.", error);
+      alert(error);
     }
   };
 
@@ -154,28 +136,21 @@ function Profile() {
 
   const handleUnfriendClick = async () => {
     try {
-      const response = await fetch("/api/friends/unfriend", {
-        method: "DELETE",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          requester_id: getCurrentUserId(),
-          receiver_id: userId,
-        }),
+      const data = await unfriendUser({
+        requester_id: getCurrentUserId(),
+        receiver_id: userId,
       });
-      const data = await response.json();
-      if (response.ok) {
-        alert("You are no longer friends.");
-        setUser((prevState) => ({
-          ...prevState,
-          isFriend: false,
-          friend_count:
-            prevState.friend_count > 0 ? prevState.friend_count - 1 : 0,
-        }));
-      } else {
-        alert(data.message || "Failed to end friendship.");
-      }
+      // alert("You are no longer friends.");
+      alert(data.message);
+      setUser((prevState) => ({
+        ...prevState,
+        isFriend: false,
+        friend_count:
+          prevState.friend_count > 0 ? prevState.friend_count - 1 : 0,
+      }));
     } catch (error) {
       console.error("Error unfriending:", error);
+      alert(error);
     }
   };
 

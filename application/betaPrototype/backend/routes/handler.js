@@ -244,21 +244,36 @@ router.post("/reset-password", async (req, res) => {
 // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  
 // Edit profile, especially for biography
 router.post('/editprofile', (req, res) => {
-  const { account_id, biography } = req.body;
+  const { account_id: user_id, biography } = req.body;
 
-  const profileQuery = 'UPDATE Profile SET biography = ? WHERE account_id = ?';
+  const accountIdQuery = 'SELECT account_id FROM Account WHERE user_id = ?';
 
-  connection.query(profileQuery, [biography, account_id], (error, results) => {
+  connection.query(accountIdQuery, [user_id], (error, results) => {
     if (error) {
       console.error('Database error:', error);
       return res.status(500).send({ error: 'Internal server error' });
     }
 
-    if (results.affectedRows === 0) {
-      return res.status(404).send({ error: 'Account not found' });
+    if (results.length === 0) {
+      return res.status(404).send({ error: 'User not found' });
     }
 
-    res.send({ message: 'Profile updated successfully' });
+    const account_id = results[0].account_id;
+
+    const profileQuery = 'UPDATE Profile SET biography = ? WHERE account_id = ?';
+
+    connection.query(profileQuery, [biography, account_id], (error, results) => {
+      if (error) {
+        console.error('Database error:', error);
+        return res.status(500).send({ error: 'Internal server error' });
+      }
+
+      if (results.affectedRows === 0) {
+        return res.status(404).send({ error: 'Account not found' });
+      }
+
+      res.send({ message: 'Profile updated successfully' });
+    });
   });
 });
 

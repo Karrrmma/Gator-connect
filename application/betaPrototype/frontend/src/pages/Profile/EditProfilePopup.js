@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { updateProfile } from '../../services/User/userService';
 
 function EditProfilePopup({ userId, onClose, updateBiography }) {
     const [profileInfo, setProfileInfo] = useState('');
@@ -20,22 +21,11 @@ function EditProfilePopup({ userId, onClose, updateBiography }) {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch('/editprofile', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ biography: profileInfo, account_id: userId }),
-            });
-
-            const data = await response.json();
-            if (response.ok) {
-                setConfirmation(data.message || 'Profile updated successfully!');
-                updateBiography(profileInfo); 
-                setTimeout(handleClose, 2000);
-            } else {
-                setConfirmation(data.error || 'Failed to update profile.');
-            }
+            const data = await updateProfile({ biography: profileInfo, account_id: userId });
+            
+            setConfirmation(data.message || 'Profile updated successfully!');
+            updateBiography(profileInfo); 
+            setTimeout(handleClose, 2000);
         } catch (error) {
             console.error('Failed to update profile:', error);
             setConfirmation('Failed to send request.');

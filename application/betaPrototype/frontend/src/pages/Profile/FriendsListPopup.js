@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import UserCard from '../../components/UserCard';
 import "./popup.css"; // --> path is different maybe this one is in the profile and event is in explore
 import { getCurrentUserId } from "../../utils/decodeData";
+import { unfriendUser } from '../../services/Notification/friendService';
 
 function FriendsListPopup({ onClose, onFriendCountChange}) {
   const profile = getCurrentUserId();
@@ -42,23 +43,20 @@ function FriendsListPopup({ onClose, onFriendCountChange}) {
 
   const unfriend = async (friendId) => {
     try {
-      const response = await fetch("/api/friends/unfriend", {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ requester_id: profile, receiver_id: friendId })
-      });
+      const data = await unfriendUser({ requester_id: profile, receiver_id: friendId });
+      // const response = await fetch("/api/friends/unfriend", {
+      //   method: 'DELETE',
+      //   headers: {
+      //     'Content-Type': 'application/json',
+      //   },
+      //   body: JSON.stringify({ requester_id: profile, receiver_id: friendId })
+      // });
 
-      const data = await response.json();
-      if (response.ok) {
-        fetchFriends(); 
-        onFriendCountChange();
-        setConfirmation(data.message);
-        setTimeout(handleClose, 2000);  // Optionally close popup automatically after a delay.
-      } else {
-        console.error('Failed to unfriend:', data.message);
-      }
+      // const data = await response.json();
+      fetchFriends(); 
+      onFriendCountChange();
+      setConfirmation(data.message);
+      setTimeout(handleClose, 2000);  // Optionally close popup automatically after a delay.
     } catch (error) {
       console.error('Network error:', error);
     }
