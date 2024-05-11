@@ -20,16 +20,22 @@ function NewPostPopup({ userId, onClose, onAddPost }) {
     const handleSubmit = async (postData) => {
         postData.preventDefault();
         
+        if(!token){
+            setConfirmation('no auth token found');
+            return;
+        }
 
-        
         try {
             const response = await fetch('/newpost', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                   'Authorization' : `Bearer ${token}` ,
+
                 },
                 body: JSON.stringify({ post_content: post, user_id: userId }),
             });
+
 
             const data = await response.json();
 
