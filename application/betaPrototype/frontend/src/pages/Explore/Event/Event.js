@@ -1,3 +1,20 @@
+/**
+ * Event Component
+ * 
+ * This component represents the page for displaying and interacting with events.
+ * Users can filter events by type, host, location, and date range. They can also search for specific events by name.
+ * The component fetches events from the backend and displays them in a grid format.
+ * Users can create new events, register for events, and view event details.
+ * 
+ * State:
+ * - showForm: Boolean indicating whether the RSVP form is visible
+ * - initialFilters: Object containing initial filter values
+ * - searchQuery: String representing the search query entered by the user
+ * - filters: Object containing filter values for event type, host, location, start date, and end date
+ * - showCreateEventForm: Boolean indicating whether the create event form is visible
+ * - events: Array containing information about events fetched from the backend
+ * 
+ */
 import React, { useState , useEffect} from "react";
 import "../ExploreTemplate.css";
 import { useNavigate } from "react-router-dom";
@@ -64,7 +81,7 @@ function Event() {
   const filteredEvents = events.filter((event) => {
     if (filters.type && event.event_type !== filters.type) return false;
     if (filters.host && event.event_host !== filters.host) return false;
-    if (filters.location && event.event_location != filters.location) return false;
+    if (filters.location && event.event_location !== filters.location) return false;
     if (filters.startDate && new Date(event.event_time) < new Date(filters.startDate)) return false;
     if (filters.endDate && new Date(event.event_time) > new Date(filters.endDate)) return false;
     // Check if the event name contains the search query
