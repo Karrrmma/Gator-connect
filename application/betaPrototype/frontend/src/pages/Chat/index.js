@@ -18,22 +18,45 @@ const Chat = () => {
   useEffect(() => {
     const fetchPrivateChats = async () => {
       const currentUserID = getCurrentUserId();
-      const responseFetch = await fetch(`/api/chat/getPrivateChats/${currentUserID}`);
-      if(!responseFetch){
-        console.error('Failed to fetch private chats!');
-        return;
-      }
-
+      
       try{
-        if (!responseFetch.ok) {
-          throw new Error(`HTTP error! status: ${responseFetch.status}`);
+        //erster fetch
+        const responseFetch1 = await fetch(`/api/chat/getPrivateChats/${currentUserID}`);
+        if(!responseFetch1){
+          console.error('Failed to fetch private chats!');
+          return;
         }
-        const returnFetch = await responseFetch.json();
-        console.log("Fetched private chats:", returnFetch);
-        return returnFetch;
+        
+        if (!responseFetch1.ok) {
+          throw new Error(`HTTP error! status: ${responseFetch1.status}`);
+        }
+        const returnFetch1 = await responseFetch1.json();
+        console.log("returnFetch1---Fetched private chats:", returnFetch1);        
+
+
+        // zweiter fetch
+        const responseFetch2 = await fetch(`/api/chat/getPrivateChats/noAnswer/${currentUserID}`);
+        if(!responseFetch2){
+          console.error('Failed to fetch private chats with no answer yet!');
+          return;
+        }
+        if (!responseFetch2.ok) {
+          throw new Error(`HTTP error! status: ${responseFetch2.status}`);
+        }
+
+        const returnFetch2 = await responseFetch2.json();
+        console.log("returnFetch2---Fetched private chats with no answer yet:", returnFetch2);
+
+
+        // combine both fetch returns
+        const returnFetch = [...returnFetch1, ...returnFetch2];
+        console.log("returnFetch: ", returnFetch);
+        //const returnnochMal = { sender_id: returnFetch };
+        return returnFetch
       }catch (error){
         console.error('Failed to fetch private chats!: ', error);
       }
+      
     }
 
     fetchPrivateChats().then(res => {
@@ -56,7 +79,7 @@ const Chat = () => {
               <div className="card-body" style={{overflowY: 'auto', height: '450px'}}>
 
                 {privateChats.map((chats, index) =>
-                <SenderName senderID={chats.sender_id} index={index}/>
+                <SenderName senderID={chats.sender_id || chats.receiver_id} index={index}/>
                 )}
 
               </div>

@@ -1,3 +1,25 @@
+/**
+ * CreateEventForm Component
+ * 
+ * This component provides a form for users to create new events.
+ * Users can enter event details such as title, type, description, location, and date/time.
+ * Upon submission, the event information is sent to the backend for storage in the database.
+ * 
+ * Props:
+ * - onClose: Function to handle closing the create event form
+ * 
+ * State:
+ * - eventType: String representing the type of event
+ * - description: String representing the description of the event
+ * - dateTime: String representing the date and time of the event
+ * - location: String representing the location of the event
+ * - eventTitle: String representing the title of the event
+ * - eventItems: Array containing information about created events
+ * - confirmation: String representing the confirmation message for creating a new event
+ * - showPopup: Boolean indicating whether the create event form is visible
+ * - user: Object containing information about the current user (username and role)
+ * 
+ */
 import React, { useState, useEffect } from "react";
 import { queryData } from "../../../utils/queryUser";
 import { getCurrentUserId } from "../../../utils/decodeData";
