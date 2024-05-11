@@ -142,11 +142,12 @@ function Register({setToken}) {
             biography: ''
         }
         try {
-            const data = await createProfile(field); // i believe this should not ever fail
+            // i believe this shouldnt ever fail, but just in case
+            const data = await createProfile(field); 
+            navigate('/'); // bring user home
         } catch (error) {
             console.log(error + "SOMEHOW FAILED TO CREATE PROFILE, cant read a value?");
         }
-        
     }
 
     const registerForm = (

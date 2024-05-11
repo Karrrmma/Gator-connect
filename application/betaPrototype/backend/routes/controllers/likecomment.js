@@ -45,7 +45,7 @@ exports.likes = (req, res) => {
         });
       });
     });
-  });
+  };
   
   // Remove a like from the database and decrement the num_likes in Post table
   router.delete("/api/likes", (req, res) => {
