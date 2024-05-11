@@ -135,11 +135,16 @@ router.post('/api/updateprofile', (req, res) => {
 // Profile Avatar and Biography Retrieval
 router.get('/api/profile/info/:userId', (req, res) => {
   const { userId } = req.params;
+  // seems like user_id != account_id
+  // find the user_id thats linked to a profile
   const query = `
-      SELECT avatar, biography
-      FROM Profile
-      WHERE account_id = ?
+      SELECT Profile.avatar, Profile.biography
+      FROM User
+      JOIN Account ON User.user_id = Account.user_id
+      JOIN Profile ON Account.account_id = Profile.account_id
+      WHERE User.user_id = ?
   `;
+  // console.log(userId);
   connection.query(query, [userId], (error, results) => {
       if (error) {
           console.error("Error fetching profile info:", error);

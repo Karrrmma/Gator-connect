@@ -14,6 +14,7 @@ const connection = mysql.createConnection({
   user: "thream",
   password: "Jose*ortiz3",
   database: "mydb",
+  charset: "utf8mb4"
 });
 
 // Debugging Connection
