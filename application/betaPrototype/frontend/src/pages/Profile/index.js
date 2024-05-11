@@ -30,6 +30,7 @@ function Profile() {
   const [showFriendsList, setShowFriendsList] = useState(false);
   const [showNewPost, setShowNewPost] = useState(false);
   const [showEditProfile, setShowEditProfile] = useState(false);
+  
 
   // this is used for display the posts without refresh
   const addNewPostToList = (newPost) => {
@@ -39,6 +40,8 @@ function Profile() {
       post_count: prevUser.post_count + 1,
     }));
   };
+
+  
 
   const handleFriendsListClick = () => {
     setShowFriendsList(!showFriendsList);
@@ -90,6 +93,7 @@ function Profile() {
   console.log("In Profile, user_id: ", getCurrentUserId());
   console.log("In Profile, /profile/:userId: ", userId);
   */
+ 
 
   const checkFriendship = async (userId) => {
     const requesterId = getCurrentUserId();

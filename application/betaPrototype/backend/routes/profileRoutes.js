@@ -25,6 +25,7 @@ router.get("/api/user/:user_id", (req, res) => {
     Student.major AS major,
     Student.year AS year,
     Professor.department AS department,
+    Profile.biography,
     CASE 
       WHEN Student.user_id IS NOT NULL THEN 'Student'
       WHEN Professor.user_id IS NOT NULL THEN 'Professor'
@@ -37,6 +38,7 @@ router.get("/api/user/:user_id", (req, res) => {
     LEFT JOIN Student ON User.user_id = Student.user_id
     LEFT JOIN Professor ON User.user_id = Professor.user_id
     LEFT JOIN Account ON User.user_id = Account.user_id
+    LEFT JOIN Profile ON Account.account_id = Profile.account_id
     WHERE User.user_id = ?
     GROUP BY User.user_id;`;
 
