@@ -83,12 +83,12 @@ input.form-control{
     border-color: white;
     padding:auto;
     border:2px solid black;
-    width: 700px;
+    width: 800px;
     
 }
 
 #search-bar.search-home-container{
-    width: 700px;
+    width: auto;
 }
 
 

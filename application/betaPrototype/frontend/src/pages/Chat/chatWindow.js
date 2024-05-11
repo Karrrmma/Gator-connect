@@ -111,7 +111,7 @@ const ChatWindow = () => {
           <Head />
           <div className="chat-container"  style={{ borderTopLeftRadius: '0px', borderTopRightRadius: '0px'}}>
 
-            <div className="card-body" style={{ backgroundColor: 'black', overflowY: 'auto', height: '468px' }}>
+            <div className="chat-body" style={{ backgroundColor: 'black', overflowY: 'auto', height: '468px' }}>
 
               {privateMessages.map((priv_message, index) =>
                 <div>
@@ -203,7 +203,7 @@ function Bottom({ inputMessage, setInputMessage, sendMessage }) {
 
   return (
     <div className="w-100">
-      <div className="card-body d-flex align-items-center" style={{ background: 'black', justifyContent: 'center' }}>
+      <div className="chat-body d-flex align-items-center" style={{ background: 'black', justifyContent: 'center' }}>
         <input type="text rounded-pill" className="form-control" placeholder="Enter your message here ..." aria-label="Recipient's username"
           aria-describedby="basic-addon2" value={inputMessage} onChange={handleChange} onKeyPress={handleKeyPress}
           style={{ color: 'white', backgroundColor: '#252525', width: '400px', height: '50px', border: '#656565', marginRight: '10px' }}>

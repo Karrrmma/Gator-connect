@@ -10,6 +10,7 @@ function Explore() {
   const[items, setItems] =useState([]);
 
 
+  const [containerWidth, setContainerWidth] = useState("60%");
  
 
   const handleSearchSubmit = (event) => {
@@ -39,11 +40,30 @@ function Explore() {
     },
   ];
 
+  useEffect(() => {
+    const handleResize = () => {
+      // Update the container width based on the screen width
+      if (window.innerWidth <= 768) {
+        setContainerWidth("100%");
+      } else {
+        setContainerWidth("50%");
+      }
+    };
+
+    // Call handleResize initially and add event listener for resize
+    handleResize();
+    window.addEventListener("resize", handleResize);
+
+    // Remove event listener on component unmount
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   const containerStyle = {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
     padding: "20px 20px",
+    width: containerWidth,
   };
 
   const inputStyle = {
@@ -65,9 +85,9 @@ function Explore() {
     // justifyContent: "space-between",
     display: "flex",
     flexDirection: "column",
-    width: "700px",
-    maxWidth: "80%",
-    margin: "10px",
+    // width: "700px",
+    // maxWidth: "80%",
+    marginBottom: "20px",
     padding: "20px",
     borderRadius: "10px",
     backgroundColor: "black",
@@ -98,6 +118,10 @@ function Explore() {
           fontSize: "15px",
   };
 
+  const searchBarStyle = {
+    width: containerWidth,
+  };
+
   return (
     
     <section style={containerStyle}>
@@ -105,7 +129,7 @@ function Explore() {
       <h1 style={{ fontSize: '2.0rem', marginBottom: "0.5rem", color: 'white' }}>EXPLORE</h1>
       <p style={{ fontSize: "1.1rem", color: 'gray' }}>Let's discover all the resources and opportunities available to SFSU students</p>
 
-      <SearchBarCopy onSearch={handleSearchSubmit}/>
+      <SearchBarCopy onSearch={handleSearchSubmit} style={searchBarStyle} />
 
       {routes.map((route, index) => (
         <div key={route.text} style={itemStyle}>

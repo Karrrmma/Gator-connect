@@ -25,6 +25,10 @@
   border-bottom-right-radius: 0;
 }
 
+.chat-body {
+  border-radius: 20px;
+}
+
 .card-body {
   border-radius: 20px;
 }
@@ -226,10 +230,10 @@
 
 
 @media (max-width: 768px) {
-  .post-container {
+  .post-container, .card-body {
     width: 90%;
   }
-  .card-body, .chat-container, .head-chat {
+  .chat-body, .chat-container, .head-chat  {
     margin-left: 20px;
     width: 90%;
   }

@@ -17,7 +17,7 @@ const PubChat = () => {
            <Head/>
             <div className="chat-container">
 
-              <div className="card-body" style={{ overflowY: 'auto', height: '450px'}}>
+              <div className="chat-body" style={{ overflowY: 'auto', height: '450px'}}>
                 <div class="d-flex justify-content-start align-items-center" style={{ width: '100%', border: '1px solid black', padding: '10px', textAlign: 'right' }}>
                   <SlSpeech style={{fontSize: '40px', color: '#c15757'}}></SlSpeech>
                   <Link to='/channel/General' className='btn btn-link text-decoration-none' style={{color: 'white', fontSize: '25px'}}>General</Link>
@@ -59,7 +59,7 @@ const PubChat = () => {
 
   function Bottom(){
     return(
-    <div className="card-body d-flex flex-column align-items-center" style={{ background: 'black', justifyContent: 'center', borderBottomLeftRadius: '20px', borderBottomRightRadius: '20px'}}>
+    <div className="chat-body d-flex flex-column align-items-center" style={{ background: 'black', justifyContent: 'center', borderBottomLeftRadius: '20px', borderBottomRightRadius: '20px'}}>
       <Link to='/chat' className="btn rounded-pill btn-link text-decoration-none" style={{backgroundColor: '#AD45FF', color: 'white', fontSize: '20px', fontSize: '20px', padding: '10px', width: '150px', marginBottom:'10px'}}>      
       Private Chat
       </Link>

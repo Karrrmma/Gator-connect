@@ -75,7 +75,7 @@ const Chat = () => {
            <div className="" style={{ marginTop: '20px' }}>
            <Head/>
             <div className="chat-container ">
-              <div className="card-body" style={{overflowY: 'auto', height: '450px'}}>
+              <div className="chat-body" style={{overflowY: 'auto', height: '450px'}}>
 
                 {privateChats.map((chats, index) =>
                 <SenderName senderID={chats.sender_id || chats.receiver_id} index={index}/>
@@ -127,7 +127,7 @@ const Chat = () => {
 
   function Bottom(){
     return(
-    <div className="card-body d-flex flex-column align-items-center">
+    <div className="chat-body d-flex flex-column align-items-center">
           <Link to='/pubChat' className="btn btn-link rounded-pill text-decoration-none" style={{backgroundColor: '#AD45FF', color: 'white', fontSize: '20px', padding: '10px', width: '150px', marginBottom:'10px'}}>
           Public Chat
           </Link>   
