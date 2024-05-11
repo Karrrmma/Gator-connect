@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import "../ExploreTemplate.css";
 import { FaStar, FaCommentDots } from "react-icons/fa";
 import { useLocation } from "react-router-dom";
+import { getVendorData, postVendorReview } from "../../../services/Explore/exploreService";
 
 const vendorsInfo = {
   "Cafe 101": {
@@ -540,13 +541,8 @@ function VendorDetail() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await fetch(`/vendordetail/${name}`);
-        const data = await response.json();
-        if (response.ok) {
-          setMenuItems(data);
-        } else {
-          throw new Error(data.message);
-        }
+        const data = await getVendorData(name);
+        setMenuItems(data);
       } catch (error) {
         console.error("Fetch Error:", error);
       }
@@ -576,18 +572,10 @@ function VendorDetail() {
     };
 
     try {
-      const response = await fetch("/vendordetail", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(postData),
-      });
-      const data = await response.json();
-      if (response.ok) {
-        setMenuItems([...menuItems, postData]);
-        navigate("/explore/foodVendor");
-      } else {
-        throw new Error(data.message);
-      }
+      const data = await postVendorReview(postData);
+      setMenuItems([...menuItems, postData]);
+      navigate("/explore/foodVendor");
+
     } catch (error) {
       console.error("Submit Error:", error);
     }

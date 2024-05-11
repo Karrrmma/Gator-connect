@@ -925,7 +925,7 @@ router.get("/api/isFriend", (req, res) => {
 // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  
 // VENDOR DETAIL
 // Insert the data in the Food Vendor from Backend (VendorDetail.js)
-router.post("/vendordetail", (req, res) => {
+router.post("/api/vendordetail", (req, res) => {
   const { menu_rating, menu_review, vendor_name, menu_name } = req.body;
   const query = `
       INSERT INTO Food_Vendor (menu_rating, menu_review, vendor_name, menu_name)
@@ -949,7 +949,7 @@ router.post("/vendordetail", (req, res) => {
   );
 });
 
-router.get("/vendordetail/:vendor_name", (req, res) => {
+router.get("/api/vendordetail/:vendor_name", (req, res) => {
   const { vendor_name } = req.params;
 
   const query = `
@@ -997,7 +997,7 @@ router.get("/vendor-average-ratings", (req, res) => {
 // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  
 // CREATE EVENT
 // Insert the data in the event table from user input
-router.post("/creatEvent", (req, res) => {
+router.post("/api/create_event", (req, res) => {
   const {
     event_description,
     event_type,
@@ -1030,7 +1030,7 @@ router.post("/creatEvent", (req, res) => {
 });
 
 //fetch the event
-router.get('/events', (req, res) => {
+router.get('/api/events', (req, res) => {
   const query = 'SELECT * FROM Event';
   connection.query(query, (error, results) => {
     if (error) {

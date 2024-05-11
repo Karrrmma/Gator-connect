@@ -20,6 +20,7 @@ import "../ExploreTemplate.css";
 import { useNavigate } from "react-router-dom";
 import CreateEventForm from './CreateEventForm';
 import RSVPForm from './RSVPForm';
+import { getEvents } from "../../../services/Explore/exploreService";
 
 function Event() {
   const navigate = useNavigate();
@@ -45,13 +46,8 @@ function Event() {
   // Function to fetch events from backend
   const fetchEvents = async () => {
     try {
-      const response = await fetch("/events");
-      if (response.ok) {
-        const eventData = await response.json();
-        setEvents(eventData);
-      } else {
-        console.error("Failed to fetch events:", response.statusText);
-      }
+      const eventData = await getEvents();
+      setEvents(eventData);
     } catch (error) {
       console.error("Error fetching events:", error);
     }

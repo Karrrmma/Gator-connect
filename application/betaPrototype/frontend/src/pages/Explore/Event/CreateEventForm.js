@@ -26,6 +26,7 @@ import { getCurrentUserId } from "../../../utils/decodeData";
 import { useParams } from "react-router-dom";
 import "../ExploreTemplate.css";
 import "../../Profile/popup.css";
+import { createEvent } from './../../../services/Explore/exploreService';
 
 function CreateEventForm({ onClose }) {
 
@@ -94,23 +95,14 @@ function CreateEventForm({ onClose }) {
       };
 
         try {
-          const response = await fetch("/creatEvent", {
-            method: "POST",
-            headers: {"content-Type": "application/json" },
-            body: JSON.stringify(postData),
-          });
+          const data = await createEvent(postData);
 
-          const data = await response.json();
-          if (response.ok) {
-            setConfirmation(data.message || 'New event created! Refresh page to see it displayed.');
-            setEventItems([...eventItems, data]);
-            setTimeout(handleExit, 2000);  // Optionally close popup automatically after a delay.
-          }else {
-            setConfirmation(data.error || 'Failed to create new event.');
-          }
+          setConfirmation(data.message || 'New event created! Refresh page to see it displayed.');
+          setEventItems([...eventItems, data]);
+          setTimeout(handleExit, 2000);  // Optionally close popup automatically after a delay.
         
         } catch (error) {
-          console.error("Submit Error:", error);
+          console.error("Submit Error, failed to create new event: ", error);
         }
     };
 

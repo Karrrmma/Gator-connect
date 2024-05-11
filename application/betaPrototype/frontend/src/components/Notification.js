@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import './Notification.css';
 import { getCurrentUserId } from "../utils/decodeData";
 import { useNavigate } from 'react-router-dom';
+import { acceptFriendReq, declineFriendReq, getFriendReqs } from './../services/Notification/friendService';
 
 
 function NotificationItem({ notification, onAccept, onDecline }) {
@@ -15,7 +16,7 @@ function NotificationItem({ notification, onAccept, onDecline }) {
         navigate(`/profile/${notification.senderId}`);  // Navigate to sender's profile
     };
 
-    notification.avatar = "🚗"
+    // notification.avatar = "🚗"
     return (
         <div className="notification-item">
             <div className="notification-content">
@@ -52,44 +53,50 @@ function Notification() {
         const fetchNotifications = async () => {
             try {
                 const userId = getCurrentUserId(); 
-                const response = await fetch(`/api/friends/requests?userId=${userId}`, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                });
-                if (response.ok) {
-                    const data = await response.json();
-                    setNotifications(data);
-                } else {
-                    const errorData = await response.json();
-                    throw new Error(errorData.message || 'Failed to fetch notifications');
-                }
+                const data = await getFriendReqs(userId);
+                setNotifications(data);
             } catch (error) {
                 console.error('Error fetching notifications:', error.message);
             }
         };
-
         fetchNotifications();
     }, []);
 
     const handleAccept = async (id) => {
-            const response = await fetch(`/api/friends/accept/${id}`, { method: 'POST' });
-            if (response.ok) {
+            // const response = await fetch(`/api/friends/accept/${id}`, { method: 'POST' });
+            // if (response.ok) {
+            //     setNotifications(current =>
+            //         current.map(notification =>
+            //             notification.id === id ? { ...notification, accepted: true } : notification
+            //         )
+            //     );
+            // }
+            try {
+                await acceptFriendReq(id);
                 setNotifications(current =>
                     current.map(notification =>
                         notification.id === id ? { ...notification, accepted: true } : notification
                     )
                 );
+            } catch (error) {
+                console.error('Error accepting friend req:', error.message);
             }
     };
     
     const handleDecline = async (id) => {
-            const response = await fetch(`/api/friends/decline/${id}`, { method: 'DELETE' });
-            if (response.ok) {
+            // const response = await fetch(`/api/friends/decline/${id}`, { method: 'DELETE' });
+            // if (response.ok) {
+            //     setNotifications(current =>
+            //         current.filter(notification => notification.id !== id)
+            //     );
+            // }
+            try {
+                await declineFriendReq(id);
                 setNotifications(current =>
                     current.filter(notification => notification.id !== id)
                 );
+            } catch (error) {
+                console.error('Error declining friend req:', error.message);
             }
     };
 
