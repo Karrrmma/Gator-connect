@@ -80,11 +80,10 @@
 
 }
 input.form-control{
-    border-color: white;
     padding:auto;
-    border:2px solid black;
+    border:2px solid gray;
     width: 800px;
-    
+    color: white;
 }
 
 #search-bar.search-home-container{

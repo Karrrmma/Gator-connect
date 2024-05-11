@@ -787,7 +787,7 @@ function VendorDetail() {
         <div
           className="menu-wrapper"
           style={{
-            width: "800px",
+            width: "100%",
             height: "300px",
             // marginLeft: "15px",
             marginBottom: "70px",
@@ -914,7 +914,7 @@ function VendorDetail() {
           Check some reviews from other users to make informed choices!
         </p>
 
-        <div className="grid-wrapper">
+        <div className="grid-food-detail">
           {filteredItems.length > 0 &&
           filteredItems.some(
             (item) => item.menu_rating >= 0 || item.menu_review >= 0

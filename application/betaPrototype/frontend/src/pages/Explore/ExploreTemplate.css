@@ -155,6 +155,88 @@ body {
   /* margin-top: 200px; */
 }
 
+.grid-food-detail{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 25px;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.menu-item-wrapper {
+  width: 100%;
+}
+
+@media (max-width: 1280px) {
+  .grid-wrapper {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .grid-food-detail{
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media screen and (max-width: 1015px) {
+  .content-wrapper{
+    flex-direction: column;
+  }
+  .search-wrapper {
+    position: static;
+    top: auto;
+    margin: 0 auto;
+  }
+  .grid-wrapper {
+    margin-top: 550px;
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .menu-item-wrapper {
+    margin-top: 550px;
+  }
+  .grid-food-detail{
+    margin-top: 0px;
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 815px) {
+  .content-wrapper{
+    flex-direction: column;
+  }
+  .search-wrapper {
+    position: static;
+    top: auto;
+    margin: 0 auto;
+  }
+  .grid-wrapper {
+    margin: 0 auto;
+    margin-top: 550px;
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .grid-food-detail{
+    margin-top: 0px;
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 520px) {
+  .content-wrapper{
+    flex-direction: column;
+  }
+  .search-wrapper {
+    position: static;
+    top: auto;
+    margin: 0 auto;
+  }
+  .grid-wrapper {
+    margin-top: 550px;
+    grid-template-columns: repeat(1, 1fr);
+  }
+  .grid-food-detail{
+    margin-top: 0px;
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+
 /* empty grid when no reviews and comments*/
 .empty-grid-placeholder {
   background-color: black;
