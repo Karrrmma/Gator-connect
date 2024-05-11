@@ -96,6 +96,15 @@
   color: white;
 }
 
+.capitalize {
+  text-transform: capitalize;
+}
+
+.profile-post .post-card .card-title {
+  text-transform: capitalize;
+}
+
+
 .likes-count {
   font-size: smaller;
   margin-right: 10px;
@@ -189,9 +198,23 @@
   padding-left: 20px;
 }
 
+/* @media (min-width: 768px) {
+  .post-container {
+    width: 50%;
+  }
+} */
+
+
 @media (min-width: 768px) {
   .post-container {
     width: 50%;
+  }
+}
+
+
+@media (max-width: 768px) {
+  .post-container {
+    width: 90%;
   }
 }
 

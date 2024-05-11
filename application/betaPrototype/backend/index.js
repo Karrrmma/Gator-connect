@@ -12,7 +12,6 @@ const profileRoutes = require('../backend/routes/profileRoutes.js')
 
 const likecomment = require('../backend/routes/likecommentRoutes.js')
 const friend = require('../backend/routes/friendRoutes.js')
-
 require('dotenv/config');
 
 const app = express();
@@ -22,9 +21,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 
-app.use( routesHandler);
+app.use(routesHandler);
 app.use(userRoutes);
-app.use(postRoutes);
+app.use(  postRoutes);
 app.use(chatRoutes);
 app.use(searchRoutes);
 app.use(profileRoutes);

@@ -5,7 +5,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const mysql = require("mysql");
 router.use(express.json());
-const connection = require('./db')
+const connection = require('./db');
 
 // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  
 // Like
@@ -53,7 +53,7 @@ router.post("/api/likes", (req, res) => {
   });
   
   // Remove a like from the database and decrement the num_likes in Post table
-  router.delete("/api/likes", (req, res) => {
+  router.delete("/api/likes",(req, res) => {
     const { user_id, post_id } = req.body;
     const deleteLikeQuery =
       "DELETE FROM `Like` WHERE user_id = ? AND post_id = ?";
@@ -203,7 +203,7 @@ router.post("/api/likes", (req, res) => {
   
   
   // Fetch comments for a post
-  router.get("/api/comments/:postId", (req, res) => {
+  router.get("/api/comments/:postId",(req, res) => {
     const { postId } = req.params;
     const fetchCommentsQuery = `
       SELECT c.comment_id, c.user_id, c.comment_content, c.comment_time, u.full_name

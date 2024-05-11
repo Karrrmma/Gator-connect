@@ -1,11 +1,11 @@
 .notification-section {
     max-height: 200px;
-    max-width: 800px;
-    padding: 20px; 
+    /* max-width: 800px; */
+    padding: 20px;
     /* margin-top: 70px; */
-    border-radius: 10px; 
+    border-radius: 10px;
     /* box-shadow: 0 0 10px rgba(92, 70, 70, 0.1);  */
-    color: #fff; 
+    color: #fff;
 }
 
 .notification-item {
@@ -14,19 +14,19 @@
     align-items: center;
     margin-top: 30px;
 
-    margin-bottom: 20px; 
+    margin-bottom: 20px;
     padding: 20px;
-    background-color: #0a0a0a; 
-    border-radius: 20px; 
+    background-color: #0a0a0a;
+    border-radius: 20px;
     box-shadow: 0 0 10px rgba(35, 30, 30, 0.2);
-    width: 60vh; 
+    /* width: 90%;  */
 }
 
 .notification-content {
-    flex: 1; 
+    flex: 1;
     display: flex;
     flex-direction: row;
-    align-items: center; 
+    align-items: center;
     text-align: left;
     margin-right: 20px;
 
@@ -38,9 +38,9 @@
 
 .notification-sender {
     font-weight: bold;
-    margin-bottom: 5px;  
+    margin-bottom: 5px;
     font-size: .8em;
-    margin-right:20px;
+    margin-right: 20px;
 }
 
 .notification-text {
@@ -54,14 +54,14 @@
 
 .notification-actions button {
     margin-right: 10px;
-   
-    padding: 10px 20px; 
+
+    padding: 10px 20px;
     border: none;
-    border-radius: 20px; 
+    border-radius: 20px;
     cursor: pointer;
-    font-weight: bold; 
-    color: #fff; 
-    background-color: #5C5C5C; 
+    font-weight: bold;
+    color: #fff;
+    background-color: #5C5C5C;
     transition: border 0.1s;
 }
 
@@ -83,18 +83,19 @@
     color: #AD45FF;
 }
 
-.title{
+.title {
     /* margin-top: 40px; */
     font-size: 2.0rem;
     color: #fff;
 }
 
-.intro{
+.intro {
     margin-top: 10px;
     font-size: 1.1rem;
     color: gray;
 }
-.notification-section .back-home{
+
+.notification-section .back-home {
     padding: 12px 20px;
     border-radius: 50px;
     background-color: gray;
@@ -107,9 +108,28 @@
     border: none;
 }
 
-.notification-section .back-home:hover{
+.notification-section .back-home:hover {
     background-color: #AD45FF;
 }
-.notification-icon {
-    color: red; /* Set the color to red */
+
+.notification-badge {
+    position: relative;
+    width: 10px;
+    height: 10px;
+    top: -15px;
+    margin-left: -10px;
+    background-color: green;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+
+@media (max-width: 768px) {
+    .notification-actions {
+        flex-direction: column;
+    }
+    .notification-actions button.decline {
+        margin-right: 0;
+    }
+
 }

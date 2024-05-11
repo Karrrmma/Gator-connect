@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from "react";
 import { FaCommentDots, FaHeart } from "react-icons/fa";
 import SearchBar from "./SearchBar";
@@ -6,10 +7,8 @@ import { getCurrentUserId } from "../utils/decodeData";
 import { useNavigate } from "react-router-dom";
 import NewPostPopup from '../pages/Profile/NewPostPopup';
 
-
 // import {Link} from 'react-router-dom';
 // import App from './../App';
-
 function PostCard({ item, icon }) {
   // clear the localStorage ... manually?? 5MB LIMIT
   // localStorage.clear();
@@ -19,19 +18,15 @@ function PostCard({ item, icon }) {
   const [commentText, setCommentText] = useState("");
   const userId = getCurrentUserId();
   const navigate = useNavigate();
-
   const likeStatusKey = `liked_${userId}_post_${item.post_id}`;
   const [isLiked, setIsLiked] = useState(() => JSON.parse(localStorage.getItem(likeStatusKey)) || false);
   const [showAllComments, setShowAllComments] = useState(false);
-
   useEffect(() => {
     localStorage.setItem(likeStatusKey, JSON.stringify(isLiked));
   }, [isLiked, likeStatusKey]);
-
   useEffect(() => {
     fetchComments(item.post_id);
   }, [item.post_id]);
-
   const fetchComments = async (postId) => {
     try {
       const response = await fetch(`/api/comments/${postId}`);
@@ -45,7 +40,6 @@ function PostCard({ item, icon }) {
       console.error("Error fetching comments:", error);
     }
   };
-
   const handleLike = async () => {
     const method = isLiked ? "DELETE" : "POST";
     const endpoint = "/api/likes";
@@ -53,7 +47,6 @@ function PostCard({ item, icon }) {
       user_id: userId,
       post_id: item.post_id,
     });
-
     try {
       const response = await fetch(endpoint, {
         method: method,
@@ -62,7 +55,6 @@ function PostCard({ item, icon }) {
         },
         body: body,
       });
-
       if (response.ok) {
         setIsLiked(!isLiked);
         setLikesCount((prevCount) => isLiked ? prevCount - 1 : prevCount + 1);
@@ -73,7 +65,6 @@ function PostCard({ item, icon }) {
       console.error("Error updating like:", error);
     }
   };
-
   const handleAddComment = async () => {
     if (!commentText.trim()) return;
     const endpoint = "/api/comments";
@@ -82,14 +73,12 @@ function PostCard({ item, icon }) {
       post_id: item.post_id,
       comment_content: commentText,
     });
-
     try {
       const response = await fetch(endpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: body,
       });
-
       if (response.ok) {
         const newComment = await response.json();
         setCommentsCount((prevCount) => prevCount + 1);
@@ -102,7 +91,6 @@ function PostCard({ item, icon }) {
       console.error("Error adding comment:", error);
     }
   };
-
   const handleDeleteComment = async (commentId) => {
     const endpoint = `/api/comments/${commentId}`;
     try {
@@ -111,7 +99,6 @@ function PostCard({ item, icon }) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ post_id: item.post_id }),
       });
-
       if (response.ok) {
         setCommentsCount((prevCount) => prevCount - 1);
         setCommentsData((prevData) =>
@@ -124,7 +111,6 @@ function PostCard({ item, icon }) {
       console.error("Error deleting comment:", error);
     }
   };
-
   const navigatePostUserProfile = () => {
     if (item.user_id) {
       console.log("Post's User ID for navigation (destination's id aka receiver):", item.user_id);
@@ -133,7 +119,6 @@ function PostCard({ item, icon }) {
       console.error("User ID is undefined, cannot navigate");
     }
   };
-
   const navigateCommentUserProfile = (userId) => {
     if (userId) {
         navigate(`/profile/${userId}`);
@@ -142,10 +127,9 @@ function PostCard({ item, icon }) {
     }
 };
 
-
   return (
     <div className="card post-card">
-      <div className="card-body">
+      <div className="card-body w-100">
         <div className="d-flex justify-content-between align-items-start">
           <div className="user-info">
             {/* <img src={avatar} className="rounded-circle" alt="User profile" /> */}
@@ -160,7 +144,7 @@ function PostCard({ item, icon }) {
             </div>
             <div className="title-container">
               <h5
-                className="card-title"
+                className="card-title capitalize"
                 onClick={(e) => {
                   e.stopPropagation();
                   navigatePostUserProfile();
@@ -186,7 +170,6 @@ function PostCard({ item, icon }) {
             </span>
           </div>
         </div>
-
         <p className="card-text">{item.content}</p>
         {item.imageUrl && (
           <img
@@ -196,7 +179,6 @@ function PostCard({ item, icon }) {
             style={{ maxWidth: "80%" }}
           />
         )}
-
         <div className="comment-input-section">
           {/* need to implement comment */}
           <input
@@ -227,23 +209,20 @@ function PostCard({ item, icon }) {
                 {comment.comment_content} <br></br>
                 {new Date(comment.comment_time).toLocaleString('en-US')}
                 </p> */}
-
                   <div className="comment">
-                    <h4 className="comment-user"             
+                    <h4 className="comment-user capitalize"             
                       onClick={(e) => {
                       e.stopPropagation();
                      navigateCommentUserProfile(comment.user_id);
                       }}>{comment.full_name}</h4>
                     <p className="comment-date">{new Date(comment.comment_time).toLocaleString('en-US')}</p>
                   </div>
-
                   <div className="comment">
                     <p className="comment-content" style={{ width: '77%' }}>{comment.comment_content}</p>
                     {comment.user_id === userId && (
                       <button onClick={() => handleDeleteComment(comment.comment_id)} style={{ marginBottom: 'auto', backgroundColor: '#1c1c1c', color: 'gray', border: 'none', borderRadius: '4px' }}>delete your comment</button>
                     )}
                   </div>
-
                 </div>
               ))}
               {commentsData.length > 3 && (
@@ -258,11 +237,8 @@ function PostCard({ item, icon }) {
     </div>
   );
 }
-
 function UserCard({ username, major, icon, userId }) {
-
   const navigate = useNavigate();
-
   const navigateToUserProfile = () => {
     navigate(`/profile/${userId}`);
   };
@@ -274,7 +250,7 @@ function UserCard({ username, major, icon, userId }) {
           {/* <div className="avatar">🐊</div> */}
           {/* <div className="avatar">{icon}</div> */}
           <div className="text-left">
-            <h5 className="card-title ml-2 mb-0" onClick={navigateToUserProfile} >{username}</h5>
+            <h5 className="card-title ml-2 mb-0 capitalize" onClick={navigateToUserProfile} >{username}</h5>
             <div className="text-muted small ml-2 mt-0 major">{major}</div>
           </div>
         </div>
@@ -282,7 +258,6 @@ function UserCard({ username, major, icon, userId }) {
     </div>
   );
 }
-
 function Post() {
   const [items, setItems] = useState([]);
   const [searchQuery, setSearchQuery] = useState({});
@@ -291,25 +266,21 @@ function Post() {
   useEffect(() => {
     fetchAllPosts(); // This should only fetch all posts, not interfere with search
   }, []); // Empty dependency array ensures this only runs once on mount
-
   const userId = getCurrentUserId();
   const handleNewPostClick = () => {
     setShowNewPost(!showNewPost);
   };
-
   // Callback to add new post to the state
   const addNewPost = (newPost) => {
     setItems(prevItems => [newPost, ...prevItems]);
     console.log(newPost);
   };
-
   useEffect(() => {
     if (Object.keys(searchQuery).length > 0) {
       // Only run this if there's a valid search query
       fetchItems(searchQuery);
     }
   }, [searchQuery]);
-
   async function fetchAllPosts() {
     try {
       const response = await fetch("/posts");
@@ -324,7 +295,6 @@ function Post() {
       console.error("Error fetching posts:", error);
     }
   }
-
   async function fetchItems({ username, major, year }) {
     let url = "/search";
     let options = {
@@ -338,23 +308,19 @@ function Post() {
       url = "/testpost";
       options = {};
     }
-
     const response = await fetch(url, options);
     const newItems = await response.json();
-
     if (!newItems.results || newItems.results.length === 0) {
       setNoUsersFound(true);
     } else {
       setNoUsersFound(false);
     }
-
     if (url === "/search") {
       setItems(newItems.results);
     } else {
       setItems(newItems.slice(0, 3));
     }
   }
-
   return (
     <>
       <SearchBar onSearch={setSearchQuery} />
@@ -363,7 +329,7 @@ function Post() {
       {Object.values(searchQuery).some((value) => value) ? (
         <>
           {noUsersFound ? <p>No users found.</p> : null}
-          <section className="post-container m-2">
+          <section className="post-container">
             {items.map((item, index) => {
               if (item) {
                 return (
@@ -381,7 +347,7 @@ function Post() {
           </section>
         </>
       ) : (
-        <section className="post-container m-2">
+        <section className="post-container">
           {items.map((post, index) => (
             <PostCard
               key={index}
@@ -403,5 +369,4 @@ function Post() {
     </>
   );
 }
-
 export default Post;

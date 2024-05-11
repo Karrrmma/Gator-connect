@@ -25,6 +25,7 @@ router.get("/api/user/:user_id", (req, res) => {
     Student.major AS major,
     Student.year AS year,
     Professor.department AS department,
+    Profile.biography,
     CASE 
       WHEN Student.user_id IS NOT NULL THEN 'Student'
       WHEN Professor.user_id IS NOT NULL THEN 'Professor'
@@ -37,6 +38,7 @@ router.get("/api/user/:user_id", (req, res) => {
     LEFT JOIN Student ON User.user_id = Student.user_id
     LEFT JOIN Professor ON User.user_id = Professor.user_id
     LEFT JOIN Account ON User.user_id = Account.user_id
+    LEFT JOIN Profile ON Account.account_id = Profile.account_id
     WHERE User.user_id = ?
     GROUP BY User.user_id;`;
 
@@ -68,21 +70,38 @@ router.get("/api/user/:user_id", (req, res) => {
 // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  
 // Profile DB Creation
 
-router.post('/api/createprofile', (req, res) => {
-  const { userId, avatar, biography } = req.body;
+router.post('/api/profile/create', (req, res) => {
+  const { username, avatar, biography } = req.body;
 
-  const query = `
-      INSERT INTO Profile (account_id, avatar, biography)
-      VALUES (?, ?, ?)
+  const queryAccountId = `
+      SELECT account_id FROM Account WHERE username = ?
   `;
 
-  connection.query(query, [userId, avatar, biography], (error, results) => {
+  connection.query(queryAccountId, [username], (error, results) => {
       if (error) {
-          console.error("Error creating profile:", error);
-          return res.status(500).json({ error: "Failed to create profile" });
+          console.error("Error fetching account_id:", error);
+          return res.status(500).json({ error: "Failed to fetch account_id" });
       }
 
-      res.status(200).json({ message: "Profile created successfully" });
+      if (results.length === 0) {
+          return res.status(404).json({ error: "Username not found" });
+      }
+
+      const userId = results[0].account_id;
+
+      const queryInsertProfile = `
+          INSERT INTO Profile (account_id, avatar, biography)
+          VALUES (?, ?, ?)
+      `;
+
+      connection.query(queryInsertProfile, [userId, avatar, biography], (error, results) => {
+          if (error) {
+              console.error("Error creating profile:", error);
+              return res.status(500).json({ error: "Failed to create profile" });
+          }
+
+          res.status(200).json({ message: "Profile created successfully" });
+      });
   });
 });
 
@@ -112,4 +131,32 @@ router.post('/api/updateprofile', (req, res) => {
     });
   }
 );
+
+// Profile Avatar and Biography Retrieval
+router.get('/api/profile/info/:userId', (req, res) => {
+  const { userId } = req.params;
+  // seems like user_id != account_id
+  // find the user_id thats linked to a profile
+  const query = `
+      SELECT Profile.avatar, Profile.biography
+      FROM User
+      JOIN Account ON User.user_id = Account.user_id
+      JOIN Profile ON Account.account_id = Profile.account_id
+      WHERE User.user_id = ?
+  `;
+  // console.log(userId);
+  connection.query(query, [userId], (error, results) => {
+      if (error) {
+          console.error("Error fetching profile info:", error);
+          return res.status(500).json({ error: "Failed to fetch profile info" });
+      }
+
+      if (results.length === 0) {
+          return res.status(404).json({ error: "Profile not found" });
+      }
+      res.status(200).json(results[0]);
+  });
+});
+
+
 module.exports = router;

@@ -182,7 +182,7 @@ router.delete("/api/friends/unfriend", (req, res) => {
 });
 
 // Friend List
-router.get('/api/friends/list', (req, res) => {
+router.get('/api/friends/list',(req, res) => {
   const profile = req.query.userId; // --> access getCurrentUserId()
 
   connection.query(`

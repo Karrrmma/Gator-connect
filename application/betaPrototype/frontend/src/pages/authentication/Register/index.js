@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 import validateFields from '../validateFields';
 import validateAvatarField from '../validateAvatarField';
@@ -7,7 +7,7 @@ import { MAJORS } from '../../../constants/majors';
 import { YEARS } from '../../../constants/years';
 import gatorLogo from '../../../assets/images/gator_logo_happy.PNG';
 import PropTypes from 'prop-types';
-import { registerUser, loginUser } from '../../../services/authentication/authService';
+import { registerUser, loginUser, canRegister } from '../../../services/authentication/authService';
 import { createProfile } from '../../../services/User/userService';
 import { getCurrentUserId } from '../../../utils/decodeData';
 
@@ -35,6 +35,22 @@ function Register({setToken}) {
 
     const [isRegistered, setIsRegistered] = useState(false);
 
+    const [errors, setErrors] = useState({});
+
+    // Force a confirmation message on tab close then register is done
+    // This can not be set to a custom message
+    useEffect(() => { 
+        if (isRegistered) {
+            window.onbeforeunload = () => true;
+        } else {
+            window.onbeforeunload = null;
+        }
+    
+        return () => {
+            window.onbeforeunload = null;
+        };
+    }, [isRegistered]);
+
     // Spread values object, then update the value of the key that was changed
     const handleChange = (event) => {
         const {name, value, type} = event.target;
@@ -52,8 +68,7 @@ function Register({setToken}) {
         }
     }
     
-    const [errors, setErrors] = useState({});
-    // on form submitted
+    // On form submitted
     const handleSubmit = async (e) => {
         e.preventDefault();
         // check and set front end errors
@@ -64,7 +79,7 @@ function Register({setToken}) {
         if(!tosAccepted) {
             allerr.tos ='You must accept the Terms of Service';
         }
-        setIsRegistered(true); // BYPASS REGISTER PAGE
+        // setIsRegistered(true); // BYPASS REGISTER PAGE
         setErrors(allerr);
 
         if (Object.keys(allerr).length > 0) {
@@ -72,35 +87,22 @@ function Register({setToken}) {
             return;  // Prevent the function from proceeding
         }
 
-        // if no errors, send requests to backend
+        // if no errors, check if email is valid, then lead the user into the avatar selection
         if (Object.keys(err).length === 0) {
             try {
-                await registerUser(values);
-                console.log('User registered successfully');
+                // await registerUser(values);
+                // check if the email or username are not already taken
+                await canRegister(values);
+                console.log('User can register successfully');
+                // user got past validation, let them choose a profile avatar
                 setIsRegistered(true);
-                // navigate('/login');  // Navigate to login page after successful registration
-                
-                /*
-                login user after registration
-                const loginRes = await fetch('/login', { 
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(values),
+                setAvatar({
+                    avatar: values.fullname[0]
                 });
-    
-                if (!loginRes.ok) {
-                    throw new Error('User login failed');
-                }
-                
-                const data = await loginRes.json();
-                setToken(data);
-                */
-
             } catch (error) {
                 console.log(error);
-                setErrors({...err, backend: 'Email is already in use. Please use another one.'});
+                // setErrors({...err, backend: 'Email is already in use. Please use another one.'});
+                setErrors({...err, backend: error.message});
             }
         }
     }
@@ -124,30 +126,29 @@ function Register({setToken}) {
         event.preventDefault();
         const err = validateAvatarField(avatar.avatar, Array.from(avatar.avatar).length);
         setErrors(err);
-
-        if (Object.keys(err).length > 0) {
-            return; 
-        } // if avatar selection is valid, then login the user
-
+        // success! register user then login
         // console.log("success! bring user into login");
         // return;
 
-        const userData = await loginUser(values);
-        setToken(userData); // token returns user id
+        await registerUser(values);
+
+        // const userData = await loginUser(values);
+        // setToken(userData); // token returns user id
         
-        const currentUserId = getCurrentUserId();
+        
+        // const currentUserId = getCurrentUserId();
         const field = {
-            userId: currentUserId,
+            username: values.username,
             avatar: avatar.avatar,
             biography: ''
         }
         try {
             // i believe this shouldnt ever fail, but just in case
             const data = await createProfile(field); 
-            navigate('/'); // bring user home
         } catch (error) {
             console.log(error + "SOMEHOW FAILED TO CREATE PROFILE, cant read a value?");
         }
+        navigate('/login'); // bring user home after logging in
     }
 
     const registerForm = (
@@ -214,6 +215,7 @@ function Register({setToken}) {
     const setAvatarForm = (
         <>
             <form onSubmit={handleAvatarSubmit}>
+                {/* <div className='back-text-desc'>Leaving this page will abort the registration process</div> */}
                 <h1 className='mt-5 mb-2'>TYPE YOUR ICON</h1>
                 <p className='titletwo'>for your avatar</p>
                 <input

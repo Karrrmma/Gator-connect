@@ -13,6 +13,10 @@
     margin: 0 auto;
 }
 
+.search-header{
+    gap: 20px;
+
+}
 .search-home-container input {
     background-color: #1c1c1c;
     border-radius: 20px;

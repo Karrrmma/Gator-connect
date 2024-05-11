@@ -8,6 +8,7 @@ import FriendsListPopup from "./FriendsListPopup";
 import NewPostPopup from "./NewPostPopup";
 import EditProfilePopup from "./EditProfilePopup";
 import { Link } from 'react-router-dom';
+import { getUserInfo } from "../../services/User/userService";
 
 
 function Profile() {
@@ -25,6 +26,7 @@ function Profile() {
     user_id: 0,
     posts: [],
     biography: "",
+    avatar: ""
   });
 
   const [showFriendsList, setShowFriendsList] = useState(false);
@@ -70,8 +72,15 @@ function Profile() {
             year: userData.year,
             posts: userData.posts || [],
             isFriend: userData.isFriend,
-            biography: userData.biography,
           });
+        }
+        const basicInfo = await getUserInfo(id);
+        if (basicInfo) {
+          setUser((prevState) => ({
+            ...prevState,
+            avatar: basicInfo.avatar,
+            biography: basicInfo.biography,
+          }));
         }
         if (userId && userId !== getCurrentUserId()) {
           checkFriendship(userId);
@@ -199,18 +208,11 @@ function Profile() {
         {/* <img src={TestPFP} alt="Profile" style={{width: '150px', height: '150px', borderRadius: '50%', marginTop: '20px'}}/> */}
         <div className="post-row">
           <div
-            className="avatar"
+            className="avatar avatar-area"
             onClick={handleEditProfileClick}
-            style={{
-              fontSize: "100px",
-              // margin: "10px",
-              backgroundColor: "white",
-              padding: "50px 70px 90px 70px",
-              marginRight: "20px",
-            }}
           >
-            🚗
-            <div className="edit-profile-message">Edit Profile</div>
+            <span className="avatar-text">{user.avatar}</span>
+            <div className="edit-profile-message">EDIT PROFILE</div>
           </div>
 
           {showEditProfile && (
@@ -226,7 +228,7 @@ function Profile() {
           <div className="post-column">
             <div className="post-row">
               <p className="role mt-3">{user.role}</p>
-              <p className="fullname mt-3 mb-3 ml-2">{user.fullname}</p>
+              <p className="fullname mt-3 mb-3 ml-2 capitalize">{user.fullname}</p>
             </div>
             <p className="profile-note">* Username: {user.username}</p>
             <p className="profile-note">
@@ -304,7 +306,7 @@ function Profile() {
       {user.posts.length === 0 ? (
         <p className="no-posts-message">NO POSTS YET</p>
       ) : (
-        <div className="mt-5" style={{ width: "40%" }}>
+        <div className="mt-5 profile-post">
           {sortedPosts.map((post) => (
             <PostCard
               key={post.post_id}
@@ -315,7 +317,7 @@ function Profile() {
                 num_likes: post.num_likes,
                 num_comments: post.num_comments,
               }}
-              icon="🚗"
+              icon={user.avatar}
             />
           ))}
         </div>
