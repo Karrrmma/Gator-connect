@@ -94,6 +94,40 @@
     position: relative;
 }
 
+@media (max-width: 1000px) {
+    .form-wrapper {
+      width: 90%;
+    }
+    .register-link {
+        display: flex;
+        flex-direction: column;
+    }
+    .register-link > * {
+        margin-bottom: 20px;
+    }
+    .form-wrapper.register-wrapper {
+        width: 100%;
+        padding-bottom: 45px;
+    }
+    .input-field.half {
+        width: 48%;
+        
+    }
+  }
+
+  @media (max-width: 1430px) {
+    .input-field.half {
+        width: 47%;
+    }
+  }
+
+  @media (max-width: 585px) {
+    .input-field.half {
+        width: 46%;
+    }
+  }
+  
+
 .register-wrapper {
     width: 58%;
 }
@@ -175,7 +209,7 @@ input[type="password"].input-field::placeholder {
     height: 50px;
     border: none;
     cursor: pointer;
-    width: 40%;
+    /* width: 40%; */
     padding: 0px 30px;
     font-size: 23px;
 }

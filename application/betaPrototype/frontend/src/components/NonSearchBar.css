@@ -80,14 +80,15 @@
 
 }
 input.form-control{
+    border-color: white;
     padding:auto;
-    border:2px solid gray;
+    border:2px solid black;
     width: 800px;
-    color: white;
+    
 }
 
 #search-bar.search-home-container{
-    width: auto;
+    /* width: auto; */
 }
 
 

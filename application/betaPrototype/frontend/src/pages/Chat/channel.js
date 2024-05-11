@@ -193,7 +193,7 @@ const Channel = () => {
 
 
   return(
-    <div className="w-100">
+    <div className="w-100 mb-4">
         <div className="chat-body d-flex align-items-center" style={{background: 'black', justifyContent: 'center'}}>
           <input type="text rounded-pill" className="form-control" placeholder="Type here ..." aria-label="Recipient's username" 
             aria-describedby="basic-addon2" value={inputMessage} onChange={handleChange} onKeyPress={handleKeyPress}
