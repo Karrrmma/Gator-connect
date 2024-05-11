@@ -85,8 +85,8 @@ router.get("/api/posts", async (req, res) => {
   const query = `
       SELECT Post.post_id, Post.post_content, Post.post_time, Post.num_likes, Post.num_comments, User.full_name, Post.user_id, Profile.avatar
       FROM Post
-      JOIN User ON Post.user_id = User.user_id 
-      JOIN Profile ON Post.user_id = Profile.account_id
+      LEFT JOIN User ON Post.user_id = User.user_id 
+      LEFT JOIN Profile ON Post.user_id = Profile.account_id
       ORDER BY Post.post_time DESC
     `;
 
@@ -95,6 +95,7 @@ router.get("/api/posts", async (req, res) => {
       console.error("Error fetching average ratings:", error);
       res.status(500).json({ error: "Internal Server Error" });
     } else {
+      // console.log('Results length:', results.length);
       res.status(200).json(results);
     }
   });
