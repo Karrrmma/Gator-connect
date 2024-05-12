@@ -5,7 +5,8 @@
 }
 
 .names-wrapper p {
-    margin-right: 20px;
+    /* margin-right: 20px; */
+    font-size: 18px;
 }
 
 .about-wrapper {
@@ -13,5 +14,15 @@
 }
 
 .description p {
-    font-size: medium;
+    font-size: 20px;
+}
+
+.team-img {
+    width: 65%;
+}
+
+@media (max-width: 767px) {
+    .team-img {
+        width: 100%;
+    }
 }
