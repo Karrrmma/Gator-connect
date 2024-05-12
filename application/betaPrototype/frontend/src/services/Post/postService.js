@@ -8,6 +8,11 @@ export const getPosts = async () => {
     return apiCall('/api/posts');
 }
 
+export const getLikedPosts = async (userId) => {
+    return apiCall(`/api/likes/${userId}`);
+}
+
+
 export const getComments = async (postId) => {
     return apiCall(`/api/comments/${postId}`);
 }

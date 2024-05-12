@@ -23,7 +23,7 @@ async function apiCall(endpoint, method = 'GET', body, useToken=true) {
   
     if (!response.ok) {
       const responseBody = await response.json();
-      console.log(responseBody);
+      console.log(responseBody); // debug
       throw new Error(responseBody.message);
     }
   

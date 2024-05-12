@@ -6,6 +6,7 @@ function SignOut() {
 
     function handleClick() {
         sessionStorage.removeItem('token');
+        localStorage.clear(); // remove likes
         navigate('/');
         window.location.reload();
     }

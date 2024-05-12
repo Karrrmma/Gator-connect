@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import useToken from '../../hooks/useToken';
 import { createPost } from './../../services/Post/postService';
 
 function NewPostPopup({ userId, onClose, onAddPost }) {
     const [post, setPost] = useState('');
     const [confirmation, setConfirmation] = useState('');
     const [showPopup, setShowPopup] = useState(false);
-    const{token} = useToken();
 
     useEffect(() => {
         setShowPopup(true);
@@ -20,12 +18,7 @@ function NewPostPopup({ userId, onClose, onAddPost }) {
 
     const handleSubmit = async (postData) => {
         postData.preventDefault();
-        // UNNEEDED: this popup is not accessible when the user does not have an account created
-        // if(!token){ 
-        //     setConfirmation('no auth token found');
-        //     return;
-        // }
-        console.log(post);
+        // console.log(post);
         try {
             const postContent = { post_content: post, user_id: userId };
             console.log('trying to create a post!');
@@ -34,6 +27,7 @@ function NewPostPopup({ userId, onClose, onAddPost }) {
             setConfirmation(data.message);
             setPost('');
             // this is used for display the posts without refresh
+            // changed functionality to refetch the posts
             onAddPost(data.post);  
             setTimeout(handleClose, 2000);
         } catch (error) {

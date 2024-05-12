@@ -6,6 +6,7 @@ import SignOut from './SignOut';
 import { getCurrentUsername, getCurrentUserId } from '../utils/decodeData';
 // import { Notification } from '../components/Notification'
 import { getUserInfo } from '../services/User/userService';
+import { getFriendReqs } from '../services/Notification/friendService';
 
 function Nav() {
     const [avatar, setAvatar] = useState('');
@@ -26,21 +27,10 @@ function Nav() {
         const fetchNotifications = async () => {
             try {
                 const userId = getCurrentUserId();
-                const response = await fetch(`/api/friends/requests?userId=${userId}`, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                });
-                if (response.ok) {
-                    const data = await response.json();
-                    setNotifications(data);
-                } else {
-                    const errorData = await response.json();
-                    throw new Error(errorData.message || 'Failed to fetch notifications');
-                }
+                const data = await getFriendReqs(userId);
+                setNotifications(data);
             } catch (error) {
-                console.error('Error fetching notifications:', error.message);
+                console.log('Error fetching notifications:', error.message);
             }
         };
 
@@ -113,7 +103,7 @@ function Nav() {
                 <div className="d-none d-lg-block ml-auto">
                     <SignOut />
                 </div>
-                <div className="d-none d-lg-flex avatar">🚗</div>
+                <div className="d-none d-lg-flex avatar">{avatar}</div>
             </nav>
         </>
     );
