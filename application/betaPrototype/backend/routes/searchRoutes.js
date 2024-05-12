@@ -6,12 +6,9 @@ const mysql = require("mysql");
 router.use(express.json());
 const connection = require('./db')
 
-
 const searchControl = require('./controllers/search');
 
 //router.post('/search', searchControl.search)
-
-
 
 // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  
 //  SEARCH QUERY
@@ -24,15 +21,15 @@ router.post("/search",  (req, res) => {
 
   if (username) {
     query += " AND Account.username LIKE ?";
-    params.push("%" + username + "%");
+    params.push("%" + username.trim() + "%");
   }
   if (major) {
     query += " AND Student.major LIKE ?";
-    params.push("%" + major + "%");
+    params.push("%" + major.trim() + "%");
   }
   if (year) {
     query += " AND Student.year LIKE ?";
-    params.push("%" + year + "%");
+    params.push("%" + year.trim() + "%");
   }
 
   connection.query(query, params, (err, results) => {
@@ -44,10 +41,5 @@ router.post("/search",  (req, res) => {
     res.json({ results });
   });
 });
-
-
-
-
-
 
 module.exports = router;

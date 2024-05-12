@@ -194,7 +194,7 @@
   cursor: pointer;
   /* width: 90%; */
   padding: 0px 15px;
-  font-size: 20px;
+  font-size: 15px;
   font-weight: bold;
   margin-bottom: 20px;
 }
@@ -205,7 +205,7 @@
   font-weight: bold;
 }
 
-.button:hover {
+.button:hover, .pbutton:hover {
   background-color: #AD45FF;
   color: white;
 }
