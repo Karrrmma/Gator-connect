@@ -16,7 +16,15 @@ router.post("/search",  (req, res) => {
   const { username, major, year } = req.body;
 
   let query =
-    "SELECT Account.user_id, Account.username, Student.major, Profile.avatar FROM User JOIN Account ON User.user_id = Account.user_id JOIN Profile ON Account.account_id = Profile.account_id JOIN Student ON Account.user_id = Student.user_id WHERE 1=1";
+    `
+    SELECT Account.user_id, Account.username, COALESCE(Student.major, Professor.department) AS major_or_department, Profile.avatar 
+    FROM User 
+    JOIN Account ON User.user_id = Account.user_id 
+    JOIN Profile ON Account.account_id = Profile.account_id 
+    LEFT JOIN Student ON Account.user_id = Student.user_id
+    LEFT JOIN Professor ON Account.user_id = Professor.user_id
+    WHERE 1=1
+    `;
   const params = [];
 
   if (username) {
@@ -24,8 +32,8 @@ router.post("/search",  (req, res) => {
     params.push("%" + username.trim() + "%");
   }
   if (major) {
-    query += " AND Student.major LIKE ?";
-    params.push("%" + major.trim() + "%");
+    query += " AND (Student.major LIKE ? OR Professor.department LIKE ?)";
+    params.push("%" + major.trim() + "%", "%"+ major.trim() + "%");
   }
   if (year) {
     query += " AND Student.year LIKE ?";

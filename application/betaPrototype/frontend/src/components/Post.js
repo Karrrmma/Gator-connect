@@ -21,6 +21,7 @@ function PostCard({ item, icon, likedPostsList }) {
   const [likedPosts, setLikedPosts] = useState(likedPostsList || []);
   // console.log("Liked posts: ", likedPosts.some(post => post.post_id === item.post_id));
   // console.log("Is liked: ", isLiked);
+  // localStorage.clear(); // this needs for clear the local Storage for like and comment, but particularly for like
 
   useEffect(() => {
     console.log(`TEST POST ${item.post_id}, this should be true when liked: ${isLiked}`);
@@ -237,7 +238,7 @@ function PostCard({ item, icon, likedPostsList }) {
     </div>
   );
 }
-function UserCard({ username, major, icon, userId }) {
+function UserCard({ username, majorOrDepartment, icon, userId }) {
   const navigate = useNavigate();
   const navigateToUserProfile = () => {
     navigate(`/profile/${userId}`);
@@ -251,7 +252,7 @@ function UserCard({ username, major, icon, userId }) {
           <div className="avatar">{icon}</div>
           <div className="text-left">
             <h5 className="card-title ml-2 mb-0 capitalize" onClick={navigateToUserProfile} >{username}</h5>
-            <div className="text-muted small ml-2 mt-0 major">{major}</div>
+            <div className="text-muted small ml-2 mt-0 major">{majorOrDepartment}</div>
           </div>
         </div>
       </div>
@@ -347,7 +348,7 @@ function Post() {
                   <UserCard
                     key={index}
                     username={item.username}
-                    major={item.major}
+                    majorOrDepartment={item.major_or_department}
                     icon={item.avatar}
                     userId={item.user_id}
                   />
