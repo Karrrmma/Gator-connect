@@ -9,7 +9,7 @@ import NewPostPopup from '../pages/Profile/NewPostPopup';
 import { addComment, deleteComment, getComments, getPosts, postHandleLike, getLikedPosts } from "../services/Post/postService";
 import { searchUsers } from "../services/User/userService";
 
-function PostCard({ item, icon, likedPosts }) {
+function PostCard({ item, icon, likedPostsList }) {
   const [likesCount, setLikesCount] = useState(item.likes || 0);
   const [commentsCount, setCommentsCount] = useState(item.comments || 0);
   const [commentsData, setCommentsData] = useState([]);
@@ -18,12 +18,29 @@ function PostCard({ item, icon, likedPosts }) {
   const navigate = useNavigate();
   const [isLiked, setIsLiked] = useState(false);
   const [showAllComments, setShowAllComments] = useState(false);
+  const [likedPosts, setLikedPosts] = useState(likedPostsList || []);
   // console.log("Liked posts: ", likedPosts.some(post => post.post_id === item.post_id));
   // console.log("Is liked: ", isLiked);
 
   useEffect(() => {
-    setIsLiked(likedPosts.some(post => post.post_id === item.post_id));
-  }, [likedPosts, item]);
+    console.log(`TEST POST ${item.post_id}, this should be true when liked: ${isLiked}`);
+  }, [isLiked]);
+
+  useEffect(() => {
+    // initially set post to liked if it's in the likedPosts array
+    console.log(likedPosts);
+    console.log(likedPostsList);
+    if (likedPosts && likedPosts.length > 0) {
+      let statement = likedPosts[0].isLiked ?  likedPosts[0].post_id : "NONE";
+      console.log(`POST ${item.post_id} should be equal to ${statement}`); // 
+    }
+    const debug = likedPostsList.some(post => {
+      console.log(`post.post_id: ${post.post_id}, item.post_id: ${item.post_id}`);
+      return post.post_id === item.post_id;
+    });
+    setIsLiked(debug);
+    console.log(`this is test post ${item.post_id}, this should be true if liked: ${debug} with ${isLiked}`);
+  }, [item]);
 
   useEffect(() => {
     fetchComments(item.post_id);
@@ -39,17 +56,27 @@ function PostCard({ item, icon, likedPosts }) {
       console.error("Error fetching comments:", error);
     }
   };
+
   const handleLike = async () => {
     const method = isLiked ? "DELETE" : "POST";
     const body = {
       user_id: userId,
       post_id: item.post_id,
     };
-
+    console.log("handleLike has been called!");
     try {
       await postHandleLike(method, body);
       setIsLiked(!isLiked);
       setLikesCount((prevCount) => isLiked ? prevCount - 1 : prevCount + 1);
+
+      if (isLiked) {
+        setLikedPosts(likedPosts.map(post => 
+          post.post_id === item.post_id ? { ...post, liked: false } : post
+        ));
+      } else {
+        setLikedPosts([...likedPosts, { post_id: item.post_id, liked: true }]);
+      }
+
     } catch (error) {
       console.error("Error updating like:", error);
     }
@@ -239,13 +266,15 @@ function Post() {
   const [likedPosts, setLikedPosts] = useState([]);
   
   useEffect(() => {
-    fetchAllPosts(); // This should only fetch all posts, not interfere with search
+    console.log("Post base use effect has been called!");
     fetchLikedPosts();
+    fetchAllPosts(); // This should only fetch all posts, not interfere with search
   }, []); // Empty dependency array ensures this only runs once on mount
 
   const fetchLikedPosts = async () => {
     try {
       const data = await getLikedPosts(userId);
+      console.log(`RECEIVING NEW DATA FROM FETCH LIKED POSTS!`);
       console.log(data);
       setLikedPosts(data);
     } catch (error) {
@@ -255,6 +284,8 @@ function Post() {
 
   const userId = getCurrentUserId();
   const handleNewPostClick = () => {
+    console.log("OPENING POP UP TO ADD A NEW POST!");
+    // fetchLikedPosts();
     setShowNewPost(!showNewPost);
   };
   // Callback to add new post to the state
@@ -262,8 +293,8 @@ function Post() {
   const addNewPost = (newPost) => {
     // setItems(prevItems => [newPost, ...prevItems]);
     // console.log(newPost);
-    fetchAllPosts();
     fetchLikedPosts();
+    fetchAllPosts();
   };
 
   useEffect(() => {
@@ -276,6 +307,7 @@ function Post() {
   async function fetchAllPosts() {
     try {
       const data = await getPosts();
+      console.log(`RECEIVING NEW DATA FROM FETCH ALL OF THE POSTS!`);
       setItems(data);
     } catch (error) {
       console.error("Error fetching posts:", error);
@@ -341,7 +373,7 @@ function Post() {
                 post_id: post.post_id,
               }}
               icon={post.avatar}
-              likedPosts={likedPosts}
+              likedPostsList={likedPosts}
             />
           ))}
         </section>

@@ -115,7 +115,13 @@ router.get("/api/likes/:userId", (req, res) => {
             console.error("Error fetching liked posts:", error);
             return res.status(500).json({ error: "Failed to fetch liked posts" });
         }
-        res.status(200).json(results);
+
+        const likedPostList = results.map(post => ({
+          post_id: post.post_id,
+          liked: true,
+        }));
+
+        res.status(200).json(likedPostList);
     });
 });
 
