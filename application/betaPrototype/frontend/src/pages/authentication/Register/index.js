@@ -130,7 +130,7 @@ function Register({setToken}) {
         // console.log("success! bring user into login");
         // return;
 
-        await registerUser(values);
+        // await registerUser(values);
 
         // const userData = await loginUser(values);
         // setToken(userData); // token returns user id
@@ -143,10 +143,12 @@ function Register({setToken}) {
             biography: ''
         }
         try {
+            await registerUser(values);
             // i believe this shouldnt ever fail, but just in case
             const data = await createProfile(field); 
         } catch (error) {
-            console.log(error + "SOMEHOW FAILED TO CREATE PROFILE, cant read a value?");
+            console.log(error);
+            console.log("SOMEHOW FAILED TO CREATE PROFILE or register, cant read a value?");
         }
         navigate('/login'); // bring user home after logging in
     }
