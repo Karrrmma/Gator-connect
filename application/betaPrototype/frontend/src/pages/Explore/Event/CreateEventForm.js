@@ -76,6 +76,12 @@ function CreateEventForm({ onClose }) {
     const handleSubmit = async (e) => {
       e.preventDefault();
 
+    // Check if any of the required fields are empty
+    if (!eventTitle || !eventType || !description || !location || !dateTime) {
+      alert('Please fill out all the required fields.');
+      return;
+    }
+
       const selectedDateTime = new Date(dateTime).getTime();
       const currentDateTime = Date.now();
 
