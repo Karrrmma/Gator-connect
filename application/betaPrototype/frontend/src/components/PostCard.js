@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { FaCommentDots, FaHeart } from 'react-icons/fa';
 import { getCurrentUserId } from "../utils/decodeData";
-import { postHandleLike } from '../services/Post/postService';
+import { postHandleLike, addComment, deleteComment, getComments } from '../services/Post/postService';
 import './Post.css';
 
 function PostCard({ item, icon }) {
     const userId = getCurrentUserId();
     const likeStatusKey = `liked_${userId}_post_${item.post_id}`;
     const [likesCount, setLikesCount] = useState(item.num_likes);
+    const [commentsCount, setCommentsCount] = useState(item.num_comments || 0);
     
     // Fetch the initial like state from local storage or default to false if not set
     const [isLiked, setIsLiked] = useState(
@@ -21,17 +22,39 @@ function PostCard({ item, icon }) {
 
     const handleLike = async () => {
       const method = isLiked ? "DELETE" : "POST";
-      const body = {
-        user_id: userId,
-        post_id: item.post_id,
-      };
-  
       try {
-        await postHandleLike(method, body);
+        await postHandleLike(method, { user_id: userId, post_id: item.post_id });
         setIsLiked(!isLiked);
-        setLikesCount((prev) => isLiked ? prev - 1 : prev + 1);
+        setLikesCount(prev => isLiked ? prev - 1 : prev + 1);
       } catch (error) {
         console.error("Error updating like:", error);
+      }
+    };
+
+    // Placeholder for comment input handling
+    const [commentInput, setCommentInput] = useState('');
+
+    const handleAddComment = async () => {
+      if (!commentInput.trim()) return;
+      try {
+        const newComment = await addComment({
+          user_id: userId,
+          post_id: item.post_id,
+          comment_content: commentInput
+        });
+        setCommentsCount(prev => prev + 1);
+        setCommentInput(''); // Clear input after adding
+      } catch (error) {
+        console.error("Error adding comment:", error);
+      }
+    };
+
+    const handleDeleteComment = async (commentId) => {
+      try {
+        await deleteComment(commentId);
+        setCommentsCount(prev => prev - 1);
+      } catch (error) {
+        console.error("Error deleting comment:", error);
       }
     };
     
@@ -54,7 +77,7 @@ function PostCard({ item, icon }) {
               {/* <button type="button" className="btn btn-outline-secondary btn-sm"><FaCommentDots /></button>
                           <span className="comments-count">{item.comments || 0}</span> */}
               <span className="comments-count">
-                <FaCommentDots /> {item.comments || 0}
+                <FaCommentDots /> {commentsCount}
               </span>
               <span className={`outline-success ${isLiked ? "red-heart" : ""}`}>
                 <FaHeart /> {likesCount}
