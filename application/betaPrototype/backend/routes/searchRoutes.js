@@ -7,12 +7,13 @@ router.use(express.json());
 const connection = require('./db')
 
 const searchControl = require('./controllers/search');
+const { verifyToken } = require("./verifyToken");
 
 //router.post('/search', searchControl.search)
 
 // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  
 //  SEARCH QUERY
-router.post("/search",  (req, res) => {
+router.post("/search", (req, res) => {
   const { username, major, year } = req.body;
 
   let query =

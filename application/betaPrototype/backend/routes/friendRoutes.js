@@ -20,9 +20,11 @@ const mysql = require("mysql");
 router.use(express.json());
 const connection = require('./db')
 
+const {verifyToken} = require('./verifyToken')
+
 // Friend Request
 // Send a friend request
-router.post("/api/friends/request", (req, res) => {
+router.post("/api/friends/request", verifyToken,(req, res) => {
   const { requester_id, receiver_id } = req.body;
 
   const checkRequestQuery = `
@@ -79,7 +81,7 @@ router.post("/api/friends/request", (req, res) => {
 // Receive a freind request (default: pending) can accepted / declined
 // GET /api/friends/requests
 // This endpoint retrieves the list of pending friend requests for the current user
-router.get("/api/friends/requests", (req, res) => {
+router.get("/api/friends/requests", verifyToken, (req, res) => {
   // need receiver id and sender id just like post api/request to navigate the profile
   const { userId } = req.query;
 
@@ -216,7 +218,7 @@ router.get('/api/friends/list',(req, res) => {
 
 
 // Usage for friend count via using status == accepted
-router.get("/api/isFriend", (req, res) => {
+router.get("/api/isFriend", verifyToken,(req, res) => {
   const { requester_id, receiver_id } = req.query;
 
   // Ensure both IDs are provided

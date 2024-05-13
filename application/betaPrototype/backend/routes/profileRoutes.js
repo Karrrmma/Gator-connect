@@ -5,7 +5,7 @@ const jwt = require("jsonwebtoken");
 const mysql = require("mysql");
 router.use(express.json());
 const connection = require('./db')
-
+const {verifyToken} = require('./verifyToken')
 
 const profileControl = require('./controllers/profile')
 
@@ -13,7 +13,7 @@ const profileControl = require('./controllers/profile')
 
 // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  
 // Profile  DETAIL
-router.get("/api/user/:user_id", (req, res) => {
+router.get("/api/user/:user_id",(req, res) => {
   const { user_id } = req.params;
 
   // user year to add to the profile
@@ -70,7 +70,7 @@ router.get("/api/user/:user_id", (req, res) => {
 // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  
 // Profile DB Creation
 
-router.post('/api/profile/create', (req, res) => {
+router.post('/api/profile/create', verifyToken,(req, res) => {
   const { username, avatar, biography } = req.body;
 
   const queryAccountId = `
@@ -108,7 +108,7 @@ router.post('/api/profile/create', (req, res) => {
 // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  
 // Profile DB Update
 
-router.post('/api/updateprofile', (req, res) => {
+router.post('/api/updateprofile', verifyToken,(req, res) => {
     const { userId, avatar, biography } = req.body;
 
     const query = `
@@ -133,7 +133,7 @@ router.post('/api/updateprofile', (req, res) => {
 );
 
 // Profile Avatar and Biography Retrieval
-router.get('/api/profile/info/:userId', (req, res) => {
+router.get('/api/profile/info/:userId',  verifyToken,(req, res) => {
   const { userId } = req.params;
   // seems like user_id != account_id
   // find the user_id thats linked to a profile

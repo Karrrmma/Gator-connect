@@ -6,7 +6,7 @@ const mysql = require("mysql");
 router.use(express.json());
 const connection = require('./db')
 
-
+const {verifyToken} = require('./verifyToken')
 const chat = require('./controllers/chat')
 
 //router.post("/api/chat/sendPublicMessage", chat.publicchat)
@@ -15,7 +15,7 @@ const chat = require('./controllers/chat')
 // @@@@@ CHAT
 
 //------put public Message to DB----//
-router.post("/api/chat/sendPublicMessage", (req, res) => {
+router.post("/api/chat/sendPublicMessage", verifyToken ,(req, res) => {
   const { sender_id, message_content, message_type } = req.body;
   const date = new Date();
 
@@ -40,7 +40,7 @@ router.post("/api/chat/sendPublicMessage", (req, res) => {
 
 
 //------Fetch public Messages----//
-router.get("/api/chat/getPublicMessages/:message_type", (req, res) => {
+router.get("/api/chat/getPublicMessages/:message_type", verifyToken,(req, res) => {
   const {message_type} = req.params;
   const getPublicMessages = `SELECT * FROM Public_Message WHERE message_type = ?`;
 
@@ -70,7 +70,7 @@ router.get("/api/chat/getPublicMessages/:message_type", (req, res) => {
 
 
 //------put private Message to DB----//
-router.post("/api/chat/sendPrivateMessage", (req, res) => {
+router.post("/api/chat/sendPrivateMessage", verifyToken, (req, res) => {
   const { sender_id, message_content, receiver_name } = req.body;
   const date = new Date();
 
@@ -110,7 +110,7 @@ router.post("/api/chat/sendPrivateMessage", (req, res) => {
 
 
 //------Fetch private Messages----//
-router.get("/api/chat/getPrivateMessages", (req, res) => {
+router.get("/api/chat/getPrivateMessages", verifyToken,(req, res) => {
   const sender_id = req.query.senderID;
   const receiver_name = req.query.name;
 

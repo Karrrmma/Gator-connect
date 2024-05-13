@@ -7,6 +7,7 @@ router.use(express.json());
  const pool = require('../config/db.js');
 
 // @@@ Need to install CORS if we have our database in a diff link @@@
+const {verifyToken} = require('./verifyToken.js')
 
 // Connect Database
 const connection = mysql.createConnection({
@@ -940,7 +941,7 @@ router.get("/api/isFriend", (req, res) => {
 // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  
 // VENDOR DETAIL
 // Insert the data in the Food Vendor from Backend (VendorDetail.js)
-router.post("/api/vendordetail", (req, res) => {
+router.post("/api/vendordetail",(req, res) => {
   const { menu_rating, menu_review, vendor_name, menu_name } = req.body;
   const query = `
       INSERT INTO Food_Vendor (menu_rating, menu_review, vendor_name, menu_name)
@@ -1012,7 +1013,7 @@ router.get("/vendor-average-ratings", (req, res) => {
 // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  
 // CREATE EVENT
 // Insert the data in the event table from user input
-router.post("/api/create_event", (req, res) => {
+router.post("/api/create_event",(req, res) => {
   const {
     event_description,
     event_type,
