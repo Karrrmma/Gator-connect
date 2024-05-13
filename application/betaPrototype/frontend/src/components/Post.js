@@ -6,30 +6,29 @@ import "./Post.css";
 import { getCurrentUserId } from "../utils/decodeData";
 import { useNavigate } from "react-router-dom";
 import NewPostPopup from '../pages/Profile/NewPostPopup';
-import { addComment, deleteComment, getComments, getPosts, postHandleLike } from "../services/Post/postService";
+import { addComment, deleteComment, getComments, getPosts, postHandleLike, getLikedPosts } from "../services/Post/postService";
 import { searchUsers } from "../services/User/userService";
 
-
-// import {Link} from 'react-router-dom';
-// import App from './../App';
-function PostCard({ item, icon }) {
-  // clear the localStorage ... manually?? 5MB LIMIT
-  // localStorage.clear();
+function PostCard({ item, icon, likedPosts }) {
   const [likesCount, setLikesCount] = useState(item.likes || 0);
   const [commentsCount, setCommentsCount] = useState(item.comments || 0);
   const [commentsData, setCommentsData] = useState([]);
   const [commentText, setCommentText] = useState("");
   const userId = getCurrentUserId();
   const navigate = useNavigate();
-  const likeStatusKey = `liked_${userId}_post_${item.post_id}`;
-  const [isLiked, setIsLiked] = useState(() => JSON.parse(localStorage.getItem(likeStatusKey)) || false);
+  const [isLiked, setIsLiked] = useState(false);
   const [showAllComments, setShowAllComments] = useState(false);
+  // console.log("Liked posts: ", likedPosts.some(post => post.post_id === item.post_id));
+  // console.log("Is liked: ", isLiked);
+
   useEffect(() => {
-    localStorage.setItem(likeStatusKey, JSON.stringify(isLiked));
-  }, [isLiked, likeStatusKey]);
+    setIsLiked(likedPosts.some(post => post.post_id === item.post_id));
+  }, [likedPosts, item]);
+
   useEffect(() => {
     fetchComments(item.post_id);
   }, [item.post_id]);
+
   const fetchComments = async (postId) => {
     try {
       const data = await getComments(postId);
@@ -236,25 +235,44 @@ function Post() {
   const [items, setItems] = useState([]);
   const [searchQuery, setSearchQuery] = useState({});
   const [noUsersFound, setNoUsersFound] = useState(false);
-  const[showNewPost, setShowNewPost] = useState(false);
+  const [showNewPost, setShowNewPost] = useState(false);
+  const [likedPosts, setLikedPosts] = useState([]);
+  
   useEffect(() => {
     fetchAllPosts(); // This should only fetch all posts, not interfere with search
+    fetchLikedPosts();
   }, []); // Empty dependency array ensures this only runs once on mount
+
+  const fetchLikedPosts = async () => {
+    try {
+      const data = await getLikedPosts(userId);
+      console.log(data);
+      setLikedPosts(data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const userId = getCurrentUserId();
   const handleNewPostClick = () => {
     setShowNewPost(!showNewPost);
   };
   // Callback to add new post to the state
+  // if a new post is added, then grab the posts again!
   const addNewPost = (newPost) => {
-    setItems(prevItems => [newPost, ...prevItems]);
-    console.log(newPost);
+    // setItems(prevItems => [newPost, ...prevItems]);
+    // console.log(newPost);
+    fetchAllPosts();
+    fetchLikedPosts();
   };
+
   useEffect(() => {
     if (Object.keys(searchQuery).length > 0) {
       // Only run this if there's a valid search query
       fetchItems(searchQuery);
     }
   }, [searchQuery]);
+
   async function fetchAllPosts() {
     try {
       const data = await getPosts();
@@ -322,7 +340,8 @@ function Post() {
                 imageUrl: post.imageUrl,
                 post_id: post.post_id,
               }}
-              icon={"🐊"} // You can customize this icon based on your application's needs
+              icon={post.avatar}
+              likedPosts={likedPosts}
             />
           ))}
         </section>
