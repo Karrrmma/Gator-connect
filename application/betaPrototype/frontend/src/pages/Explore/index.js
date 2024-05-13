@@ -29,7 +29,7 @@ function Explore() {
     {
       path: "transportation",
       text: "TRANSPORTATION",
-      description: "Explore convenient and available transportation options for commuting to and from SFSU campus for students.",
+      description: "Explore convenient and available transportation options for commuting to and from SFSU campus enhances the student experience and fosters a seamless journey to academic success.",
       icon: FaBus,
     },
     {

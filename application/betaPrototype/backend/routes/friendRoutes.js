@@ -196,10 +196,11 @@ router.get('/api/friends/list',(req, res) => {
   const profile = req.query.userId; // --> access getCurrentUserId()
 
   connection.query(`
-      SELECT u.user_id, a.username, u.full_name
+      SELECT u.user_id, a.username, u.full_name, p.avatar
       FROM User u
       JOIN Friend_Request f ON u.user_id = f.receiver_id OR u.user_id = f.requester_id
       JOIN Account a ON u.user_id = a.user_id
+      LEFT JOIN Profile p ON a.account_id = p.account_id
       WHERE (f.receiver_id = ? OR f.requester_id = ?) AND f.status = 'accepted' AND u.user_id != ?
     `, [profile, profile, profile], (error, results) => {
     if (error) {
@@ -210,6 +211,7 @@ router.get('/api/friends/list',(req, res) => {
     }
   });
 });
+
 
 
 

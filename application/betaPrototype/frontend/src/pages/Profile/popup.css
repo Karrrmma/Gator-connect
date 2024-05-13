@@ -63,6 +63,7 @@ input.friend-search::placeholder {
 
 .friend-info {
     margin-left: 0.5em;
+    color: red;
 }
 
 .friend-name {
@@ -70,6 +71,7 @@ input.friend-search::placeholder {
     /* margin-bottom: 5px;   */
     font-size: .8em;
     /* margin-right:20px; */
+    color: red;
 }
 
 .friend-username {
@@ -240,7 +242,7 @@ input.friend-search::placeholder {
   .unfriend:hover {
     background-color: white;
     color: red;
-    border: 1px solid red;
+    /* border: 1px solid red; */
   }
 
 

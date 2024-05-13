@@ -90,7 +90,7 @@ function FriendsListPopup({ onClose, onFriendCountChange}) {
                         <div className="notification-list">
                           {friends.filter(friend => friend.full_name && friend.full_name.toLowerCase().includes(search.toLowerCase())).length > 0 ? (
                             friends.filter(friend => friend.full_name && friend.full_name.toLowerCase().includes(search.toLowerCase())).map((friend, index) => (
-                              <UserCard key={index} fullname={friend.full_name} username={friend.username} icon={friend.icon} userId={friend.user_id} onUnfriend={unfriend} onClosePopup={handleClose}/>
+                              <UserCard key={index} fullname={friend.full_name} username={friend.username} icon={friend.avatar} userId={friend.user_id} onUnfriend={unfriend} onClosePopup={handleClose}/>
                             ))
                           ) : (
                             <p className='mt-3'>No friends found</p>
