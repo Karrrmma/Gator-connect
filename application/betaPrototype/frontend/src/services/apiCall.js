@@ -12,11 +12,8 @@ async function apiCall(endpoint, method = 'GET', body, useToken=true) {
     if (useToken) { // require JWT token by default
       const token = sessionStorage.getItem('token');
       // strip quotes from token
-      if (token) {
-        options.headers.Authorization = `Bearer ${token}`;
-    } else {
-        throw new Error('No token found in sessionStorage');
-    }
+      const userToken = token.substring(1, token.length - 1);
+      options.headers.Authorization = `Bearer ${userToken}`;
 }
 
   
