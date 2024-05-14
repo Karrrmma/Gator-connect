@@ -70,7 +70,7 @@ router.get("/api/user/:user_id",(req, res) => {
 // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  
 // Profile DB Creation
 
-router.post('/api/profile/create', verifyToken,(req, res) => {
+router.post('/api/profile/create', (req, res) => {
   const { username, avatar, biography } = req.body;
 
   const queryAccountId = `
