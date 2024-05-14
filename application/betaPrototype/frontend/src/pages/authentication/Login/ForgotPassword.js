@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import validateResetFields from '../validateResetFields'; // You need to create this validation function
 import '../auth.css';
 import gatorLogo from '../../../assets/images/gator_logo.PNG';
+import { resetPassword } from '../../../services/authentication/authService';
 
 function ForgotPassword() {
     const navigate = useNavigate();
@@ -31,20 +32,9 @@ function ForgotPassword() {
         }
 
         try {
-            const response = await fetch('reset-password', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(inputs),
-            });
-
-            if (response.ok) {
-                alert('Password reset successfully.');
-                navigate('/login');
-            } else {
-                setErrors({...errors, form: 'Failed to reset password. Please check your details.'});
-            }
+            await resetPassword(inputs);
+            alert('Password reset successfully.');
+            navigate('/login');
         } catch (error) {
             console.error('Error resetting password:', error);
         }

@@ -127,16 +127,6 @@ function Register({setToken}) {
         const err = validateAvatarField(avatar.avatar, Array.from(avatar.avatar).length);
         setErrors(err);
         // success! register user then login
-        // console.log("success! bring user into login");
-        // return;
-
-        // await registerUser(values);
-
-        // const userData = await loginUser(values);
-        // setToken(userData); // token returns user id
-        
-        
-        // const currentUserId = getCurrentUserId();
         const field = {
             username: values.username,
             avatar: avatar.avatar,
@@ -144,8 +134,7 @@ function Register({setToken}) {
         }
         try {
             await registerUser(values);
-            // i believe this shouldnt ever fail, but just in case
-            const data = await createProfile(field); 
+            await createProfile(field); 
         } catch (error) {
             console.log(error);
             console.log("SOMEHOW FAILED TO CREATE PROFILE or register, cant read a value?");

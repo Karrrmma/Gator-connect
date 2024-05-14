@@ -2,20 +2,9 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link, useNavigate } from 'react-router-dom';
 import validateLoginFields from '../validateLoginFields';
-// import { useForm } from '../../../hooks/useForm';
 import '../auth.css';
 import gatorLogo from '../../../assets/images/gator_logo.PNG';
 import { loginUser } from '../../../services/authentication/authService';
-
-// async function loginUser(fields) {
-//     return fetch('login', {
-//         method: 'POST',
-//         headers: {
-//             'Content-Type': 'application/json',
-//         },
-//         body: JSON.stringify( fields ),
-//     })
-// }
 
 function Login({ setToken }) {
     const navigate = useNavigate();
@@ -99,33 +88,6 @@ function Login({ setToken }) {
             </div>
         </div>
     );
-
-    // return (
-    //     <div class="wrapper">
-    //         <div class="title-text">
-    //             <h1>Login</h1>
-    //         </div>
-    //     <div class="form-container">
-    //        <div class="form-inner">
-    //           <form class="login" onSubmit={handleSubmit} onChange={handleChange}>
-    //              <div class="field">
-    //                 <input type="text" placeholder="Username" />
-    //                 <span className='text-danger'> {errors.username || '\u00A0'}</span>
-    //              </div>
-    //              <div class="field">
-    //                 <input type="password" placeholder="Password" />
-    //                 <span className='text-danger'> {errors.password || '\u00A0'}</span>
-    //              </div>
-    //              <div class="field btn">
-    //                 <div class="btn-border"></div>
-    //                 <input type="submit" value="Login" />
-    //              </div>
-    //           </form>
-    //        </div>
-    //     </div>
-    //  </div>
-    // );
-
 }
 
 Login.propTypes = {
