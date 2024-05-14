@@ -95,6 +95,7 @@ function PostCard({ item, icon }) {
             />
           )}
   
+    {/*}
           <div className="comment-input-section">
             <input
               type="text"
@@ -105,6 +106,7 @@ function PostCard({ item, icon }) {
               <FaHeart /> {isLiked ? "Unlike" : "Like"}
             </button>
           </div>
+        {*/}       
         </div>
       </div>
     );
