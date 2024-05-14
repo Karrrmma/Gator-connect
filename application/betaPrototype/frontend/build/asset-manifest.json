@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/static/css/main.6009ffa1.css",
+    "main.css": "/static/css/main.2087deed.css",
     "main.js": "/static/js/main.04758a8a.js",
     "static/js/453.d855a71b.chunk.js": "/static/js/453.d855a71b.chunk.js",
     "static/media/About.jpg": "/static/media/About.ed155ebfbcffb0a46559.jpg",
@@ -44,12 +44,12 @@
     "static/media/gator_logo.PNG": "/static/media/gator_logo.0a021e3cab89fa17b670.PNG",
     "static/media/gator_logo_happy.PNG": "/static/media/gator_logo_happy.d65bd30bfc2bd61442b8.PNG",
     "index.html": "/index.html",
-    "main.6009ffa1.css.map": "/static/css/main.6009ffa1.css.map",
+    "main.2087deed.css.map": "/static/css/main.2087deed.css.map",
     "main.04758a8a.js.map": "/static/js/main.04758a8a.js.map",
     "453.d855a71b.chunk.js.map": "/static/js/453.d855a71b.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.6009ffa1.css",
+    "static/css/main.2087deed.css",
     "static/js/main.04758a8a.js"
   ]
 }

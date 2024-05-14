@@ -254,7 +254,7 @@ input.friend-search::placeholder {
    */
   
   @media (max-width: 768px) {
-    .friend-list-popup .profile-edit-popup {
+    .friend-list-popup, .profile-edit-popup {
       width: 90%;
     }
   }
