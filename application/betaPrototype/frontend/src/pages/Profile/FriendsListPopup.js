@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import UserCard from '../../components/UserCard';
 import "./popup.css"; // --> path is different maybe this one is in the profile and event is in explore
 import { getCurrentUserId } from "../../utils/decodeData";
-import { unfriendUser } from '../../services/Notification/friendService';
+import { getFriendList, unfriendUser } from '../../services/Notification/friendService';
 
 function FriendsListPopup({ onClose, onFriendCountChange}) {
   const profile = getCurrentUserId();
@@ -29,13 +29,8 @@ function FriendsListPopup({ onClose, onFriendCountChange}) {
 
   const fetchFriends = async () => {
     try {
-      const response = await fetch(`/api/friends/list?userId=${profile}`);
-      const data = await response.json();
-      if (response.ok) {
-        setFriends(data);
-      } else {
-        console.error('Failed to fetch friends:', data.message);
-      }
+      const data = await getFriendList(profile);
+      setFriends(data);
     } catch (error) {
       console.error('Network error:', error);
     }

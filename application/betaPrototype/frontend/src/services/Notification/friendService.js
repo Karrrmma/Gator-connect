@@ -25,8 +25,6 @@ export const unfriendUser = async (fields) => {
 }
 
 export const getFriendList = async (userId) => {
-    return apiCall(`/api/friends/requests?userId=${userId}`);
+    return apiCall(`/api/friends/list?userId=${userId}`);
 }
-
-
 

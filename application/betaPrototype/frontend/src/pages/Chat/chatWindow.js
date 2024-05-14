@@ -95,7 +95,9 @@ const ChatWindow = () => {
     <div className="container-fluid" >
         <div className="" style={{ marginTop: '20px' }}>
         <h1 style={{fontWeight: 'bold', color: 'white', fontSize: '2.0rem', marginBottom: '25px'}} className=" ">PRIVATE CHAT</h1>
-          <Head userId={privateMessages[0].sender_id}/>
+          {privateMessages.length > 0 && privateMessages[0].sender_id && (
+            <Head userId={privateMessages[0].sender_id} />
+          )}
           <div className="chat-container"  style={{ borderTopLeftRadius: '0px', borderTopRightRadius: '0px'}}>
 
             <div className="chat-body" style={{ backgroundColor: 'black', overflowY: 'auto', height: '468px' }}>
