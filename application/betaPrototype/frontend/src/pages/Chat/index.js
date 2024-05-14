@@ -4,6 +4,7 @@ import { getCurrentUserId } from '../../utils/decodeData';
 import { useState } from "react";
 import { useEffect } from "react";
 import { queryData } from '../../utils/queryUser';
+import { getPrivateChats, getUnansweredPrivateChats } from '../../services/Chat/chatService';
 
 
 
@@ -21,30 +22,32 @@ const Chat = () => {
       
       try{
         //erster fetch
-        const responseFetch1 = await fetch(`/api/chat/getPrivateChats/${currentUserID}`);
-        if(!responseFetch1){
-          console.error('Failed to fetch private chats!');
-          return;
-        }
+        // const responseFetch1 = await fetch(`/api/chat/getPrivateChats/${currentUserID}`);
+        // if(!responseFetch1){
+        //   console.error('Failed to fetch private chats!');
+        //   return;
+        // }
         
-        if (!responseFetch1.ok) {
-          throw new Error(`HTTP error! status: ${responseFetch1.status}`);
-        }
-        const returnFetch1 = await responseFetch1.json();
+        // if (!responseFetch1.ok) {
+        //   throw new Error(`HTTP error! status: ${responseFetch1.status}`);
+        // }
+        // const returnFetch1 = await responseFetch1.json();
+        const returnFetch1 = await getPrivateChats(currentUserID);
         console.log("returnFetch1---Fetched private chats:", returnFetch1);        
 
 
         // zweiter fetch
-        const responseFetch2 = await fetch(`/api/chat/getPrivateChats/noAnswer/${currentUserID}`);
-        if(!responseFetch2){
-          console.error('Failed to fetch private chats with no answer yet!');
-          return;
-        }
-        if (!responseFetch2.ok) {
-          throw new Error(`HTTP error! status: ${responseFetch2.status}`);
-        }
+        // const responseFetch2 = await fetch(`/api/chat/getPrivateChats/noAnswer/${currentUserID}`);
+        // if(!responseFetch2){
+        //   console.error('Failed to fetch private chats with no answer yet!');
+        //   return;
+        // }
+        // if (!responseFetch2.ok) {
+        //   throw new Error(`HTTP error! status: ${responseFetch2.status}`);
+        // }
 
-        const returnFetch2 = await responseFetch2.json();
+        // const returnFetch2 = await responseFetch2.json();
+        const returnFetch2 = await getUnansweredPrivateChats(currentUserID);
         console.log("returnFetch2---Fetched private chats with no answer yet:", returnFetch2);
 
 
@@ -109,7 +112,7 @@ const Chat = () => {
     return(
       <div class="d-flex align-items-center" key={index} style={{border: '1px solid black', padding: '10px', textAlign: 'right' }}>
         {/* <img src={Cat} class="rounded-circle" alt="placeholder pfp" style={{ width: 50, height: 50 }}></img> */}
-        <div className="avatar" style={{fontSize: '30px'}}>🐶</div>
+        <div className="avatar" style={{fontSize: '30px'}}>{userData.avatar}</div>
         <Link to={`/chatWindow/${userData.fullName}`} className='btn btn-link text-decoration-none' style={{color: 'white', fontSize: '25px'}}>{userData.fullName}</Link>
       </div>
     );

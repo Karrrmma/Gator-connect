@@ -10,6 +10,7 @@ import { useEffect } from "react";
 import { getCurrentUserId } from '../../utils/decodeData';
 import { queryData } from '../../utils/queryUser';
 import { getPrivateMessages, sendPrivateMessage } from '../../services/Chat/chatService';
+import { getUserInfo } from '../../services/User/userService';
 
 
 
@@ -94,7 +95,7 @@ const ChatWindow = () => {
     <div className="container-fluid" >
         <div className="" style={{ marginTop: '20px' }}>
         <h1 style={{fontWeight: 'bold', color: 'white', fontSize: '2.0rem', marginBottom: '25px'}} className=" ">PRIVATE CHAT</h1>
-          <Head />
+          <Head userId={privateMessages[0].sender_id}/>
           <div className="chat-container"  style={{ borderTopLeftRadius: '0px', borderTopRightRadius: '0px'}}>
 
             <div className="chat-body" style={{ backgroundColor: 'black', overflowY: 'auto', height: '468px' }}>
@@ -160,13 +161,26 @@ function SenderName({userID}){
 
 
 
-function Head() {
-  const { name } = useParams()
+function Head({userId}) {
+  const { name } = useParams();
+  const [ avatar, setAvatar ] = useState();
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const basicInfo = await getUserInfo(userId);
+        setAvatar(basicInfo.avatar);
+      } catch (error) {
+        console.error("Failed to fetch user data:", error);
+      }
+    };
+    fetchUserData();
+  }, []);
 
   return (
     <div className="head-chat">
       <div class="d-flex align-items-center" style={{ width: '100%', padding: '20px', textAlign: 'right' }}>
-        <div className="avatar" style={{fontSize: '30px'}}>🐶</div>
+        <div className="avatar" style={{fontSize: '30px'}}>{avatar}</div>
         <p style={{ color: 'white', fontSize: '25px', marginLeft: '5px' }}>{name}</p>
         <Link to='/chat' className='text-decoration-none' style={{fontWeight: 'bold', color: 'gray', fontSize: '30px', display: 'inline-block', marginLeft:'auto'}}>X</Link>
       </div>

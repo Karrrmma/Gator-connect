@@ -15,3 +15,11 @@ export const getPrivateMessages = async (params) => {
 export const sendPrivateMessage = async (fields) => {
     return apiCall(`/api/chat/sendPrivateMessage`, 'POST', fields);
 }
+
+export const getPrivateChats = async (userId) => {
+    return apiCall(`/api/chat/getPrivateChats/${userId}`);
+}
+
+export const getUnansweredPrivateChats = async (userId) => {
+    return apiCall(`/api/chat/getPrivateChats/noAnswer/${userId}`);
+}

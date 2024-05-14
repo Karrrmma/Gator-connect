@@ -186,11 +186,16 @@ function Profile() {
             className="avatar avatar-area"
             onClick={handleEditProfileClick}
           >
-            <span className="avatar-text">{user.avatar}</span>
-            <div className="edit-profile-message">EDIT PROFILE</div>
+            {getCurrentUserId() === user.user_id && (
+              <>
+                <div className="edit-profile-message">EDIT PROFILE</div>
+                <div onClick={handleEditProfileClick}></div>
+              </>
+            )}
+            <span className={getCurrentUserId() === user.user_id ? "avatar-text" : ""}>{user.avatar}</span>
           </div>
 
-          {showEditProfile && (
+          {getCurrentUserId() === user.user_id && showEditProfile && (
             <EditProfilePopup
               userId={user.user_id}
               currentBiography={user.biography}

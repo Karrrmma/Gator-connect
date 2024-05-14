@@ -1,6 +1,8 @@
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
+// const { verifyToken } = require("./verifyToken");
+
 const routesHandler = require('./routes/handler.js');
 
 const userRoutes = require('./routes/userRoutes.js');
@@ -15,18 +17,22 @@ const friend = require('../backend/routes/friendRoutes.js')
 require('dotenv/config');
 
 const app = express();
-app.use(cors()); // set CORS headers FIRST before handers are executed
+app.use(cors()); // set CORS headers FIRST before handers are executed, this should accept cors requests from all origins
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(bodyParser.json());
 
 
 app.use(routesHandler);
+app.use(profileRoutes);
 app.use(userRoutes);
+// FE suggestion: applies middleware to all routes after this
+// takes out the need to manually add verifyToken to each route
+// profile and user routes need shouldnt need token verification
+// app.use(verifyToken); 
 app.use(  postRoutes);
 app.use(chatRoutes);
 app.use(searchRoutes);
-app.use(profileRoutes);
 app.use(likecomment);
 app.use(friend);
 
