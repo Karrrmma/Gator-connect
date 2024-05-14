@@ -3,6 +3,11 @@ const  jwt = require('jsonwebtoken');
 require('dotenv/config');
 
 exports.verifyToken = async (req, res, next) =>{
+    if (!req.headers.authorization) {
+        console.log('No authorization header provided');
+        return next(createError(401, "You are not authenticated!"));
+      }
+      
     const token = req.headers.authorization.split(' ')[1];
     const mysecretkey = process.env.JWT;
     if (!token){
