@@ -21,6 +21,8 @@ const ChatWindow = () => {
   const { name } = useParams()
 
 
+
+
   const [privateMessages, setPrivateMessages] = useState([]);
   const [fetched, setFetched] = useState(false);
 
@@ -182,7 +184,7 @@ function Head({userId}) {
   return (
     <div className="head-chat">
       <div class="d-flex align-items-center" style={{ width: '100%', padding: '20px', textAlign: 'right' }}>
-        <div className="avatar" style={{fontSize: '30px'}}>{avatar}</div>
+        {/* <div className="avatar" style={{fontSize: '30px'}}>{avatar}</div> */}
         <p style={{ color: 'white', fontSize: '25px', marginLeft: '5px' }}>{name}</p>
         <Link to='/chat' className='text-decoration-none' style={{fontWeight: 'bold', color: 'gray', fontSize: '30px', display: 'inline-block', marginLeft:'auto'}}>X</Link>
       </div>

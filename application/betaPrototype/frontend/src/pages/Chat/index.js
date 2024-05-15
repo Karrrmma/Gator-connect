@@ -83,8 +83,16 @@ const Chat = () => {
                 {privateChats.map((chats, index) =>
                 <SenderName senderID={chats.sender_id || chats.receiver_id} index={index}/>
                 )}
-
+                <p style={{background: 'black', fontSize: '15px', marginTop: '40px'}}>
+                  Want to chat with more friends? 
+                  <br></br> 
+                  Find Friends in 
+                  <Link to={`/profile`}> Profile </Link> 
+                  and start chatting right away!!
+                </p>
+                
               </div>
+
               <Bottom/>
               
            </div>
@@ -102,6 +110,7 @@ const Chat = () => {
       console.log('----senderID: ', senderID)
       queryData(senderID).then(res => {
         console.log(res.fullName);
+        console.log('--avatar:', res.avatar)
         setUserData(res);
         setFetched(true);
       }).catch(error => {
@@ -111,8 +120,7 @@ const Chat = () => {
     
     return(
       <div class="d-flex align-items-center" key={index} style={{border: '1px solid black', padding: '10px', textAlign: 'right' }}>
-        {/* <img src={Cat} class="rounded-circle" alt="placeholder pfp" style={{ width: 50, height: 50 }}></img> */}
-        <div className="avatar" style={{fontSize: '30px'}}>{userData.avatar}</div>
+        {/* <div className="avatar" style={{fontSize: '30px'}}>{userData.avatar}</div> */}
         <Link to={`/chatWindow/${userData.fullName}`} className='btn btn-link text-decoration-none' style={{color: 'white', fontSize: '25px'}}>{userData.fullName}</Link>
       </div>
     );
