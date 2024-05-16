@@ -1,39 +1,18 @@
-import Chat from './Chat';
-import Explore from './Explore';
-import Login from './authentication/Login';
-import Profile from './Profile';
-import Register from './authentication/Register';
-import Start from './Start';
-import TOS from './TOS';
-import ForgotPassword from './authentication/Login/ForgotPassword';
-import About from './Start/About';
-import FoodVendor from './Explore/FoodVendor/FoodVendor';
-import Transportation from './Explore/Transportation/Transportation';
-import Event from './Explore/Event/Event';
-import VendorDetail from './Explore/FoodVendor/VendorDetail';
-import ChatWindow from './Chat/chatWindow';
-import PubChat from './Chat/pubChat';
-import Channel from './Chat/channel';
-import Notification from './Notification/Notification';
-import Post from './Post/Post';
-
-export {
-    Chat,
-    Explore,
-    Login,
-    Profile,
-    Register,
-    Start,
-    TOS,
-    ForgotPassword,
-    About,
-    FoodVendor,
-    Transportation,
-    Event,
-    VendorDetail,
-    ChatWindow,
-    PubChat,
-    Channel,
-    Notification,
-    Post
-}
+export { default as Chat }  from './Chat';
+export { default as Explore }  from './Explore';
+export { default as Login }  from './authentication/Login';
+export { default as Profile }  from './Profile';
+export { default as Register }  from './authentication/Register';
+export { default as Start }  from './Start';
+export { default as TOS }  from './TOS';
+export { default as ForgotPassword }  from './authentication/Login/ForgotPassword';
+export { default as About }  from './Start/About';
+export { default as FoodVendor }  from './Explore/FoodVendor/FoodVendor';
+export { default as Transportation }  from './Explore/Transportation/Transportation';
+export { default as Event }  from './Explore/Event/Event';
+export { default as VendorDetail }  from './Explore/FoodVendor/VendorDetail';
+export { default as ChatWindow }  from './Chat/chatWindow';
+export { default as PubChat }  from './Chat/pubChat';
+export { default as Channel }  from './Chat/channel';
+export { default as Notification }  from './Notification/Notification';
+export { default as Post }  from './Post/Post';

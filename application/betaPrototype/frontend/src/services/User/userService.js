@@ -12,7 +12,7 @@ export const createProfile = async (fields) => {
 
 // can be found in handler.js (should be moved to profile routes)
 export const updateProfile = async (fields) => {
-    return ApiCall('/editprofile', 'POST', fields);
+    return ApiCall('/profile/edit', 'POST', fields);
 } // change the backend route name for this later
 
 export const getUserInfo = async (userId) => {
@@ -21,4 +21,7 @@ export const getUserInfo = async (userId) => {
 
 export const searchUsers = async (fields) => {
     return ApiCall(`/search`, 'POST', fields);
-}
+};
+export const queryData = async (userId) => {
+    return ApiCall(`/api/user/${userId}`);
+};

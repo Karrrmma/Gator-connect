@@ -244,7 +244,7 @@ router.post("/reset-password", async (req, res) => {
 
 // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  
 // Edit profile, especially for biography
-router.post('/editprofile', (req, res) => {
+router.post('/profile/edit', (req, res) => {
   const { account_id: user_id, biography } = req.body;
 
   const accountIdQuery = 'SELECT account_id FROM Account WHERE user_id = ?';

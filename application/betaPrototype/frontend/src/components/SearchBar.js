@@ -5,7 +5,7 @@ import { MAJORS } from '../constants/MAJORS';
 // import { YEARS } from '../constants/years';
 
 const SearchBar = ({ onSearch }) => {
-    const [submitted, setSubmitted] = useState(false);
+    const [submitted] = useState(false);
 
     const [searchQuery, setSearchQuery] = useState('');
     const handleSearchSubmit = (event) => {

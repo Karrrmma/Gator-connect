@@ -15,7 +15,7 @@ import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 import { useState } from "react";
 import { useEffect } from "react";
 import { getCurrentUserId } from '../../utils/decodeData';
-import { queryData } from '../../utils/queryUser';
+import { queryData } from "../../services/User/UserService";
 import { getPrivateMessages, sendPrivateMessage } from '../../services/Chat/ChatService';
 import { getUserInfo } from '../../services/User/UserService';
 

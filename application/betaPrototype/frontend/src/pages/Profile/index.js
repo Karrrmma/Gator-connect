@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { getCurrentUserId } from "../../utils/decodeData";
-import { queryData } from "../../utils/queryUser";
+import { queryData } from "../../services/User/UserService";
 import "./Profile.css";
 import { useParams } from "react-router-dom";
 import PostCard from "../../components/PostCard";
@@ -168,7 +168,7 @@ function Profile() {
 
   const fetchLikedPosts = async () => {
     try {
-      const data = await getLikedPosts(userId);
+      const data = await getLikedPosts(getCurrentUserId());
       console.log(`RECEIVING NEW DATA FROM FETCH LIKED POSTS!`);
       console.log(data);
       setLikedPosts(data);
@@ -188,11 +188,10 @@ function Profile() {
   return (
     <>
       <div className="post-header">
-        {/* <img src={TestPFP} alt="Profile" style={{width: '150px', height: '150px', borderRadius: '50%', marginTop: '20px'}}/> */}
         <div className="post-row">
           <div
             className="avatar avatar-area"
-            onClick={handleEditProfileClick}
+            onClick={getCurrentUserId() === user.user_id ? handleEditProfileClick : undefined}
           >
             {getCurrentUserId() === user.user_id && (
               <>
@@ -230,11 +229,9 @@ function Profile() {
             </p>
           </div>
         </div>
-        {/* <p className='bio mb-4'>{user.bio}</p> Bio should be implemented when edit profile*/}
 
         <p className="bio mb-4 mt-2">{user.biography}</p>
 
-        {/* POSTS DONE // FRIENDS: need to be implemented */}
         <p className="text-white mb-4 post">
           {" "}
           {user.post_count} POSTS | {user.friend_count} FRIENDS

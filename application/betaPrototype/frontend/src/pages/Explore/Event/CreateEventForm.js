@@ -21,7 +21,7 @@
  * 
  */
 import React, { useState, useEffect } from "react";
-import { queryData } from "../../../utils/queryUser";
+import { queryData } from "../../../services/User/UserService";
 import { getCurrentUserId } from "../../../utils/decodeData";
 import { useParams } from "react-router-dom";
 import "../ExploreTemplate.css";

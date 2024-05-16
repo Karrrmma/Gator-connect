@@ -10,7 +10,7 @@ import { Link } from 'react-router-dom';
 import { getCurrentUserId } from '../../utils/decodeData';
 import { useState } from "react";
 import { useEffect } from "react";
-import { queryData } from '../../utils/queryUser';
+import { queryData } from "../../services/User/UserService";
 import { getPrivateChats, getUnansweredPrivateChats } from '../../services/Chat/ChatService';
 
 
