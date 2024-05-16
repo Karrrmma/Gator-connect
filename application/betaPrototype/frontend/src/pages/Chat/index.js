@@ -1,3 +1,10 @@
+/* HEADER
+- This file belongs to the overall chat application.
+- This file displays all private chats.
+- Users can choose one private chat and click on the name
+- of the friend they want to read a message or send a message to
+-*/
+
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { getCurrentUserId } from '../../utils/decodeData';

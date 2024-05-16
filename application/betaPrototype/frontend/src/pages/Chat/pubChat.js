@@ -1,3 +1,11 @@
+/* HEADER
+- This file belongs to the overall chat application.
+- This file displays all public channels.
+- Users can choose one public channel and click on the name
+- of the channel.
+-*/
+
+
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ImBooks } from "react-icons/im";

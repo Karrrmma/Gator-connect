@@ -1,3 +1,10 @@
+/* HEADER
+- This file belongs to the overall chat application.
+- This file opens the private chat with a friend.
+- Users can read and write messages inside this private chat
+-*/
+
+
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useParams } from 'react-router-dom';

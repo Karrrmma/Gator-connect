@@ -1,3 +1,9 @@
+/* HEADER
+- This file belongs to the overall chat application.
+- This file opens the chat inside a specific channel.
+- Users can read and write messages inside this channel
+-*/
+
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import {useParams} from 'react-router-dom';
