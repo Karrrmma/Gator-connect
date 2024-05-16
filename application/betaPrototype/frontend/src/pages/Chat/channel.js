@@ -19,7 +19,7 @@ import { GiCampingTent } from "react-icons/gi";
 import { useState } from "react";
 import { getCurrentUserId } from '../../utils/decodeData';
 import { queryData } from '../../utils/queryUser';
-import { getPublicMessages, sendPublicMessage } from './../../services/Chat/chatService';
+import { getPublicMessages, sendPublicMessage } from '../../services/Chat/ChatService';
 
 
 

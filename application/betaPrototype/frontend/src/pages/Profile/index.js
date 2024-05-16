@@ -8,9 +8,9 @@ import FriendsListPopup from "./FriendsListPopup";
 import NewPostPopup from "./NewPostPopup";
 import EditProfilePopup from "./EditProfilePopup";
 import { Link } from 'react-router-dom';
-import { getUserInfo } from "../../services/User/userService";
-import { getFriendshipStatus, sendFriendReq, unfriendUser } from "../../services/Notification/friendService";
-import { getLikedPosts } from "../../services/Post/postService";
+import { getUserInfo } from "../../services/User/UserService";
+import { getFriendshipStatus, sendFriendReq, unfriendUser } from "../../services/Notification/FriendService";
+import { getLikedPosts } from "../../services/Post/PostService";
 
 
 function Profile() {

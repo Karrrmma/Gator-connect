@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import "../ExploreTemplate.css";
 import { FaStar, FaCommentDots } from "react-icons/fa";
 import { useLocation } from "react-router-dom";
-import { getVendorData, postVendorReview } from "../../../services/Explore/exploreService";
+import { getVendorData, postVendorReview } from "../../../services/Explore/ExploreService";
 
 const vendorsInfo = {
   "Cafe 101": {

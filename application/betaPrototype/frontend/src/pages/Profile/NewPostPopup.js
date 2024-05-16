@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { createPost } from './../../services/Post/postService';
+import { createPost } from '../../services/Post/PostService';
 
 function NewPostPopup({ userId, onClose, onAddPost }) {
     const [post, setPost] = useState('');

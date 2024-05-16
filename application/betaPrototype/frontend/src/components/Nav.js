@@ -5,8 +5,8 @@ import { FaCompass, FaBell, FaHome, FaUser, FaComment } from 'react-icons/fa';
 import SignOut from './SignOut';
 import { getCurrentUsername, getCurrentUserId } from '../utils/decodeData';
 // import { Notification } from '../components/Notification'
-import { getUserInfo } from '../services/User/userService';
-import { getFriendReqs } from '../services/Notification/friendService';
+import { getUserInfo } from '../services/User/UserService';
+import { getFriendReqs } from '../services/Notification/FriendService';
 
 function Nav() {
     const [avatar, setAvatar] = useState('');
@@ -103,7 +103,7 @@ function Nav() {
                 <div className="d-none d-lg-block ml-auto">
                     <SignOut />
                 </div>
-                <div className="d-none d-lg-flex avatar">{avatar}</div>
+                <div className="d-none d-lg-flex avatar-post">{avatar}</div>
             </nav>
         </>
     );

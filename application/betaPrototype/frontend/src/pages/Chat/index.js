@@ -11,7 +11,7 @@ import { getCurrentUserId } from '../../utils/decodeData';
 import { useState } from "react";
 import { useEffect } from "react";
 import { queryData } from '../../utils/queryUser';
-import { getPrivateChats, getUnansweredPrivateChats } from '../../services/Chat/chatService';
+import { getPrivateChats, getUnansweredPrivateChats } from '../../services/Chat/ChatService';
 
 
 

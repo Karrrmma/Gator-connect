@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import validateResetFields from '../validateResetFields'; // You need to create this validation function
 import '../auth.css';
 import gatorLogo from '../../../assets/images/gator_logo.PNG';
-import { resetPassword } from '../../../services/authentication/authService';
+import { resetPassword } from '../../../services/authentication/AuthService';
 
 function ForgotPassword() {
     const navigate = useNavigate();

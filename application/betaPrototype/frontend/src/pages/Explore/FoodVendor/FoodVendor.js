@@ -22,7 +22,7 @@ import vendorImage16 from "./vendorimg/vendor16.jpg";
 import vendorImage17 from "./vendorimg/vendor17.jpg";
 import vendorImage18 from "./vendorimg/vendor18.jpg";
 import vendorImage19 from "./vendorimg/vendor19.jpg";
-import { getVendors } from "../../../services/Explore/exploreService";
+import { getVendors } from "../../../services/Explore/ExploreService";
 
 function FoodVendor() {
   const navigate = useNavigate();

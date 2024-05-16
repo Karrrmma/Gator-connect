@@ -13,7 +13,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import validateLoginFields from '../validateLoginFields';
 import '../auth.css';
 import gatorLogo from '../../../assets/images/gator_logo.PNG';
-import { loginUser } from '../../../services/authentication/authService';
+import { loginUser } from '../../../services/authentication/AuthService';
 
 function Login({ setToken }) {
     const navigate = useNavigate();

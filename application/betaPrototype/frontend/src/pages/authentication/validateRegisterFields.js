@@ -1,4 +1,5 @@
-export default function validateFields(values) {
+// Register field validation
+export default function validateRegisterFields(values) {
     let errors = {};
     // Does email exist
     if (!values.sfsu_email) {

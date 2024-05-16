@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import {Link, useNavigate} from 'react-router-dom';
-import validateFields from '../validateFields';
+import validateRegisterFields from '../validateRegisterFields';
 import validateAvatarField from '../validateAvatarField';
 import '../auth.css';
-import { MAJORS } from '../../../constants/majors';
-import { YEARS } from '../../../constants/years';
+import { MAJORS } from '../../../constants/MAJORS';
+import { YEARS } from '../../../constants/YEARS';
 import gatorLogo from '../../../assets/images/gator_logo_happy.PNG';
 import PropTypes from 'prop-types';
-import { registerUser, loginUser, canRegister } from '../../../services/authentication/authService';
-import { createProfile } from '../../../services/User/userService';
+import { registerUser, loginUser, canRegister } from '../../../services/authentication/AuthService';
+import { createProfile } from '../../../services/User/UserService';
 // import { getCurrentUserId } from '../../../utils/decodeData';
 
 function Register() {
@@ -71,7 +71,7 @@ function Register() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         // check and set front end errors
-        const err = validateFields(values);
+        const err = validateRegisterFields(values);
         let allerr = {...err}
 
 

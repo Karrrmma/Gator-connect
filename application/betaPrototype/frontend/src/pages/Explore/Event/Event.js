@@ -20,7 +20,7 @@ import "../ExploreTemplate.css";
 import { useNavigate } from "react-router-dom";
 import CreateEventForm from './CreateEventForm';
 import RSVPForm from './RSVPForm';
-import { getEvents } from "../../../services/Explore/exploreService";
+import { getEvents } from "../../../services/Explore/ExploreService";
 
 function Event() {
   const navigate = useNavigate();

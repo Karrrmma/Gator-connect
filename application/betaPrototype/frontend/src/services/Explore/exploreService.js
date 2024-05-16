@@ -1,21 +1,21 @@
-import apiCall from "../apiCall";
+import ApiCall from "../ApiCall";
 
 export const createEvent = async (fields) => {
-    return apiCall('/api/create_event', 'POST', fields);
+    return ApiCall('/api/create_event', 'POST', fields);
 }
 
 export const getEvents = async () => {
-    return apiCall('/api/events');
+    return ApiCall('/api/events');
 }
 
 export const getVendors = async () => {
-    return apiCall('/vendor-average-ratings');
+    return ApiCall('/vendor-average-ratings');
 }
 
 export const getVendorData = async (name) => {
-    return apiCall(`/api/vendordetail/${name}`);
+    return ApiCall(`/api/vendordetail/${name}`);
 }
 
 export const postVendorReview = async (fields) => {
-    return apiCall(`/api/vendordetail`, 'POST', fields);
+    return ApiCall(`/api/vendordetail`, 'POST', fields);
 }

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import UserCard from '../../components/UserCard';
 import "./popup.css"; // --> path is different maybe this one is in the profile and event is in explore
 import { getCurrentUserId } from "../../utils/decodeData";
-import { getFriendList, unfriendUser } from '../../services/Notification/friendService';
+import { getFriendList, unfriendUser } from '../../services/Notification/FriendService';
 
 function FriendsListPopup({ onClose, onFriendCountChange}) {
   const profile = getCurrentUserId();

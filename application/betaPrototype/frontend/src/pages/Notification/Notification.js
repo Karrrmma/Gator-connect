@@ -2,10 +2,9 @@
 import { Link } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import './Notification.css';
-import { getCurrentUserId } from "../utils/decodeData";
+import { getCurrentUserId } from "../../utils/decodeData";
 import { useNavigate } from 'react-router-dom';
-import { acceptFriendReq, declineFriendReq, getFriendReqs } from './../services/Notification/friendService';
-
+import { acceptFriendReq, declineFriendReq, getFriendReqs } from '../../services/Notification/FriendService';
 
 function NotificationItem({ notification, onAccept, onDecline }) {
     const navigate = useNavigate();

@@ -1,7 +1,6 @@
 import './App.css';
 import Nav from './components/Nav';  
-import Notification from './components/Notification';
-import Post from './components/Post';
+// import Post from './pages/Post/Post';
 
 // Start Pages
 import { 
@@ -15,7 +14,7 @@ import {
 
 // NavBar pages
 import { 
-  Explore, Profile, Chat,Event
+  Explore, Profile, Chat, Event, Notification, Post
 } from './pages';
 
 // Chat related pages

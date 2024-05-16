@@ -1,4 +1,4 @@
-import API_ROUTE from "../constants/api_route";
+import API_ROUTE from "../constants/API_ROUTE";
 
 export const queryData = async (userId) => {
     const response = await fetch(`${API_ROUTE}/api/user/${userId}`);

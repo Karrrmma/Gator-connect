@@ -14,6 +14,8 @@ import VendorDetail from './Explore/FoodVendor/VendorDetail';
 import ChatWindow from './Chat/chatWindow';
 import PubChat from './Chat/pubChat';
 import Channel from './Chat/channel';
+import Notification from './Notification/Notification';
+import Post from './Post/Post';
 
 export {
     Chat,
@@ -31,5 +33,7 @@ export {
     VendorDetail,
     ChatWindow,
     PubChat,
-    Channel
+    Channel,
+    Notification,
+    Post
 }

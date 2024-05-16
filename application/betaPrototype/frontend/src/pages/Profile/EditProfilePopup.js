@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { updateProfile } from '../../services/User/userService';
+import { updateProfile } from '../../services/User/UserService';
 
 function EditProfilePopup({ userId, onClose, updateBiography }) {
     const [profileInfo, setProfileInfo] = useState('');

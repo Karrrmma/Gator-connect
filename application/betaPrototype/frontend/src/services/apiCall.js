@@ -1,6 +1,6 @@
-import API_ROUTE from "../constants/api_route";
+import API_ROUTE from "../constants/API_ROUTE";
 
-async function apiCall(endpoint, method = 'GET', body, useToken=true) {
+async function ApiCall(endpoint, method = 'GET', body, useToken=true) {
     const options = {
       method,
       headers: {
@@ -32,4 +32,4 @@ async function apiCall(endpoint, method = 'GET', body, useToken=true) {
     return response.json();
   }
   
-  export default apiCall;
+  export default ApiCall;

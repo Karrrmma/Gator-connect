@@ -26,7 +26,7 @@ import { getCurrentUserId } from "../../../utils/decodeData";
 import { useParams } from "react-router-dom";
 import "../ExploreTemplate.css";
 import "../../Profile/popup.css";
-import { createEvent } from './../../../services/Explore/exploreService';
+import { createEvent } from '../../../services/Explore/ExploreService';
 
 function CreateEventForm({ onClose }) {
 

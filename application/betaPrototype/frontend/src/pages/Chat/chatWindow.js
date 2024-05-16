@@ -16,8 +16,8 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { getCurrentUserId } from '../../utils/decodeData';
 import { queryData } from '../../utils/queryUser';
-import { getPrivateMessages, sendPrivateMessage } from '../../services/Chat/chatService';
-import { getUserInfo } from '../../services/User/userService';
+import { getPrivateMessages, sendPrivateMessage } from '../../services/Chat/ChatService';
+import { getUserInfo } from '../../services/User/UserService';
 
 
 
