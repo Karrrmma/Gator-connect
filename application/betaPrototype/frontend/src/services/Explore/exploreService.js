@@ -1,7 +1,7 @@
 import ApiCall from "../ApiCall";
 
 export const createEvent = async (fields) => {
-    return ApiCall('/api/create_event', 'POST', fields);
+    return ApiCall('/api/createEvent', 'POST', fields);
 }
 
 export const getEvents = async () => {
@@ -9,7 +9,7 @@ export const getEvents = async () => {
 }
 
 export const getVendors = async () => {
-    return ApiCall('/vendor-average-ratings');
+    return ApiCall('/api/vendorAverageRatings');
 }
 
 export const getVendorData = async (name) => {

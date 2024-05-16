@@ -7,8 +7,8 @@ const connection = require('../routes/db');
 const userController = require('./controllers/userController');
 const {validateRegister} = require('./controllers/validateRegister');
 
-router.post('/register', validateRegister, userController.register);
-router.post('/api/can_register', userController.canRegister);
-router.post('/login', userController.login);
-router.post('/reset-password', userController.reset);
+router.post('/api/register', validateRegister, userController.register);
+router.post('/api/canRegister', userController.canRegister);
+router.post('/api/login', userController.login);
+router.post('/api/resetPassword', userController.reset);
 module.exports = router;

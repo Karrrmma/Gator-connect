@@ -991,7 +991,7 @@ router.get("/api/vendordetail/:vendor_name", (req, res) => {
 });
 
 // FoodVendor Average Rating
-router.get("/vendor-average-ratings", (req, res) => {
+router.get("/api/vendorAverageRatings", (req, res) => {
   const query = `
     SELECT vendor_name, AVG(menu_rating) as average_rating, COUNT(menu_rating) as num_reviews
     FROM Food_Vendor
@@ -1013,7 +1013,7 @@ router.get("/vendor-average-ratings", (req, res) => {
 // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  
 // CREATE EVENT
 // Insert the data in the event table from user input
-router.post("/api/create_event",(req, res) => {
+router.post("/api/createEvent",(req, res) => {
   const {
     event_description,
     event_type,
