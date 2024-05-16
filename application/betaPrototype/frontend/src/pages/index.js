@@ -7,6 +7,13 @@ import Start from './Start';
 import TOS from './TOS';
 import ForgotPassword from './authentication/Login/ForgotPassword';
 import About from './Start/About';
+import FoodVendor from './Explore/FoodVendor/FoodVendor';
+import Transportation from './Explore/Transportation/Transportation';
+import Event from './Explore/Event/Event';
+import VendorDetail from './Explore/FoodVendor/VendorDetail';
+import ChatWindow from './Chat/chatWindow';
+import PubChat from './Chat/pubChat';
+import Channel from './Chat/channel';
 
 export {
     Chat,
@@ -17,5 +24,12 @@ export {
     Start,
     TOS,
     ForgotPassword,
-    About
+    About,
+    FoodVendor,
+    Transportation,
+    Event,
+    VendorDetail,
+    ChatWindow,
+    PubChat,
+    Channel
 }

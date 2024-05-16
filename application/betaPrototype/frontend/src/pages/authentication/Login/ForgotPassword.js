@@ -24,7 +24,7 @@ function ForgotPassword() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log("Submitting form");
+        // console.log("Submitting form");
         const errors = validateResetFields(inputs);
         if (Object.keys(errors).length > 0) {
             setErrors(errors);

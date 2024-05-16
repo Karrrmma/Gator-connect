@@ -8,15 +8,11 @@ import { acceptFriendReq, declineFriendReq, getFriendReqs } from './../services/
 
 
 function NotificationItem({ notification, onAccept, onDecline }) {
-    // Replace with actual action handlers
-    //const handleAccept = () => console.log('Accepted');
-    //const handleDecline = () => console.log('Declined');
     const navigate = useNavigate();
     const navigateToSenderProfile = () => {
         navigate(`/profile/${notification.senderId}`);  // Navigate to sender's profile
     };
 
-    // notification.avatar = "🚗"
     return (
         <div className="notification-item">
             <div className="notification-content">
@@ -44,7 +40,6 @@ function NotificationItem({ notification, onAccept, onDecline }) {
     );
 }
 
-//{!notification.accepted && <span className="accepted">decline </span>} 
 function Notification() {
 
     const [notifications, setNotifications] = useState([]);
@@ -63,14 +58,6 @@ function Notification() {
     }, []);
 
     const handleAccept = async (id) => {
-            // const response = await fetch(`/api/friends/accept/${id}`, { method: 'POST' });
-            // if (response.ok) {
-            //     setNotifications(current =>
-            //         current.map(notification =>
-            //             notification.id === id ? { ...notification, accepted: true } : notification
-            //         )
-            //     );
-            // }
             try {
                 await acceptFriendReq(id);
                 setNotifications(current =>
@@ -84,12 +71,6 @@ function Notification() {
     };
     
     const handleDecline = async (id) => {
-            // const response = await fetch(`/api/friends/decline/${id}`, { method: 'DELETE' });
-            // if (response.ok) {
-            //     setNotifications(current =>
-            //         current.filter(notification => notification.id !== id)
-            //     );
-            // }
             try {
                 await declineFriendReq(id);
                 setNotifications(current =>

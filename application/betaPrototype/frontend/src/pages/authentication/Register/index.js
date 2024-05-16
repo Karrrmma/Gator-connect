@@ -9,10 +9,9 @@ import gatorLogo from '../../../assets/images/gator_logo_happy.PNG';
 import PropTypes from 'prop-types';
 import { registerUser, loginUser, canRegister } from '../../../services/authentication/authService';
 import { createProfile } from '../../../services/User/userService';
-import { getCurrentUserId } from '../../../utils/decodeData';
+// import { getCurrentUserId } from '../../../utils/decodeData';
 
-// TODO: STILL NEED TO COMPLETELY IMPLEMENT THIS PAGE
-function Register({setToken}) {
+function Register() {
     const [values, setUser] = useState({
         sfsu_email: '',
         username: '',
@@ -93,14 +92,14 @@ function Register({setToken}) {
                 // await registerUser(values);
                 // check if the email or username are not already taken
                 await canRegister(values);
-                console.log('User can register successfully');
+                // console.log('User can register successfully');
                 // user got past validation, let them choose a profile avatar
                 setIsRegistered(true);
                 setAvatar({
                     avatar: values.fullname[0]
                 });
             } catch (error) {
-                console.log(error);
+                // console.log(error);
                 // setErrors({...err, backend: 'Email is already in use. Please use another one.'});
                 setErrors({...err, backend: error.message});
             }
@@ -110,13 +109,10 @@ function Register({setToken}) {
     const handleAvatarChange = (event) => {
         let {value} = event.target;
 
+        // set avatar to first letter
         if (!value || value.length === 0) {
             value = values.fullname[0];
-            // console.log("setting val to first letter");
         }
-        // if (value) {
-        //     console.log(Array.from(value).length);
-        // }
         setAvatar({
             avatar: value
         });
@@ -137,7 +133,7 @@ function Register({setToken}) {
             await createProfile(field); 
         } catch (error) {
             console.log(error);
-            console.log("SOMEHOW FAILED TO CREATE PROFILE or register, cant read a value?");
+            // console.log("SOMEHOW FAILED TO CREATE PROFILE or register, cant read a value?");
         }
         navigate('/login'); // bring user home after logging in
     }
@@ -253,8 +249,8 @@ function Register({setToken}) {
     );
 }
 
-Register.propTypes = {
-    setToken: PropTypes.func.isRequired
-}
+// Register.propTypes = {
+//     setToken: PropTypes.func.isRequired
+// }
 
 export default Register;

@@ -10,6 +10,7 @@ import EditProfilePopup from "./EditProfilePopup";
 import { Link } from 'react-router-dom';
 import { getUserInfo } from "../../services/User/userService";
 import { getFriendshipStatus, sendFriendReq, unfriendUser } from "../../services/Notification/friendService";
+import { getLikedPosts } from "../../services/Post/postService";
 
 
 function Profile() {
@@ -42,6 +43,8 @@ function Profile() {
       post_count: prevUser.post_count + 1,
     }));
   };
+
+  const [likedPosts, setLikedPosts] = useState([]);
 
   const handleFriendsListClick = () => {
     setShowFriendsList(!showFriendsList);
@@ -92,14 +95,8 @@ function Profile() {
     };
 
     fetchUserData();
+    fetchLikedPosts();
   }, [userId]);
-
-  // get user_id, post.user_id properly setting to implement friend request in Profile
-  /*
-  console.log("Check user_id and post.user_id status in /profile/:userId");
-  console.log("In Profile, user_id: ", getCurrentUserId());
-  console.log("In Profile, /profile/:userId: ", userId);
-  */
 
   const checkFriendship = async (userId) => {
     const requesterId = getCurrentUserId();
@@ -167,6 +164,17 @@ function Profile() {
       ...prevState,
       biography: newBio,
     }));
+  };
+
+  const fetchLikedPosts = async () => {
+    try {
+      const data = await getLikedPosts(userId);
+      console.log(`RECEIVING NEW DATA FROM FETCH LIKED POSTS!`);
+      console.log(data);
+      setLikedPosts(data);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   // Sort posts by 'post_time' in descending order before rendering
@@ -280,24 +288,27 @@ function Profile() {
         )}
       </div>
 
-      {/* DONE */}
       {/* User Post dynamically with sort in timestamp */}
       {/* Check if user.posts array is empty */}
       {user.posts.length === 0 ? (
         <p className="no-posts-message">NO POSTS YET</p>
       ) : (
         <div className="mt-5 profile-post">
-          {sortedPosts.map((post) => (
+          {sortedPosts.map((post, index) => (
             <PostCard
-              key={post.post_id}
+              key={index}
               item={{
+                user_id: post.user_id,
                 username: user.fullname,
                 content: post.post_content,
-                timestamp: new Date(post.post_time).toLocaleString(),
-                num_likes: post.num_likes,
-                num_comments: post.num_comments,
+                timestamp: new Date(post.post_time).toLocaleString('en-US'),
+                comments: post.num_comments || 0,
+                likes: post.num_likes || 0,
+                imageUrl: post.imageUrl,
+                post_id: post.post_id,
               }}
               icon={user.avatar}
+              likedPostsList={likedPosts}
             />
           ))}
         </div>

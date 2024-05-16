@@ -1,3 +1,12 @@
+/**
+ * Login Page
+ * - Users can login to the application using their username and password
+ * - It first validates the user input and then sends a request to the server to try and 
+ *   authenticate the user
+ * 
+ * 
+ */
+
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link, useNavigate } from 'react-router-dom';
@@ -29,24 +38,14 @@ function Login({ setToken }) {
         const errors = validateLoginFields(user);
         if (Object.keys(errors).length > 0) {
             setErrors(errors);
-            console.log("LOGIN ERRORS" + Object.keys(errors).length);
+            // console.log("LOGIN ERRORS" + Object.keys(errors).length);
             return;
         }
 
         try {
-            // console.log('User:', user);
             const data = await loginUser(user);
             setToken(data);
             return navigate('/home');
-            // if(response.ok){
-            //     console.log('front end - login success');
-            //     const data = await response.json(); // resolve promise
-            //     setToken(data); // access the token property and set
-            //     return navigate('/home');
-            // }
-            // else{
-            //     setErrors({...errors, form:'Invalid username or password'});
-            // }
         } catch (error) {
             console.error('Error logging in, user does not exist?', error);
             setErrors({...errors, form:'Invalid username or password'});

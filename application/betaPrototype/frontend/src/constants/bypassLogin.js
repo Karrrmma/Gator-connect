@@ -1,2 +1,0 @@
-// for front-end lead when i want to work on it without having wifi
-const SAMPLE_TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlNhbXBsZVN0dWRlbnQiLCJ1c2VyX2lkIjo0MSwiaWF0IjoxNzE0MDgxMTk4LCJleHAiOjE3NDU2MTcxOTh9.Bt1YiovB8GJ2e5UMHM3QQlr9iiLCOyZjqzHgTTue-tA"
