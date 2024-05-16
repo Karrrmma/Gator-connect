@@ -10,7 +10,7 @@ const postRoutes = require('../backend/routes/postRoutes.js')
 const chatRoutes = require('../backend/routes/chatRoutes.js')
 const searchRoutes = require('../backend/routes/searchRoutes.js')
 const profileRoutes = require('../backend/routes/profileRoutes.js')
-const likecomment = require('../backend/routes/likecommentRoutes.js')
+const likeComment = require('./routes/likeCommentRoutes.js')
 const friend = require('../backend/routes/friendRoutes.js')
 
 // Init express app
@@ -28,7 +28,7 @@ app.use(userRoutes);
 app.use(postRoutes);
 app.use(chatRoutes);
 app.use(searchRoutes);
-app.use(likecomment);
+app.use(likeComment);
 app.use(friend);
 
 // Backend Server Port

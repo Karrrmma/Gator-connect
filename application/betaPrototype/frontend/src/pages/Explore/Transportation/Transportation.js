@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "../ExploreTemplate.css";
 import { useNavigate } from "react-router-dom";
-import { RouteData } from "./routes/RouteData";
+import { RouteData } from "./RouteData";
 
 function Transportation() {
   const navigate = useNavigate();
