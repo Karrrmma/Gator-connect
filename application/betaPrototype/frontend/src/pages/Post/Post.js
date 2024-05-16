@@ -1,10 +1,9 @@
-
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import SearchBar from "../../components/SearchBar";
 import PostCard from "../../components/PostCard";
-import NewPostPopup from '../Profile/NewPostPopup';
+import NewPostPopup from "../Profile/NewPostPopup";
 
 import { getCurrentUserId } from "../../utils/decodeData";
 import { getPosts, getLikedPosts } from "../../services/Post/PostService";
@@ -20,12 +19,17 @@ function UserCard({ username, majorOrDepartment, icon, userId }) {
     <div className="card" style={{ marginBottom: "30px" }}>
       <div className="card-body">
         <div className="d-flex justify-content-start align-items-center mb-2">
-          {/* <img src={TestPFP} className="rounded-circle" alt="placeholder pfp" style={{ width: 40, height: 40 }}></img> */}
-          {/* <div className="avatar">🐊</div> */}
           <div className="avatar">{icon}</div>
           <div className="text-left">
-            <h5 className="card-title ml-2 mb-0 capitalize" onClick={navigateToUserProfile} >{username}</h5>
-            <div className="text-muted small ml-2 mt-0 major">{majorOrDepartment}</div>
+            <h5
+              className="card-title ml-2 mb-0 capitalize"
+              onClick={navigateToUserProfile}
+            >
+              {username}
+            </h5>
+            <div className="text-muted small ml-2 mt-0 major">
+              {majorOrDepartment}
+            </div>
           </div>
         </div>
       </div>
@@ -38,7 +42,7 @@ function Post() {
   const [noUsersFound, setNoUsersFound] = useState(false);
   const [showNewPost, setShowNewPost] = useState(false);
   const [likedPosts, setLikedPosts] = useState([]);
-  
+
   useEffect(() => {
     console.log("Post base use effect has been called!");
     fetchLikedPosts();
@@ -104,13 +108,21 @@ function Post() {
     }
 
     setItems(newItems.results);
-
   }
   return (
     <>
       <SearchBar onSearch={setSearchQuery} />
-      <button className="pbutton" onClick={()=> setShowNewPost(true)}> CLICK HERE TO ADD A NEW POST</button>
-      {showNewPost && <NewPostPopup userId={userId}onClose={handleNewPostClick} onAddPost={addNewPost}/>}
+      <button className="pbutton" onClick={() => setShowNewPost(true)}>
+        {" "}
+        CLICK HERE TO ADD A NEW POST
+      </button>
+      {showNewPost && (
+        <NewPostPopup
+          userId={userId}
+          onClose={handleNewPostClick}
+          onAddPost={addNewPost}
+        />
+      )}
       {Object.values(searchQuery).some((value) => value) ? (
         <>
           {noUsersFound ? <p>No users found.</p> : null}
@@ -140,7 +152,7 @@ function Post() {
                 user_id: post.user_id,
                 username: post.full_name,
                 content: post.post_content,
-                timestamp: new Date(post.post_time).toLocaleString('en-US'),
+                timestamp: new Date(post.post_time).toLocaleString("en-US"),
                 comments: post.num_comments || 0,
                 likes: post.num_likes || 0,
                 imageUrl: post.imageUrl,

@@ -1,29 +1,21 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-import './App.css';
-import Nav from './components/Nav';  
+import "./App.css";
+import Nav from "./components/Nav";
 
 // Start Pages
-import { 
-  Login, Register, Start, TOS, ForgotPassword, About 
-} from './pages';
+import { Login, Register, Start, TOS, ForgotPassword, About } from "./pages";
 
 // Explore related pages
-import { 
-  FoodVendor, Transportation, VendorDetail 
-} from './pages';
+import { FoodVendor, Transportation, VendorDetail } from "./pages";
 
 // NavBar pages
-import { 
-  Explore, Profile, Chat, Event, Notification, Post
-} from './pages';
+import { Explore, Profile, Chat, Event, Notification, Post } from "./pages";
 
 // Chat related pages
-import { 
-  ChatWindow, PubChat, Channel 
-} from './pages';
+import { ChatWindow, PubChat, Channel } from "./pages";
 
-import useToken from './hooks/useToken';
+import useToken from "./hooks/useToken";
 
 function App() {
   const { token, setToken } = useToken();
@@ -42,7 +34,7 @@ function App() {
           </Routes>
         </Router>
       </div>
-    ); 
+    );
   }
 
   return (
@@ -55,14 +47,20 @@ function App() {
 
             <Route path="/notification" element={<Notification />} />
 
-            <Route path="/explore" element={<Explore />} /> 
-              <Route path="/explore/foodVendor" element={<FoodVendor />} /> 
-                <Route path="/explore/foodVendor/:name" element={<VendorDetail />} />  
-              <Route path="/explore/transportation" element={<Transportation />} /> 
-              <Route path="/explore/event" element={<Event />} /> 
+            <Route path="/explore" element={<Explore />} />
+            <Route path="/explore/foodVendor" element={<FoodVendor />} />
+            <Route
+              path="/explore/foodVendor/:name"
+              element={<VendorDetail />}
+            />
+            <Route
+              path="/explore/transportation"
+              element={<Transportation />}
+            />
+            <Route path="/explore/event" element={<Event />} />
 
             <Route path="/profile" element={<Profile />} />
-              <Route path="/profile/:userId" element={<Profile />} />
+            <Route path="/profile/:userId" element={<Profile />} />
 
             <Route path="/chat" element={<Chat />} />
             <Route path="/chatWindow/:name" element={<ChatWindow />} />
@@ -76,7 +74,3 @@ function App() {
 }
 
 export default App;
-
-
-
-

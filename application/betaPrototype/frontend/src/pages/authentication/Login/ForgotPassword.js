@@ -1,9 +1,15 @@
+/**
+ * Forgot Password Page
+ * - The user will be asked to enter their username, new password, and confirm new password.
+ * - The user will be redirected to the login page after successfully resetting their password.
+ */
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import validateResetFields from '../validateResetFields'; // You need to create this validation function
-import '../auth.css';
-import gatorLogo from '../../../assets/images/gator_logo.PNG';
+
+import validateResetFields from '../validateResetFields';
 import { resetPassword } from '../../../services/authentication/AuthService';
+import gatorLogo from '../../../assets/images/gator_logo.PNG';
+import '../auth.css';
 
 function ForgotPassword() {
     const navigate = useNavigate();

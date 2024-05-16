@@ -1,3 +1,6 @@
+/**
+ * Terms of Service Page
+ */
 import "./TOS.css";
 
 function TOS() {
