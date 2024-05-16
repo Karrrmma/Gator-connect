@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
-// import Gator from '../../assets/images/gator.png'
+
+import { AiFillInstagram, AiFillFacebook, AiFillTwitterSquare } from "react-icons/ai";
 import { Link } from 'react-router-dom';
+
 import LOGO from '../../assets/images/gator_logo_happy.PNG';
-// import LOGO2 from '../../assets/images/gator_logo.PNG';
+// thumbnails
 import THUMBNAIL1 from '../../assets/images/thumbnail1.png';
 import THUMBNAIL2 from '../../assets/images/thumbnail2.png';
 import THUMBNAIL3 from '../../assets/images/thumbnail3.png';
 import THUMBNAIL4 from '../../assets/images/thumbnail4.png';
 import THUMBNAIL5 from '../../assets/images/thumbnail5.png';
-
 // thumbnail img for phone size
 import THUMBNAIL1SM from '../../assets/images/thumbnail1small.png';
 import THUMBNAIL2SM from '../../assets/images/thumbnail2small.png';
@@ -16,7 +17,6 @@ import THUMBNAIL3SM from '../../assets/images/thumbnail3small.png';
 import THUMBNAIL4SM from '../../assets/images/thumbnail4small.png';
 import THUMBNAIL5SM from '../../assets/images/thumbnail5small.png';
 import './start.css';
-import { AiFillInstagram, AiFillFacebook, AiFillTwitterSquare } from "react-icons/ai";
 
 function Start() {
     const previewsDesktop = [THUMBNAIL1, THUMBNAIL2, THUMBNAIL3, THUMBNAIL4, THUMBNAIL5];

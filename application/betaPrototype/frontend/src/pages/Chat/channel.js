@@ -4,24 +4,20 @@
 - Users can read and write messages inside this channel
 -*/
 
-import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import {useParams} from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link, useParams } from 'react-router-dom';
+
 import Button from 'react-bootstrap/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
-import { ImBooks } from "react-icons/im";
-import { FaUserFriends } from "react-icons/fa";
-import { SlSpeech } from "react-icons/sl";
-import { FaFootballBall } from "react-icons/fa";
+import { FaUserFriends, FaFootballBall } from "react-icons/fa";
 import { GiCampingTent } from "react-icons/gi";
+import { ImBooks } from "react-icons/im";
+import { SlSpeech } from "react-icons/sl";
 
-import { useState } from "react";
 import { getCurrentUserId } from '../../utils/decodeData';
-import { queryData } from "../../services/User/UserService";
 import { getPublicMessages, sendPublicMessage } from '../../services/Chat/ChatService';
-
-
+import { queryData } from "../../services/User/UserService";
 
 const Channel = () => {
   // get current channel

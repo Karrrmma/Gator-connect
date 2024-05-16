@@ -1,17 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { getCurrentUserId } from "../../utils/decodeData";
-import { queryData } from "../../services/User/UserService";
-import "./Profile.css";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
+
 import PostCard from "../../components/PostCard";
 import FriendsListPopup from "./FriendsListPopup";
 import NewPostPopup from "./NewPostPopup";
 import EditProfilePopup from "./EditProfilePopup";
-import { Link } from 'react-router-dom';
-import { getUserInfo } from "../../services/User/UserService";
+
+import { getCurrentUserId } from "../../utils/decodeData";
+import { queryData, getUserInfo } from "../../services/User/UserService";
 import { getFriendshipStatus, sendFriendReq, unfriendUser } from "../../services/Notification/FriendService";
 import { getLikedPosts } from "../../services/Post/PostService";
-
+import "./Profile.css";
 
 function Profile() {
   const { userId } = useParams();

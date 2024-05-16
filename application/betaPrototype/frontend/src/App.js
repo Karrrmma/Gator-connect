@@ -1,6 +1,7 @@
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+
 import './App.css';
 import Nav from './components/Nav';  
-// import Post from './pages/Post/Post';
 
 // Start Pages
 import { 
@@ -23,7 +24,6 @@ import {
 } from './pages';
 
 import useToken from './hooks/useToken';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 function App() {
   const { token, setToken } = useToken();

@@ -1,13 +1,15 @@
 
 import React, { useEffect, useState } from "react";
-import SearchBar from "../../components/SearchBar";
-import "./Post.css";
-import { getCurrentUserId } from "../../utils/decodeData";
 import { useNavigate } from "react-router-dom";
+
+import SearchBar from "../../components/SearchBar";
+import PostCard from "../../components/PostCard";
 import NewPostPopup from '../Profile/NewPostPopup';
+
+import { getCurrentUserId } from "../../utils/decodeData";
 import { getPosts, getLikedPosts } from "../../services/Post/PostService";
 import { searchUsers } from "../../services/User/UserService";
-import PostCard from "../../components/PostCard";
+import "./Post.css";
 
 function UserCard({ username, majorOrDepartment, icon, userId }) {
   const navigate = useNavigate();
