@@ -293,12 +293,7 @@ function TOS() {
           any copyright you own or control, please immediately refer to the
           "COPYRIGHT INFRINGEMENTS" section below.
         </p>
-        {/* BIG NOTE, ANYTHING FROM HERE ON IS UNFORMATTED AND NEEDS TO BE MANUALLY FORMATTED */}
-        {/* BIG NOTE, ANYTHING FROM HERE ON IS UNFORMATTED AND NEEDS TO BE MANUALLY FORMATTED */}
-        {/* BIG NOTE, ANYTHING FROM HERE ON IS UNFORMATTED AND NEEDS TO BE MANUALLY FORMATTED */}
-        {/* BIG NOTE, ANYTHING FROM HERE ON IS UNFORMATTED AND NEEDS TO BE MANUALLY FORMATTED */}
-        {/* BIG NOTE, ANYTHING FROM HERE ON IS UNFORMATTED AND NEEDS TO BE MANUALLY FORMATTED */}
-        <p>3. USER REPRESENTATIONS</p>
+        <p className="text-subtitle">3. USER REPRESENTATIONS</p>
         <br />
         <p>
           By using the Services, you represent and warrant that: (1) all
@@ -322,7 +317,7 @@ function TOS() {
           (or any portion thereof).
         </p>
         <br />
-        <p>4. USER REGISTRATION</p>
+        <p className="text-subtitle">4. USER REGISTRATION</p>
         <br />
         <p>
           You may be required to register to use the Services. You agree to keep
@@ -333,7 +328,7 @@ function TOS() {
           objectionable.
         </p>
         <br />
-        <p>5. PROHIBITED ACTIVITIES</p>
+        <p className="text-subtitle">5. PROHIBITED ACTIVITIES</p>
         <br />
         <p>
           You may not access or use the Services for any purpose other than that
@@ -450,7 +445,7 @@ function TOS() {
         </p>
         <p>Sell or otherwise transfer your profile.</p>
         <br />
-        <p>6. USER GENERATED CONTRIBUTIONS</p>
+        <p className="text-subtitle">6. USER GENERATED CONTRIBUTIONS</p>
         <br />
         <p>
           The Services may invite you to chat, contribute to, or participate in
@@ -537,7 +532,7 @@ function TOS() {
           suspension of your rights to use the Services.
         </p>
         <br />
-        <p>7. CONTRIBUTION LICENSE</p>
+        <p className="text-subtitle">7. CONTRIBUTION LICENSE</p>
         <br />
         <p>
           By posting your Contributions to any part of the Services, you
@@ -585,7 +580,7 @@ function TOS() {
           monitor your Contributions.
         </p>
         <br />
-        <p>8. GUIDELINES FOR REVIEWS</p>
+        <p className="text-subtitle">8. GUIDELINES FOR REVIEWS</p>
         <br />
         <p>
           We may provide you areas on the Services to leave reviews or ratings.
@@ -617,7 +612,7 @@ function TOS() {
           all content relating to review.
         </p>
         <br />
-        <p>9. THIRD-PARTY WEBSITES AND CONTENT</p>
+        <p className="text-subtitle">9. THIRD-PARTY WEBSITES AND CONTENT</p>
         <br />
         <p>
           The Services may contain (or you may be sent via the Site) links to
@@ -654,7 +649,7 @@ function TOS() {
           Third-Party Websites.
         </p>
         <br />
-        <p>10. SERVICES MANAGEMENT</p>
+        <p className="text-subtitle">10. SERVICES MANAGEMENT</p>
         <br />
         <p>
           We reserve the right, but not the obligation, to: (1) monitor the
@@ -672,7 +667,7 @@ function TOS() {
           and to facilitate the proper functioning of the Services.
         </p>
         <br />
-        <p>11. PRIVACY POLICY</p>
+        <p className="text-subtitle">11. PRIVACY POLICY</p>
         <br />
         <p>
           We care about data privacy and security. Please review our Privacy
@@ -694,7 +689,7 @@ function TOS() {
           as is reasonably practical.
         </p>
         <br />
-        <p>12. COPYRIGHT INFRINGEMENTS</p>
+        <p className="text-subtitle">12. COPYRIGHT INFRINGEMENTS</p>
         <br />
         <p>
           We respect the intellectual property rights of others. If you believe
@@ -710,7 +705,7 @@ function TOS() {
           attorney.
         </p>
         <br />
-        <p>13. TERM AND TERMINATION</p>
+        <p className="text-subtitle">13. TERM AND TERMINATION</p>
         <br />
         <p>
           These Legal Terms shall remain in full force and effect while you use
@@ -736,7 +731,7 @@ function TOS() {
           criminal, and injunctive redress.
         </p>
         <br />
-        <p>14. MODIFICATIONS AND INTERRUPTIONS</p>
+        <p className="text-subtitle">14. MODIFICATIONS AND INTERRUPTIONS</p>
         <br />
         <p>
           We reserve the right to change, modify, or remove the contents of the
@@ -762,7 +757,7 @@ function TOS() {
           connection therewith.
         </p>
         <br />
-        <p>15. GOVERNING LAW</p>
+        <p className="text-subtitle">15. GOVERNING LAW</p>
         <br />
         <p>
           These Legal Terms and your use of the Services are governed by and
@@ -771,7 +766,7 @@ function TOS() {
           State of California, without regard to its conflict of law principles.
         </p>
         <br />
-        <p>16. DISPUTE RESOLUTION</p>
+        <p className="text-subtitle">16. DISPUTE RESOLUTION</p>
         <br />
         <p>Informal Negotiations</p>
         <br />
@@ -870,7 +865,7 @@ function TOS() {
           that court.
         </p>
         <br />
-        <p>17. CORRECTIONS</p>
+        <p className="text-subtitle">17. CORRECTIONS</p>
         <br />
         <p>
           There may be information on the Services that contains typographical
@@ -880,7 +875,7 @@ function TOS() {
           the information on the Services at any time, without prior notice.
         </p>
         <br />
-        <p>18. DISCLAIMER</p>
+        <p className="text-subtitle">18. DISCLAIMER</p>
         <br />
         <p>
           THE SERVICES ARE PROVIDED ON AN AS-IS AND AS-AVAILABLE BASIS. YOU
@@ -915,7 +910,7 @@ function TOS() {
           EXERCISE CAUTION WHERE APPROPRIATE.
         </p>
         <br />
-        <p>19. LIMITATIONS OF LIABILITY</p>
+        <p className="text-subtitle">19. LIMITATIONS OF LIABILITY</p>
         <br />
         <p>
           IN NO EVENT WILL WE OR OUR DIRECTORS, EMPLOYEES, OR AGENTS BE LIABLE
@@ -934,7 +929,7 @@ function TOS() {
           YOU MAY HAVE ADDITIONAL RIGHTS.
         </p>
         <br />
-        <p>20. INDEMNIFICATION</p>
+        <p className="text-subtitle">20. INDEMNIFICATION</p>
         <br />
         <p>
           You agree to defend, indemnify, and hold us harmless, including our
@@ -956,7 +951,7 @@ function TOS() {
           upon becoming aware of it.
         </p>
         <br />
-        <p>21. USER DATA</p>
+        <p className="text-subtitle">21. USER DATA</p>
         <br />
         <p>
           We will maintain certain data that you transmit to the Services for
@@ -970,7 +965,7 @@ function TOS() {
           data.
         </p>
         <br />
-        <p>22. ELECTRONIC COMMUNICATIONS, TRANSACTIONS, AND SIGNATURES</p>
+        <p className="text-subtitle">22. ELECTRONIC COMMUNICATIONS, TRANSACTIONS, AND SIGNATURES</p>
         <br />
         <p>
           Visiting the Services, sending us emails, and completing online forms
@@ -989,7 +984,7 @@ function TOS() {
           any means other than electronic means.
         </p>
         <br />
-        <p>23. CALIFORNIA USERS AND RESIDENTS</p>
+        <p className="text-subtitle">23. CALIFORNIA USERS AND RESIDENTS</p>
         <br />
         <p>
           If any complaint with us is not satisfactorily resolved, you can
@@ -999,7 +994,7 @@ function TOS() {
           or by telephone at (800) 952-5210 or (916) 445-1254.
         </p>
         <br />
-        <p>24. MISCELLANEOUS</p>
+        <p className="text-subtitle">24. MISCELLANEOUS</p>
         <br />
         <p>
           These Legal Terms and any policies or operating rules posted by us on
@@ -1024,7 +1019,7 @@ function TOS() {
           hereto to execute these Legal Terms.
         </p>
         <br />
-        <p>25. CONTACT US</p>
+        <p className="text-subtitle">25. CONTACT US</p>
         <br />
         <p>
           In order to resolve a complaint regarding the Services or to receive
