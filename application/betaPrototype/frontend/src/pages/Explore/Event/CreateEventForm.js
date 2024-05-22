@@ -21,9 +21,9 @@
  * 
  */
 import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import { queryData } from "../../../services/User/UserService";
 import { getCurrentUserId } from "../../../utils/decodeData";
-import { useParams } from "react-router-dom";
 import "../ExploreTemplate.css";
 import "../../Profile/popup.css";
 import { createEvent } from '../../../services/Explore/ExploreService';
@@ -44,6 +44,12 @@ function CreateEventForm({ onClose }) {
     username: "",
     role: "",
   });
+
+  // validation for year added, max of 50 years later
+  const currentYear = new Date().getFullYear();
+
+  const minDateTime = `${currentYear.toString()}-01-01T00:00`;
+  const maxDateTime = `${(currentYear + 50).toString()}-12-31T23:59`;
 
   useEffect(() => {
     setShowPopup(true);
@@ -159,7 +165,7 @@ function CreateEventForm({ onClose }) {
                                   <option value="Fine Arts Building">Fine Arts Building</option>
                                 </select>
 
-                                <input type="datetime-local" placeholder='Date & Time' value={dateTime} onChange={(e) => setDateTime(e.target.value)} />
+                                <input type="datetime-local" placeholder='Date & Time' value={dateTime} onChange={(e) => setDateTime(e.target.value)} min={minDateTime} max={maxDateTime} />
 
                             </div>                            
                             <div className='create-event-btn'>

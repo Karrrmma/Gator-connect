@@ -18,7 +18,6 @@ import gatorLogo from "../../../assets/images/gator_logo_happy.PNG";
 // import PropTypes from 'prop-types';
 import {
   registerUser,
-  loginUser,
   canRegister,
 } from "../../../services/authentication/AuthService";
 import { createProfile } from "../../../services/User/UserService";
@@ -102,18 +101,14 @@ function Register() {
     // if no errors, check if email is valid, then lead the user into the avatar selection
     if (Object.keys(err).length === 0) {
       try {
-        // await registerUser(values);
         // check if the email or username are not already taken
         await canRegister(values);
-        // console.log('User can register successfully');
         // user got past validation, let them choose a profile avatar
         setIsRegistered(true);
         setAvatar({
           avatar: values.fullname[0],
         });
       } catch (error) {
-        // console.log(error);
-        // setErrors({...err, backend: 'Email is already in use. Please use another one.'});
         setErrors({ ...err, backend: error.message });
       }
     }
@@ -138,6 +133,9 @@ function Register() {
       Array.from(avatar.avatar).length
     );
     setErrors(err);
+    if (Object.keys(err).length > 0) {
+      return;
+    }
     // success! register user then login
     const field = {
       username: values.username,
@@ -340,9 +338,5 @@ function Register() {
     </div>
   );
 }
-
-// Register.propTypes = {
-//     setToken: PropTypes.func.isRequired
-// }
 
 export default Register;

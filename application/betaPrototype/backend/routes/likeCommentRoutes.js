@@ -125,6 +125,27 @@ router.get("/api/likes/:userId", (req, res) => {
     });
 });
 
+// return if a post is liked by a user
+router.get("/api/likes/isLiked/:userId/:postId", (req, res) => {
+  const { userId, postId } = req.params;
+  const fetchLikedPostsQuery = `
+    SELECT p.post_id, p.post_content, p.post_time, p.num_likes, p.num_comments, u.full_name, p.user_id, pr.avatar
+    FROM Post AS p
+    INNER JOIN \`Like\` AS l ON p.post_id = l.post_id
+    INNER JOIN User AS u ON p.user_id = u.user_id
+    INNER JOIN Account AS a ON u.user_id = a.user_id
+    INNER JOIN Profile AS pr ON a.account_id = pr.account_id
+    WHERE l.user_id = ? AND l.post_id = ?
+    ORDER BY p.post_time DESC
+  `;
+  connection.query(fetchLikedPostsQuery, [userId, postId], (error, results) => {
+      if (error) {
+          console.error("Error fetching liked posts:", error);
+          return res.status(500).json({ error: "Failed to fetch liked posts" });
+      }
+      res.status(200).json({ isLiked: results.length > 0 });
+  });
+});
   // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
   // Write comment
   router.post("/api/comments", (req, res) => {

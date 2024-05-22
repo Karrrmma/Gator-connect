@@ -63,14 +63,11 @@ function Post() {
   const userId = getCurrentUserId();
   const handleNewPostClick = () => {
     console.log("OPENING POP UP TO ADD A NEW POST!");
-    // fetchLikedPosts();
     setShowNewPost(!showNewPost);
   };
   // Callback to add new post to the state
   // if a new post is added, then grab the posts again!
   const addNewPost = (newPost) => {
-    // setItems(prevItems => [newPost, ...prevItems]);
-    // console.log(newPost);
     fetchLikedPosts();
     fetchAllPosts();
   };

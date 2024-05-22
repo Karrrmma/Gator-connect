@@ -12,6 +12,10 @@ export const getLikedPosts = async (userId) => {
   return ApiCall(`/api/likes/${userId}`);
 };
 
+export const getIsPostLiked = async (userId, postId) => {
+  return ApiCall(`/api/likes/isLiked/${userId}/${postId}`);
+};
+
 export const getComments = async (postId) => {
   return ApiCall(`/api/comments/${postId}`);
 };

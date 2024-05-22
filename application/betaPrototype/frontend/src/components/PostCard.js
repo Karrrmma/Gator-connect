@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { FaCommentDots, FaHeart } from "react-icons/fa";
 import { getCurrentUserId } from "../utils/decodeData";
-import { useNavigate } from "react-router-dom";
-import { addComment, deleteComment, getComments, postHandleLike } from "../services/Post/PostService";
+import { addComment, deleteComment, getComments, postHandleLike, getIsPostLiked } from "../services/Post/PostService";
 
 function PostCard({ item, icon, likedPostsList }) {
   const [likesCount, setLikesCount] = useState(item.likes || 0);
@@ -14,29 +14,23 @@ function PostCard({ item, icon, likedPostsList }) {
   const [isLiked, setIsLiked] = useState(false);
   const [showAllComments, setShowAllComments] = useState(false);
   const [likedPosts, setLikedPosts] = useState(likedPostsList || []);
-  // console.log("Liked posts: ", likedPosts.some(post => post.post_id === item.post_id));
-  // console.log("Is liked: ", isLiked);
 
-  // useEffect(() => {
-  //   console.log(`TEST POST ${item.post_id}, this should be true when liked: ${isLiked}`);
-  // }, [isLiked]);
-
+  // check if a post is liked, then set the like status
   useEffect(() => {
-    // initially set post to liked if it's in the likedPosts array
-    // console.log(likedPosts);
-    // console.log(likedPostsList);
-    if (likedPosts && likedPosts.length > 0) {
-      let statement = likedPosts[0].isLiked ?  likedPosts[0].post_id : "NONE";
-      // console.log(`POST ${item.post_id} should be equal to ${statement}`);
-    }
-    const debug = likedPostsList.some(post => {
-      // console.log(`post.post_id: ${post.post_id}, item.post_id: ${item.post_id}`);
-      return post.post_id === item.post_id;
-    });
-    setIsLiked(debug);
-    // console.log(`this is test post ${item.post_id}, this should be true if liked: ${debug} with ${isLiked}`);
+    const fetchLikeStatus = async () => {
+      try {
+        const test = await getIsPostLiked(userId, item.post_id);
+        setIsLiked(test.isLiked);
+        return test.isLiked;
+      } catch (error) {
+        console.error("Error fetching like status:", error);
+      }
+      return false;
+    };
+    fetchLikeStatus();
   }, [item]);
 
+  // grab a post's comments
   useEffect(() => {
     fetchComments(item.post_id);
   }, [item.post_id]);
@@ -44,7 +38,6 @@ function PostCard({ item, icon, likedPostsList }) {
   const fetchComments = async (postId) => {
     try {
       const data = await getComments(postId);
-
       setCommentsData(data);
       setCommentsCount(data.length);
     } catch (error) {
@@ -52,13 +45,13 @@ function PostCard({ item, icon, likedPostsList }) {
     }
   };
 
+  // like/unlike a post
   const handleLike = async () => {
     const method = isLiked ? "DELETE" : "POST";
     const body = {
       user_id: userId,
       post_id: item.post_id,
     };
-    // console.log("handleLike has been called!");
     try {
       await postHandleLike(method, body);
       setIsLiked(!isLiked);
@@ -76,6 +69,7 @@ function PostCard({ item, icon, likedPostsList }) {
       console.error("Error updating like:", error);
     }
   };
+
   const handleAddComment = async () => {
     if (!commentText.trim()) return;
     const body = {
@@ -94,6 +88,7 @@ function PostCard({ item, icon, likedPostsList }) {
         console.error("Error adding comment:", error);
     }
   };
+
   const handleDeleteComment = async (commentId) => {
     try {
       await deleteComment(commentId, { post_id: item.post_id });
@@ -106,6 +101,7 @@ function PostCard({ item, icon, likedPostsList }) {
       console.error("Error deleting comment:", error);
     }
   };
+
   const navigatePostUserProfile = () => {
     if (item.user_id) {
       console.log("Post's User ID for navigation (destination's id aka receiver):", item.user_id);
@@ -114,6 +110,7 @@ function PostCard({ item, icon, likedPostsList }) {
       console.error("User ID is undefined, cannot navigate");
     }
   };
+
   const navigateCommentUserProfile = (userId) => {
     if (userId) {
         navigate(`/profile/${userId}`);
@@ -157,7 +154,7 @@ function PostCard({ item, icon, likedPostsList }) {
             {/* <button type="button" className="btn btn-outline-secondary btn-sm"><FaCommentDots /></button>
                         <span className="comments-count">{item.comments || 0}</span> */}
             <span className="comments-count">
-              {/* need to get total item_comments */}
+              {/* total item_comments */}
               <FaCommentDots /> {commentsCount}
             </span>
             <span className={`outline-success ${isLiked ? "red-heart" : ""}`}>
@@ -175,7 +172,7 @@ function PostCard({ item, icon, likedPostsList }) {
           />
         )}
         <div className="comment-input-section">
-          {/* need to implement comment */}
+          {/* comment */}
           <input
             type="text"
             className="form-control comment-input"
