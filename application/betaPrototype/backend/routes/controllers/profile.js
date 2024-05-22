@@ -1,16 +1,13 @@
+const mysql = require('mysql');
+const connection = require('../db');
 
-
-const mysql = require("mysql");
-const connection = require('../db')
-
-
-// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  
+// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 // Profile  DETAIL
 exports.profile = (req, res) => {
-    const { user_id } = req.params;
-  
-    // user year to add to the profile
-    const query = `
+  const { user_id } = req.params;
+
+  // user year to add to the profile
+  const query = `
     SELECT 
       User.user_id,
       User.full_name AS fullName,
@@ -34,28 +31,27 @@ exports.profile = (req, res) => {
       LEFT JOIN Profile ON Account.account_id = Profile.account_id
       WHERE User.user_id = ?
       GROUP BY User.user_id;`;
-  
-    connection.query(query, [user_id], (error, results) => {
-      if (error) {
-        console.error("Error fetching user profile:", error);
-        return res.status(500).json({ error: "Failed to fetch user profile" });
+
+  connection.query(query, [user_id], (error, results) => {
+    if (error) {
+      console.error('Error fetching user profile:', error);
+      return res.status(500).json({ error: 'Failed to fetch user profile' });
+    }
+
+    if (results.length === 0) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    const profile = results[0];
+    const postQuery = 'SELECT * FROM Post WHERE user_id = ?';
+    connection.query(postQuery, [user_id], (postError, postResults) => {
+      if (postError) {
+        console.error('Error fetching user posts:', postError);
+        return res.status(500).json({ error: 'Failed to fetch user posts' });
       }
-  
-      if (results.length === 0) {
-        return res.status(404).json({ error: "User not found" });
-      }
-  
-      const profile = results[0];
-      const postQuery = "SELECT * FROM Post WHERE user_id = ?";
-      connection.query(postQuery, [user_id], (postError, postResults) => {
-        if (postError) {
-          console.error("Error fetching user posts:", postError);
-          return res.status(500).json({ error: "Failed to fetch user posts" });
-        }
-  
-        profile.posts = postResults;
-        res.status(200).json(profile);
-      });
-  
+
+      profile.posts = postResults;
+      res.status(200).json(profile);
     });
-  };
+  });
+};

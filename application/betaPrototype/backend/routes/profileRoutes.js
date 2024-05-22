@@ -1,19 +1,19 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
-const mysql = require("mysql");
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const mysql = require('mysql');
 router.use(express.json());
-const connection = require('./db')
-const {verifyToken} = require('./verifyToken')
+const connection = require('./db');
+const { verifyToken } = require('./verifyToken');
 
-const profileControl = require('./controllers/profile')
+const profileControl = require('./controllers/profile');
 
 //router.post("/api/user/:user_id", profileControl.profile)
 
-// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  
+// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 // Profile  DETAIL
-router.get("/api/user/:user_id",(req, res) => {
+router.get('/api/user/:user_id', (req, res) => {
   const { user_id } = req.params;
 
   // user year to add to the profile
@@ -44,30 +44,29 @@ router.get("/api/user/:user_id",(req, res) => {
 
   connection.query(query, [user_id], (error, results) => {
     if (error) {
-      console.error("Error fetching user profile:", error);
-      return res.status(500).json({ error: "Failed to fetch user profile" });
+      console.error('Error fetching user profile:', error);
+      return res.status(500).json({ error: 'Failed to fetch user profile' });
     }
 
     if (results.length === 0) {
-      return res.status(404).json({ error: "User not found" });
+      return res.status(404).json({ error: 'User not found' });
     }
 
     const profile = results[0];
-    const postQuery = "SELECT * FROM Post WHERE user_id = ?";
+    const postQuery = 'SELECT * FROM Post WHERE user_id = ?';
     connection.query(postQuery, [user_id], (postError, postResults) => {
       if (postError) {
-        console.error("Error fetching user posts:", postError);
-        return res.status(500).json({ error: "Failed to fetch user posts" });
+        console.error('Error fetching user posts:', postError);
+        return res.status(500).json({ error: 'Failed to fetch user posts' });
       }
 
       profile.posts = postResults;
       res.status(200).json(profile);
     });
-
   });
 });
 
-// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  
+// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 // Profile DB Creation
 
 router.post('/api/profile/create', (req, res) => {
@@ -78,62 +77,69 @@ router.post('/api/profile/create', (req, res) => {
   `;
 
   connection.query(queryAccountId, [username], (error, results) => {
-      if (error) {
-          console.error("Error fetching account_id:", error);
-          return res.status(500).json({ error: "Failed to fetch account_id" });
-      }
+    if (error) {
+      console.error('Error fetching account_id:', error);
+      return res.status(500).json({ error: 'Failed to fetch account_id' });
+    }
 
-      if (results.length === 0) {
-          return res.status(404).json({ error: "Username not found" });
-      }
+    if (results.length === 0) {
+      return res.status(404).json({ error: 'Username not found' });
+    }
 
-      const userId = results[0].account_id;
+    const userId = results[0].account_id;
 
-      const queryInsertProfile = `
+    const queryInsertProfile = `
           INSERT INTO Profile (account_id, avatar, biography)
           VALUES (?, ?, ?)
       `;
 
-      connection.query(queryInsertProfile, [userId, avatar, biography], (error, results) => {
-          if (error) {
-              console.error("Error creating profile:", error);
-              return res.status(500).json({ error: "Failed to create profile" });
-          }
+    connection.query(
+      queryInsertProfile,
+      [userId, avatar, biography],
+      (error, results) => {
+        if (error) {
+          console.error('Error creating profile:', error);
+          return res.status(500).json({ error: 'Failed to create profile' });
+        }
 
-          res.status(200).json({ message: "Profile created successfully" });
-      });
+        res.status(200).json({ message: 'Profile created successfully' });
+      }
+    );
   });
 });
 
-// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  
+// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 // Profile DB Update
 
-router.post('/api/updateprofile', verifyToken,(req, res) => {
-    const { userId, avatar, biography } = req.body;
+router.post('/api/updateprofile', verifyToken, (req, res) => {
+  const { userId, avatar, biography } = req.body;
 
-    const query = `
+  const query = `
         UPDATE Profile
         SET avatar = ?, biography = ?
         WHERE account_id = ?
     `;
 
-    connection.query(query, [avatar, biography, userId], (error, results) => {
-        if (error) {
-            console.error("Error updating profile:", error);
-            return res.status(500).json({ error: "Failed to update profile" });
-        }
+  connection.query(query, [avatar, biography, userId], (error, results) => {
+    if (error) {
+      console.error('Error updating profile:', error);
+      return res.status(500).json({ error: 'Failed to update profile' });
+    }
 
-        if (results.affectedRows === 0) {
-          return res.status(404).json({ error: "No profile found for id, account was created before changes" });
-        }
+    if (results.affectedRows === 0) {
+      return res
+        .status(404)
+        .json({
+          error: 'No profile found for id, account was created before changes',
+        });
+    }
 
-        res.status(200).json({ message: "Profile updated successfully" });
-    });
-  }
-);
+    res.status(200).json({ message: 'Profile updated successfully' });
+  });
+});
 
 // Profile Avatar and Biography Retrieval
-router.get('/api/profile/info/:userId',  verifyToken,(req, res) => {
+router.get('/api/profile/info/:userId', verifyToken, (req, res) => {
   const { userId } = req.params;
   // seems like user_id != account_id
   // find the user_id thats linked to a profile
@@ -146,17 +152,16 @@ router.get('/api/profile/info/:userId',  verifyToken,(req, res) => {
   `;
   // console.log(userId);
   connection.query(query, [userId], (error, results) => {
-      if (error) {
-          console.error("Error fetching profile info:", error);
-          return res.status(500).json({ error: "Failed to fetch profile info" });
-      }
+    if (error) {
+      console.error('Error fetching profile info:', error);
+      return res.status(500).json({ error: 'Failed to fetch profile info' });
+    }
 
-      if (results.length === 0) {
-          return res.status(404).json({ error: "Profile not found" });
-      }
-      res.status(200).json(results[0]);
+    if (results.length === 0) {
+      return res.status(404).json({ error: 'Profile not found' });
+    }
+    res.status(200).json(results[0]);
   });
 });
-
 
 module.exports = router;

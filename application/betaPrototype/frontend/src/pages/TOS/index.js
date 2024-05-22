@@ -1,7 +1,7 @@
 /**
  * Terms of Service Page
  */
-import "./TOS.css";
+import './TOS.css';
 
 function TOS() {
   return (
@@ -497,7 +497,7 @@ function TOS() {
         <p>
           Your Contributions are not obscene, lewd, lascivious, filthy, violent,
           harassing, libelous, slanderous, or otherwise objectionable (as
-          determined by us).{" "}
+          determined by us).{' '}
         </p>
         <p>
           Your Contributions do not ridicule, mock, disparage, intimidate, or

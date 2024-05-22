@@ -1,23 +1,22 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
-const mysql = require("mysql");
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const mysql = require('mysql');
 router.use(express.json());
-const connection = require('./db')
+const connection = require('./db');
 
 const searchControl = require('./controllers/search');
-const { verifyToken } = require("./verifyToken");
+const { verifyToken } = require('./verifyToken');
 
 //router.post('/search', searchControl.search)
 
-// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  
+// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 //  SEARCH QUERY
-router.post("/search", (req, res) => {
+router.post('/search', (req, res) => {
   const { username, major, year } = req.body;
 
-  let query =
-    `
+  let query = `
     SELECT Account.user_id, Account.username, COALESCE(Student.major, Professor.department) AS major_or_department, Profile.avatar 
     FROM User 
     JOIN Account ON User.user_id = Account.user_id 
@@ -29,22 +28,22 @@ router.post("/search", (req, res) => {
   const params = [];
 
   if (username) {
-    query += " AND Account.username LIKE ?";
-    params.push("%" + username.trim() + "%");
+    query += ' AND Account.username LIKE ?';
+    params.push('%' + username.trim() + '%');
   }
   if (major) {
-    query += " AND (Student.major LIKE ? OR Professor.department LIKE ?)";
-    params.push("%" + major.trim() + "%", "%"+ major.trim() + "%");
+    query += ' AND (Student.major LIKE ? OR Professor.department LIKE ?)';
+    params.push('%' + major.trim() + '%', '%' + major.trim() + '%');
   }
   if (year) {
-    query += " AND Student.year LIKE ?";
-    params.push("%" + year.trim() + "%");
+    query += ' AND Student.year LIKE ?';
+    params.push('%' + year.trim() + '%');
   }
 
   connection.query(query, params, (err, results) => {
     if (err) {
-      console.error("Error searching:", err);
-      res.status(500).json({ error: "Internal Server Error" });
+      console.error('Error searching:', err);
+      res.status(500).json({ error: 'Internal Server Error' });
       return;
     }
     res.json({ results });

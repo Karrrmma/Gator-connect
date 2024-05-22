@@ -6,12 +6,12 @@ require('dotenv/config');
 // Import routes
 const routesHandler = require('./routes/handler.js');
 const userRoutes = require('./routes/userRoutes.js');
-const postRoutes = require('../backend/routes/postRoutes.js')
-const chatRoutes = require('../backend/routes/chatRoutes.js')
-const searchRoutes = require('../backend/routes/searchRoutes.js')
-const profileRoutes = require('../backend/routes/profileRoutes.js')
-const likeComment = require('./routes/likeCommentRoutes.js')
-const friend = require('../backend/routes/friendRoutes.js')
+const postRoutes = require('../backend/routes/postRoutes.js');
+const chatRoutes = require('../backend/routes/chatRoutes.js');
+const searchRoutes = require('../backend/routes/searchRoutes.js');
+const profileRoutes = require('../backend/routes/profileRoutes.js');
+const likeComment = require('./routes/likeCommentRoutes.js');
+const friend = require('../backend/routes/friendRoutes.js');
 
 // Init express app
 const app = express();
@@ -34,6 +34,5 @@ app.use(friend);
 // Backend Server Port
 const PORT = 4000;
 app.listen(PORT, () => {
-
-    console.log(`Server is running on port ${PORT}.`);
+  console.log(`Server is running on port ${PORT}.`);
 });

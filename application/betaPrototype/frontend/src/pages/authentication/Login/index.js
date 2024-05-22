@@ -2,25 +2,25 @@
  * Login Page
  * - Users can login to the application using their username and password
  * - It first validates the user input and then sets errors if input or
- *   login details are invalid.  
+ *   login details are invalid.
  * - Sets a token if user is authenticated then redirects to homepage.
  */
 
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
-import PropTypes from "prop-types";
-import validateLoginFields from "../validateLoginFields";
-import { loginUser } from "../../../services/authentication/AuthService";
-import gatorLogo from "../../../assets/images/gator_logo.PNG";
-import "../auth.css";
+import PropTypes from 'prop-types';
+import validateLoginFields from '../validateLoginFields';
+import { loginUser } from '../../../services/authentication/AuthService';
+import gatorLogo from '../../../assets/images/gator_logo.PNG';
+import '../auth.css';
 
 function Login({ setToken }) {
   const navigate = useNavigate();
 
   const [user, setUser] = useState({
-    username: "",
-    password: "",
+    username: '',
+    password: '',
   });
 
   const handleChange = (e) => {
@@ -45,10 +45,10 @@ function Login({ setToken }) {
     try {
       const data = await loginUser(user);
       setToken(data);
-      return navigate("/home");
+      return navigate('/home');
     } catch (error) {
-      console.error("Error logging in, user does not exist?", error);
-      setErrors({ ...errors, form: "Invalid username or password" });
+      console.error('Error logging in, user does not exist?', error);
+      setErrors({ ...errors, form: 'Invalid username or password' });
     }
   };
 
@@ -73,15 +73,15 @@ function Login({ setToken }) {
               placeholder="Username"
               className="input-field"
             />
-            <span className="text-danger"> {errors.username || "\u00A0"}</span>
+            <span className="text-danger"> {errors.username || '\u00A0'}</span>
             <input
               name="password"
               type="password"
               placeholder="Password"
               className="input-field"
             />
-            <span className="text-danger"> {errors.password || "\u00A0"}</span>
-            <span className="text-danger mb-3"> {errors.form || "\u00A0"}</span>
+            <span className="text-danger"> {errors.password || '\u00A0'}</span>
+            <span className="text-danger mb-3"> {errors.form || '\u00A0'}</span>
             <div>
               <button type="submit">
                 <b>LOGIN</b>
@@ -93,7 +93,7 @@ function Login({ setToken }) {
                 <u>Create an account</u>
               </Link>
               <Link to="/forgot-password">
-                <u style={{ marginLeft: "25px" }}>Forgot Password?</u>
+                <u style={{ marginLeft: '25px' }}>Forgot Password?</u>
               </Link>
             </div>
           </form>

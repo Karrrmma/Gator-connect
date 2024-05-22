@@ -1,25 +1,29 @@
-import React, { useState, useEffect, useRef } from "react";
-import "../ExploreTemplate.css";
-import { useNavigate } from "react-router-dom";
-import { FaStar, FaCommentDots } from "react-icons/fa";
+import React, { useState, useEffect, useRef } from 'react';
+import '../ExploreTemplate.css';
+import { useNavigate } from 'react-router-dom';
+import { FaStar, FaCommentDots } from 'react-icons/fa';
 
-import { getVendors } from "../../../services/Explore/ExploreService";
-import { VendorData } from "./VendorData";
+import { getVendors } from '../../../services/Explore/ExploreService';
+import { VendorData } from './VendorData';
 
 function FoodVendor() {
   const navigate = useNavigate();
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState('');
   const initialVendorsRef = useRef(
-    VendorData.map((vendor) => ({ ...vendor, average_rating: 0, num_reviews: 0 }))
+    VendorData.map((vendor) => ({
+      ...vendor,
+      average_rating: 0,
+      num_reviews: 0,
+    }))
   );
 
   const [vendors, setVendors] = useState(initialVendorsRef.current);
   // Search filter
   const [fullVendors, setFullVendors] = useState([]);
-  const [ratingFilter, setRatingFilter] = useState("");
-  const [commentFilter, setCommentFilter] = useState("");
-  const [sortDirectionRatings, setSortDirectionRatings] = useState("");
-  const [sortDirectionComments, setSortDirectionComments] = useState("");
+  const [ratingFilter, setRatingFilter] = useState('');
+  const [commentFilter, setCommentFilter] = useState('');
+  const [sortDirectionRatings, setSortDirectionRatings] = useState('');
+  const [sortDirectionComments, setSortDirectionComments] = useState('');
   const [priorityRatings, setPriorityRatings] = useState(false);
   const [priorityComments, setPriorityComments] = useState(false);
 
@@ -27,7 +31,7 @@ function FoodVendor() {
     async function fetchVendors() {
       try {
         const data = await getVendors();
-        
+
         const fetchedRatings = data.reduce((acc, item) => {
           acc[item.vendor_name] = {
             average_rating: Number(item.average_rating),
@@ -44,7 +48,7 @@ function FoodVendor() {
         setVendors(updatedVendors);
         setFullVendors(updatedVendors);
       } catch (error) {
-        console.error("Fetch Error:", error);
+        console.error('Fetch Error:', error);
       }
     }
 
@@ -116,11 +120,11 @@ function FoodVendor() {
       if (sortDirectionRatings && sortDirectionComments) {
         filteredVendors.sort((a, b) => {
           const ratingSort =
-            sortDirectionRatings === "asc"
+            sortDirectionRatings === 'asc'
               ? a.average_rating - b.average_rating
               : b.average_rating - a.average_rating;
           const commentSort =
-            sortDirectionComments === "asc"
+            sortDirectionComments === 'asc'
               ? a.num_reviews - b.num_reviews
               : b.num_reviews - a.num_reviews;
           return priorityRatings
@@ -130,27 +134,27 @@ function FoodVendor() {
       }
     } else if (sortDirectionRatings && priorityRatings) {
       filteredVendors.sort((a, b) => {
-        return sortDirectionRatings === "asc"
+        return sortDirectionRatings === 'asc'
           ? a.average_rating - b.average_rating
           : b.average_rating - a.average_rating;
       });
     } else if (sortDirectionComments && priorityComments) {
       filteredVendors.sort((a, b) => {
-        return sortDirectionComments === "asc"
+        return sortDirectionComments === 'asc'
           ? a.num_reviews - b.num_reviews
           : b.num_reviews - a.num_reviews;
       });
     } else if (sortDirectionComments) {
       // Only for sort by comment
       filteredVendors.sort((a, b) => {
-        return sortDirectionComments === "asc"
+        return sortDirectionComments === 'asc'
           ? a.num_reviews - b.num_reviews
           : b.num_reviews - a.num_reviews;
       });
     } else if (sortDirectionRatings) {
       // Only for sort by rating
       filteredVendors.sort((a, b) => {
-        return sortDirectionRatings === "asc"
+        return sortDirectionRatings === 'asc'
           ? a.average_rating - b.average_rating
           : b.average_rating - a.average_rating;
       });
@@ -161,24 +165,24 @@ function FoodVendor() {
   // **************************************************
 
   const handleKeyPress = (event) => {
-    if (event.key === "Enter") {
+    if (event.key === 'Enter') {
       handleSearchSubmit();
     }
   };
 
   const handleResetFilters = () => {
-    setSearchTerm("");
-    setRatingFilter("");
-    setCommentFilter("");
-    setSortDirectionRatings("");
-    setSortDirectionComments("");
+    setSearchTerm('');
+    setRatingFilter('');
+    setCommentFilter('');
+    setSortDirectionRatings('');
+    setSortDirectionComments('');
     setPriorityRatings(false);
     setPriorityComments(false);
     setVendors(fullVendors);
   };
 
   const handleImageClick = (name) => {
-    const formattedName = encodeURIComponent(name.replace(/\s+/g, "-"));
+    const formattedName = encodeURIComponent(name.replace(/\s+/g, '-'));
     const vendorData = vendors.find((v) => v.name === name);
     if (vendorData) {
       navigate(`/explore/foodvendor/${formattedName}`, {
@@ -188,24 +192,24 @@ function FoodVendor() {
   };
 
   const handleBack = () => {
-    navigate("/explore");
+    navigate('/explore');
   };
 
   return (
     <div className="content-wrapper">
       <div className="search-wrapper">
         <div className="button-and-name">
-          <h2 style={{ color: "white" }}>FOOD VENDORS</h2>
+          <h2 style={{ color: 'white' }}>FOOD VENDORS</h2>
           <button onClick={handleBack} className="go-back-button">
             GO BACK
           </button>
         </div>
         <p
           style={{
-            color: "gray",
-            fontSize: "14px",
-            marginTop: "10px",
-            textAlign: "left",
+            color: 'gray',
+            fontSize: '14px',
+            marginTop: '10px',
+            textAlign: 'left',
           }}
         >
           Discover the diverse dining options available at SFSU. From quick
@@ -233,7 +237,7 @@ function FoodVendor() {
           />
 
           <p
-            style={{ marginTop: "20px", fontSize: "16px", fontWeight: "bold" }}
+            style={{ marginTop: '20px', fontSize: '16px', fontWeight: 'bold' }}
           >
             RATINGS
           </p>
@@ -262,9 +266,9 @@ function FoodVendor() {
           </select>
 
           <p
-            style={{ marginTop: "20px", fontSize: "16px", fontWeight: "bold" }}
+            style={{ marginTop: '20px', fontSize: '16px', fontWeight: 'bold' }}
           >
-            {" "}
+            {' '}
             COMMENTS
           </p>
           <select
@@ -330,42 +334,42 @@ function FoodVendor() {
               <img
                 src={vendor.imageUrl}
                 alt={`Vendor ${vendor.name}`}
-                style={{ width: "220px", height: "137px" }}
+                style={{ width: '220px', height: '137px' }}
               />
               <div>
                 <p
                   style={{
-                    color: "#AD45FF",
-                    fontSize: "20px",
-                    marginTop: "12px",
-                    marginRight: "12px",
-                    fontWeight: "bold",
+                    color: '#AD45FF',
+                    fontSize: '20px',
+                    marginTop: '12px',
+                    marginRight: '12px',
+                    fontWeight: 'bold',
                   }}
                 >
                   {vendor.name}
                 </p>
-                <p style={{ color: "gray", fontSize: "14px", margin: "0" }}>
+                <p style={{ color: 'gray', fontSize: '14px', margin: '0' }}>
                   {vendor.short_description}
                 </p>
                 <p
                   style={{
-                    color: "white",
-                    fontSize: "14px",
-                    margin: "0",
-                    lineHeight: "10px",
-                    display: "inline-flex",
-                    alignItems: "center",
+                    color: 'white',
+                    fontSize: '14px',
+                    margin: '0',
+                    lineHeight: '10px',
+                    display: 'inline-flex',
+                    alignItems: 'center',
                   }}
                 >
-                  <FaStar style={{ color: "yellow", marginRight: "2px" }} />
+                  <FaStar style={{ color: 'yellow', marginRight: '2px' }} />
                   {vendor.average_rating.toFixed(1)} ratings
                   <FaCommentDots
-                    style={{ marginLeft: "7px", marginRight: "2px" }}
-                  />{" "}
+                    style={{ marginLeft: '7px', marginRight: '2px' }}
+                  />{' '}
                   {vendor.num_reviews} reviews
                 </p>
                 <p
-                  style={{ color: "gray", fontSize: "14px", marginTop: "7px" }}
+                  style={{ color: 'gray', fontSize: '14px', marginTop: '7px' }}
                 >
                   {vendor.detailed_description}
                 </p>
@@ -375,7 +379,7 @@ function FoodVendor() {
         ) : (
           <div
             className="grid-item"
-            style = {{ justifyContent: 'center', alignItems: 'center'}}
+            style={{ justifyContent: 'center', alignItems: 'center' }}
           >
             <div>No vendors found.</div>
           </div>

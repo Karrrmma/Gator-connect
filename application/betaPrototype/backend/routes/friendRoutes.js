@@ -12,19 +12,19 @@
   - GET /api/isFriend: Check if two users are friends
 */
 
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
-const mysql = require("mysql");
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const mysql = require('mysql');
 router.use(express.json());
-const connection = require('./db')
+const connection = require('./db');
 
-const {verifyToken} = require('./verifyToken')
+const { verifyToken } = require('./verifyToken');
 
 // Friend Request
 // Send a friend request
-router.post("/api/friends/request", verifyToken,(req, res) => {
+router.post('/api/friends/request', verifyToken, (req, res) => {
   const { requester_id, receiver_id } = req.body;
 
   const checkRequestQuery = `
@@ -38,17 +38,17 @@ router.post("/api/friends/request", verifyToken,(req, res) => {
     [requester_id, receiver_id, receiver_id, requester_id],
     (err, results) => {
       if (err) {
-        console.error("SQL Error:", err);
+        console.error('SQL Error:', err);
         return res
           .status(500)
-          .send({ message: "Database error", error: err.message });
+          .send({ message: 'Database error', error: err.message });
       }
 
       // If a friend request already exists in either direction, do not allow a new one
       if (results.length > 0) {
         return res
           .status(409)
-          .send({ message: "Friend request already exists." });
+          .send({ message: 'Friend request already exists.' });
       }
 
       // If no existing request, proceed to insert a new request
@@ -62,14 +62,14 @@ router.post("/api/friends/request", verifyToken,(req, res) => {
         [requester_id, receiver_id],
         (insertErr, insertResult) => {
           if (insertErr) {
-            console.error("SQL Error on insert:", insertErr);
+            console.error('SQL Error on insert:', insertErr);
             return res.status(500).send({
-              message: "Failed to create friend request",
+              message: 'Failed to create friend request',
               error: insertErr.message,
             });
           }
           res.send({
-            message: "Friend request sent!",
+            message: 'Friend request sent!',
             requestId: insertResult.insertId,
           });
         }
@@ -81,12 +81,12 @@ router.post("/api/friends/request", verifyToken,(req, res) => {
 // Receive a freind request (default: pending) can accepted / declined
 // GET /api/friends/requests
 // This endpoint retrieves the list of pending friend requests for the current user
-router.get("/api/friends/requests", verifyToken, (req, res) => {
+router.get('/api/friends/requests', verifyToken, (req, res) => {
   // need receiver id and sender id just like post api/request to navigate the profile
   const { userId } = req.query;
 
   if (!userId) {
-    return res.status(400).send({ message: "User ID is required." });
+    return res.status(400).send({ message: 'User ID is required.' });
   }
 
   // const fetchRequestsQuery = `
@@ -107,13 +107,13 @@ router.get("/api/friends/requests", verifyToken, (req, res) => {
 
   connection.query(fetchRequestsQuery, [userId], (err, results) => {
     if (err) {
-      console.error("SQL Error:", err);
+      console.error('SQL Error:', err);
       return res
         .status(500)
-        .send({ message: "Database error", error: err.message });
+        .send({ message: 'Database error', error: err.message });
     }
     if (results.length === 0) {
-      return res.status(404).send({ message: "No friend requests found." });
+      return res.status(404).send({ message: 'No friend requests found.' });
     }
     res.json(
       results.map((row) => ({
@@ -129,7 +129,7 @@ router.get("/api/friends/requests", verifyToken, (req, res) => {
 });
 
 // Accept a friend request (bi-directional friend_count ++)
-router.post("/api/friends/accept/:id", (req, res) => {
+router.post('/api/friends/accept/:id', (req, res) => {
   const requestId = req.params.id;
 
   const acceptRequestQuery = `
@@ -140,18 +140,20 @@ router.post("/api/friends/accept/:id", (req, res) => {
 
   connection.query(acceptRequestQuery, [requestId], (err, result) => {
     if (err) {
-      console.error("SQL Error:", err);
-      return res.status(500).send({ message: "Database error", error: err.message });
+      console.error('SQL Error:', err);
+      return res
+        .status(500)
+        .send({ message: 'Database error', error: err.message });
     }
     if (result.affectedRows === 0) {
-      return res.status(404).send({ message: "Friend request not found." });
+      return res.status(404).send({ message: 'Friend request not found.' });
     }
-    res.send({ message: "Friend request accepted." });
+    res.send({ message: 'Friend request accepted.' });
   });
 });
 
 // Decline a friend request --> just drop / delete from the table
-router.delete("/api/friends/decline/:id", (req, res) => {
+router.delete('/api/friends/decline/:id', (req, res) => {
   const requestId = req.params.id;
 
   const deleteRequestQuery = `
@@ -161,18 +163,20 @@ router.delete("/api/friends/decline/:id", (req, res) => {
 
   connection.query(deleteRequestQuery, [requestId], (err, result) => {
     if (err) {
-      console.error("SQL Error:", err);
-      return res.status(500).send({ message: "Database error", error: err.message });
+      console.error('SQL Error:', err);
+      return res
+        .status(500)
+        .send({ message: 'Database error', error: err.message });
     }
     if (result.affectedRows === 0) {
-      return res.status(404).send({ message: "Friend request not found." });
+      return res.status(404).send({ message: 'Friend request not found.' });
     }
-    res.send({ message: "Friend request declined." });
+    res.send({ message: 'Friend request declined.' });
   });
 });
 
 // Unfriend
-router.delete("/api/friends/unfriend", (req, res) => {
+router.delete('/api/friends/unfriend', (req, res) => {
   const { requester_id, receiver_id } = req.body;
 
   const unfriendQuery = `
@@ -181,49 +185,58 @@ router.delete("/api/friends/unfriend", (req, res) => {
       AND status = 'accepted'
     `;
 
-  connection.query(unfriendQuery, [requester_id, receiver_id, receiver_id, requester_id], (err, result) => {
-    if (err) {
-      console.error("SQL Error:", err);
-      return res.status(500).send({ message: "Database error", error: err.message });
+  connection.query(
+    unfriendQuery,
+    [requester_id, receiver_id, receiver_id, requester_id],
+    (err, result) => {
+      if (err) {
+        console.error('SQL Error:', err);
+        return res
+          .status(500)
+          .send({ message: 'Database error', error: err.message });
+      }
+      if (result.affectedRows === 0) {
+        return res.status(404).send({ message: 'Friendship not found.' });
+      }
+      res.send({ message: 'Friendship ended.' });
     }
-    if (result.affectedRows === 0) {
-      return res.status(404).send({ message: "Friendship not found." });
-    }
-    res.send({ message: "Friendship ended." });
-  });
+  );
 });
 
 // Friend List
-router.get('/api/friends/list',(req, res) => {
+router.get('/api/friends/list', (req, res) => {
   const profile = req.query.userId; // --> access getCurrentUserId()
 
-  connection.query(`
+  connection.query(
+    `
       SELECT u.user_id, a.username, u.full_name, p.avatar
       FROM User u
       JOIN Friend_Request f ON u.user_id = f.receiver_id OR u.user_id = f.requester_id
       JOIN Account a ON u.user_id = a.user_id
       LEFT JOIN Profile p ON a.account_id = p.account_id
       WHERE (f.receiver_id = ? OR f.requester_id = ?) AND f.status = 'accepted' AND u.user_id != ?
-    `, [profile, profile, profile], (error, results) => {
-    if (error) {
-      console.error('Failed to retrieve friends:', error);
-      res.status(500).send({ message: 'Failed to retrieve friends' });
-    } else {
-      res.json(results);
+    `,
+    [profile, profile, profile],
+    (error, results) => {
+      if (error) {
+        console.error('Failed to retrieve friends:', error);
+        res.status(500).send({ message: 'Failed to retrieve friends' });
+      } else {
+        res.json(results);
+      }
     }
-  });
+  );
 });
 
-
-
-
 // Usage for friend count via using status == accepted
-router.get("/api/isFriend", verifyToken,(req, res) => {
+router.get('/api/isFriend', verifyToken, (req, res) => {
   const { requester_id, receiver_id } = req.query;
 
   // Ensure both IDs are provided
   if (!requester_id || !receiver_id) {
-    return res.status(400).send({ message: "Both requester_id and receiver_id must be provided." });
+    return res
+      .status(400)
+      .send({ message: 'Both requester_id and receiver_id must be provided.' });
   }
 
   const checkFriendshipQuery = `
@@ -232,14 +245,20 @@ router.get("/api/isFriend", verifyToken,(req, res) => {
         AND status = 'accepted'
     `;
 
-  connection.query(checkFriendshipQuery, [requester_id, receiver_id, receiver_id, requester_id], (err, results) => {
-    if (err) {
-      console.error("SQL Error:", err);
-      return res.status(500).send({ message: "Database error", error: err.message });
-    }
+  connection.query(
+    checkFriendshipQuery,
+    [requester_id, receiver_id, receiver_id, requester_id],
+    (err, results) => {
+      if (err) {
+        console.error('SQL Error:', err);
+        return res
+          .status(500)
+          .send({ message: 'Database error', error: err.message });
+      }
 
-    const isFriend = results.length > 0;
-    res.send({ isFriend });
-  });
+      const isFriend = results.length > 0;
+      res.send({ isFriend });
+    }
+  );
 });
 module.exports = router;

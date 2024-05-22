@@ -5,19 +5,19 @@
  * When useToken is true, the function will require a JWT token to be passed in the headers.
  * This is true by default.
  */
-import API_ROUTE from "../constants/API_ROUTE";
+import API_ROUTE from '../constants/API_ROUTE';
 
-async function ApiCall(endpoint, method = "GET", body, useToken = true) {
+async function ApiCall(endpoint, method = 'GET', body, useToken = true) {
   const options = {
     method,
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
   };
 
   if (useToken) {
     // require JWT token by default
-    const token = sessionStorage.getItem("token");
+    const token = sessionStorage.getItem('token');
     // strip quotes from token
     const userToken = token.substring(1, token.length - 1);
     options.headers.Authorization = `Bearer ${userToken}`;
