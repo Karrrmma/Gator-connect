@@ -10,11 +10,11 @@ This does include the structure of your application. Points will be deducted fro
 *********************************************************************************************************************************************
 
 ## Backend Directory Structure
-- `routes`: This directory contains `handler.js` that has all of the backend routes that we used in this project.
-    * `controllers`: 
-- `config`: 
-- `middleware`: 
-- `index.js`: This is the main entry point of the server, it listens to a certain port and imports some needed frameworks.
+- `routes`: This directory contains files that defines the endpoints for our routes in our application.
+    * `controllers`: Contains functions to handle requests for all of our route files.
+- `config`: Stores the database along with our JWT secret key.
+- `middleware`: Contains functions that perform operations on both the request and response objects.
+- `index.js`: This is the main entry point of the server, it listens to a certain port and imports some needed frameworks, as well as uses all the routes in the application.
 
 
 ## Frontend Directory Structure
