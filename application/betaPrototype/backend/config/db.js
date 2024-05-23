@@ -3,15 +3,7 @@ const router = express.Router();
 const mysql = require('mysql');
 router.use(express.json());
 
-// Connect Database
-// const connection = mysql.createConnection({
-//   host: 'gatorconnect.cfwym6mqiofo.us-west-1.rds.amazonaws.com',
-//   user: 'thream',
-//   password: 'Jose*ortiz3',
-//   database: 'mydb',
-//   charset: 'utf8mb4',
-// });
-
+// Connect to Database
 const connection = mysql.createConnection({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,

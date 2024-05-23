@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 router.use(express.json());
-const connection = require('../config/db');
 
 const { verifyToken } = require('../middleware/verifyToken');
 const chatController = require('./controllers/chatController');
