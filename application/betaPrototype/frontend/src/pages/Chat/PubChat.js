@@ -56,11 +56,11 @@ const PubChat = () => {
                 style={{ fontSize: '40px', color: '#c15757' }}
               ></FaUserFriends>
               <Link
-                to="/channel/Find Roomates"
+                to="/channel/Find Roommates"
                 className="btn btn-link text-decoration-none"
                 style={{ color: 'white', fontSize: '25px' }}
               >
-                Find Roomates
+                Find Roommates
               </Link>
             </div>
             <div

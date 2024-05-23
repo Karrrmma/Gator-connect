@@ -19,10 +19,10 @@ function UserCard({ username, majorOrDepartment, icon, userId }) {
     <div className="card" style={{ marginBottom: '30px' }}>
       <div className="card-body">
         <div className="d-flex justify-content-start align-items-center mb-2">
-          <div className="avatar">{icon}</div>
+          <div className="avatar-post">{icon}</div>
           <div className="text-left">
             <h5
-              className="card-title ml-2 mb-0 capitalize"
+              className="card-title ml-2 mb-0"
               onClick={navigateToUserProfile}
             >
               {username}
