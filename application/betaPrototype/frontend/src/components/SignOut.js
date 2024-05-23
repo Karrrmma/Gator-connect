@@ -5,8 +5,7 @@ function SignOut() {
   const navigate = useNavigate();
 
   function handleClick() {
-    sessionStorage.removeItem('token');
-    localStorage.clear(); // remove likes
+    localStorage.removeItem('token');
     navigate('/');
     window.location.reload();
   }

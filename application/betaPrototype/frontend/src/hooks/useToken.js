@@ -2,7 +2,7 @@ import { useState } from 'react';
 // hook
 export default function useToken() {
   const getToken = () => {
-    const tokenString = sessionStorage.getItem('token');
+    const tokenString = localStorage.getItem('token');
     let userToken = tokenString;
     if (!userToken) {
       return undefined;
@@ -16,7 +16,7 @@ export default function useToken() {
   const [token, setToken] = useState(getToken());
   // localStorage if you want to persist the token after the user closes the tab
   const saveToken = (userToken) => {
-    sessionStorage.setItem('token', JSON.stringify(userToken.token));
+    localStorage.setItem('token', JSON.stringify(userToken.token));
     setToken(userToken.token);
   };
 

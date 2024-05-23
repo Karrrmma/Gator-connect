@@ -78,7 +78,7 @@ router.post('/api/post/new', verifyToken, (req, res) => {
 });
 
 // GET all posts
-router.get('/api/posts', async (req, res) => {
+router.get('/api/posts', verifyToken, async (req, res) => {
   const query = `
       SELECT Post.post_id, Post.post_content, Post.post_time, Post.num_likes, Post.num_comments, User.full_name, Post.user_id, Profile.avatar
       FROM Post

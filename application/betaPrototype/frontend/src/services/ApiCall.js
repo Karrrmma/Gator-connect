@@ -17,7 +17,7 @@ async function ApiCall(endpoint, method = 'GET', body, useToken = true) {
 
   if (useToken) {
     // require JWT token by default
-    const token = sessionStorage.getItem('token');
+    const token = localStorage.getItem('token');
     // strip quotes from token
     const userToken = token.substring(1, token.length - 1);
     options.headers.Authorization = `Bearer ${userToken}`;
@@ -31,7 +31,13 @@ async function ApiCall(endpoint, method = 'GET', body, useToken = true) {
 
   if (!response.ok) {
     const responseBody = await response.json();
-    console.log(responseBody); // debug
+    // if the error is from token expiry, force the user to login again
+    if (responseBody.tokenExpired) {
+      console.log("token is expired asf");
+      const error = new Error('Token expired. Please log in again.');
+      error.tokenExpired = true;
+      throw error;
+    }
     throw new Error(responseBody.message);
   }
 

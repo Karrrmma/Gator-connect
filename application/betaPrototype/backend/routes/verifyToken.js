@@ -22,7 +22,14 @@ exports.verifyToken = async (req, res, next) => {
     req.user_id = decoded.user_id;
     next();
   } catch (error) {
-    return createError(401, 'invalid token');
+    if (error instanceof jwt.TokenExpiredError) {
+        // check if the token is expired
+        const err = createError(401, 'token expired');
+        err.tokenExpired = true;
+        return next(err);
+      } else {
+        return next(createError(401, 'invalid token'));
+      }
   }
 };
 

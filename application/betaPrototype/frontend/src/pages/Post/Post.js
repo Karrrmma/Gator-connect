@@ -42,6 +42,7 @@ function Post() {
   const [noUsersFound, setNoUsersFound] = useState(false);
   const [showNewPost, setShowNewPost] = useState(false);
   const [likedPosts, setLikedPosts] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     console.log('Post base use effect has been called!');
@@ -85,8 +86,16 @@ function Post() {
       console.log(`RECEIVING NEW DATA FROM FETCH ALL OF THE POSTS!`);
       setItems(data);
     } catch (error) {
-      console.error('Error fetching posts:', error);
-      setItems([]); // reset the posts on fail
+      if (error.tokenExpired) {
+        // Token expired, log out the user
+        console.log('Token IS expired, logging out user.');
+        localStorage.removeItem('token');
+        navigate('/login', { replace: true });
+        window.location.reload();
+      } else {
+        console.error('Error fetching posts:', error);
+        setItems([]); // reset the posts on fail
+      }
     }
   }
   async function fetchItems({ username, major, year }) {

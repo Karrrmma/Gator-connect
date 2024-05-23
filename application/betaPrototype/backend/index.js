@@ -31,6 +31,17 @@ app.use(searchRoutes);
 app.use(likeComment);
 app.use(friend);
 
+// Error handling middleware
+app.use((err, req, res, next) => {
+  if (err.tokenExpired) {
+    // Handle token expired error
+    res.status(err.status).send({ message: err.message, tokenExpired: true });
+  } else {
+    // Handle other errors
+    res.status(err.status || 500).send({ message: err.message });
+  }
+});
+
 // Backend Server Port
 const PORT = 4000;
 app.listen(PORT, () => {
