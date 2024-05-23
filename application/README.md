@@ -11,7 +11,11 @@ This does include the structure of your application. Points will be deducted fro
 
 ## Backend Directory Structure
 - `routes`: This directory contains `handler.js` that has all of the backend routes that we used in this project.
+    * `controllers`: 
+- `config`: 
+- `middleware`: 
 - `index.js`: This is the main entry point of the server, it listens to a certain port and imports some needed frameworks.
+
 
 ## Frontend Directory Structure
 - `public`: Holds static files that are directly served by the web server.
@@ -42,7 +46,7 @@ If it fails to work, open split terminals and run these to commands in each:
 
 On your local machine, go into the frontend and run `npm run build`. Afterwards, commit this folder to the repository.
 
-Then SSH into the server using the instructions within the credentials README.md.
+Then SSH into the server using the instructions within the credentials README.md. Ensure you are on the correct branch you want to test on.
 
 Run `git pull` to obtain the latest version of the build folder then run `npm install` inside both the frontend and backend folders to ensure everything is updated.
 

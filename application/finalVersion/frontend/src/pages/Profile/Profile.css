@@ -1,0 +1,154 @@
+.post-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 50px;
+}
+
+.post-column {
+    display: flex;
+    flex-direction: column;
+    /* align-items: center; */
+    justify-content: left;
+    text-align: left;
+}
+
+.post-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    text-align: left;
+}
+
+.fullname {
+    color: #AD45FF;
+    font-size: 22px;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.fullname:hover {
+  color: white;
+  text-decoration: none;
+}
+
+.role {
+    color: #D9D9D9;
+    font-weight: bold;
+    /* font-size: large; */
+    font-size: 22px;
+    /* line-height: 10px; */
+
+}
+
+.profile-note {
+    font-size: 20px;
+    color: #646464;
+}
+
+.bio {
+    color: #646464;
+    font-size: 20px;
+}
+
+.post {
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.profile-button {
+    background-color: #D9D9D9;
+    color: black;
+    border-radius: 25px;
+    height: 40px;
+    border: none;
+    cursor: pointer;
+    /* width: 90%; */
+    padding: 0px 15px;
+    font-size: 20px;
+    font-weight: bold;
+    margin-right: 15px;
+}
+
+.profile-button a {
+    color: black;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.profile-button:hover {
+    background-color: #AD45FF;
+    color: white;
+}
+
+.no-posts-message {
+    background-color: black;
+    color: gray;
+    padding: 50px;
+    margin-top: 30px;
+    width: 40%;
+    border-radius: 10px;
+    font-weight: bold;
+}
+
+.avatar-area {
+    font-size: 100px;
+    background-color: white;
+    padding: 50px 70px 55px 70px;
+    margin-right: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    width: 150px;
+    height: 150px;
+    color: black;
+  }
+  
+  /* .avatar:hover{
+    opacity: 0.3;
+  } */
+  
+
+  .avatar:hover .edit-profile-message {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  .edit-profile-message {
+    font-size: 22px;
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+    top: 50%; 
+    left: 50%;
+    transform: translate(-50%, -50%);
+    /* background-color: #AD45FF; */
+    color: black;
+    text-align: center;
+    font-weight: bold;
+    /* border-radius: 5px;
+    padding: 10px;
+    width: 100px; */
+  }
+  
+  .avatar:hover .avatar-text {
+    visibility: hidden;
+  }
+
+
+  
+
+  @media (min-width: 768px) {
+    .profile-post {
+      width: 50%;
+    }
+  }
+  
+  
+  @media (max-width: 768px) {
+    .profile-post {
+      width: 90%;
+    }
+  }

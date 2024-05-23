@@ -1,0 +1,28 @@
+.names-wrapper {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.names-wrapper p {
+    /* margin-right: 20px; */
+    font-size: 18px;
+}
+
+.about-wrapper {
+    width: 80%;
+}
+
+.description p {
+    font-size: 20px;
+}
+
+.team-img {
+    width: 65%;
+}
+
+@media (max-width: 767px) {
+    .team-img {
+        width: 100%;
+    }
+}

@@ -4,29 +4,29 @@
  *   and thumbnail previews of the features that we provide.
  * - The user can navigate to the login page, register page, and about page.
  */
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 
 import {
   AiFillInstagram,
   AiFillFacebook,
   AiFillTwitterSquare,
-} from 'react-icons/ai';
-import { Link } from 'react-router-dom';
+} from "react-icons/ai";
+import { Link } from "react-router-dom";
 
-import LOGO from '../../assets/images/gator_logo_happy.PNG';
+import LOGO from "../../assets/images/gator_logo_happy.PNG";
 // thumbnails
-import THUMBNAIL1 from '../../assets/images/thumbnail1.png';
-import THUMBNAIL2 from '../../assets/images/thumbnail2.png';
-import THUMBNAIL3 from '../../assets/images/thumbnail3.png';
-import THUMBNAIL4 from '../../assets/images/thumbnail4.png';
-import THUMBNAIL5 from '../../assets/images/thumbnail5.png';
+import THUMBNAIL1 from "../../assets/images/thumbnail1.png";
+import THUMBNAIL2 from "../../assets/images/thumbnail2.png";
+import THUMBNAIL3 from "../../assets/images/thumbnail3.png";
+import THUMBNAIL4 from "../../assets/images/thumbnail4.png";
+import THUMBNAIL5 from "../../assets/images/thumbnail5.png";
 // thumbnail img for phone size
-import THUMBNAIL1SM from '../../assets/images/thumbnail1small.png';
-import THUMBNAIL2SM from '../../assets/images/thumbnail2small.png';
-import THUMBNAIL3SM from '../../assets/images/thumbnail3small.png';
-import THUMBNAIL4SM from '../../assets/images/thumbnail4small.png';
-import THUMBNAIL5SM from '../../assets/images/thumbnail5small.png';
-import './start.css';
+import THUMBNAIL1SM from "../../assets/images/thumbnail1small.png";
+import THUMBNAIL2SM from "../../assets/images/thumbnail2small.png";
+import THUMBNAIL3SM from "../../assets/images/thumbnail3small.png";
+import THUMBNAIL4SM from "../../assets/images/thumbnail4small.png";
+import THUMBNAIL5SM from "../../assets/images/thumbnail5small.png";
+import "./start.css";
 
 function Start() {
   const previewsDesktop = [
@@ -70,13 +70,13 @@ function Start() {
   };
 
   const highlightedButtonStyle = {
-    backgroundColor: '#AD45FF',
-    color: 'white',
+    backgroundColor: "#AD45FF",
+    color: "white",
   };
 
   const nonHighlightedButtonStyle = {
-    backgroundColor: 'white',
-    color: 'black',
+    backgroundColor: "white",
+    color: "black",
   };
 
   return (
@@ -88,8 +88,8 @@ function Start() {
               <img src={LOGO} alt="Gator" className="logo" />
             </div>
             <div>
-              <h1 style={{ color: 'green' }}>GATOR CONNECT</h1>
-              <p style={{ color: 'green', fontSize: '20px' }}>
+              <h1 style={{ color: "green" }}>GATOR CONNECT</h1>
+              <p style={{ color: "green", fontSize: "20px" }}>
                 First social media platform for the SFSU students!
               </p>
             </div>

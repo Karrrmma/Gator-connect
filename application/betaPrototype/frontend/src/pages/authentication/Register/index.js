@@ -3,45 +3,46 @@
  *  - Users can register to the application using their SFSU email, username,
  *    password, full name, role, major, and year (optional if professor).
  *  - It first validates the user input and then sets errors if input is invalid.
- *
+ * 
  *  - If the user can be registered, they can choose an avatar for their profile.
  *  - User registration is not completed until the user chooses an avatar.
  */
-import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
-import validateRegisterFields from '../validateRegisterFields';
-import validateAvatarField from '../validateAvatarField';
-import { MAJORS } from '../../../constants/MAJORS';
-import { YEARS } from '../../../constants/YEARS';
-import gatorLogo from '../../../assets/images/gator_logo_happy.PNG';
+import validateRegisterFields from "../validateRegisterFields";
+import validateAvatarField from "../validateAvatarField";
+import { MAJORS } from "../../../constants/MAJORS";
+import { YEARS } from "../../../constants/YEARS";
+import gatorLogo from "../../../assets/images/gator_logo_happy.PNG";
 // import PropTypes from 'prop-types';
 import {
   registerUser,
+  loginUser,
   canRegister,
-} from '../../../services/authentication/AuthService';
-import { createProfile } from '../../../services/User/UserService';
-import '../auth.css';
+} from "../../../services/authentication/AuthService";
+import { createProfile } from "../../../services/User/UserService";
+import "../auth.css";
 // import { getCurrentUserId } from '../../../utils/decodeData';
 
 function Register() {
   const [values, setUser] = useState({
-    sfsu_email: '',
-    username: '',
-    password: '',
-    fullname: '',
-    role: '',
-    major: '',
-    year: '',
+    sfsu_email: "",
+    username: "",
+    password: "",
+    fullname: "",
+    role: "",
+    major: "",
+    year: "",
   });
 
   const [avatar, setAvatar] = useState({
-    avatar: '',
+    avatar: "",
   });
 
   const navigate = useNavigate();
 
-  const [role, setRole] = useState('');
+  const [role, setRole] = useState("");
 
   const [tosAccepted, setTosAccepted] = useState(false);
 
@@ -71,11 +72,11 @@ function Register() {
       [name]: value,
     });
 
-    if (name === 'role') {
+    if (name === "role") {
       setRole(value);
     }
 
-    if (type === 'checkbox') {
+    if (type === "checkbox") {
       setTosAccepted(!tosAccepted);
     }
   };
@@ -88,27 +89,31 @@ function Register() {
     let allerr = { ...err };
 
     if (!tosAccepted) {
-      allerr.tos = 'You must accept the Terms of Service';
+      allerr.tos = "You must accept the Terms of Service";
     }
     // setIsRegistered(true); // BYPASS REGISTER PAGE
     setErrors(allerr);
 
     if (Object.keys(allerr).length > 0) {
-      console.error('Validation errors:', allerr);
+      console.error("Validation errors:", allerr);
       return; // stop proceeding if there are errors
     }
 
     // if no errors, check if email is valid, then lead the user into the avatar selection
     if (Object.keys(err).length === 0) {
       try {
+        // await registerUser(values);
         // check if the email or username are not already taken
         await canRegister(values);
+        // console.log('User can register successfully');
         // user got past validation, let them choose a profile avatar
         setIsRegistered(true);
         setAvatar({
           avatar: values.fullname[0],
         });
       } catch (error) {
+        // console.log(error);
+        // setErrors({...err, backend: 'Email is already in use. Please use another one.'});
         setErrors({ ...err, backend: error.message });
       }
     }
@@ -133,14 +138,11 @@ function Register() {
       Array.from(avatar.avatar).length
     );
     setErrors(err);
-    if (Object.keys(err).length > 0) {
-      return;
-    }
     // success! register user then login
     const field = {
       username: values.username,
       avatar: avatar.avatar,
-      biography: '',
+      biography: "",
     };
     try {
       await registerUser(values);
@@ -149,7 +151,7 @@ function Register() {
       console.log(error);
       // console.log("SOMEHOW FAILED TO CREATE PROFILE or register, cant read a value?");
     }
-    navigate('/login'); // bring user home after logging in
+    navigate("/login"); // bring user home after logging in
   };
 
   const registerForm = (
@@ -163,27 +165,27 @@ function Register() {
             placeholder="SFSU Email"
             className="input-field"
           />
-          <span className="text-danger"> {errors.email || '\u00A0'}</span>
+          <span className="text-danger"> {errors.email || "\u00A0"}</span>
           <input
             name="username"
             type="text"
             className="input-field"
             placeholder="Username"
           />
-          <span className="text-danger"> {errors.username || '\u00A0'}</span>
+          <span className="text-danger"> {errors.username || "\u00A0"}</span>
           <input
             name="password"
             type="password"
             className="input-field"
             placeholder="Password"
           />
-          <span className="text-danger"> {errors.password || '\u00A0'}</span>
+          <span className="text-danger"> {errors.password || "\u00A0"}</span>
           <p className="text-muted text-left">
             *Password must contain at least 8 characters and a number
           </p>
           <span className="text-danger justify-content-center">
-            {' '}
-            {errors.backend || '\u00A0'}
+            {" "}
+            {errors.backend || "\u00A0"}
           </span>
         </div>
         <div className="form-column">
@@ -193,7 +195,7 @@ function Register() {
             className="input-field"
             placeholder="Full Name"
           />
-          <span className="text-danger"> {errors.fullname || '\u00A0'}</span>
+          <span className="text-danger"> {errors.fullname || "\u00A0"}</span>
           <select
             name="role"
             className="input-field choose"
@@ -203,11 +205,11 @@ function Register() {
             <option value="Professor">Professor</option>
             <option value="Student">Student</option>
           </select>
-          <span className="text-danger"> {errors.role || '\u00A0'}</span>
+          <span className="text-danger"> {errors.role || "\u00A0"}</span>
           <div className="form-column">
             <select
               className={`input-field choose ${
-                role === 'Student' ? 'half' : ''
+                role === "Student" ? "half" : ""
               }`}
               name="major"
               onChange={handleChange}
@@ -219,7 +221,7 @@ function Register() {
                 </option>
               ))}
             </select>
-            {role === 'Student' && (
+            {role === "Student" && (
               <select
                 className="input-field choose half ml-2"
                 name="year"
@@ -234,39 +236,39 @@ function Register() {
               </select>
             )}
             <span className="text-danger mr-5">
-              {' '}
-              {errors.major || '\u00A0'}
+              {" "}
+              {errors.major || "\u00A0"}
             </span>
-            <span className="text-danger ml-2"> {errors.year || '\u00A0'}</span>
+            <span className="text-danger ml-2"> {errors.year || "\u00A0"}</span>
           </div>
           <div
             className="form-row"
-            style={{ gap: '4px', alignItems: 'left', justifyContent: 'unset' }}
+            style={{ gap: "4px", alignItems: "left", justifyContent: "unset" }}
           >
             <input
               type="checkbox"
               id="tos-check"
               className="mb-1 ml-2"
               onChange={handleChange}
-              style={{ width: '22px', height: '22px' }}
+              style={{ width: "22px", height: "22px" }}
             />
-            <div style={{ display: 'flex', flexDirection: 'row' }}>
+            <div style={{ display: "flex", flexDirection: "row" }}>
               <label
                 htmlFor="tos-check"
                 className="form-check-label tos-check mt-1"
               >
-                I accept and agree to the{' '}
+                I accept and agree to the{" "}
               </label>
               <Link to="/tos" className="tos-check mt-1 ml-1">
-                {' '}
+                {" "}
                 Terms and Service
               </Link>
             </div>
           </div>
           <div className="form-column">
             <span className="text-danger justify-content-center">
-              {' '}
-              {errors.tos || '\u00A0'}
+              {" "}
+              {errors.tos || "\u00A0"}
             </span>
           </div>
         </div>
@@ -300,7 +302,7 @@ function Register() {
         <p className="titletwo">
           leaving it blank will use the first letter of your name
         </p>
-        <span className="text-danger mb-4"> {errors.avatar || '\u00A0'}</span>
+        <span className="text-danger mb-4"> {errors.avatar || "\u00A0"}</span>
         <div className="mt-2">
           <button type="submit" className="avatar-submit">
             <b>FINISH</b>
@@ -338,5 +340,9 @@ function Register() {
     </div>
   );
 }
+
+// Register.propTypes = {
+//     setToken: PropTypes.func.isRequired
+// }
 
 export default Register;

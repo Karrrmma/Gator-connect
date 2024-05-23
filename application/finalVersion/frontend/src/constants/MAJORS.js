@@ -1,0 +1,22 @@
+// List of all majors that a student can select from when creating an account
+export const MAJORS = [
+    'Accounting',
+    'Biology',
+    'Business',
+    'Chemistry',
+    'Communications',
+    'Computer Science',
+    'Economics',
+    'Education',
+    'Engineering',
+    'English',
+    'Finance',
+    'History',
+    'Information Technology',
+    'Marketing',
+    'Mathematics',
+    'Nursing',
+    'Political Science',
+    'Psychology',
+    'Sociology',
+];

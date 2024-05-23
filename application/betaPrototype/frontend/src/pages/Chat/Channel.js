@@ -155,7 +155,7 @@ const Channel = () => {
       switch (name) {
         case 'General':
           return <SlSpeech style={{marginLeft:'10px', marginRight: '10px', fontSize: '48px', color: '#c15757'}}></SlSpeech>;
-        case 'Find Roommates':
+        case 'Find Roomates':
           return <FaUserFriends style={{marginLeft:'10px', marginRight: '10px', fontSize: '50px', color: '#c15757'}}></FaUserFriends>;
         case 'Study Help':
           return <ImBooks style={{marginLeft:'10px', marginRight: '10px', fontSize: '50px', color: '#c15757'}}></ImBooks>;

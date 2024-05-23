@@ -1,4 +1,4 @@
-// inclusive, populate school start years within this range
+// inclusive, populate years within a range
 function createYears(start, end) {
     const years = []; 
     for (let i = start; i <= end; i++) {

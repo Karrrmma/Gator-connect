@@ -1,36 +1,33 @@
-import React, { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { useParams, Link } from "react-router-dom";
 
-import PostCard from '../../components/PostCard';
-import FriendsListPopup from './FriendsListPopup';
-import NewPostPopup from './NewPostPopup';
-import EditProfilePopup from './EditProfilePopup';
+import PostCard from "../../components/PostCard";
+import FriendsListPopup from "./FriendsListPopup";
+import NewPostPopup from "./NewPostPopup";
+import EditProfilePopup from "./EditProfilePopup";
 
-import { getCurrentUserId } from '../../utils/decodeData';
-import { queryData, getUserInfo } from '../../services/User/UserService';
-import {
-  getFriendshipStatus,
-  sendFriendReq,
-  unfriendUser,
-} from '../../services/Notification/FriendService';
-import './Profile.css';
+import { getCurrentUserId } from "../../utils/decodeData";
+import { queryData, getUserInfo } from "../../services/User/UserService";
+import { getFriendshipStatus, sendFriendReq, unfriendUser } from "../../services/Notification/FriendService";
+import { getLikedPosts } from "../../services/Post/PostService";
+import "./Profile.css";
 
 function Profile() {
   const { userId } = useParams();
   const [user, setUser] = useState({
-    major: '',
-    department: '',
-    year: '',
-    role: '',
-    username: '',
-    fullname: '',
-    bio: '',
+    major: "",
+    department: "",
+    year: "",
+    role: "",
+    username: "",
+    fullname: "",
+    bio: "",
     post_count: 0,
     friend_count: 0,
     user_id: 0,
     posts: [],
-    biography: '',
-    avatar: '',
+    biography: "",
+    avatar: ""
   });
 
   const [showFriendsList, setShowFriendsList] = useState(false);
@@ -45,6 +42,8 @@ function Profile() {
       post_count: prevUser.post_count + 1,
     }));
   };
+
+  const [likedPosts, setLikedPosts] = useState([]);
 
   const handleFriendsListClick = () => {
     setShowFriendsList(!showFriendsList);
@@ -68,7 +67,7 @@ function Profile() {
           setUser({
             ...userData,
             major:
-              userData.role === 'Student'
+              userData.role === "Student"
                 ? userData.major
                 : userData.department,
             role: userData.role,
@@ -77,7 +76,6 @@ function Profile() {
             posts: userData.posts || [],
             isFriend: userData.isFriend,
           });
-          console.log(userData);
         }
         const basicInfo = await getUserInfo(id);
         if (basicInfo) {
@@ -91,11 +89,12 @@ function Profile() {
           checkFriendship(userId);
         }
       } catch (error) {
-        console.error('Failed to fetch user data:', error);
+        console.error("Failed to fetch user data:", error);
       }
     };
 
     fetchUserData();
+    fetchLikedPosts();
   }, [userId]);
 
   const checkFriendship = async (userId) => {
@@ -104,19 +103,19 @@ function Profile() {
       const data = await getFriendshipStatus(requesterId, userId);
       setUser((prevState) => ({ ...prevState, isFriend: data.isFriend }));
     } catch (error) {
-      console.error('Error fetching friendship status:', error);
+      console.error("Error fetching friendship status:", error);
     }
   };
 
   const sendFriendRequest = async (requesterId, receiverId) => {
     try {
       const data = await sendFriendReq({
-        requester_id: requesterId,
-        receiver_id: receiverId,
-      });
+          requester_id: requesterId,
+          receiver_id: receiverId,
+        });
       alert(data.message);
     } catch (error) {
-      console.error('Failed to send friend request.', error);
+      console.error("Failed to send friend request.", error);
       alert(error);
     }
   };
@@ -126,8 +125,8 @@ function Profile() {
     const receiverId = userId;
     if (requesterId !== receiverId) {
       sendFriendRequest(requesterId, receiverId);
-      console.log('Send Friend Request from: ', requesterId);
-      console.log('Send Friend Request to: ', receiverId);
+      console.log("Send Friend Request from: ", requesterId);
+      console.log("Send Friend Request to: ", receiverId);
     }
   };
 
@@ -146,7 +145,7 @@ function Profile() {
           prevState.friend_count > 0 ? prevState.friend_count - 1 : 0,
       }));
     } catch (error) {
-      console.error('Error unfriending:', error);
+      console.error("Error unfriending:", error);
       alert(error);
     }
   };
@@ -166,10 +165,22 @@ function Profile() {
     }));
   };
 
+  const fetchLikedPosts = async () => {
+    try {
+      const data = await getLikedPosts(getCurrentUserId());
+      console.log(`RECEIVING NEW DATA FROM FETCH LIKED POSTS!`);
+      console.log(data);
+      setLikedPosts(data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   // Sort posts by 'post_time' in descending order before rendering
   const sortedPosts = user.posts.sort(
     (a, b) => new Date(b.post_time) - new Date(a.post_time)
   );
+
 
   const nameLink = user.fullname.trim().replace(/\s/g, '%20');
 
@@ -179,11 +190,7 @@ function Profile() {
         <div className="post-row">
           <div
             className="avatar avatar-area"
-            onClick={
-              getCurrentUserId() === user.user_id
-                ? handleEditProfileClick
-                : undefined
-            }
+            onClick={getCurrentUserId() === user.user_id ? handleEditProfileClick : undefined}
           >
             {getCurrentUserId() === user.user_id && (
               <>
@@ -191,13 +198,7 @@ function Profile() {
                 <div onClick={handleEditProfileClick}></div>
               </>
             )}
-            <span
-              className={
-                getCurrentUserId() === user.user_id ? 'avatar-text' : ''
-              }
-            >
-              {user.avatar}
-            </span>
+            <span className={getCurrentUserId() === user.user_id ? "avatar-text" : ""}>{user.avatar}</span>
           </div>
 
           {getCurrentUserId() === user.user_id && showEditProfile && (
@@ -213,19 +214,17 @@ function Profile() {
           <div className="post-column">
             <div className="post-row">
               <p className="role mt-3">{user.role}</p>
-              <p className="fullname mt-3 mb-3 ml-2 capitalize">
-                {user.fullname}
-              </p>
+              <p className="fullname mt-3 mb-3 ml-2 capitalize">{user.fullname}</p>
             </div>
             <p className="profile-note">* Username: {user.username}</p>
             <p className="profile-note">
-              {user.role === 'Professor'
-                ? '* Department: ' + user.department
-                : '* Major: ' + user.major}
+              {user.role === "Professor"
+                ? "* Department: " + user.department
+                : "* Major: " + user.major}
             </p>
             {/*user's year visible*/}
             <p className="profile-note mb-4">
-              {user.role === 'Student' ? '* School year: ' + user.year : ''}
+              {user.role === "Student" ? "* School year: " + user.year : ""}
             </p>
           </div>
         </div>
@@ -233,7 +232,7 @@ function Profile() {
         <p className="bio mb-4 mt-2">{user.biography}</p>
 
         <p className="text-white mb-4 post">
-          {' '}
+          {" "}
           {user.post_count} POSTS | {user.friend_count} FRIENDS
         </p>
 
@@ -281,11 +280,7 @@ function Profile() {
           />
         )}
         {showNewPost && (
-          <NewPostPopup
-            userId={user.user_id}
-            onClose={handleNewPostClick}
-            onAddPost={addNewPostToList}
-          />
+          <NewPostPopup userId={user.user_id} onClose={handleNewPostClick} onAddPost={addNewPostToList} />
         )}
       </div>
 
@@ -309,6 +304,7 @@ function Profile() {
                 post_id: post.post_id,
               }}
               icon={user.avatar}
+              likedPostsList={likedPosts}
             />
           ))}
         </div>

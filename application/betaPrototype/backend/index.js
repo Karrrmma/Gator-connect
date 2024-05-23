@@ -4,15 +4,14 @@ const bodyParser = require('body-parser');
 require('dotenv/config');
 
 // Import routes
+const routesHandler = require('./routes/handler.js');
 const userRoutes = require('./routes/userRoutes.js');
-const postRoutes = require('./routes/postRoutes.js');
-const chatRoutes = require('./routes/chatRoutes.js');
-const searchRoutes = require('./routes/searchRoutes.js');
-const profileRoutes = require('./routes/profileRoutes.js');
-const likeCommentRoutes = require('./routes/likeCommentRoutes.js');
-const friendRoutes = require('./routes/friendRoutes.js');
-const eventRoutes = require('./routes/eventRoutes.js');
-const vendorRoutes = require('./routes/vendorRoutes.js');
+const postRoutes = require('../backend/routes/postRoutes.js')
+const chatRoutes = require('../backend/routes/chatRoutes.js')
+const searchRoutes = require('../backend/routes/searchRoutes.js')
+const profileRoutes = require('../backend/routes/profileRoutes.js')
+const likeComment = require('./routes/likeCommentRoutes.js')
+const friend = require('../backend/routes/friendRoutes.js')
 
 // Init express app
 const app = express();
@@ -23,29 +22,18 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 // Use routes
+app.use(routesHandler);
 app.use(profileRoutes);
 app.use(userRoutes);
 app.use(postRoutes);
 app.use(chatRoutes);
 app.use(searchRoutes);
-app.use(likeCommentRoutes);
-app.use(friendRoutes);
-app.use(eventRoutes);
-app.use(vendorRoutes);
-
-// Error handling middleware
-app.use((err, req, res, next) => {
-  if (err.tokenExpired) {
-    // Handle token expired error
-    res.status(err.status).send({ message: err.message, tokenExpired: true });
-  } else {
-    // Handle other errors
-    res.status(err.status || 500).send({ message: err.message });
-  }
-});
+app.use(likeComment);
+app.use(friend);
 
 // Backend Server Port
 const PORT = 4000;
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}.`);
+
+    console.log(`Server is running on port ${PORT}.`);
 });
