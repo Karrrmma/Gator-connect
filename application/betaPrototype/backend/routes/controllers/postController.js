@@ -1,7 +1,6 @@
-const mysql = require('mysql');
 const connection = require('../db');
 
-exports.newposts = (req, res) => {
+exports.createNewPost = (req, res) => {
   console.log('Received post data:', req.body);
   const { post_content, user_id } = req.body;
 
@@ -60,19 +59,19 @@ exports.newposts = (req, res) => {
 };
 
 // GET all posts
-exports.post = (req, res) => {
-  // Modify the query to retrieve post components and full_name from User table
-  // Those Select components are useful in navigating home --> each profile (post.user_id)
+exports.getAllPosts = (req, res) => {
   const query = `
-        SELECT Post.post_id, Post.post_content, Post.post_time, Post.num_likes, Post.num_comments, User.full_name, Post.user_id
-        FROM Post
-        JOIN User ON Post.user_id = User.user_id 
-        ORDER BY Post.post_time DESC
-      `;
+      SELECT Post.post_id, Post.post_content, Post.post_time, Post.num_likes, Post.num_comments, User.full_name, Post.user_id, Profile.avatar
+      FROM Post
+      LEFT JOIN User ON Post.user_id = User.user_id 
+      LEFT JOIN Account ON User.user_id = Account.user_id
+      LEFT JOIN Profile ON Account.account_id = Profile.account_id
+      ORDER BY Post.post_time DESC
+    `;
 
   connection.query(query, (error, results) => {
     if (error) {
-      console.error('Error fetching average ratings:', error);
+      console.error('Error fetching posts:', error);
       res.status(500).json({ error: 'Internal Server Error' });
     } else {
       res.status(200).json(results);

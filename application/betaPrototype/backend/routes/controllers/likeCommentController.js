@@ -1,10 +1,8 @@
-const mysql = require('../db');
 const connection = require('../db');
 
-// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 // Like
 // Add a like to the database and increment the num_likes in Post table
-exports.likes = (req, res) => {
+exports.addLike = (req, res) => {
   const { user_id, post_id } = req.body;
   const insertLikeQuery = 'INSERT INTO `Like` (user_id, post_id) VALUES (?, ?)';
   const incrementLikesQuery =
@@ -47,7 +45,7 @@ exports.likes = (req, res) => {
 };
 
 // Remove a like from the database and decrement the num_likes in Post table
-router.delete('/api/likes', (req, res) => {
+exports.removeLike = (req, res) => {
   const { user_id, post_id } = req.body;
   const deleteLikeQuery =
     'DELETE FROM `Like` WHERE user_id = ? AND post_id = ?';
@@ -88,11 +86,61 @@ router.delete('/api/likes', (req, res) => {
       });
     });
   });
-});
+};
 
-// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-// Write comment
-router.post('/api/comments', (req, res) => {
+// get all liked posts by a user
+exports.getLikedPosts = (req, res) => {
+  const { userId } = req.params;
+  const fetchLikedPostsQuery = `
+      SELECT p.post_id, p.post_content, p.post_time, p.num_likes, p.num_comments, u.full_name, p.user_id, pr.avatar
+      FROM Post AS p
+      INNER JOIN \`Like\` AS l ON p.post_id = l.post_id
+      INNER JOIN User AS u ON p.user_id = u.user_id
+      INNER JOIN Account AS a ON u.user_id = a.user_id
+      INNER JOIN Profile AS pr ON a.account_id = pr.account_id
+      WHERE l.user_id = ?
+      ORDER BY p.post_time DESC
+    `;
+
+  connection.query(fetchLikedPostsQuery, [userId], (error, results) => {
+    if (error) {
+      console.error('Error fetching liked posts:', error);
+      return res.status(500).json({ error: 'Failed to fetch liked posts' });
+    }
+
+    const likedPostList = results.map((post) => ({
+      post_id: post.post_id,
+      liked: true,
+    }));
+
+    res.status(200).json(likedPostList);
+  });
+};
+
+// return if a post is liked by a user
+exports.isPostLiked = (req, res) => {
+  const { userId, postId } = req.params;
+  const fetchLikedPostsQuery = `
+    SELECT p.post_id, p.post_content, p.post_time, p.num_likes, p.num_comments, u.full_name, p.user_id, pr.avatar
+    FROM Post AS p
+    INNER JOIN \`Like\` AS l ON p.post_id = l.post_id
+    INNER JOIN User AS u ON p.user_id = u.user_id
+    INNER JOIN Account AS a ON u.user_id = a.user_id
+    INNER JOIN Profile AS pr ON a.account_id = pr.account_id
+    WHERE l.user_id = ? AND l.post_id = ?
+    ORDER BY p.post_time DESC
+  `;
+  connection.query(fetchLikedPostsQuery, [userId, postId], (error, results) => {
+    if (error) {
+      console.error('Error fetching liked posts:', error);
+      return res.status(500).json({ error: 'Failed to fetch liked posts' });
+    }
+    res.status(200).json({ isLiked: results.length > 0 });
+  });
+};
+
+// Add a comment
+exports.addComment = (req, res) => {
   const { user_id, post_id, comment_content } = req.body;
   const insertCommentQuery =
     'INSERT INTO `Comment` (user_id, post_id, comment_content, comment_time) VALUES (?, ?, ?, DATE_SUB(NOW(), INTERVAL 7 HOUR))';
@@ -158,10 +206,10 @@ router.post('/api/comments', (req, res) => {
       }
     );
   });
-});
+};
 
-// delete comment
-router.delete('/api/comments/:commentId', (req, res) => {
+// Delete a comment
+exports.removeComment = (req, res) => {
   const { commentId } = req.params;
   const deleteCommentQuery = 'DELETE FROM `Comment` WHERE comment_id = ?';
   const decrementCommentsQuery =
@@ -205,10 +253,10 @@ router.delete('/api/comments/:commentId', (req, res) => {
       });
     });
   });
-});
+};
 
 // Fetch comments for a post
-router.get('/api/comments/:postId', (req, res) => {
+exports.getComments = (req, res) => {
   const { postId } = req.params;
   const fetchCommentsQuery = `
       SELECT c.comment_id, c.user_id, c.comment_content, c.comment_time, u.full_name
@@ -225,4 +273,4 @@ router.get('/api/comments/:postId', (req, res) => {
     }
     res.status(200).json(results);
   });
-});
+};

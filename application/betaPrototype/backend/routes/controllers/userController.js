@@ -6,8 +6,7 @@ router.use(express.json());
 const connection = require('../db');
 require('dotenv/config');
 
-// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Register @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-// Register query for sign up form
+// User Register
 exports.register = (req, res) => {
   const { fullname, sfsu_email, username, password, major, year, role } =
     req.body;
@@ -79,8 +78,7 @@ exports.register = (req, res) => {
   });
 };
 
-// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  Login @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-// log in user query
+// User Login
 exports.login = (req, res) => {
   const { username, password } = req.body;
   console.log('Received username:', username);
