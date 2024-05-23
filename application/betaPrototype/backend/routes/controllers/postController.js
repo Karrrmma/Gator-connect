@@ -1,4 +1,4 @@
-const connection = require('../db');
+const connection = require('../../config/db');
 
 exports.createNewPost = (req, res) => {
   console.log('Received post data:', req.body);

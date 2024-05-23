@@ -1,18 +1,7 @@
-// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-// @@@@@ CHAT
+const connection = require('../../config/db');
 
-//------put public Message to DB----//
-const express = require('express');
-const router = express.Router();
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const mysql = require('mysql');
-const connection = require('../db');
-
-router.use(express.json());
-
-//------put public Message to DB----//
-exports.publicchat = (req, res) => {
+//------Send Public Message----//
+exports.sendPublicMessage = (req, res) => {
   const { sender_id, message_content, message_type } = req.body;
   const date = new Date();
 
@@ -38,7 +27,7 @@ exports.publicchat = (req, res) => {
 };
 
 //------Fetch public Messages----//
-exports.publicchat = (req, res) => {
+exports.getPublicMessages = (req, res) => {
   const { message_type } = req.params;
   const getPublicMessages = `SELECT * FROM Public_Message WHERE message_type = ?`;
 
@@ -66,7 +55,7 @@ exports.publicchat = (req, res) => {
 };
 
 //------put private Message to DB----//
-exports.privchat = (req, res) => {
+exports.sendPrivateMessage = (req, res) => {
   const { sender_id, message_content, receiver_name } = req.body;
   const date = new Date();
 
@@ -113,7 +102,7 @@ exports.privchat = (req, res) => {
 };
 
 //------Fetch private Messages----//
-exports.privchat = (req, res) => {
+exports.getPrivateMessages = (req, res) => {
   const sender_id = req.query.senderID;
   const receiver_name = req.query.name;
 
@@ -170,25 +159,22 @@ exports.privchat = (req, res) => {
 };
 
 //------Fetch private Chats----//
-exports.privchat = (req, res) => {
+exports.getPrivateChats = (req, res) => {
   const { receiver_id } = req.params;
   const getPrivateChats = `SELECT DISTINCT sender_id FROM Private_Message WHERE (receiver_id = ?)`;
 
-  connection.query(
-    getPrivateChats,
-    [receiver_id, receiver_id],
-    async (err, results) => {
-      if (err) {
-        console.error('Error fetching private Chats from DB: ', err);
-        return res.status(500).json({ error: 'Failed to fetch private Chats' });
-      }
-      res.status(200).json(results);
+  connection.query(getPrivateChats, [receiver_id], async (err, results) => {
+    if (err) {
+      console.error('Error fetching private Chats from DB: ', err);
+      return res.status(500).json({ error: 'Failed to fetch private Chats' });
     }
-  );
+
+    res.status(200).json(results);
+  });
 };
 
 //------Fetch private Chats where receiver hasn't texted back yet----//
-exports.privchat = (req, res) => {
+exports.getPrivateChatsNoAnswer = (req, res) => {
   const { receiver_id } = req.params;
   const getPrivateChats = `SELECT DISTINCT receiver_id FROM Private_Message WHERE (sender_id = ? AND 
     receiver_id NOT IN (SELECT sender_id FROM Private_Message))`;

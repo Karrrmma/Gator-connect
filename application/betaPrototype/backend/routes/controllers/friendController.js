@@ -1,4 +1,4 @@
-const connection = require('../db');
+const connection = require('../../config/db');
 
 // Friend Request
 // Send a friend request

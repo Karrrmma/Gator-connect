@@ -1,4 +1,4 @@
-const connection = require('../db');
+const connection = require('../../config/db');
 
 // Like
 // Add a like to the database and increment the num_likes in Post table

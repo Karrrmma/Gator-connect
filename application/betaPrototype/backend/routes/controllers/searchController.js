@@ -1,4 +1,4 @@
-const connection = require('../db');
+const connection = require('../../config/db');
 
 // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 //  SEARCH QUERY

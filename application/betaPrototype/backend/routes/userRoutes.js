@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 router.use(express.json());
-const connection = require('../routes/db');
+const connection = require('../config/db');
 
 const userController = require('./controllers/userController');
 const { validateRegister } = require('../middleware/validateRegister');

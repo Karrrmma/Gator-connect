@@ -3,7 +3,7 @@ const router = express.Router();
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 router.use(express.json());
-const connection = require('../db');
+const connection = require('../../config/db');
 require('dotenv/config');
 
 // User Register

@@ -1,4 +1,4 @@
-const connection = require('../db');
+const connection = require('../../config/db');
 
 // Get Profile Details
 exports.getProfile = (req, res) => {
