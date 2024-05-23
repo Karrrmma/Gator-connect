@@ -4,7 +4,6 @@ export const createProfile = async (fields) => {
   return ApiCall('/api/profile/create', 'POST', fields, false);
 };
 
-// can be found in handler.js (should be moved to profile routes)
 export const updateProfile = async (fields) => {
   return ApiCall('/api/profile/edit', 'POST', fields);
 };

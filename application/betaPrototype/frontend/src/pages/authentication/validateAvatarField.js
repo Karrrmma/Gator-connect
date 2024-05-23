@@ -1,3 +1,5 @@
+// Validate Avatar Field
+// Checks if the avatar field contains an emoji or a number.
 export default function validateAvatarField(value, length) {
   let errors = {};
 

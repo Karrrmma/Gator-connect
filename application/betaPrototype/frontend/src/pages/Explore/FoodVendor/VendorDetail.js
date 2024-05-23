@@ -705,72 +705,6 @@ function VendorDetail() {
           >
             {vendor.location}
           </p>
-
-          {/* <p
-            style={{
-              marginTop: "20px",
-              fontSize: "20px",
-              fontWeight: "bold",
-              color: "#AD45FF",
-              textAlign: "left",
-            }}
-          >
-            {" "}
-            Rate & Review
-          </p>
-          <p
-            style={{
-              color: "#D3D3D3",
-              fontSize: "14px",
-              marginBottom: "15px",
-              textAlign: "left",
-            }}
-          >
-            Share your experience to help others
-          </p>
-
-          <form onSubmit={handleSubmit}>
-            <div className="input-group">
-              <input
-                style={{ width: "300px", height: "30px", borderRadius: "50px" }}
-                type="text"
-                value={menuName}
-                onChange={(e) => setMenuName(e.target.value)}
-                placeholder="FOOD NAME"
-                required
-              />
-            </div>
-            <div className="input-group">
-              <input
-                style={{ width: "300px", height: "30px", borderRadius: "50px" }}
-                type="number"
-                value={menuRating}
-                onChange={(e) => setMenuRating(e.target.value)}
-                placeholder="LEVEL RATINGS"
-                step="0.5"
-                min="0"
-                max="5"
-                required
-              />
-            </div>
-            <div className="input-group">
-              <textarea
-                style={{ width: "300px", height: "30px", borderRadius: "50px" }}
-                value={menuReview}
-                onChange={(e) => {
-                  if (e.target.value.length <= 100) {
-                    setMenuReview(e.target.value);
-                  }
-
-                  handleReviewChange(e);
-                }}
-                placeholder="WRITE YOUR FEEDBACK HERE..."
-              />
-            </div>
-            <button type="submit" className="go-back-button">
-              Submit
-            </button>
-          </form> */}
         </div>
       </div>
 
@@ -850,7 +784,6 @@ function VendorDetail() {
           help others
         </p>
 
-        {/* <div className="rate-container"> */}
         <form className="form-box" onSubmit={handleSubmit}>
           <input
             type="text"
@@ -885,7 +818,6 @@ function VendorDetail() {
             Submit
           </button>
         </form>
-        {/* </div> */}
 
         <h2
           style={{ marginTop: '50px', marginLeft: '20px', textAlign: 'left' }}

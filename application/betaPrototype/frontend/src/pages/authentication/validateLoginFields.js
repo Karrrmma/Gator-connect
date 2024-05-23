@@ -1,3 +1,4 @@
+// Validates login fields, only checks if the values are empty
 export default function validateLoginFields(values) {
   let errors = {};
   // Does email exist

@@ -7,7 +7,7 @@
  */
 
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 
 import PropTypes from 'prop-types';
 import validateLoginFields from '../validateLoginFields';
@@ -17,6 +17,8 @@ import '../auth.css';
 
 function Login({ setToken }) {
   const navigate = useNavigate();
+  const location = useLocation();
+  const [message, setMessage] = useState(location.state?.message || '');
 
   const [user, setUser] = useState({
     username: '',
@@ -35,6 +37,7 @@ function Login({ setToken }) {
   // on submit
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setMessage('');
     const errors = validateLoginFields(user);
     if (Object.keys(errors).length > 0) {
       setErrors(errors);
@@ -80,8 +83,9 @@ function Login({ setToken }) {
               placeholder="Password"
               className="input-field"
             />
-            <span className="text-danger"> {errors.password || '\u00A0'}</span>
+            <span className="text-danger mb-3"> {errors.password || '\u00A0'}</span>
             <span className="text-danger mb-3"> {errors.form || '\u00A0'}</span>
+            <span className="text-danger mb-3"> {message || '\u00A0'}</span>
             <div>
               <button type="submit">
                 <b>LOGIN</b>

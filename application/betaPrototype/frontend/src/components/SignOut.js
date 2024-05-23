@@ -1,3 +1,9 @@
+/**
+ * SignOut.js
+ * - Sign out button component that is displayed on the navigation bar.
+ * - This is responsible for removing the user's token from the local storage
+ *   and also refreshing the page to ensure the user only sees the start page.
+ */
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 

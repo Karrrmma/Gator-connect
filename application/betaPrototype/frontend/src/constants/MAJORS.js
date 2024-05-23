@@ -1,3 +1,4 @@
+// List of all majors that a student can select from when creating an account
 export const MAJORS = [
     'Accounting',
     'Biology',

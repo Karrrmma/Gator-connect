@@ -223,14 +223,6 @@ function FoodVendor() {
             type="text"
             placeholder="🔎 ENTER FOOD VENDOR NAME..."
             className="search-bar"
-            // style={{
-            //   marginTop: "30px",
-            //   width: "300px",
-            //   height: "30px",
-            //   borderRadius: "50px",
-            //   backgroundColor: "gray",
-            //   color: "red",
-            // }}
             value={searchTerm}
             onChange={handleSearchChange}
             onKeyPress={handleKeyPress}

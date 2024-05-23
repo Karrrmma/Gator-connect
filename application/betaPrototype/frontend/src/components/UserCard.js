@@ -1,3 +1,7 @@
+/**
+ * UserCard.js
+ * User Card component for displaying user cards on the friends list.
+ */
 import { React } from 'react';
 import { Link } from 'react-router-dom';
 

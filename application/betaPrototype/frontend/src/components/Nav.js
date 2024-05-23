@@ -1,10 +1,17 @@
+/**
+ * Nav.js
+ * - This is the navigation bar component reused throughout the application.
+ * - This is positioned on top of the page with links to different pages.
+ * - The navigation bar is also responsible for checking if the user's token is valid,
+ *   forcing the user to re-login if the token has expired.
+ */
 import React, { useState, useEffect } from 'react';
-import { NavLink } from 'react-router-dom';
-// import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
+
 import { FaCompass, FaBell, FaHome, FaUser, FaComment } from 'react-icons/fa';
 import SignOut from './SignOut';
 import { getCurrentUsername, getCurrentUserId } from '../utils/decodeData';
-// import { Notification } from '../components/Notification'
+
 import { getUserInfo } from '../services/User/UserService';
 import { getFriendReqs } from '../services/Notification/FriendService';
 
@@ -12,16 +19,27 @@ function Nav() {
   const [avatar, setAvatar] = useState('');
   const username = getCurrentUsername();
 
-  //[newnotification, setNewNotification] = useState(false);
-
   const [notifications, setNotifications] = useState([]);
   const [isMobile, setIsMobile] = useState(false);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const userId = getCurrentUserId();
     const fetchUserInfo = async () => {
-      const userInfo = await getUserInfo(userId);
-      setAvatar(userInfo.avatar);
+      try {
+        const userInfo = await getUserInfo(userId);
+        setAvatar(userInfo.avatar);
+      } catch (error) {
+        if (error.tokenExpired) {
+          // Token expired, log out the user
+          localStorage.removeItem('token');
+          navigate('/login', { state: { message: 'Your session has expired, please login again.' }, replace: true });
+          window.location.reload();
+        } else {
+          console.error('Error fetching user info:', error.message);
+        }
+      }
     };
 
     const fetchNotifications = async () => {
@@ -44,7 +62,7 @@ function Nav() {
     handleResize();
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
-  }, []);
+  });
 
   return (
     <>

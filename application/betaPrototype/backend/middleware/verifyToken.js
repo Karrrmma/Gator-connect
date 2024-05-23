@@ -14,11 +14,11 @@ exports.verifyToken = async (req, res, next) => {
     console.log('no token provided');
     return next(createError(401, 'you are not authenticaed!'));
   }
-  console.log('token received', token);
+  // console.log('token received', token);
 
   try {
     const decoded = jwt.verify(token, mysecretkey);
-    console.log('token matched');
+    // console.log('token matched');
     req.user_id = decoded.user_id;
     next();
   } catch (error) {
@@ -32,13 +32,3 @@ exports.verifyToken = async (req, res, next) => {
       }
   }
 };
-
-/*
-    const token = req.cookie.access_token
-    if(!token ) return next(createError(401, "you are not authenticaed!"));
-    
-    jwt.verify(token, process.env.JWT, (err, user)=> {
-        if(err) return next(createError(403, " Token is not valid!"));
-        req.user = user;
-        next()
-        */

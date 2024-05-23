@@ -1,5 +1,12 @@
+/**
+ * useToken.js
+ * - Handles the token state for the user.
+ * - When the user accesses the app, it attempts to retrieve the token from the
+ *   local storage.
+ * - When the user gets logged in, setToken stores the token in the local storage.
+ */
 import { useState } from 'react';
-// hook
+
 export default function useToken() {
   const getToken = () => {
     const tokenString = localStorage.getItem('token');

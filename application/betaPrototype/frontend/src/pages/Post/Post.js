@@ -6,7 +6,7 @@ import PostCard from '../../components/PostCard';
 import NewPostPopup from '../Profile/NewPostPopup';
 
 import { getCurrentUserId } from '../../utils/decodeData';
-import { getPosts, getLikedPosts } from '../../services/Post/PostService';
+import { getPosts } from '../../services/Post/PostService';
 import { searchUsers } from '../../services/User/UserService';
 import './Post.css';
 
@@ -41,7 +41,6 @@ function Post() {
   const [searchQuery, setSearchQuery] = useState({});
   const [noUsersFound, setNoUsersFound] = useState(false);
   const [showNewPost, setShowNewPost] = useState(false);
-  const navigate = useNavigate();
 
   useEffect(() => {
     console.log('Post base use effect has been called!');
@@ -72,16 +71,8 @@ function Post() {
       // console.log(`RECEIVING NEW DATA FROM FETCH ALL OF THE POSTS!`);
       setItems(data);
     } catch (error) {
-      if (error.tokenExpired) {
-        // Token expired, log out the user
-        // console.log('Token IS expired, logging out user.');
-        localStorage.removeItem('token');
-        navigate('/login', { replace: true });
-        window.location.reload();
-      } else {
-        console.error('Error fetching posts:', error);
-        setItems([]); // reset the posts on fail
-      }
+      console.error('Error fetching posts:', error);
+      setItems([]); // reset the posts on fail
     }
   }
   async function fetchItems({ username, major, year }) {

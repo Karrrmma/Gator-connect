@@ -1,3 +1,11 @@
+/**
+ * PostCard.js
+ * - Reused Post Card component for displaying posts on both the home page and 
+ *   the profile page.
+ * - The post card works independently where it will check and handle its own likes 
+ *   and comments.
+ */
+
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaCommentDots, FaHeart } from 'react-icons/fa';
@@ -10,7 +18,7 @@ import {
   getIsPostLiked,
 } from '../services/Post/PostService';
 
-function PostCard({ item, icon, likedPostsList }) {
+function PostCard({ item, icon }) {
   const [likesCount, setLikesCount] = useState(item.likes || 0);
   const [commentsCount, setCommentsCount] = useState(item.comments || 0);
   const [commentsData, setCommentsData] = useState([]);
@@ -19,7 +27,7 @@ function PostCard({ item, icon, likedPostsList }) {
   const navigate = useNavigate();
   const [isLiked, setIsLiked] = useState(false);
   const [showAllComments, setShowAllComments] = useState(false);
-  const [likedPosts, setLikedPosts] = useState(likedPostsList || []);
+  const [likedPosts, setLikedPosts] = useState([]);
 
   // check if a post is liked, then set the like status
   useEffect(() => {
