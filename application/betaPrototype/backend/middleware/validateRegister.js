@@ -2,11 +2,7 @@
 
 const express = require('express');
 const router = express.Router();
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const mysql = require('mysql');
 router.use(express.json());
-const connection = require('../db');
 
 exports.validateRegister = (req, res, next) => {
   const { fullname, sfsu_email, username, password, major, year } = req.body;

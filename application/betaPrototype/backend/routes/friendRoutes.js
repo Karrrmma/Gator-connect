@@ -20,7 +20,7 @@ const mysql = require('mysql');
 router.use(express.json());
 const connection = require('./db');
 
-const { verifyToken } = require('./verifyToken');
+const { verifyToken } = require('../middleware/verifyToken');
 
 // Friend Request
 // Send a friend request

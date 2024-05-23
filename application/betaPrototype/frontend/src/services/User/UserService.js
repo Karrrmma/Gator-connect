@@ -6,7 +6,7 @@ export const createProfile = async (fields) => {
 
 // can be found in handler.js (should be moved to profile routes)
 export const updateProfile = async (fields) => {
-  return ApiCall('/profile/edit', 'POST', fields);
+  return ApiCall('/api/profile/edit', 'POST', fields);
 };
 
 export const getUserInfo = async (userId) => {

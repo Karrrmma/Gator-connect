@@ -33,7 +33,6 @@ async function ApiCall(endpoint, method = 'GET', body, useToken = true) {
     const responseBody = await response.json();
     // if the error is from token expiry, force the user to login again
     if (responseBody.tokenExpired) {
-      console.log("token is expired asf");
       const error = new Error('Token expired. Please log in again.');
       error.tokenExpired = true;
       throw error;

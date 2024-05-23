@@ -1,13 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const mysql = require('mysql');
 router.use(express.json());
 const connection = require('./db');
 
-const { verifyToken } = require('./verifyToken');
-const chat = require('./controllers/chat');
+const { verifyToken } = require('../middleware/verifyToken');
+const chat = require('./controllers/chatController');
 
 //router.post("/api/chat/sendPublicMessage", chat.publicchat)
 //router.post("/api/chat/getPublicMessages/:message_type", chat.privatechat)

@@ -1,6 +1,6 @@
 const mysql = require('mysql');
 require('dotenv/config');
-// was planning to make the database connection more secure
+
 const pool = mysql.createPool({
     connectionLimit: 10,
     host: process.env.DB_HOST,

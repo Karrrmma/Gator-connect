@@ -41,25 +41,12 @@ function Post() {
   const [searchQuery, setSearchQuery] = useState({});
   const [noUsersFound, setNoUsersFound] = useState(false);
   const [showNewPost, setShowNewPost] = useState(false);
-  const [likedPosts, setLikedPosts] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
     console.log('Post base use effect has been called!');
-    fetchLikedPosts();
     fetchAllPosts(); // This should only fetch all posts, not interfere with search
   }, []); // Empty dependency array ensures this only runs once on mount
-
-  const fetchLikedPosts = async () => {
-    try {
-      const data = await getLikedPosts(userId);
-      console.log(`RECEIVING NEW DATA FROM FETCH LIKED POSTS!`);
-      console.log(data);
-      setLikedPosts(data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
   const userId = getCurrentUserId();
   const handleNewPostClick = () => {
@@ -69,7 +56,6 @@ function Post() {
   // Callback to add new post to the state
   // if a new post is added, then grab the posts again!
   const addNewPost = (newPost) => {
-    fetchLikedPosts();
     fetchAllPosts();
   };
 
@@ -83,12 +69,12 @@ function Post() {
   async function fetchAllPosts() {
     try {
       const data = await getPosts();
-      console.log(`RECEIVING NEW DATA FROM FETCH ALL OF THE POSTS!`);
+      // console.log(`RECEIVING NEW DATA FROM FETCH ALL OF THE POSTS!`);
       setItems(data);
     } catch (error) {
       if (error.tokenExpired) {
         // Token expired, log out the user
-        console.log('Token IS expired, logging out user.');
+        // console.log('Token IS expired, logging out user.');
         localStorage.removeItem('token');
         navigate('/login', { replace: true });
         window.location.reload();
@@ -165,7 +151,6 @@ function Post() {
                 post_id: post.post_id,
               }}
               icon={post.avatar}
-              likedPostsList={likedPosts}
             />
           ))}
         </section>

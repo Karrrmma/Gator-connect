@@ -4,7 +4,7 @@ router.use(express.json());
 const connection = require('../routes/db');
 
 const userController = require('./controllers/userController');
-const { validateRegister } = require('./controllers/validateRegister');
+const { validateRegister } = require('../middleware/validateRegister');
 
 router.post('/api/register', validateRegister, userController.register);
 router.post('/api/canRegister', userController.canRegister);

@@ -5,8 +5,8 @@ const mysql = require('mysql');
 router.use(express.json());
 const connection = require('./db');
 
-const postcontrol = require('./controllers/post');
-const { verifyToken } = require('./verifyToken');
+const postcontrol = require('./controllers/postController');
+const { verifyToken } = require('../middleware/verifyToken');
 /*
 router.post('/newpost', postcontrol.newposts);
 router.post('/posts', postcontrol.post);
