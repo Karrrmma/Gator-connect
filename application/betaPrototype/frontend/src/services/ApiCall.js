@@ -1,9 +1,10 @@
 /**
- * This function is used as a template to make API calls to the backend.
- * It takes in the endpoint, method, body, and a boolean (useToken) as parameters.
+ * ApiCall.js
+ * - This function is used as a template to make API calls to the backend.
+ * - It takes in the endpoint, method, body, and a boolean (useToken) as parameters.
  *
- * When useToken is true, the function will require a JWT token to be passed in the headers.
- * This is true by default.
+ * - When useToken is true, the function will require a JWT token to be passed in the headers.
+ * - This is true by default.
  */
 import API_ROUTE from '../constants/API_ROUTE';
 

@@ -4,6 +4,6 @@ router.use(express.json());
 
 const searchController = require('./controllers/searchController');
 
-router.post('/search', searchController.search)
+router.post('/api/search', searchController.search)
 
 module.exports = router;

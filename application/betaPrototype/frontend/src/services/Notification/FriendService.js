@@ -1,3 +1,25 @@
+/**
+ * FriendService.js
+ * Calls the following endpoints:
+ * - /api/friends/requests?userId={ID} (GET)
+ *   - response: [{id, sender_id, avatar, sender}...]
+ * 
+ * - /api/isFriend?requester_id={ID}&receiver_id={ID} (GET)
+ *   - response: {true/false}
+ * 
+ * - /api/friends/request (POST)
+ *   - body: {requester_id, receiver_id}
+ * 
+ * - /api/friends/accept/{ID} (POST)
+ * 
+ * - /api/friends/decline/{ID} (DELETE)
+ * 
+ * - /api/friends/unfriend (DELETE)
+ *   - body: {requester_id, receiver_id}
+ * 
+ * - /api/friends/list?userId={ID} (GET)
+ *   - response: [{full_name, username, avatar, user_id}...]
+ */
 import ApiCall from '../ApiCall';
 
 export const getFriendReqs = async (userId) => {

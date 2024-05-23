@@ -13,7 +13,6 @@ import {
   sendFriendReq,
   unfriendUser,
 } from '../../services/Notification/FriendService';
-import { getLikedPosts } from '../../services/Post/PostService';
 import './Profile.css';
 
 function Profile() {
@@ -47,8 +46,6 @@ function Profile() {
     }));
   };
 
-  const [likedPosts, setLikedPosts] = useState([]);
-
   const handleFriendsListClick = () => {
     setShowFriendsList(!showFriendsList);
   };
@@ -80,6 +77,7 @@ function Profile() {
             posts: userData.posts || [],
             isFriend: userData.isFriend,
           });
+          console.log(userData);
         }
         const basicInfo = await getUserInfo(id);
         if (basicInfo) {
@@ -98,7 +96,6 @@ function Profile() {
     };
 
     fetchUserData();
-    fetchLikedPosts();
   }, [userId]);
 
   const checkFriendship = async (userId) => {
@@ -167,17 +164,6 @@ function Profile() {
       ...prevState,
       biography: newBio,
     }));
-  };
-
-  const fetchLikedPosts = async () => {
-    try {
-      const data = await getLikedPosts(getCurrentUserId());
-      console.log(`RECEIVING NEW DATA FROM FETCH LIKED POSTS!`);
-      console.log(data);
-      setLikedPosts(data);
-    } catch (error) {
-      console.error(error);
-    }
   };
 
   // Sort posts by 'post_time' in descending order before rendering
@@ -323,7 +309,6 @@ function Profile() {
                 post_id: post.post_id,
               }}
               icon={user.avatar}
-              likedPostsList={likedPosts}
             />
           ))}
         </div>

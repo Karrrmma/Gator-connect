@@ -1,3 +1,9 @@
+/**
+ * decodeData.js
+ * - This file contains functions to decode the JWT token.
+ * - The JWT token is signed with the current users username 
+ *   along with their current user ID.
+ */
 import { jwtDecode } from 'jwt-decode';
 
 export const decodeToken = () => {

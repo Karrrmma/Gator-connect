@@ -2,7 +2,7 @@
  * SearchBar.js
  * - The search bar component that is displayed on the home page.
  * - This is responsible for handling the search query and parsing it
- * - to search for users based on their username, major, and/or school year.
+ *   to search for users based on their username, major, and/or school year.
  */
 import React, { useState } from 'react';
 import { FaSearch } from 'react-icons/fa';

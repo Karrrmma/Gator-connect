@@ -27,30 +27,10 @@ const Chat = () => {
 
       try {
         //erster fetch
-        // const responseFetch1 = await fetch(`/api/chat/getPrivateChats/${currentUserID}`);
-        // if(!responseFetch1){
-        //   console.error('Failed to fetch private chats!');
-        //   return;
-        // }
-
-        // if (!responseFetch1.ok) {
-        //   throw new Error(`HTTP error! status: ${responseFetch1.status}`);
-        // }
-        // const returnFetch1 = await responseFetch1.json();
         const returnFetch1 = await getPrivateChats(currentUserID);
         console.log('returnFetch1---Fetched private chats:', returnFetch1);
 
         // zweiter fetch
-        // const responseFetch2 = await fetch(`/api/chat/getPrivateChats/noAnswer/${currentUserID}`);
-        // if(!responseFetch2){
-        //   console.error('Failed to fetch private chats with no answer yet!');
-        //   return;
-        // }
-        // if (!responseFetch2.ok) {
-        //   throw new Error(`HTTP error! status: ${responseFetch2.status}`);
-        // }
-
-        // const returnFetch2 = await responseFetch2.json();
         const returnFetch2 = await getUnansweredPrivateChats(currentUserID);
         console.log(
           'returnFetch2---Fetched private chats with no answer yet:',

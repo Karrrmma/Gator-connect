@@ -31,7 +31,6 @@ function FoodVendor() {
     async function fetchVendors() {
       try {
         const data = await getVendors();
-
         const fetchedRatings = data.reduce((acc, item) => {
           acc[item.vendor_name] = {
             average_rating: Number(item.average_rating),

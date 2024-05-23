@@ -1,3 +1,10 @@
+/**
+ * App.js
+ * - Main entry point for the application.
+ * - Routes are defined here.
+ * - The app checks if the user is logged in through the token and will
+ *   only display certain pages because of it.
+ */
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Navigate } from 'react-router-dom';
 
@@ -45,6 +52,7 @@ function App() {
           <Nav />
           <Routes>
             <Route path="/" element={<Navigate to="/home" />} />
+            <Route path="/tos" element={<TOS />} />
             <Route path="/home" element={<Post />} />
 
             <Route path="/notification" element={<Notification />} />

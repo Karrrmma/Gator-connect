@@ -45,15 +45,7 @@ function FriendsListPopup({ onClose, onFriendCountChange }) {
         requester_id: profile,
         receiver_id: friendId,
       });
-      // const response = await fetch("/api/friends/unfriend", {
-      //   method: 'DELETE',
-      //   headers: {
-      //     'Content-Type': 'application/json',
-      //   },
-      //   body: JSON.stringify({ requester_id: profile, receiver_id: friendId })
-      // });
 
-      // const data = await response.json();
       fetchFriends();
       onFriendCountChange();
       setConfirmation(data.message);

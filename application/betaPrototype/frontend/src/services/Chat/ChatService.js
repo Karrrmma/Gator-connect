@@ -1,3 +1,26 @@
+/**
+ * ChatService.js
+ * Calls the following endpoints:
+ * - /api/chat/getPublicMessages/{channel_names} (GET)
+ *   - response: sorted by message_time 
+ *     [{message_id, message_time, message_content, sender_id, message_type}...]
+ * 
+ * - /api/chat/sendPublicMessage (POST)
+ *   - body: {sender_id, message_content, message_type}
+ * 
+ * - /api/chat/getPrivateMessages?{params} (GET)
+ *   - response: sorted by message_time
+ *     [{message_id, message_time, message_content, sender_id, message_type}...]
+ * 
+ * - /api/chat/sendPrivateMessage (POST)
+ *   - body: {sender_id, message_content, receiver_name}
+ * 
+ * - /api/chat/getPrivateChats/{userId} (GET)
+ *   - response: [{sender_id}...]
+ * 
+ * - /api/chat/getPrivateChats/noAnswer/{userId} (GET)
+ *   - response: [{receiver_id}...]
+ */
 import ApiCall from '../ApiCall';
 
 export const getPublicMessages = async (channel_names) => {
