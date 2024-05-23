@@ -2,9 +2,6 @@ const express = require('express');
 const router = express.Router();
 const mysql = require('mysql');
 router.use(express.json());
-// const pool = require('../config/db.js');
-
-// @@@ Need to install CORS if we have our database in a diff link @@@
 
 // Connect Database
 const connection = mysql.createConnection({

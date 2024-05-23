@@ -4,7 +4,10 @@ router.use(express.json());
 const connection = require('./db');
 
 const { verifyToken } = require('../middleware/verifyToken');
-const chat = require('./controllers/chatController');
+const chatController = require('./controllers/chatController');
+
+router.post('/api/chat/sendPublicMessage', verifyToken, chatController.sendPublicMessage);
+router.get('/api/chat/getPublicMessages/:message_type', verifyToken, chatController.getPublicMessages);
 
 //router.post("/api/chat/sendPublicMessage", chat.publicchat)
 //router.post("/api/chat/getPublicMessages/:message_type", chat.privatechat)
@@ -38,9 +41,7 @@ router.post('/api/chat/sendPublicMessage', verifyToken, (req, res) => {
 });
 
 //------Fetch public Messages----//
-router.get(
-  '/api/chat/getPublicMessages/:message_type',
-  verifyToken,
+router.get('/api/chat/getPublicMessages/:message_type', verifyToken,
   (req, res) => {
     const { message_type } = req.params;
     const getPublicMessages = `SELECT * FROM Public_Message WHERE message_type = ?`;

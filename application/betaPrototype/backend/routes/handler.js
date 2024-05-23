@@ -4,7 +4,6 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const mysql = require('mysql');
 router.use(express.json());
-const pool = require('../config/db.js');
 
 // @@@ Need to install CORS if we have our database in a diff link @@@
 const { verifyToken } = require('../middleware/verifyToken.js');
